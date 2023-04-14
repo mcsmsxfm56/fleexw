@@ -39,9 +39,23 @@ formato "Como [Rol], quiero [objetivo del software], para lograr [resultado]"
 1. Como **Empresa**, quiero crear eventos, para lograr que el **Usuario** los conozca y se inscriba
    1. la empresa solo puede ver sus eventos creados
    2. Pasada la fecha del evento debe borrarse (borrado logico, el borrado logico es que el evento no se ve mas pero el admin juan zapata puede seguir viendolo en el dashboard admin)
+   3. Formulario crear evento
+      1. Nombre del evento
+      2. fecha del evento (dd/mm/aa)
+      3. horario
+      4. lugar
+      5. cantidad de personas
+      6. perfil
+      7. pago
+      8. observaciones
 2. Como **Empresa**, quiero poder autorizar la entrada del **Usuario** al evento, para decidir que **Usuario** puede entrar y cual no
 3. Como **Usuario**, quiero registrarme en la pagina, para tener un usuario
-   1. Telefono
+   1. Telefono Celular
+   2. Email
+   3. Contraseña
+   4. Rol (empresa o usuario)
+   5. Nombre Y Apellido
+   6. Tipo de identificacion y numero(cedula, tarjeta de identidad, pasaporte, nit)
 4. Como **Admin**, quiero tener un dashboard, para poder manejar mejor el sitio
    1. Ver Usuarios y empresas registrados
 5. Como **Empresa**, quiero poder ver los usuarios anotados en mi evento, para saber cuanta gente ira a mi evento
@@ -67,8 +81,8 @@ Se termina el sprint cada viernes a las 12hs (horario original 10hs, cambiado a 
 
 # Demo
 
-https://preview.flutterflow.app/logistica-3n4mvd/LETB1G5BoH9v8jMRp5r1
-Cuenta empresa: juanfe@gmail.com
-Clave 12345678
-Cuenta usuario: sierra@gmail.com
+https://preview.flutterflow.app/logistica-3n4mvd/LETB1G5BoH9v8jMRp5r1  
+Cuenta empresa: juanfe@gmail.com  
+Clave 12345678  
+Cuenta usuario: sierra@gmail.com  
 Clave 12345678
