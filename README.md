@@ -86,3 +86,40 @@ Cuenta empresa: juanfe@gmail.com
 Clave 12345678  
 Cuenta usuario: sierra@gmail.com  
 Clave 12345678
+
+# Url Map
+
+## /events DONE
+
+US #6 #10 #13 ADMIN-EMPRESA-USUARIO
+
+## /events/create-events DONE
+
+US #1 EMPRESA
+
+## /events/:id/cancelform DONE
+
+US #11 EMPRESA
+
+## /events/:id DONE
+
+US #2 #5 #12 EMPRESA-USUARIO
+
+## /register DONE
+
+US #3
+
+## /login landing page DONE
+
+## /dashboard
+
+(restringir solo para usuarios admin) US #4 ADMIN
+Ver Usuarios y empresas registrados
+
+## /history
+
+US #8 #9 EMPRESA-USUARIO
+
+# URL diagram
+
+![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1681499114/flipper-henry-project/url-flow_mcvnnw.png)
