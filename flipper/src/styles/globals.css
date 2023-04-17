@@ -1,27 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+/*estilos globales, tratar de evitarlos ya que la mejor forma de dar estilos sin generar conflictos
+es usando tailwind y classname
+<div classname="nombreclase">
+en caso de aplicarse muchos estilos, para que el classname no quede tan largo
+tailwind te da la posibilidad de hacer tus propias clases
+https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes
+*/

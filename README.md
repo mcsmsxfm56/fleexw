@@ -1,3 +1,9 @@
+# Archivos con comentarios a leer
+
+1. flipper/src/styles/globals.css
+2. flipper/src/index.tsx
+3. flipper/src/\_document.tsx
+
 # Uso horario
 
 como la mayoria del equipo es argentino decidi que seria mejor usar la hora argentina (en este readme toda hora esta expresada en hora argentina GMT-3)
@@ -10,6 +16,7 @@ hora colombia GMT-5
 2. Database: PostgreSQL
 3. ORM: Sequelize
 4. CSS: Tailwind CSS
+5. Auth: JWT
 
 # Diseño
 
@@ -30,45 +37,6 @@ hora colombia GMT-5
 1. Usuario
 2. Empresa
 3. Admin (Juan zapata)
-4. Invitado (Usuario no registrado)
-
-# User Stories (agregar a issues)
-
-formato "Como [Rol], quiero [objetivo del software], para lograr [resultado]"
-
-1. Como **Empresa**, quiero crear eventos, para lograr que el **Usuario** los conozca y se inscriba
-   1. la empresa solo puede ver sus eventos creados
-   2. Pasada la fecha del evento debe borrarse (borrado logico, el borrado logico es que el evento no se ve mas pero el admin juan zapata puede seguir viendolo en el dashboard admin)
-   3. Formulario crear evento
-      1. Nombre del evento
-      2. fecha del evento (dd/mm/aa)
-      3. horario
-      4. lugar
-      5. cantidad de personas
-      6. perfil
-      7. pago
-      8. observaciones
-2. Como **Empresa**, quiero poder autorizar la entrada del **Usuario** al evento, para decidir que **Usuario** puede entrar y cual no
-3. Como **Usuario**, quiero registrarme en la pagina, para tener un usuario
-   1. Telefono Celular
-   2. Email
-   3. Contraseña
-   4. Rol (empresa o usuario)
-   5. Nombre Y Apellido
-   6. Tipo de identificacion y numero(cedula, tarjeta de identidad, pasaporte, nit)
-4. Como **Admin**, quiero tener un dashboard, para poder manejar mejor el sitio
-   1. Ver Usuarios y empresas registrados
-5. Como **Empresa**, quiero poder ver los usuarios anotados en mi evento, para saber cuanta gente ira a mi evento
-6. Como **Usuario**, quiero poder ver todos los eventos, para saber en cual quiero participar
-7. Como **Usuario**, quiero que se me notifique por email si se me autorizo para ir al evento, asi se si tengo que ir o no
-8. Como **Usuario**, quiero tener un historial de los eventos a los que fui, por motivos de consulta
-9. Como **Empresa**, quiero tener un historial de los eventos que cree, por motivos de consulta
-10. Como **Empresa**, quiero poder descargar un excel con todos los datos del evento, por motivos de consulta
-    1. Podes descargar el excel de un evento en especifico o el excel de todos los eventos del mes
-11. Como **Empresa**, quiero que cuando cancele el evento se envia una notificacion por email a los invitados, asi saben que no deben asistir
-12. Como **Empresa**, quiero que la pestaña confirmar evento solo aparezca si hay por lo menos una persona para confirmar, asi se si hay gente para confirmar en el evento
-13. Como **Empresa**, quiero tener un filtro en la seccion de mis eventos para verlos como mas quiera, asi me organizo mejor
-    1. Filtros (de evento mas cercano a mas lejano-de mas lejano a mas cercano)
 
 # Organizacion
 
@@ -97,10 +65,6 @@ US #6 #10 #13 ADMIN-EMPRESA-USUARIO
 
 US #1 EMPRESA
 
-## /events/:id/cancelform DONE
-
-US #11 EMPRESA
-
 ## /events/:id DONE
 
 US #2 #5 #12 EMPRESA-USUARIO
@@ -124,7 +88,4 @@ US #8 #9 EMPRESA-USUARIO
 
 ![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1681499114/flipper-henry-project/url-flow_mcvnnw.png)
 
-# Datos personales de participantes
-
-Swistoniuk Pablo
-Sebastián Marchetti
+NOTA: events/:id/cancelform fue removido por ser innecesario
