@@ -49,7 +49,7 @@ model Evento {
 
 model Trabajador {
   id String @id @default(uuid()) //ver si se pueden usar UUID
-  eventos TrabajadoresEnEventos[]?
+  eventos TrabajadoresEnEventos[]
   name String
   idType String
   idNumber Int
@@ -66,7 +66,7 @@ model Trabajador {
   foto String? //adjunto
   cv String? //adjunto
   rut String? //adjunto
-  certificado_bancario? String //adjunto
+  certificado_bancario String? //adjunto
   password String
 }
 
