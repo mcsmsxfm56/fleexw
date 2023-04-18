@@ -24,7 +24,7 @@ const InputField = ({
           name={name}
           value={value}
           onChange={changeFunc}
-          className="w-full px-4 py-2 bg-[#101213] text-sm border-2 rounded-lg border-white text-white  transition duration-300 focus:border-none focus:border-0"
+          className="w-full px-4 py-2 bg-[#101213] text-sm rounded-lg border-2 border-white text-white  transition duration-300"
           placeholder=" "
         />
         {/* <span className="text-2xl text-white text-opacity-80 absolute left-0 mt-2 mx-4 transition duration-300 input-text">

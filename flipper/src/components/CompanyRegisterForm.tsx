@@ -54,7 +54,7 @@ const CompanyRegisterForm = () => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="w-full flex flex-col items-center">
       <InputField
         name="nombre"
         text="Nombre"
@@ -109,9 +109,9 @@ const CompanyRegisterForm = () => {
       ) : (
         <button
           type="submit"
-          className="bg-[#4B39EF] rounded-lg px-10 py-2 text-lg text-white"
+          className="bg-[#4B39EF] rounded-lg px-16 py-2 text-lg text-white font-bold"
         >
-          Crear Cuenta
+          Crear Cuenta de Empresa
         </button>
       )}
     </form>
