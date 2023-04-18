@@ -19,26 +19,23 @@ export default async function handler(
   try {
     if (body.rol.toLowerCase() === "empresa") {
       const email = body.email.toLowerCase();
-
       const empresaEncontrada = await prisma.Empresa.findFirst({
         where: { email: email },
       });
-
-      if (!empresaEncontrada) {
-        res.status(400).send("incorrect data");
-      }
+      if (!empresaEncontrada) res.status(400).send("denied entry");
 
       const compare = await bcrypt.compare(
         body.password,
         empresaEncontrada.password
       );
+      if (!compare) res.status(400).send("denied entry");
 
-      if (!compare) {
-        res.status(400).send("incorrect password");
-      }
+      //no me toma el .env
       const token = jwt.sign(
-        { email: empresaEncontrada.email },
-        "claveSecreta",
+        {
+          email: empresaEncontrada.email,
+        },
+        "flipper23",
         { expiresIn: "15m" }
       );
       return res.status(200).json({
@@ -52,6 +49,5 @@ export default async function handler(
     }
   } catch (error: any) {
     res.status(400).send(error.message);
-    console.log(error);
   }
 }
