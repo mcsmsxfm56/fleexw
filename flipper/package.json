@@ -25,5 +25,8 @@
     "sequelize-typescript": "^2.1.5",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@types/sequelize": "^4.28.14"
   }
 }
