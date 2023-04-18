@@ -1,13 +1,20 @@
 //landing page
+'use client'
+
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { iniciarSesion } from '@/services/iniciarSesion'
+import { useSesionUsuarioContext } from '@/context/SesionUsuarioContext'
+
 
 function LogIn() {
+
   const [usuario, setUsuario] = useState({
     correo: "",
     contraseña: ""
   })
+
+  const {id, nombre, token, setId, setNombre, setToken} = useSesionUsuarioContext()
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name
@@ -17,10 +24,14 @@ function LogIn() {
 
   const handleLogIn = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    iniciarSesion(usuario)
+    const usuarioLogueadoData = iniciarSesion(usuario)
+    setId(usuarioLogueadoData.id)
+    setNombre(usuarioLogueadoData.nombre)
+    setToken(usuarioLogueadoData.token)   
   }
 
   return (
+   
     <div className='min-h-screen flex justify-center items-center'>
       <div className='max-w-xl flex flex-col gap-10'>
         <h1>Inicia Sesión</h1>
@@ -57,13 +68,14 @@ function LogIn() {
           </span>
           <span>
             ¿No tienes una cuenta? &nbsp;&nbsp; 
-            <Link href="">
+            <Link href="/app/register">
               Crear una cuenta
             </Link>
           </span>
         </div>
       </div>
     </div>
+
   )
 }
 

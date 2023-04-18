@@ -1,15 +1,11 @@
 import React, { createContext, useContext } from "react"
+import { UsuarioLogueado } from "@/types/types"
 //aca se hace la request para iniciar sesion y va al context
 interface UsuarioParaLoguear {
     correo: string,
     contraseña: string
 }
 
-interface UsuarioLogueado {
-    id: "",
-    nombre:"",
-    token: ""
-}
 
 const usuarioLogueado = {
         id: "adfff-544",
@@ -20,22 +16,7 @@ const usuarioLogueado = {
 
 export function iniciarSesion(usuario: UsuarioParaLoguear) {
     //request con axios para obtener el usuario
-
-    return usuarioLogueado
-    
+    return usuarioLogueado   
 }
 
-///////////////////////// context ////////////////////
-type iniciarSesionResultado = ReturnType<typeof iniciarSesion>
-const sesionContext = createContext<iniciarSesionResultado>({
-    id:"",
-    nombre:"",
-    token:""
-    }
-)
 
-
-/* 
-export const sesionProvider: React.FC<{initialSesion: UsuarioLogueado}> = ({initialSesion}) => {
-    
-} */
