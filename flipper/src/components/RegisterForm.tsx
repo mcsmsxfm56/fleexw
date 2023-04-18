@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import POST_Register from "../services/PostRegister";
+import { AxiosError } from "axios";
 
 export interface userData {
   phone: string;
@@ -16,13 +17,21 @@ export interface userData {
 const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<userData>({
-    phone: "",
-    email: "",
-    password: "",
+    // Datos harcodeados
+    phone: "3425552525",
+    email: "Francoaglieri@hotmail.com",
+    password: "1234",
     rol: "",
-    name: "",
+    name: "SebaMax",
     idType: "",
     idNumber: 0,
+    // phone: "",
+    // email: "",
+    // password: "",
+    // rol: "",
+    // name: "",
+    // idType: "",
+    // idNumber: 0,
   });
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -30,8 +39,10 @@ const RegisterForm: React.FC = () => {
     try {
       setIsLoading(true);
       const response = await POST_Register(formData);
+      console.log("exito");
     } catch {
       //
+      console.log("failed");
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +113,7 @@ const RegisterForm: React.FC = () => {
           defaultOp="Seleccione su rol"
         />
         {isLoading ? (
-          <span>Waiting for response...</span>
+          <Loading />
         ) : (
           <button
             type="submit"
@@ -146,9 +157,9 @@ const InputField = ({
           className="w-full px-4 py-2 bg-[#101213] text-3xl border-2 rounded-lg border-white text-white  transition duration-300 focus:border-none focus:border-0"
           placeholder=" "
         />
-        <span className="text-2xl text-white text-opacity-80 absolute left-0 mt-2 mx-4 transition duration-300 input-text">
+        {/* <span className="text-2xl text-white text-opacity-80 absolute left-0 mt-2 mx-4 transition duration-300 input-text">
           {text}
-        </span>
+        </span> */}
       </label>
     </div>
   );
@@ -180,12 +191,18 @@ const SelectField = ({
         className="w-full"
       >
         <option value="">{defaultOp}:</option>
-        {opciones.map((op) => (
-          <option key={"id_${op}"} value={op}>
+        {opciones.map((op, index) => (
+          <option key={`${name}_${index}`} value={op}>
             {op.charAt(0).toUpperCase() + op.slice(1)}
           </option>
         ))}
       </select>
     </label>
   );
+};
+
+// v-----------------------------v SelectField v-----------------------------v
+
+const Loading = () => {
+  return <span className="text-white">Waiting for response...</span>;
 };
