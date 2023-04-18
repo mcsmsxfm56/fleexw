@@ -1,7 +1,7 @@
+import { CompanyData } from "@/types/Types";
 import axios, { AxiosError } from "axios";
-import { userData } from "../components/RegisterForm";
 
-export default async function POST_Register(data: userData) {
+export async function Post_Company_Register(data: CompanyData) {
   console.log("=====")
   console.log(data)
   console.log("=====")
