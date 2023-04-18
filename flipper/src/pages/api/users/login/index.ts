@@ -1,39 +1,57 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import prisma from "../../../../../lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-interface DataLogin {
-  email: String;
-  password: String;
-  token: string;
-}
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DataLogin>
+  res: NextApiResponse
 ) {
   const body = req.body;
-  // if (!body.email || !body.password) {
-  //   throw Error("email and password required");
-  // }
-
-  if (req.method === "GET") {
-    return res.send({
-      email: "email",
-      password: "password",
-      token: "token",
-    });
+  if (!body.email || !body.password || !body.rol) {
+    return res.send("mandatory data are missing");
+  }
+  if (req.method !== "POST") {
+    return res.send("this method is invalid");
   }
 
-  if (req.method === "POST") {
-    try {
-      const find = await prisma.Empresa.findFirst({
-        where: { email: body.email },
+  try {
+    if (body.rol.toLowerCase() === "empresa") {
+      const email = body.email.toLowerCase();
+
+      const empresaEncontrada = await prisma.Empresa.findFirst({
+        where: { email: email },
       });
 
-      return res.status(200).json(find);
-    } catch (error: any) {
-      res.status(400).send(error.message);
-      console.log(error);
+      if (!empresaEncontrada) {
+        res.status(400).send("incorrect data");
+      }
+
+      const compare = await bcrypt.compare(
+        body.password,
+        empresaEncontrada.password
+      );
+
+      if (!compare) {
+        res.status(400).send("incorrect password");
+      }
+      const token = jwt.sign(
+        { email: empresaEncontrada.email },
+        "claveSecreta",
+        { expiresIn: "15m" }
+      );
+      return res.status(200).json({
+        token: token,
+        id: empresaEncontrada.id,
+      });
     }
+
+    if (body.rol.toLowerCase() === "trabajador") {
+      // Busco en la tabla trabajador y envio el token con sus datos
+    }
+  } catch (error: any) {
+    res.status(400).send(error.message);
+    console.log(error);
   }
 }
