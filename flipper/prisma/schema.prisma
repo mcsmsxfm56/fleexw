@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+//lo que empieza con @ son atributos 
+//todo son modelos, atribuyos, enums y 
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  nombre String
+  nombreceo String
+  email String
+  ciudad String
+  direccion String
+  telefono String
+  password String
+  eventos Evento[] // Una empresa puede tener muchos eventos
+  id String @id @default(uuid()) // id primary key de empresa
+  //@id define una id, @default define un valor default para el campo, autoincrement hace que empieze por uno y continue 
+  //https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#default
+  //content   String? //? hace que el campo sea opcional, [] haria que el campo sea un array
+  //published Boolean @default(false)
+  //author    User?   @relation(fields: [authorId], references: [id]), atributo relation define relaciones entre tablas
+  //authorId  String?
+}
+
+model Evento {
+  id String @id @default(uuid())
+  empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
+  nombre String
+  id_empresa String
+  fecha DateTime @db.Date//indica que al guardar en db lo almacena como datatype date
+  hora_inicio DateTime @db.Time()
+  hora_final DateTime @db.Time()
+  lugar String
+  cupos Int
+  perfil String
+  pago Int
+  observaciones String
+  trabajadores TrabajadoresEnEventos[]
+}
+
+model Trabajador {
+  id String @id @default(uuid()) //ver si se pueden usar UUID
+  eventos TrabajadoresEnEventos[]
+  name String
+  idType String
+  idNumber Int
+  nacimiento DateTime @db.Date
+  genero String
+  phone String
+  email String
+  ciudad String
+  direccion String
+  estatura Int
+  talla_camiseta String
+  grupo_sanguineo String
+  imagen_dni String //adjunto
+  foto String //adjunto
+  cv String //adjunto
+  rut String //adjunto
+  certificado_bancario String //adjunto
+  password String
+}
+
+model TrabajadoresEnEventos {
+  evento Evento @relation(fields: [eventoId], references: [id])
+  eventoId String 
+  trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
+  trabajadorId String
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([eventoId, trabajadorId])
+}
