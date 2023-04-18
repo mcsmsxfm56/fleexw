@@ -1,10 +1,8 @@
 import prisma from "../../../../../lib/prisma";
-import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
 interface DataRegister {
-  id?: string;
   nombre: string;
   nombreceo: string;
   email: string;
@@ -26,12 +24,12 @@ export default async function handler(
 
   try {
     if (req.method === "GET") {
-      const find = await prisma.Empresa.findMany();
+      const find = await prisma.empresa.findMany();
       if (find) {
         return res.status(200).send(find);
       }
     } else if (req.method === "POST") {
-      const newEmpresa = await prisma.Empresa.findFirst({
+      const newEmpresa = await prisma.empresa.findFirst({
         where: {
           email: body.email,
         },
@@ -40,6 +38,7 @@ export default async function handler(
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(body.password, salt);
       body.password = hashedPassword;
+      body.email = body?.email.toLowerCase();
       const newObj: DataRegister = {
         nombre: body.nombre,
         nombreceo: body.nombre,
