@@ -1,35 +1,26 @@
 import prisma from "../../../../../lib/prisma";
-
+import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-interface Evento {
-  id: String;
-  empresa: String; // un evento solo tiene una empresa
-  nombre: String;
-  id_empresa: String;
-  fecha: Date; //indica que al guardar en db lo almacena como datatype date
-  hora_inicio: Date;
-  hora_final: Date;
-  lugar: String;
-  cupos: number;
-  perfil: String;
-  pago: number;
-  observaciones: String;
-}
+import bcrypt from "bcrypt";
 
 interface DataRegister {
-  nombre: String;
-  nombreceo: String;
-  email: String;
-  ciudad: String;
-  direccion: String;
-  telefono: String;
-  password: String;
+  id?: string;
+  nombre: string;
+  nombreceo: string;
+  email: string;
+  ciudad: string;
+  direccion: string;
+  telefono: string;
+  password: string;
 }
-
+interface userToken {
+  email: string;
+  nombre: string;
+  nombreceo: string;
+}
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DataRegister>
+  res: NextApiResponse
 ) {
   const body = req.body;
 
@@ -46,6 +37,9 @@ export default async function handler(
         },
       });
       if (newEmpresa) throw new Error("Empresa ya creada con ese email");
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(body.password, salt);
+      body.password = hashedPassword;
       const newObj: DataRegister = {
         nombre: body.nombre,
         nombreceo: body.nombre,
@@ -55,8 +49,11 @@ export default async function handler(
         telefono: body.telefono,
         password: body.password,
       };
-      const newEmp = await prisma.empresa.create({ data: newObj });
-      return res.status(200).send(newEmp);
+      const newEmp: DataRegister = await prisma.empresa.create({
+        data: newObj,
+      });
+      if (!newEmp) throw new Error("No se pudo crear el usuario");
+      return res.status(200).send("Usuario Empresa creado correctamente");
     }
   } catch (error: any) {
     return res.status(400).send(error.message);
