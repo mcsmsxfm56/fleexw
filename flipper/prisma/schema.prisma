@@ -53,20 +53,20 @@ model Trabajador {
   name String
   idType String
   idNumber Int
-  nacimiento DateTime @db.Date
-  genero String
+  nacimiento DateTime? @db.Date
+  genero String?
   phone String
   email String
-  ciudad String
-  direccion String
-  estatura Int
-  talla_camiseta String
-  grupo_sanguineo String
-  imagen_dni String //adjunto
-  foto String //adjunto
-  cv String //adjunto
-  rut String //adjunto
-  certificado_bancario String //adjunto
+  ciudad String?
+  direccion String?
+  estatura Int?
+  talla_camiseta String?
+  grupo_sanguineo String?
+  imagen_dni String? //adjunto
+  foto String? //adjunto
+  cv String? //adjunto
+  rut String? //adjunto
+  certificado_bancario String? //adjunto
   password String
 }
 
