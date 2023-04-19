@@ -28,6 +28,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(req);
   if (req.method === "GET") {
     //ruta GET /api/empresa para obtener una lista de todas las empresas
     const user = await prisma.empresa.findMany();
@@ -41,17 +42,11 @@ export default async function handler(
         .status(400)
         .send("No hay empresas, hay que esperar a que se registren");
     }
-  }
-  if (req.method === "POST") {
+  } else if (req.method === "POST") {
     //ruta POST /api/empresa para buscar eventos
     res.status(200).send("POST");
-  }
-  if (req.method === "UPDATE") {
+  } else if (req.method === "UPDATE") {
     //ruta UPDATE /api/empresa para buscar eventos
     res.status(200).send("UPDATE");
-  }
-  if (req.method === "DELETE") {
-    //ruta DELETE /api/empresa para buscar eventos
-    res.status(200).send("DELETE");
   }
 }
