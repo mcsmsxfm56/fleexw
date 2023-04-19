@@ -33,7 +33,7 @@ model Empresa {
 }
 
 model Evento {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
   nombre String
   id_empresa String
@@ -73,7 +73,7 @@ model Trabajador {
 
 model TrabajadoresEnEventos {
   evento Evento @relation(fields: [eventoId], references: [id])
-  eventoId String 
+  eventoId Int 
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
   assignedAt DateTime @default(now())
