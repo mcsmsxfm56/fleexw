@@ -43,8 +43,14 @@ export default async function handler(
   res: NextApiResponse<Evento | string | unknown>
 ) {
   if (req.method === "GET") {
-    //ruta GET /api/event para buscar eventos
-    res.status(200).send("GET");
+    const events = await prisma.evento.findMany();
+    if (events) {
+      res.status(200).send(events);
+    } else {
+      res
+        .status(400)
+        .send("No hay empresas, hay que esperar a que se registren");
+    }
   }
   if (req.method === "POST") {
     //ruta POST /api/event para buscar eventos
