@@ -9,12 +9,12 @@ import LoadingSubmitForm from "./LoadingSubmitForm";
 
 const harcodedData = {
   // Datos harcodeados
-  phone: "3425552525",
+  phone: "3425552524",
   email: "francoaglieri@hotmail.com",
   password: "1234",
-  name: "SebaMax",
+  name: "Seba",
   idType: "",
-  idNumber: 0,
+  idNumber: 9999,
 };
 
 const resetErrors = {
@@ -85,7 +85,6 @@ const WorkerRegisterForm = () => {
     try {
       setIsLoading(true);
       const response = await Post_Worker_Register(formData);
-      console.log(response)
       console.log("exito");
     } catch {
       //

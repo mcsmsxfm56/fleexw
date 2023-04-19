@@ -31,16 +31,16 @@ const CompanyRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [formData, setFormData] = useState<CompanyData>(
-    // harcodedData
-    {
-      nombre: "",
-      nombreceo: "",
-      ciudad: "",
-      direccion: "",
-      email: "",
-      password: "",
-      telefono: "",
-    }
+    harcodedData
+    // {
+    //   nombre: "",
+    //   nombreceo: "",
+    //   ciudad: "",
+    //   direccion: "",
+    //   email: "",
+    //   password: "",
+    //   telefono: "",
+    // }
   );
   const [errors, setErrors] = useState<CompanyData>({
     nombre: "",
