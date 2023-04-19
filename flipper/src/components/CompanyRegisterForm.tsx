@@ -72,15 +72,7 @@ const CompanyRegisterForm = () => {
 
   function validateForm(values: CompanyData) {
     setValidForm(true);
-    let errors: CompanyData = {
-      nombre: "",
-      nombreceo: "",
-      ciudad: "",
-      direccion: "",
-      email: "",
-      password: "",
-      telefono: "",
-    };
+    let errors: CompanyData = resetErrors
     const { ciudad, direccion, email, nombre, nombreceo, password, telefono } =
       values;
 

@@ -14,5 +14,5 @@ export async function Post_Worker_Register(data: WorkerRegisterData) {
   console.log("=== Worker Data ===")
   console.log(data)
   console.log("=====")
-  return axios.post('', data)
+  return axios.post('http://localhost:3000/api/register/trabajador', data)
 }
