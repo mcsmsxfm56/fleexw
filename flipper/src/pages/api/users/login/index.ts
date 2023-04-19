@@ -4,12 +4,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const secretKey = process.env.SECRET_KEY as string;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const body = req.body;
-  if (!body.email || !body.password || !body.rol) {
+  if (!body.email || !body.password) {
     return res.send("mandatory data are missing");
   }
   if (req.method !== "POST") {
@@ -17,36 +19,42 @@ export default async function handler(
   }
 
   try {
-    if (body.rol.toLowerCase() === "empresa") {
-      const email = body.email.toLowerCase();
-      const empresaEncontrada = await prisma.Empresa.findFirst({
-        where: { email: email },
-      });
-      if (!empresaEncontrada) res.status(400).send("denied entry");
+    const email = body.email.toLowerCase();
 
-      const compare = await bcrypt.compare(
-        body.password,
-        empresaEncontrada.password
-      );
-      if (!compare) res.status(400).send("denied entry");
+    const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
+      where: { email: email },
+    });
 
-      //no me toma el .env
-      const token = jwt.sign(
-        {
-          email: empresaEncontrada.email,
-        },
-        "flipper23",
-        { expiresIn: "15m" }
-      );
-      return res.status(200).json({
-        token: token,
-        id: empresaEncontrada.id,
-      });
+    const empresaEncontrada: any = await prisma.empresa.findFirst({
+      where: { email: email },
+    });
+    const user = empresaEncontrada || trabajadorEncontrado;
+
+    if (!user) return res.status(400).json("no se encontro el usuario");
+
+    const comparaPass = await bcrypt.compare(body.password, user.password);
+
+    if (!comparaPass) {
+      return res.status(400).json("Invalid Email or Password");
     }
+    const token = jwt.sign(
+      {
+        email: user.email,
+        id: user.id,
+      },
+      secretKey
+    );
 
-    if (body.rol.toLowerCase() === "trabajador") {
-      // Busco en la tabla trabajador y envio el token con sus datos
+    let rol = "empresa";
+    if ("idType" in user) {
+      rol = "trabajador";
     }
+    return res.status(200).json({
+      token: token,
+      id: user.id,
+      nombre: user.name || user.nombre,
+      rol: rol,
+    });
   } catch (error: any) {
     res.status(400).send(error.message);
   }
