@@ -1,6 +1,9 @@
-import axios from "axios";
-import { userData } from "../components/RegisterForm";
+import { CompanyData } from "@/types/Types";
+import axios, { AxiosError } from "axios";
 
-export default async function POST_Register(data: userData){
-  axios.post('http://localhost:3000/api/users/register', data)
+export async function Post_Company_Register(data: CompanyData) {
+  console.log("=====")
+  console.log(data)
+  console.log("=====")
+  return axios.post('http://localhost:3000/api/users/register', data)
 }
