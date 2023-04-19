@@ -16,8 +16,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    //ruta GET /api/trabajador para buscar eventos
-    res.status(200).send("GET");
+    try {
+      const trabajadores = await prisma.trabajador.findMany();
+      res.status(200).send(trabajadores);
+    } catch (error: any) {
+      res.status(400).send(error.message);
+    }
   }
   if (req.method === "POST") {
     //ruta POST /api/trabajador para buscar eventos
