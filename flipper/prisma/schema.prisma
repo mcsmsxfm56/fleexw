@@ -35,6 +35,7 @@ model Empresa {
 
 model Evento {
   id Int @id @default(autoincrement())
+  isDeleted Boolean @default(false)
   empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
   nombre String
   id_empresa String
