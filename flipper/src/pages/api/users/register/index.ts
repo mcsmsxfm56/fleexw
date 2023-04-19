@@ -41,7 +41,7 @@ export default async function handler(
       body.email = body?.email.toLowerCase();
       const newObj: DataRegister = {
         nombre: body.nombre,
-        nombreceo: body.nombre,
+        nombreceo: body.nombreceo,
         email: body.email,
         ciudad: body.ciudad,
         direccion: body.direccion,
