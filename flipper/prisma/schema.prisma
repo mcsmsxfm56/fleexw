@@ -13,13 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Empresa {
-  nombre String
+  nombre String @unique
+  isDeleted Boolean @default(false)
   nombreceo String
-  email String
+  email String @unique
   ciudad String
-  direccion String
-  telefono String
+  direccion String @unique
+  telefono String @unique
   password String
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
@@ -32,7 +34,8 @@ model Empresa {
 }
 
 model Evento {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
+  isDeleted Boolean @default(false)
   empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
   nombre String
   id_empresa String
@@ -55,9 +58,9 @@ model Trabajador {
   idNumber Int
   nacimiento DateTime? @db.Date
   genero String?
-  phone String
-  email String
-  ciudad String?
+  phone String @unique
+  email String @unique
+  ciudad String? 
   direccion String?
   estatura Int?
   talla_camiseta String?
@@ -72,7 +75,7 @@ model Trabajador {
 
 model TrabajadoresEnEventos {
   evento Evento @relation(fields: [eventoId], references: [id])
-  eventoId String 
+  eventoId Int 
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
   assignedAt DateTime @default(now())
