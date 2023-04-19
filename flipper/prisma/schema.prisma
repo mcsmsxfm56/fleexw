@@ -16,6 +16,7 @@ datasource db {
 
 model Empresa {
   nombre String @unique
+  isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
   ciudad String

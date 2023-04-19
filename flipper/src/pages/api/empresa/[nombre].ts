@@ -19,5 +19,17 @@ export default async function handler(
     } else {
       res.status(400).send("Empresa no encontrada");
     }
+  } else if (req.method === "DELETE") {
+    //console.log("llego al flujo");
+    const { nombre } = req.query;
+    const updateUser = await prisma.empresa.update({
+      where: {
+        nombre,
+      },
+      data: {
+        isDeleted: true,
+      },
+    });
+    res.status(200).send("DELETE");
   }
 }
