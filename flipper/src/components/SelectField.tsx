@@ -16,16 +16,16 @@ const SelectField = ({
   changeFunc,
 }: SelectFieldData) => {
   return (
-    <label className="w-full mb-4">
+    <label className="w-full">
       <select
         name={name}
         value={value}
         onChange={changeFunc}
-        className="w-full"
+        className="w-full mb-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
       >
         <option value="">{defaultOp}:</option>
         {opciones.map((op, index) => (
-          <option key={`${name}_${index}`} value={op}>
+          <option key={`${name}_${index}`} value={op} className="font-bold">
             {op.charAt(0).toUpperCase() + op.slice(1)}
           </option>
         ))}
