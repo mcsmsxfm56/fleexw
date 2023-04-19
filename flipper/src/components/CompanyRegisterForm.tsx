@@ -1,10 +1,11 @@
 "use client";
 
 import { CompanyData } from "@/types/Types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "./InputField";
 import LoadingSubmitForm from "./LoadingSubmitForm";
 import { Post_Company_Register } from "@/services/PostRegister";
+import validator from "validator";
 
 const harcodedData = {
   nombre: "SebaMax",
@@ -51,18 +52,44 @@ const CompanyRegisterForm = () => {
     telefono: "",
   });
 
-  const validateFields = (): boolean => {
+  useEffect(() => {
+    setErrors(validateForm(formData));
+  }, [formData]);
+  useEffect(() => {
+    checkErrors();
+  }, [errors]);
+
+  const checkErrors = (): boolean => {
     let flag = true;
-    setErrors(resetErrors);
-    for (let key in formData) {
-      if (formData[key as keyof CompanyData] === "") {
-        setErrors({ ...errors, [key]: "Este campo es obligatorio" });
+    for (const key in errors) {
+      if (errors[key as keyof CompanyData] !== "") {
         flag = false;
       }
-      console.log(flag)
     }
+    setValidForm(flag);
     return flag;
   };
+
+  function validateForm(values: CompanyData) {
+    setValidForm(true);
+    let errors: CompanyData = {
+      nombre: "",
+      nombreceo: "",
+      ciudad: "",
+      direccion: "",
+      email: "",
+      password: "",
+      telefono: "",
+    };
+    const { ciudad, direccion, email, nombre, nombreceo, password, telefono } =
+      values;
+
+    if (!nombre) {
+      errors.nombre = "El nombre es obligatorio";
+    }
+    console.log(errors);
+    return errors;
+  }
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +103,6 @@ const CompanyRegisterForm = () => {
     } finally {
       setIsLoading(false);
     }
-    console.log("enviar...");
   };
 
   const handleChangeState = (
@@ -84,8 +110,6 @@ const CompanyRegisterForm = () => {
   ) => {
     const { value, name } = event.target;
     setFormData({ ...formData, [name]: value });
-
-    setValidForm(validateFields());
   };
 
   return (
@@ -100,7 +124,7 @@ const CompanyRegisterForm = () => {
         value={formData.nombre}
         changeFunc={handleChangeState}
       />
-      {errors.nombre && <span>{errors.nombre}</span>}
+      {errors.nombre && <span className="text-red-500">{errors.nombre}</span>}
       <InputField
         name="nombreceo"
         text="Nombre Ceo"
@@ -148,7 +172,9 @@ const CompanyRegisterForm = () => {
       ) : (
         <button
           type="submit"
-          className={`${validForm ? 'bg-[#4B39EF]' : 'bg-slate-400'} rounded-lg px-16 py-2 text-lg text-white font-bold`}
+          className={`${
+            validForm ? "bg-[#4B39EF]" : "bg-slate-400"
+          } rounded-lg px-16 py-2 text-lg text-white font-bold`}
           disabled={!validForm}
         >
           Crear Cuenta de Empresa
