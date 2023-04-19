@@ -23,9 +23,15 @@ const SelectField = ({
         onChange={changeFunc}
         className="w-full mb-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
       >
-        <option value="">{defaultOp}:</option>
+        <option value="" className="font-bold">
+          {defaultOp}:
+        </option>
         {opciones.map((op, index) => (
-          <option key={`${name}_${index}`} value={op} className="font-bold">
+          <option
+            key={`${name}_${index}`}
+            value={op}
+            className="font-bold rounded my-2"
+          >
             {op.charAt(0).toUpperCase() + op.slice(1)}
           </option>
         ))}

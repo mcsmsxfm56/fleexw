@@ -10,7 +10,7 @@ import LoadingSubmitForm from "./LoadingSubmitForm";
 const harcodedData = {
   // Datos harcodeados
   phone: "3425552525",
-  email: "Francoaglieri@hotmail.com",
+  email: "francoaglieri@hotmail.com",
   password: "1234",
   name: "SebaMax",
   idType: "",
@@ -30,15 +30,15 @@ const WorkerRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [formData, setFormData] = useState<WorkerRegisterData>(
-    // harcodedData
-      {
-      phone: "",
-      email: "",
-      password: "",
-      name: "",
-      idType: "",
-      idNumber: 0,
-    }
+    harcodedData
+    //   {
+    //   phone: "",
+    //   email: "",
+    //   password: "",
+    //   name: "",
+    //   idType: "",
+    //   idNumber: 0,
+    // }
   );
   const [errors, setErrors] = useState({
     phone: "",
@@ -85,6 +85,7 @@ const WorkerRegisterForm = () => {
     try {
       setIsLoading(true);
       const response = await Post_Worker_Register(formData);
+      console.log(response)
       console.log("exito");
     } catch {
       //
