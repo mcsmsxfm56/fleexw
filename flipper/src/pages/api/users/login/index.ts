@@ -24,11 +24,12 @@ export default async function handler(
     const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
       where: { email: email },
     });
+
     const empresaEncontrada: any = await prisma.empresa.findFirst({
       where: { email: email },
     });
-
     const user = empresaEncontrada || trabajadorEncontrado;
+
     if (!user) return res.status(400).json("no se encontro el usuario");
 
     const comparaPass = await bcrypt.compare(body.password, user.password);
@@ -43,10 +44,16 @@ export default async function handler(
       },
       secretKey
     );
+
+    let rol = "empresa";
+    if ("idType" in user) {
+      rol = "trabajador";
+    }
     return res.status(200).json({
       token: token,
       id: user.id,
       nombre: user.name || user.nombre,
+      rol: rol,
     });
   } catch (error: any) {
     res.status(400).send(error.message);
