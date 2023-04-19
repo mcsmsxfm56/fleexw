@@ -1,47 +1,60 @@
 
 'use client'
 
-import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useState, useEffect } from "react";
 
 ///////////////////////// context ////////////////////
 interface Sesion {
-    id: string,
-    nombre: string,
+    rol: string,
     token: string,
+    nombre: string,
 }
 
 interface ContextProps {
-    id: string,
-    nombre: string,
-    token: string,
-    setId: Dispatch<SetStateAction<Sesion["id"]>>
-    setNombre: Dispatch<SetStateAction<Sesion["nombre"]>>
+    rol: string | null,
+    token: string | null,
+    nombre: string | null,
+    setRol: Dispatch<SetStateAction<Sesion["rol"]>>
     setToken: Dispatch<SetStateAction<Sesion["token"]>>
+    setNombre: Dispatch<SetStateAction<Sesion["nombre"]>>
 }
 
-const SesionUsuarioContext = createContext<ContextProps>({
-  id: "",
-  nombre: "",
-  token: "",
-  setId: (): string => "", 
-  setNombre: (): string => "",
-  setToken: (): string => "",
-})
-
-  
-  interface props {
+  interface propsProvider {
     children: JSX.Element | JSX.Element[]
 }
 
-export const SesionUsuarioProvider = ({children}: props) => {
-  const [id, setId] =  useState("")
-  const [nombre, setNombre] =  useState("")
+export const SesionUsuarioContext = createContext<ContextProps>({
+  rol: "",
+  token: "",
+  nombre: "",
+  setRol: (): string => "",
+  setToken: (): string => "",
+  setNombre: (): string => ""
+})
+
+
+export const SesionUsuarioProvider = ({children}: propsProvider) => {
+  
+  
+  const [rol, setRol] =  useState("") 
   const [token, setToken] =  useState("")
+  const [nombre, setNombre] =  useState("")
+
+  //aca tengo que usar un useEffect para que reconozca que estoy del lado del cliente y asi poder acceder al objeto window
+  useEffect (()=>{
+    console.log(window.localStorage.getItem('rol'));
+    console.log(window.localStorage.getItem('token'));
+    console.log(window.localStorage.getItem('nombre'));
+    
+    setRol(() => window.localStorage.getItem('rol') || "")
+    setToken(() => window.localStorage.getItem('token') || "")
+    setNombre(() => window.localStorage.getItem('nombre') || "")
+  }, [])
+
   return(
-   <SesionUsuarioContext.Provider value={{id:"", nombre:"", token:"", setId, setNombre, setToken}}>
+   <SesionUsuarioContext.Provider value={{rol, token, nombre, setRol, setToken, setNombre}}>
      {children}
    </SesionUsuarioContext.Provider>
   )
 }
 
-export const useSesionUsuarioContext = () => useContext(SesionUsuarioContext)
