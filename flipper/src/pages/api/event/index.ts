@@ -3,7 +3,7 @@ import prisma from "../../../../lib/prisma";
 import { Evento } from "@prisma/client";
 
 //tipado del objeto json esperado en POST /api/event
-interface input {
+interface inputPOST {
   id_empresa: string;
   nombre: string;
   fecha: string | Date;
@@ -14,6 +14,10 @@ interface input {
   pago: number;
   observaciones: string;
 }
+
+//tipado del objeto json esperado en GET /api/event
+//tipado del objeto json esperado en UPDATE /api/event
+//tipado del objeto json esperado en DELETE /api/event
 
 /*
 ejemplo de request esperada en POST /api/event
@@ -30,28 +34,34 @@ ejemplo de request esperada en POST /api/event
 }
 */
 
+/*ejemplo de request esperada en GET /api/event */
+/*ejemplo de request esperada en UPDATE /api/event */
+/*ejemplo de request esperada en DELETE /api/event */
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Evento | string | unknown>
 ) {
-  //se verifica si el tipado es valido
-  try {
-    let {
-      id_empresa,
-      nombre,
-      fecha,
-      lugar,
-      cupos,
-      perfil,
-      pago,
-      observaciones,
-      hora_final,
-    }: input = req.body;
+  if (req.method === "GET") {
+    //ruta GET /api/event para buscar eventos
+    res.status(200).send("GET");
+  }
+  if (req.method === "POST") {
+    //ruta POST /api/event para buscar eventos
+    //se verifica si el tipado POST es valido
+    try {
+      let {
+        id_empresa,
+        nombre,
+        fecha,
+        lugar,
+        cupos,
+        perfil,
+        pago,
+        observaciones,
+        hora_final,
+      }: inputPOST = req.body;
 
-    if (req.method === "GET") {
-      //ruta GET /api/event para buscar eventos
-      res.status(200).send("GET");
-    } else if (req.method === "POST") {
       //este try verifica que los datos del JSON sean validos, si no son validos el evento no se crea
       try {
         fecha = new Date(fecha);
@@ -88,14 +98,22 @@ export default async function handler(
          */
         res.status(400).send(err);
       }
-    }
-  } catch (err: unknown) {
-    /*
+    } catch (err: unknown) {
+      /*
     error de tipado en POST request json
     {
         "clientVersion": "4.13.0"
     }
     */
-    res.status(400).send(err);
+      res.status(400).send(err);
+    }
+  }
+  if (req.method === "UPDATE") {
+    //ruta UPDATE /api/event para buscar eventos
+    res.status(200).send("UPDATE");
+  }
+  if (req.method === "DELETE") {
+    //ruta DELETE /api/event para buscar eventos
+    res.status(200).send("DELETE");
   }
 }
