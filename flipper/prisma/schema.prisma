@@ -13,13 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Empresa {
-  nombre String
+  nombre String @unique
   nombreceo String
-  email String
+  email String @unique
   ciudad String
-  direccion String
-  telefono String
+  direccion String @unique
+  telefono String @unique
   password String
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
@@ -55,9 +56,9 @@ model Trabajador {
   idNumber Int
   nacimiento DateTime? @db.Date
   genero String?
-  phone String
-  email String
-  ciudad String?
+  phone String @unique
+  email String @unique
+  ciudad String? 
   direccion String?
   estatura Int?
   talla_camiseta String?
