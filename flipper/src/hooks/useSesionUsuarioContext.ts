@@ -34,16 +34,18 @@ export const useSesionUsuarioContext = () => {
     }
 
     const logout = () => {
-        window.localStorage.removeItem('rol')
-        window.localStorage.removeItem('token')
+        window.localStorage.clear()
         setRol("")
         setToken("")
+        setNombre("")
+        router.push('/')
     } // se va a usar para desloguearse al apretar un link(con func de boton) en el header o navBar
 
     return ({
         isLogged: Boolean(token), 
         login,
         logout,
+        nombre,
         hasLoginError: error
     })
 }
