@@ -6,6 +6,7 @@ import InputField from "./InputField";
 import LoadingSubmitForm from "./LoadingSubmitForm";
 import { Post_Company_Register } from "@/services/PostRegister";
 import validator from "validator";
+import { useRouter } from "next/router";
 
 const harcodedData = {
   nombre: "SebaMax",
@@ -31,17 +32,18 @@ const CompanyRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const router = useRouter();
   const [formData, setFormData] = useState<CompanyData>(
-    harcodedData
-    // {
-    //   nombre: "",
-    //   nombreceo: "",
-    //   ciudad: "",
-    //   direccion: "",
-    //   email: "",
-    //   password: "",
-    //   telefono: "",
-    // }
+    // harcodedData
+    {
+      nombre: "",
+      nombreceo: "",
+      ciudad: "",
+      direccion: "",
+      email: "",
+      password: "",
+      telefono: "",
+    }
   );
   const [errors, setErrors] = useState<CompanyData>({
     nombre: "",
@@ -60,6 +62,7 @@ const CompanyRegisterForm = () => {
     console.log(validForm);
   }, [errors]);
 
+  // TODO checkErrors y valdiateForm cambiarán una vez implemente Formik y Yup
   const checkErrors = (): boolean => {
     let flag = true;
     for (const key in errors) {
@@ -75,12 +78,6 @@ const CompanyRegisterForm = () => {
   function validateForm(values: CompanyData) {
     setValidForm(true);
     let errors: CompanyData = resetErrors;
-    // const { ciudad, direccion, email, nombre, nombreceo, password, telefono } =
-    //   values;
-    // Errores
-    // if (!nombre) {
-    //   errors.nombre = "El nombre es obligatorio";
-    // }
 
     checkErrors();
     return errors;
@@ -93,6 +90,7 @@ const CompanyRegisterForm = () => {
     await Post_Company_Register(formData)
       .then(() => {
         alert("Empresa creada");
+        router.push("/");
       })
       // TODO arreglar error como Any
       .catch((e: any) => {

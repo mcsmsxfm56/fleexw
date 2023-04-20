@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 import LoadingSubmitForm from "./LoadingSubmitForm";
+import { useRouter } from "next/router";
+import { parseArgs } from "util";
 
 const harcodedData = {
   // Datos harcodeados
@@ -14,7 +16,7 @@ const harcodedData = {
   password: "1234",
   name: "Seba",
   idType: "",
-  idNumber: 9999,
+  idNumber: "9999",
 };
 
 const resetErrors = {
@@ -30,16 +32,17 @@ const WorkerRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const router = useRouter();
   const [formData, setFormData] = useState<WorkerRegisterData>(
-    harcodedData
-    //   {
-    //   phone: "",
-    //   email: "",
-    //   password: "",
-    //   name: "",
-    //   idType: "",
-    //   idNumber: 0,
-    // }
+    // harcodedData
+    {
+      phone: "",
+      email: "",
+      password: "",
+      name: "",
+      idType: "",
+      idNumber: '',
+    }
   );
   const [errors, setErrors] = useState({
     phone: "",
@@ -57,6 +60,7 @@ const WorkerRegisterForm = () => {
     checkErrors();
   }, [errors]);
 
+  // TODO checkErrors y valdiateForm cambiarán una vez implemente Formik y Yup
   const checkErrors = (): boolean => {
     let flag = true;
     for (const key in errors) {
@@ -73,11 +77,6 @@ const WorkerRegisterForm = () => {
     // TODO Terminar esta funcion con Yup y Formik
     setValidForm(true);
     let errors = resetErrors;
-    // const { name, email, idNumber, idType, password, phone } = values;
-
-    // if (!name) {
-    //   errors.name = "El nombre es obligatorio";
-    // }
     checkErrors();
     return errors;
   }
@@ -89,6 +88,7 @@ const WorkerRegisterForm = () => {
     await Post_Worker_Register(formData)
       .then(() => {
         alert("Usuario creado");
+        router.push("/");
       })
       // TODO arreglar error como Any
       .catch((e: any) => {
@@ -101,7 +101,7 @@ const WorkerRegisterForm = () => {
   const handleChangeState = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { value, name } = event.target;
+    let { value, name } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 

@@ -16,7 +16,7 @@ export interface WorkerRegisterData {
   password: string;
   name: string;
   idType: string;
-  idNumber: number;
+  idNumber: string;
 }
 
 // Interfaz para los datos completos de Trabajador

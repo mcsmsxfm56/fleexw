@@ -12,9 +12,10 @@ export async function Post_Company_Register(data: CompanyData) {
 }
 
 export async function Post_Worker_Register(data: WorkerRegisterData) {
-  const sendData = { ...data, rol: 'trabajador' }
+  // TODO el numero de id llega como string, lo paso 
+  const sendData = { ...data, rol: 'trabajador', idNumber: parseInt(data.idNumber) }
   console.log("=== Worker Data ===")
-  console.log(data)
+  console.log(sendData)
   console.log("=====")
   return axios.post(`${URL}/api/users/register/trabajador`, data)
 }
