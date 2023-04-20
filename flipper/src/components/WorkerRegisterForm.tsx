@@ -23,12 +23,13 @@ const resetErrors = {
   password: "",
   name: "",
   idType: "",
-  idNumber: '',
+  idNumber: "",
 };
 
 const WorkerRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [formData, setFormData] = useState<WorkerRegisterData>(
     harcodedData
     //   {
@@ -46,7 +47,7 @@ const WorkerRegisterForm = () => {
     password: "",
     name: "",
     idType: "",
-    idNumber: '',
+    idNumber: "",
   });
 
   useEffect(() => {
@@ -69,6 +70,7 @@ const WorkerRegisterForm = () => {
   };
 
   function validateForm(values: WorkerRegisterData) {
+    // TODO Terminar esta funcion con Yup y Formik
     setValidForm(true);
     let errors = resetErrors;
     // const { name, email, idNumber, idType, password, phone } = values;
@@ -82,16 +84,18 @@ const WorkerRegisterForm = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await Post_Worker_Register(formData);
-      console.log("exito");
-    } catch {
-      //
-      console.log("failed");
-    } finally {
-      setIsLoading(false);
-    }
+    setSubmitError("");
+    setIsLoading(true);
+    await Post_Worker_Register(formData)
+      .then(() => {
+        alert("Usuario creado");
+      })
+      // TODO arreglar error como Any
+      .catch((e: any) => {
+        console.log(e.response.data);
+        setSubmitError(e.response.data);
+      });
+    setIsLoading(false);
   };
 
   const handleChangeState = (
@@ -149,6 +153,11 @@ const WorkerRegisterForm = () => {
         value={formData.password}
         changeFunc={handleChangeState}
       />
+      {submitError && (
+        <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+          {submitError}
+        </span>
+      )}
       {isLoading ? (
         <LoadingSubmitForm />
       ) : (

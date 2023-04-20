@@ -30,6 +30,7 @@ const resetErrors = {
 const CompanyRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [formData, setFormData] = useState<CompanyData>(
     harcodedData
     // {
@@ -87,16 +88,18 @@ const CompanyRegisterForm = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await Post_Company_Register(formData);
-      console.log("exito");
-    } catch {
-      //
-      console.log("failed");
-    } finally {
-      setIsLoading(false);
-    }
+    setSubmitError("");
+    setIsLoading(true);
+    await Post_Company_Register(formData)
+      .then(() => {
+        alert("Empresa creada");
+      })
+      // TODO arreglar error como Any
+      .catch((e: any) => {
+        console.log(e.response.data);
+        setSubmitError(e.response.data);
+      });
+    setIsLoading(false);
   };
 
   const handleChangeState = (
@@ -166,6 +169,11 @@ const CompanyRegisterForm = () => {
           value={formData.password}
           changeFunc={handleChangeState}
         />
+        {submitError && (
+          <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+            {submitError}
+          </span>
+        )}
         {isLoading ? (
           <LoadingSubmitForm />
         ) : (
