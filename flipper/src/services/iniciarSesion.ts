@@ -1,22 +1,34 @@
-import React, { createContext, useContext } from "react"
-import { UsuarioLogueado } from "@/types/types"
-//aca se hace la request para iniciar sesion y va al context
+//aca se hace la request para iniciar sesion y el resultado favorable va al localStorage para ser consumido por el context
+
+import axios from "axios"
+
+const URL="http://localhost:3000/"
+
 interface UsuarioParaLoguear {
-    correo: string,
-    contraseña: string
+    email: string,
+    password: string
 }
 
+type UsuarioLogueado = {
+    rol: string, 
+    token: string,
+    nombre: string
+} 
 
-const usuarioLogueado = {
-        id: "adfff-544",
-        nombre:"dante",
-        token: "fsdfsdf5.45645465.fsdfs"
-    }
-
-
-export function iniciarSesion(usuario: UsuarioParaLoguear) {
+export async function iniciarSesion(usuario: UsuarioParaLoguear): Promise<UsuarioLogueado> {
     //request con axios para obtener el usuario
-    return usuarioLogueado   
+    try {
+        const response = await axios.post(`${URL}api/users/login`, usuario )
+        const usuarioLogueado: UsuarioLogueado = {
+            rol: response.data.rol,
+            token: response.data.token,
+            nombre: response.data.nombre
+        }        
+        return usuarioLogueado
+    } catch (error) {
+         console.log(error);
+         
+    }
 }
 
 

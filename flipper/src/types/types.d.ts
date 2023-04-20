@@ -1,5 +1,5 @@
-export interface UsuarioLogueado {
+export interface Usuario {
     id: "",
-    nombre:"",
+    rol:"",
     token: ""
 }
