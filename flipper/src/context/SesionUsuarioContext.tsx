@@ -11,9 +11,9 @@ interface Sesion {
 }
 
 interface ContextProps {
-    rol: string | null,
-    token: string | null,
-    nombre: string | null,
+    rol: string,
+    token: string,
+    nombre: string,
     setRol: Dispatch<SetStateAction<Sesion["rol"]>>
     setToken: Dispatch<SetStateAction<Sesion["token"]>>
     setNombre: Dispatch<SetStateAction<Sesion["nombre"]>>

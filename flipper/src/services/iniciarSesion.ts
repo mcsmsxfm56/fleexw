@@ -15,12 +15,6 @@ type UsuarioLogueado = {
     nombre: string
 } 
 
-/* 
-const usuarioLogueado = {
-        rol:"trabajador",
-        token: "fsdfsdf5.45645465.fsdfs"
-    } */
-
 export async function iniciarSesion(usuario: UsuarioParaLoguear): Promise<UsuarioLogueado> {
     //request con axios para obtener el usuario
     try {
@@ -32,15 +26,9 @@ export async function iniciarSesion(usuario: UsuarioParaLoguear): Promise<Usuari
         }        
         return usuarioLogueado
     } catch (error) {
-        console.log(error);
+         console.log(error);
+         
     }
-    
-
-    /* .then(res => {
-        const {rol, token, nombre} = res.data
-        return {rol, token, nombre}
-    })
-    .catch(error => error)  */
 }
 
 

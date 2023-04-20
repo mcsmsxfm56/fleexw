@@ -2,6 +2,7 @@ import { SesionUsuarioContext } from "@/context/SesionUsuarioContext";
 import { useContext, useState } from "react";
 import { iniciarSesion } from "@/services/iniciarSesion";
 
+
 export const useSesionUsuarioContext = () => {
     const {        
         rol,
@@ -12,12 +13,11 @@ export const useSesionUsuarioContext = () => {
         setNombre
     } = useContext(SesionUsuarioContext)
 
-    const [error, setError] = useState(true)
+    const [error, setError] = useState(false)
 
     const login = async (email: string, password: string) => {
         try {
             const usuarioActual = await iniciarSesion({email,password})
-
             window.localStorage.setItem('rol', usuarioActual.rol)
             window.localStorage.setItem('token', usuarioActual.token)
             window.localStorage.setItem('nombre', usuarioActual.nombre)
@@ -26,23 +26,9 @@ export const useSesionUsuarioContext = () => {
             setToken(usuarioActual.token)
             setNombre(usuarioActual.nombre)
         } catch (error) {
+            setError(true)
             console.log(error);
-        }
-        
-
-        /* .then(res => {
-            window.localStorage.setItem('rol', res.rol)
-            window.localStorage.setItem('token', res.token)
-            setRol(res.rol)
-            setToken(res.token)
-            setError(false)
-        })
-        .catch(err => console.log(err);
-        ) */
-       /*
-        setRol()
-        setToken()
-         */
+        }       
     }
 
     const logout = () => {
