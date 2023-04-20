@@ -173,7 +173,7 @@ const WorkerRegisterForm = () => {
             } rounded-lg px-16 py-2 text-lg text-white font-bold`}
             disabled={!validForm}
           >
-            Crear Cuenta de Empresa
+            Crear Cuenta de Trabajador
           </button>
         )}
       </form>
