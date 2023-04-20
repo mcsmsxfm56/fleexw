@@ -2,6 +2,13 @@ import prisma from "../../../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { DataTRegister } from "../users/register/trabajador";
+import { buscarTrabajador } from "@/services/trabajadorController";
+
+interface token {
+  id: string;
+  email: string;
+  iat: number;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,12 +20,12 @@ export default async function handler(
 
   try {
     if (req.method === "GET") {
-      const trabajador = await prisma.trabajador.findUnique({
-        where: { id: id as string },
-      });
-      trabajador
-        ? res.status(200).send(trabajador)
-        : res.status(400).send("no se pudo encontrar el trabajador");
+      try {
+        const trabajador = await buscarTrabajador(id as string);
+        res.status(200).send(trabajador);
+      } catch (error: any) {
+        res.status(400).send(error.message);
+      }
     }
     if (req.method === "PUT") {
       let token = null;
@@ -29,12 +36,14 @@ export default async function handler(
         token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
       }
       if (!token) {
-        return res.status(401).send("token missing or invalid admin");
+        return res.status(401).send("Token inexistente o invalido");
       }
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+      const { id } = decodedToken as token;
+
       if (decodedToken) {
         const trabajadorModificar = await prisma.trabajador.update({
-          where: { id: decodedToken.id },
+          where: { id: id },
           data: {
             phone: null ?? body.phone,
             email: null ?? body.email,
