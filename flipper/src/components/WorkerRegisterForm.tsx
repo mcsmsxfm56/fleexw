@@ -41,7 +41,7 @@ const WorkerRegisterForm = () => {
       password: "",
       name: "",
       idType: "",
-      idNumber: '',
+      idNumber: "",
     }
   );
   const [errors, setErrors] = useState({
@@ -106,72 +106,78 @@ const WorkerRegisterForm = () => {
   };
 
   return (
-    <form
-      onSubmit={submitHandler}
-      className="w-full flex flex-col items-center"
-    >
-      <InputField
-        name="name"
-        text="Nombre"
-        type="text"
-        value={formData.name}
-        changeFunc={handleChangeState}
-      />
-      {errors.name && <span className="text-red-500">{errors.name}</span>}
-      <InputField
-        name="email"
-        text="E-Mail"
-        type="text"
-        value={formData.email}
-        changeFunc={handleChangeState}
-      />
-      <InputField
-        name="phone"
-        text="Teléfono"
-        type="text"
-        value={formData.phone}
-        changeFunc={handleChangeState}
-      />
-      <SelectField
-        name="idType"
-        defaultOp="Seleccione su tipo de identificación"
-        opciones={["Cédula", "Tarjeta de identidad", "Pasaporte", "NIT"]}
-        value={formData.idType}
-        changeFunc={handleChangeState}
-      />
-      <InputField
-        name="idNumber"
-        text="Número de Identificación"
-        type="number"
-        value={formData.idNumber}
-        changeFunc={handleChangeState}
-      />
-      <InputField
-        name="password"
-        text="Contraseña"
-        type="password"
-        value={formData.password}
-        changeFunc={handleChangeState}
-      />
-      {submitError && (
-        <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
-          {submitError}
-        </span>
-      )}
-      {isLoading ? (
-        <LoadingSubmitForm />
-      ) : (
-        <button
-          type="submit"
-          className={`${
-            validForm ? "bg-[#4B39EF]" : "bg-slate-400"
-          } rounded-lg px-16 py-2 text-lg text-white font-bold`}
-          disabled={!validForm}
-        >
-          Crear Cuenta de Empresa
-        </button>
-      )}
-    </form>
+    <>
+      <h3 className="text-white font-bold">
+        Todos los campos son obligatorios
+      </h3>
+
+      <form
+        onSubmit={submitHandler}
+        className="w-full flex flex-col items-center"
+      >
+        <InputField
+          name="name"
+          text="Nombre"
+          type="text"
+          value={formData.name}
+          changeFunc={handleChangeState}
+        />
+        {errors.name && <span className="text-red-500">{errors.name}</span>}
+        <InputField
+          name="email"
+          text="E-Mail"
+          type="text"
+          value={formData.email}
+          changeFunc={handleChangeState}
+        />
+        <InputField
+          name="phone"
+          text="Teléfono"
+          type="text"
+          value={formData.phone}
+          changeFunc={handleChangeState}
+        />
+        <SelectField
+          name="idType"
+          defaultOp="Seleccione su tipo de identificación"
+          opciones={["Cédula", "Tarjeta de identidad", "Pasaporte", "NIT"]}
+          value={formData.idType}
+          changeFunc={handleChangeState}
+        />
+        <InputField
+          name="idNumber"
+          text="Número de Identificación"
+          type="number"
+          value={formData.idNumber}
+          changeFunc={handleChangeState}
+        />
+        <InputField
+          name="password"
+          text="Contraseña"
+          type="password"
+          value={formData.password}
+          changeFunc={handleChangeState}
+        />
+        {submitError && (
+          <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+            {submitError}
+          </span>
+        )}
+        {isLoading ? (
+          <LoadingSubmitForm />
+        ) : (
+          <button
+            type="submit"
+            className={`${
+              validForm ? "bg-[#4B39EF]" : "bg-slate-400"
+            } rounded-lg px-16 py-2 text-lg text-white font-bold`}
+            disabled={!validForm}
+          >
+            Crear Cuenta de Empresa
+          </button>
+        )}
+      </form>
+    </>
   );
 };
 

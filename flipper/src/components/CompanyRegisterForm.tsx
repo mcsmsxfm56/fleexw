@@ -58,9 +58,6 @@ const CompanyRegisterForm = () => {
   useEffect(() => {
     setErrors(validateForm(formData));
   }, [formData]);
-  useEffect(() => {
-    console.log(validForm);
-  }, [errors]);
 
   // TODO checkErrors y valdiateForm cambiarán una vez implemente Formik y Yup
   const checkErrors = (): boolean => {
