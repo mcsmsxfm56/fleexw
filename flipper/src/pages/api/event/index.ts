@@ -114,12 +114,6 @@ export default async function handler(
       res.status(400).send(err);
     }
   }
-  if (req.method === "UPDATE") {
-    //ruta UPDATE /api/event para buscar eventos
-    res.status(200).send("UPDATE");
-  }
-  if (req.method === "DELETE") {
-    //ruta DELETE /api/event para buscar eventos
-    res.status(200).send("DELETE");
-  }
-}
+  
+  
+
