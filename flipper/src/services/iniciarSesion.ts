@@ -2,7 +2,8 @@
 
 import axios from "axios"
 
-const URL="http://localhost:3000/"
+
+const URL= process.env.URL_APP
 
 interface UsuarioParaLoguear {
     email: string,
