@@ -104,6 +104,7 @@ const WorkerRegisterForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+
   return (
     <>
       <h3 className="text-white font-bold">
