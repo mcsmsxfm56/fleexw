@@ -17,7 +17,7 @@ function LogIn() {
     password: ""
   })
 
-  const {login, isLogged, hasLoginError} = useSesionUsuarioContext()
+  const {login, hasLoginError} = useSesionUsuarioContext()
 
   //aca va un efecto para redirigir a la pagina home si esta logueado
 
