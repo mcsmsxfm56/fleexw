@@ -2,25 +2,25 @@ import prisma from "../../../../../lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
-interface DataTRegister {
+export interface DataTRegister {
   name: string;
   idType: string;
   idNumber: number;
   phone: string;
   email: string;
   password: string;
-  nacimiento?: string | Date;
-  genero?: string;
-  ciudad?: string;
-  direccion?: string;
-  estatura?: number;
-  talla_camiseta?: string;
-  grupo_sanguineo?: string;
-  imagen_dni?: string;
-  foto?: string;
-  cv?: string;
-  rut?: string;
-  certificado_bancario?: string;
+  nacimiento?: string | Date | null;
+  genero?: string | null;
+  ciudad?: string | null;
+  direccion?: string | null;
+  estatura?: number | null;
+  talla_camiseta?: string | null;
+  grupo_sanguineo?: string | null;
+  imagen_dni?: string | null;
+  foto?: string | null;
+  cv?: string | null;
+  rut?: string | null;
+  certificado_bancario?: string | null;
 }
 
 export default async function handler(
