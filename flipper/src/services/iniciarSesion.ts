@@ -26,8 +26,7 @@ export async function iniciarSesion(usuario: UsuarioParaLoguear): Promise<Usuari
         }        
         return usuarioLogueado
     } catch (error) {
-         console.log(error);
-         
+         console.log(error);    
     }
 }
 

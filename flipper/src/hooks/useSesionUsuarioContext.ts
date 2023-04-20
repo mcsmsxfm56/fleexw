@@ -1,6 +1,7 @@
 import { SesionUsuarioContext } from "@/context/SesionUsuarioContext";
 import { useContext, useState } from "react";
 import { iniciarSesion } from "@/services/iniciarSesion";
+import { useRouter } from "next/router";
 
 
 export const useSesionUsuarioContext = () => {
@@ -14,7 +15,7 @@ export const useSesionUsuarioContext = () => {
     } = useContext(SesionUsuarioContext)
 
     const [error, setError] = useState(false)
-
+    const router = useRouter()
     const login = async (email: string, password: string) => {
         try {
             const usuarioActual = await iniciarSesion({email,password})
@@ -25,6 +26,7 @@ export const useSesionUsuarioContext = () => {
             setRol(usuarioActual.rol)
             setToken(usuarioActual.token)
             setNombre(usuarioActual.nombre)
+            router.push('/app/home')
         } catch (error) {
             setError(true)
             console.log(error);

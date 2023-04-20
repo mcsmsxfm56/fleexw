@@ -5,10 +5,12 @@ import Link from 'next/link'
 import React, { useState} from 'react'
 import { iniciarSesion } from '@/services/iniciarSesion'
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
+import { useRouter } from 'next/router'
 
 
 
 function LogIn() {
+  const router = useRouter()
 
   const [usuario, setUsuario] = useState({
     email: "",
@@ -25,18 +27,10 @@ function LogIn() {
     setUsuario({...usuario, [name]: value} )
   }
 
-  const handleLogIn = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleLogIn = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
     const {email, password} = usuario
-    login(email, password)
-     //navegar al home
-    const usuarioLogueadoData = iniciarSesion(usuario)
-    /* 
-    setId(usuarioLogueadoData.id)
-    setRol(usuarioLogueadoData.rol)
-    setToken(usuarioLogueadoData.token)
-    */ 
-   
+    await login(email, password)
   }
 
   return (
