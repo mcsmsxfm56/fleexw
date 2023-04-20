@@ -1,7 +1,7 @@
 import { CompanyData, WorkerRegisterData } from "@/types/Types";
 import axios, { AxiosError } from "axios";
 
-const URL = 'http://localhost:3000'
+const URL = process.env.URL_APP
 
 export async function Post_Company_Register(data: CompanyData) {
   return axios.post(`${URL}/api/users/register/empresa`, data)
