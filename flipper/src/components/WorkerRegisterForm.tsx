@@ -92,7 +92,6 @@ const WorkerRegisterForm = () => {
       })
       // TODO arreglar error como Any
       .catch((e: any) => {
-        console.log(e.response.data);
         setSubmitError(e.response.data);
       });
     setIsLoading(false);
