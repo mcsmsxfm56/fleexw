@@ -20,38 +20,26 @@ const harcodedData = {
   idNumber: "9999",
 };
 
-const resetErrors = {
-  phone: "",
-  email: "",
-  password: "",
-  name: "",
-  idType: "",
-  idNumber: "",
-};
-
 const validationSchema = yup.object({
-  name: yup.string().required(''),
-  email: yup
-    .string()
-    .email("Debes colocar un mail válido").required(''),
+  name: yup.string().required(""),
+  email: yup.string().email("Debes colocar un mail válido").required(""),
   phone: yup
     .string()
     .matches(/^\d+$/, "El teléfono debe contener solo números")
     // .min(10, "El teléfono debe tener al menos 10 dígitos")
     // .max(10, "El teléfono debe tener como máximo 10 dígitos")
-    .required(''),
-  password: yup.string().required(''),
+    .required(""),
+  password: yup.string().required(""),
   idNumber: yup
     .number()
     .typeError("La identificación debe ser un número")
-    .required('')
+    .required("")
     .integer("La identificación debe ser un número entero"),
   idType: yup.string().required(""),
 });
 
 const WorkerRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [validForm, setValidForm] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
 

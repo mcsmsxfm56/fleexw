@@ -5,8 +5,9 @@ import React, { useEffect, useState } from "react";
 import InputField from "./InputField";
 import LoadingSubmitForm from "./LoadingSubmitForm";
 import { Post_Company_Register } from "@/services/PostRegister";
-import validator from "validator";
 import { useRouter } from "next/router";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 const harcodedData = {
   nombre: "SebaMax",
@@ -18,24 +19,28 @@ const harcodedData = {
   telefono: "3425552525",
 };
 
-const resetErrors = {
-  nombre: "",
-  nombreceo: "",
-  ciudad: "",
-  direccion: "",
-  email: "",
-  password: "",
-  telefono: "",
-};
+const validationSchema = yup.object({
+  nombre: yup.string().required(""),
+  nombreceo: yup.string().required(""),
+  ciudad: yup.string().required(""),
+  direccion: yup.string().required(""),
+  email: yup.string().email("Debes colocar un mail válido").required(""),
+  password: yup.string().required(""),
+  telefono: yup
+    .string()
+    .matches(/^\d+$/, "El teléfono debe contener solo números")
+    // .min(10, "El teléfono debe tener al menos 10 dígitos")
+    // .max(10, "El teléfono debe tener como máximo 10 dígitos")
+    .required(""),
+});
 
 const CompanyRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [validForm, setValidForm] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const [formData, setFormData] = useState<CompanyData>(
-    // harcodedData
-    {
+
+  const formik = useFormik({
+    initialValues: {
       nombre: "",
       nombreceo: "",
       ciudad: "",
@@ -43,48 +48,21 @@ const CompanyRegisterForm = () => {
       email: "",
       password: "",
       telefono: "",
-    }
-  );
-  const [errors, setErrors] = useState<CompanyData>({
-    nombre: "",
-    nombreceo: "",
-    ciudad: "",
-    direccion: "",
-    email: "",
-    password: "",
-    telefono: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      submitHandler(values);
+    },
   });
 
   useEffect(() => {
-    setErrors(validateForm(formData));
-  }, [formData]);
+    (() => formik.validateForm())();
+  }, []);
 
-  // TODO checkErrors y valdiateForm cambiarán una vez implemente Formik y Yup
-  const checkErrors = (): boolean => {
-    let flag = true;
-    for (const key in errors) {
-      if (flag) {
-        if (formData[key as keyof CompanyData] == "") flag = false;
-        if (errors[key as keyof CompanyData] !== "") flag = false;
-      }
-    }
-    setValidForm(flag);
-    return flag;
-  };
-
-  function validateForm(values: CompanyData) {
-    setValidForm(true);
-    let errors: CompanyData = resetErrors;
-
-    checkErrors();
-    return errors;
-  }
-
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitHandler = async (values: CompanyData) => {
     setSubmitError("");
     setIsLoading(true);
-    await Post_Company_Register(formData)
+    await Post_Company_Register(values)
       .then(() => {
         alert("Empresa creada");
         router.push("/");
@@ -96,13 +74,6 @@ const CompanyRegisterForm = () => {
     setIsLoading(false);
   };
 
-  const handleChangeState = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { value, name } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   return (
     <>
       <h3 className="text-white font-bold">
@@ -110,59 +81,87 @@ const CompanyRegisterForm = () => {
       </h3>
 
       <form
-        onSubmit={submitHandler}
+        onSubmit={formik.handleSubmit}
         className="w-full flex flex-col items-center"
       >
         <InputField
           name="nombre"
           text="Nombre"
           type="text"
-          value={formData.nombre}
-          changeFunc={handleChangeState}
+          value={formik.values.nombre}
+          changeFunc={formik.handleChange}
         />
-        {errors.nombre && <span className="text-red-500">{errors.nombre}</span>}
+        {formik.errors.nombre ? (
+          <div className="text-red-500">{formik.errors.nombre}</div>
+        ) : null}
+
         <InputField
           name="nombreceo"
           text="Nombre Ceo"
           type="text"
-          value={formData.nombreceo}
-          changeFunc={handleChangeState}
+          value={formik.values.nombreceo}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.nombreceo ? (
+          <div className="text-red-500">{formik.errors.nombreceo}</div>
+        ) : null}
+
         <InputField
           name="ciudad"
           text="Ciudad"
           type="text"
-          value={formData.ciudad}
-          changeFunc={handleChangeState}
+          value={formik.values.ciudad}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.ciudad ? (
+          <div className="text-red-500">{formik.errors.ciudad}</div>
+        ) : null}
+
         <InputField
           name="direccion"
           text="Dirección"
           type="text"
-          value={formData.direccion}
-          changeFunc={handleChangeState}
+          value={formik.values.direccion}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.direccion ? (
+          <div className="text-red-500">{formik.errors.direccion}</div>
+        ) : null}
+
         <InputField
           name="email"
           text="E-mail"
           type="email"
-          value={formData.email}
-          changeFunc={handleChangeState}
+          value={formik.values.email}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.email ? (
+          <div className="text-red-500">{formik.errors.email}</div>
+        ) : null}
+
         <InputField
           name="telefono"
           text="Telefono"
           type="text"
-          value={formData.telefono}
-          changeFunc={handleChangeState}
+          value={formik.values.telefono}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.telefono ? (
+          <div className="text-red-500">{formik.errors.telefono}</div>
+        ) : null}
+
         <InputField
           name="password"
           text="Contraseña"
           type="password"
-          value={formData.password}
-          changeFunc={handleChangeState}
+          value={formik.values.password}
+          changeFunc={formik.handleChange}
         />
+
+        {formik.errors.password ? (
+          <div className="text-red-500">{formik.errors.password}</div>
+        ) : null}
+
         {submitError && (
           <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
             {submitError}
@@ -171,15 +170,22 @@ const CompanyRegisterForm = () => {
         {isLoading ? (
           <LoadingSubmitForm />
         ) : (
-          <button
-            type="submit"
-            className={`${
-              validForm ? "bg-[#4B39EF]" : "bg-slate-400"
-            } rounded-lg px-16 py-2 text-lg text-white font-bold`}
-            disabled={!validForm}
-          >
-            Crear Cuenta de Empresa
-          </button>
+          <>
+            {!formik.isValid && (
+              <p className="text-white mt-4">Debe rellenar todos los campos</p>
+            )}
+            <button
+              type="submit"
+              className={`${
+                formik.touched && formik.isValid
+                  ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
+                  : "bg-slate-400"
+              } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold transition duration-300`}
+              disabled={!formik.isValid}
+            >
+              Crear Cuenta de Empresa
+            </button>
+          </>
         )}
       </form>
     </>
