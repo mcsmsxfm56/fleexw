@@ -3,10 +3,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { DataTRegister } from "../users/register/trabajador";
 
+interface decodeToken {
+  email: string;
+  id: string;
+  iat: number;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DataTRegister | string>
 ) {
+  //console.log(req.headers);
   const { id } = req.query;
   const body = req.body;
   const { authorization } = req.headers;
@@ -31,7 +38,12 @@ export default async function handler(
       if (!token) {
         return res.status(401).send("token missing or invalid admin");
       }
-      const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+
+      const decodedToken: decodeToken = jwt.verify(
+        token,
+        process.env.SECRET_KEY as string
+      ) as decodeToken;
+      console.log(decodedToken);
       if (decodedToken) {
         const trabajadorModificar = await prisma.trabajador.update({
           where: { id: decodedToken.id },
