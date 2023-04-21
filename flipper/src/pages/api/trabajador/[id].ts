@@ -10,10 +10,17 @@ interface token {
   iat: number;
 }
 
+interface decodeToken {
+  email: string;
+  id: string;
+  iat: number;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DataTRegister | string>
 ) {
+  //console.log(req.headers);
   const { id } = req.query;
   const body = req.body;
   const { authorization } = req.headers;
