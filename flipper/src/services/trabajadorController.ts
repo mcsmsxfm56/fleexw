@@ -55,3 +55,14 @@ export const crearTrabajador = async (body: bodyCrear) => {
   if (!nuevoT) throw new Error("No se pudo crear el usuario");
   return nuevoT;
 };
+
+export const eliminarTrabajador = async (id: string) => {
+  if (!id) throw new Error("id inexistente");
+  const trabajador = await prisma.trabajador.update({
+    where: { id: id },
+    data: {
+      isDeleted: true,
+    },
+  });
+  return trabajador;
+};
