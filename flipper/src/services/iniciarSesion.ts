@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const URL = "http://localhost:3000";
+const URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
 interface UsuarioParaLoguear {
   email: string;
@@ -16,24 +16,16 @@ type UsuarioLogueado = {
   error?: unknown;
 };
 
-export async function iniciarSesion(
+export function iniciarSesion(
   usuario: UsuarioParaLoguear
 ): Promise<UsuarioLogueado> {
   //request con axios para obtener el usuario
-  try {
-    const response = await axios.post(`${URL}/api/users/login`, usuario);
-    const usuarioLogueado: UsuarioLogueado = {
-      rol: response.data.rol,
-      token: response.data.token,
-      nombre: response.data.nombre,
-    };
-    return usuarioLogueado;
-  } catch (error) {
-    return {
-      rol: "",
-      token: "",
-      nombre: "",
-      error: error,
-    };
-  }
+  return axios
+    .post(`api/users/login`, usuario)
+    .then((response) => response.data);
+  /* const usuarioLogueado: UsuarioLogueado = {
+            rol: response.data.rol,
+            token: response.data.token,
+            nombre: response.data.nombre
+        }  */
 }
