@@ -16,24 +16,13 @@ type UsuarioLogueado = {
   error?: unknown;
 };
 
-export async function iniciarSesion(
-  usuario: UsuarioParaLoguear
-): Promise<UsuarioLogueado> {
-  //request con axios para obtener el usuario
-  try {
-    const response = await axios.post(`${URL}/api/users/login`, usuario);
-    const usuarioLogueado: UsuarioLogueado = {
-      rol: response.data.rol,
-      token: response.data.token,
-      nombre: response.data.nombre,
-    };
-    return usuarioLogueado;
-  } catch (error) {
-    return {
-      rol: "",
-      token: "",
-      nombre: "",
-      error: error,
-    };
-  }
+export function iniciarSesion(usuario: UsuarioParaLoguear): Promise<UsuarioLogueado> {
+    //request con axios para obtener el usuario
+    return axios.post(`${URL}/api/users/login`, usuario ).then(response => response.data)
+        /* const usuarioLogueado: UsuarioLogueado = {
+            rol: response.data.rol,
+            token: response.data.token,
+            nombre: response.data.nombre
+        }  */       
+  
 }

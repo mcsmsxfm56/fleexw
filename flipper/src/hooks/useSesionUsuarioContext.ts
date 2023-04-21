@@ -3,7 +3,11 @@ import { useContext, useState } from "react";
 import { iniciarSesion } from "@/services/iniciarSesion";
 import { useRouter } from "next/router";
 
-
+type UsuarioLogueado = {
+    rol: string, 
+    token: string,
+    nombre: string
+} 
 export const useSesionUsuarioContext = () => {
     const {        
         rol,
@@ -18,6 +22,7 @@ export const useSesionUsuarioContext = () => {
     const router = useRouter()
     const login = async (email: string, password: string) => {
         try {
+           /*  const usuarioData =  */
             const usuarioActual = await iniciarSesion({email,password})
             window.localStorage.setItem('rol', usuarioActual.rol)
             window.localStorage.setItem('token', usuarioActual.token)
