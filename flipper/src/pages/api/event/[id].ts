@@ -8,8 +8,8 @@ export default async function handler(
   if (req.method === "GET") {
     //ruta GET /api/empresa/name para obtener una empresa en especifico
     //NextApiRequest.query extends {}
-    let { id } = req.query;
-    id = parseInt(id);
+    //req.query[0] as unknown
+    const id: number = parseInt(req.query[0] as string);
     const event = await prisma.evento.findUnique({
       where: {
         id,
@@ -19,8 +19,7 @@ export default async function handler(
     res.status(200).send(event);
   } else if (req.method === "DELETE") {
     //recibe la id del evento por query y hace borrado logico
-    let { id } = req.query;
-    id = parseInt(id);
+    const id: number = parseInt(req.query[0] as string);
     const event = await prisma.evento.update({
       where: {
         id,
