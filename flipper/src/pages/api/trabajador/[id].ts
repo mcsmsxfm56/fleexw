@@ -2,7 +2,10 @@ import prisma from "../../../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { DataTRegister } from "../users/register/trabajador";
-import { buscarTrabajador } from "@/services/trabajadorController";
+import {
+  buscarTrabajador,
+  eliminarTrabajador,
+} from "@/services/trabajadorController";
 
 interface token {
   id: string;
@@ -70,6 +73,14 @@ export default async function handler(
         });
         return res.status(200).send(trabajadorModificar);
       }
+    }
+    if (req.method === "DELETE") {
+      try {
+        const elimiar = await eliminarTrabajador(id as string);
+        if (elimiar) {
+          return res.status(200).send("Trabajador eliminado correctamente");
+        }
+      } catch (error) {}
     }
   } catch (error: any) {
     res.status(400).send(error.message);
