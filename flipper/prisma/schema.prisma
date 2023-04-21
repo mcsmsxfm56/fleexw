@@ -71,6 +71,7 @@ model Trabajador {
   rut String? //adjunto
   certificado_bancario String? //adjunto
   password String
+  isDeleted Boolean @default(false)
 }
 
 model TrabajadoresEnEventos {

@@ -4,37 +4,22 @@
 import { Dispatch, SetStateAction, createContext, useState, useEffect } from "react";
 
 ///////////////////////// context ////////////////////
-interface Sesion {
-    rol: string,
-    token: string,
-    nombre: string,
-}
-
 interface ContextProps {
     rol: string,
     token: string,
     nombre: string,
-    setRol: Dispatch<SetStateAction<Sesion["rol"]>>
-    setToken: Dispatch<SetStateAction<Sesion["token"]>>
-    setNombre: Dispatch<SetStateAction<Sesion["nombre"]>>
+    setRol: Dispatch<SetStateAction<string>>
+    setToken: Dispatch<SetStateAction<string>>
+    setNombre: Dispatch<SetStateAction<string>>
 }
 
-  interface propsProvider {
-    children: JSX.Element | JSX.Element[]
+export const SesionUsuarioContext = createContext<ContextProps>({} as ContextProps) 
+
+interface propsProvider {
+  children: JSX.Element | JSX.Element[]
 }
-
-export const SesionUsuarioContext = createContext<ContextProps>({
-  rol: "",
-  token: "",
-  nombre: "",
-  setRol: (): string => "",
-  setToken: (): string => "",
-  setNombre: (): string => ""
-})
-
 
 export const SesionUsuarioProvider = ({children}: propsProvider) => {
-  
   
   const [rol, setRol] =  useState("") 
   const [token, setToken] =  useState("")
