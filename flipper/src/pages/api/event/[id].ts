@@ -31,8 +31,7 @@ export default async function handler(
 
     res.status(200).send("deleted");
   } else if (req.method === "UPDATE") {
-    let { id } = req.query;
-    id = parseInt(id);
+    const id: number = parseInt(req.query[0] as string);
     //console.log(id);
     if (Object.keys(req.body).length === 0) {
       res.status(400).send("Objeto vacio");
