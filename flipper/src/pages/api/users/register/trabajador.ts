@@ -39,32 +39,34 @@ export default async function handler(
       !body.password
     )
       throw new Error("Faltan campos por completar");
-    if (req.method !== "POST") throw new Error("Method invalid");
-    const newTrabajador = await prisma.trabajador.findFirst({
-      where: {
+    //if (req.method !== "POST") throw new Error("Method invalid");
+    if (req.method === "POST") {
+      const newTrabajador = await prisma.trabajador.findFirst({
+        where: {
+          email: body.email,
+        },
+      });
+      if (body.phone === newTrabajador?.phone)
+        throw new Error("Trabajador ya creado con ese telefono");
+      if (newTrabajador) throw new Error("Trabajador ya creado con ese email");
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(body.password, salt);
+      body.password = hashedPassword;
+      body.email = body?.email.toLowerCase();
+      const newObj: DataTRegister = {
+        name: body.name,
+        idType: body.idType,
+        idNumber: body.idNumber,
         email: body.email,
-      },
-    });
-    if (body.phone === newTrabajador?.phone)
-      throw new Error("Trabajador ya creado con ese telefono");
-    if (newTrabajador) throw new Error("Trabajador ya creado con ese email");
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(body.password, salt);
-    body.password = hashedPassword;
-    body.email = body?.email.toLowerCase();
-    const newObj: DataTRegister = {
-      name: body.name,
-      idType: body.idType,
-      idNumber: body.idNumber,
-      email: body.email,
-      phone: body.phone,
-      password: body.password,
-    };
-    const newEmp = await prisma.trabajador.create({
-      data: newObj,
-    });
-    if (!newEmp) throw new Error("No se pudo crear el usuario");
-    return res.status(200).send("Usuario Trabajador creado correctamente");
+        phone: body.phone,
+        password: body.password,
+      };
+      const newEmp = await prisma.trabajador.create({
+        data: newObj,
+      });
+      if (!newEmp) throw new Error("No se pudo crear el usuario");
+      return res.status(200).send("Usuario Trabajador creado correctamente");
+    }
   } catch (error: any) {
     return res.status(400).send(error.message);
   }
