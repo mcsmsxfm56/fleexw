@@ -1,83 +1,84 @@
 //landing page
-'use client'
+"use client";
 
-import Link from 'next/link'
-import React, { useState, useEffect, useContext } from 'react'
-import { iniciarSesion } from '@/services/iniciarSesion'
-import { useSesionUsuarioContext } from '@/context/SesionUsuarioContext'
-
+import Link from "next/link";
+import React, { useState } from "react";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 function LogIn() {
-
   const [usuario, setUsuario] = useState({
-    correo: "",
-    contraseña: ""
-  })
+    email: "",
+    password: "",
+  });
 
-  const {id, nombre, token, setId, setNombre, setToken} = useSesionUsuarioContext()
+  const { login, hasLoginError } = useSesionUsuarioContext();
+
+  //aca va un efecto para redirigir a la pagina home si esta logueado
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const name = evt.target.name
-    const value = evt.target.value    
-    setUsuario({...usuario, [name]: value} )
-  }
+    const name = evt.target.name;
+    const value = evt.target.value;
+    setUsuario({ ...usuario, [name]: value });
+  };
 
-  const handleLogIn = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault()
-    const usuarioLogueadoData = iniciarSesion(usuario)
-    setId(usuarioLogueadoData.id)
-    setNombre(usuarioLogueadoData.nombre)
-    setToken(usuarioLogueadoData.token)   
-  }
+  const handleLogIn = async (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const { email, password } = usuario;
+    await login(email, password);
+  };
 
   return (
-   
-    <div className='min-h-screen flex justify-center items-center'>
-      <div className='max-w-xl flex flex-col gap-10'>
-        <h1>Inicia Sesión</h1>
-        <form 
-        className='grid gap-5'
-        onSubmit={handleLogIn}>
-          <input 
-          type="email" 
-          name='correo' 
-          id="correo" 
-          placeholder='Direccion de correo electrónico' 
-          value= {usuario.correo} 
-          onChange={handleChange}
-          required
+    <div className="min-h-screen flex justify-center items-center">
+      <div className="max-w-xl flex flex-col gap-10">
+        <h1 className="font-bold text-3xl">Inicia Sesión</h1>
+
+        <form className="grid gap-5" onSubmit={handleLogIn}>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder=" Direccion de correo electrónico"
+            value={usuario.email}
+            onChange={handleChange}
+            className="h-10 pl-4 border-2 border-zinc-200 rounded-full"
+            required
           />
-          <input 
-          type="password" 
-          name='contraseña' 
-          id="contraseña" 
-          placeholder='Contraseña' 
-          value= {usuario.contraseña}
-          onChange={handleChange}
-          required/>
-          <button className='justify-self-end'>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder=" password"
+            value={usuario.password}
+            onChange={handleChange}
+            className="h-10 pl-4 border-2 border-zinc-200 rounded-full"
+            required
+          />
+          <button className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2">
             Ingresar
           </button>
         </form>
-        <div className='flex flex-col'>
-          <span>
-            ¿Has olvidado tu contraseña? &nbsp;&nbsp; 
-            <Link href="">
+
+        {hasLoginError && usuario.email && usuario.password && (
+          <span className="text-red-500">Correo o Contraseña no válido</span>
+        )}
+
+        <div className="flex flex-col">
+          <span className="font-semibold">
+            ¿Has olvidado tu contraseña? &nbsp;&nbsp;
+            <Link href="" className="text-teal-300">
               Recuperar contraseña
             </Link>
           </span>
-          <span>
-            ¿No tienes una cuenta? &nbsp;&nbsp; 
-            <Link href="/app/register">
+          <span className="font-semibold">
+            ¿No tienes una cuenta? &nbsp;&nbsp;
+            <Link href="/register" className="text-teal-300">
               Crear una cuenta
             </Link>
           </span>
         </div>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default LogIn
-
+export default LogIn;
