@@ -3,14 +3,10 @@
 
 import Link from 'next/link'
 import React, { useState} from 'react'
-import { iniciarSesion } from '@/services/iniciarSesion'
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
-import { useRouter } from 'next/router'
-
-
 
 function LogIn() {
-  const router = useRouter()
+
 
   const [usuario, setUsuario] = useState({
     email: "",
@@ -66,7 +62,7 @@ function LogIn() {
           </button>
         </form>
 
-        {hasLoginError && <span className='text-red-500'>Correo o Contraseña no válido</span>}
+        {hasLoginError && (usuario.email && usuario.password) && <span className='text-red-500'>Correo o Contraseña no válido</span>}
         
         <div className='flex flex-col'>
           <span className='font-semibold'>
