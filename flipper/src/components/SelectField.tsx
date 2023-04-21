@@ -21,7 +21,7 @@ const SelectField = ({
         name={name}
         value={value}
         onChange={changeFunc}
-        className="w-full mb-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
+        className="w-full my-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
       >
         <option value="" className="font-bold">
           {defaultOp}:

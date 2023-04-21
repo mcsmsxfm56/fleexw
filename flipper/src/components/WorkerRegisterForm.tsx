@@ -7,7 +7,8 @@ import InputField from "./InputField";
 import SelectField from "./SelectField";
 import LoadingSubmitForm from "./LoadingSubmitForm";
 import { useRouter } from "next/router";
-import { parseArgs } from "util";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 const harcodedData = {
   // Datos harcodeados
@@ -28,64 +29,55 @@ const resetErrors = {
   idNumber: "",
 };
 
+const validationSchema = yup.object({
+  name: yup.string().required(''),
+  email: yup
+    .string()
+    .email("Debes colocar un mail válido").required(''),
+  phone: yup
+    .string()
+    .matches(/^\d+$/, "El teléfono debe contener solo números")
+    // .min(10, "El teléfono debe tener al menos 10 dígitos")
+    // .max(10, "El teléfono debe tener como máximo 10 dígitos")
+    .required(''),
+  password: yup.string().required(''),
+  idNumber: yup
+    .number()
+    .typeError("La identificación debe ser un número")
+    .required('')
+    .integer("La identificación debe ser un número entero"),
+  idType: yup.string().required(""),
+});
+
 const WorkerRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const [formData, setFormData] = useState<WorkerRegisterData>(
-    // harcodedData
-    {
+
+  const formik = useFormik({
+    initialValues: {
       phone: "",
-      email: "",
-      password: "",
       name: "",
+      password: "",
+      email: "",
       idType: "",
       idNumber: "",
-    }
-  );
-  const [errors, setErrors] = useState({
-    phone: "",
-    email: "",
-    password: "",
-    name: "",
-    idType: "",
-    idNumber: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      submitHandler(values);
+    },
   });
 
   useEffect(() => {
-    setErrors(validateForm(formData));
-  }, [formData]);
-  useEffect(() => {
-    checkErrors();
-  }, [errors]);
+    (() => formik.validateForm())();
+  }, []);
 
-  // TODO checkErrors y valdiateForm cambiarán una vez implemente Formik y Yup
-  const checkErrors = (): boolean => {
-    let flag = true;
-    for (const key in errors) {
-      if (flag) {
-        if (formData[key as keyof WorkerRegisterData] == "") flag = false;
-        if (errors[key as keyof WorkerRegisterData] !== "") flag = false;
-      }
-    }
-    setValidForm(flag);
-    return flag;
-  };
-
-  function validateForm(values: WorkerRegisterData) {
-    // TODO Terminar esta funcion con Yup y Formik
-    setValidForm(true);
-    let errors = resetErrors;
-    checkErrors();
-    return errors;
-  }
-
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitHandler = async (values: WorkerRegisterData) => {
     setSubmitError("");
     setIsLoading(true);
-    await Post_Worker_Register(formData)
+    await Post_Worker_Register(values)
       .then(() => {
         alert("Usuario creado");
         router.push("/");
@@ -97,14 +89,6 @@ const WorkerRegisterForm = () => {
     setIsLoading(false);
   };
 
-  const handleChangeState = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    let { value, name } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-
   return (
     <>
       <h3 className="text-white font-bold">
@@ -112,69 +96,100 @@ const WorkerRegisterForm = () => {
       </h3>
 
       <form
-        onSubmit={submitHandler}
+        onSubmit={formik.handleSubmit}
         className="w-full flex flex-col items-center"
       >
         <InputField
           name="name"
           text="Nombre"
           type="text"
-          value={formData.name}
-          changeFunc={handleChangeState}
+          value={formik.values.name}
+          changeFunc={formik.handleChange}
         />
-        {errors.name && <span className="text-red-500">{errors.name}</span>}
+        {formik.errors.name ? (
+          <div className="text-red-500">{formik.errors.name}</div>
+        ) : null}
+
         <InputField
           name="email"
           text="E-Mail"
-          type="text"
-          value={formData.email}
-          changeFunc={handleChangeState}
+          type="email"
+          value={formik.values.email}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.email ? (
+          <div className="text-red-500">{formik.errors.email}</div>
+        ) : null}
+
         <InputField
           name="phone"
           text="Teléfono"
           type="text"
-          value={formData.phone}
-          changeFunc={handleChangeState}
+          value={formik.values.phone}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.phone ? (
+          <div className="text-red-500">{formik.errors.phone}</div>
+        ) : null}
+
         <SelectField
           name="idType"
           defaultOp="Seleccione su tipo de identificación"
           opciones={["Cédula", "Tarjeta de identidad", "Pasaporte", "NIT"]}
-          value={formData.idType}
-          changeFunc={handleChangeState}
+          value={formik.values.idType}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.idType ? (
+          <div className="text-red-500">{formik.errors.idType}</div>
+        ) : null}
+
         <InputField
           name="idNumber"
           text="Número de Identificación"
           type="number"
-          value={formData.idNumber}
-          changeFunc={handleChangeState}
+          value={formik.values.idNumber}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.idNumber ? (
+          <div className="text-red-500">{formik.errors.idNumber}</div>
+        ) : null}
+
         <InputField
           name="password"
           text="Contraseña"
           type="password"
-          value={formData.password}
-          changeFunc={handleChangeState}
+          value={formik.values.password}
+          changeFunc={formik.handleChange}
         />
+        {formik.errors.password ? (
+          <div className="text-red-500">{formik.errors.password}</div>
+        ) : null}
+
         {submitError && (
-          <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+          <span className="bg-red-600 relative text-white font-bold px-8 py-2 rounded my-4 hover:bg-red-400 cursor-pointer">
             {submitError}
           </span>
         )}
+
         {isLoading ? (
           <LoadingSubmitForm />
         ) : (
-          <button
-            type="submit"
-            className={`${
-              validForm ? "bg-[#4B39EF]" : "bg-slate-400"
-            } rounded-lg px-16 py-2 text-lg text-white font-bold`}
-            disabled={!validForm}
-          >
-            Crear Cuenta de Trabajador
-          </button>
+          <>
+            {!formik.isValid && (
+              <p className="text-white mt-4">Debe rellenar todos los campos</p>
+            )}
+            <button
+              type="submit"
+              className={`${
+                formik.touched && formik.isValid
+                  ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer transition duration-200"
+                  : "bg-slate-400"
+              } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold`}
+              disabled={!formik.isValid}
+            >
+              Crear Cuenta de Trabajador
+            </button>
+          </>
         )}
       </form>
     </>
