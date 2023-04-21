@@ -16,13 +16,16 @@ type UsuarioLogueado = {
   error?: unknown;
 };
 
-export function iniciarSesion(usuario: UsuarioParaLoguear): Promise<UsuarioLogueado> {
-    //request con axios para obtener el usuario
-    return axios.post(`${URL}/api/users/login`, usuario ).then(response => response.data)
-        /* const usuarioLogueado: UsuarioLogueado = {
+export function iniciarSesion(
+  usuario: UsuarioParaLoguear
+): Promise<UsuarioLogueado> {
+  //request con axios para obtener el usuario
+  return axios
+    .post(`api/users/login`, usuario)
+    .then((response) => response.data);
+  /* const usuarioLogueado: UsuarioLogueado = {
             rol: response.data.rol,
             token: response.data.token,
             nombre: response.data.nombre
-        }  */       
-  
+        }  */
 }
