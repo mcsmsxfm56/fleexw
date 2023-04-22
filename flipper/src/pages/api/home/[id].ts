@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
-import { json } from "stream/consumers";
 
 export default async function handler(
   req: NextApiRequest,

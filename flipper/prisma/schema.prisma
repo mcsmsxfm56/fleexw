@@ -78,12 +78,8 @@ model TrabajadoresEnEventos {
   eventoId String 
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
-  status Status
+  status String
   @@id([eventoId, trabajadorId])
 }
 
-enum status {
-  APROBADO
-  RECHAZADO
-  PENDIENTE
-}
+
