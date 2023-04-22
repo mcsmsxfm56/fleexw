@@ -95,4 +95,4 @@ BORRADO POR QUEDAR DESACTUALIZADO
 
 NOTA: events/:id/cancelform fue removido por ser innecesario-->
 
-![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1682176877/flipper-henry-project/Screenshot_2023-04-22_12-20-37_bmk66j.png)
+![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1682188556/flipper-henry-project/Screenshot_2023-04-22_15-35-00_xql2if.png)
