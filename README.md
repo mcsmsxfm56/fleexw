@@ -1,8 +1,9 @@
+<!--pruebas comentario
 # Archivos con comentarios a leer
 
 1. flipper/src/styles/globals.css
 2. flipper/src/index.tsx
-3. flipper/src/\_document.tsx
+3. flipper/src/\_document.tsx-->
 
 # Uso horario
 
