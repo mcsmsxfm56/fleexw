@@ -34,14 +34,13 @@ model Empresa {
 }
 
 model Evento {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   isDeleted Boolean @default(false)
   empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
   nombre String
   id_empresa String
-  fecha DateTime @db.Date//indica que al guardar en db lo almacena como datatype date
-  hora_inicio DateTime @db.Time()
-  hora_final DateTime @db.Time()
+  fecha_inicio DateTime @db.Timestamp()//indica que al guardar en db lo almacena como datatype date
+  fecha_final DateTime @db.Timestamp()
   lugar String
   cupos Int
   perfil String
@@ -52,7 +51,7 @@ model Evento {
 
 model Trabajador {
   id String @id @default(uuid()) //ver si se pueden usar UUID
-  eventos TrabajadoresEnEventos[]
+  status_contratacion TrabajadoresEnEventos[]
   name String
   idType String
   idNumber Int
@@ -76,11 +75,15 @@ model Trabajador {
 
 model TrabajadoresEnEventos {
   evento Evento @relation(fields: [eventoId], references: [id])
-  eventoId Int 
+  eventoId String 
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
-  assignedAt DateTime @default(now())
-  assignedBy String
-
+  status Status
   @@id([eventoId, trabajadorId])
+}
+
+enum status {
+  APROBADO
+  RECHAZADO
+  PENDIENTE
 }
