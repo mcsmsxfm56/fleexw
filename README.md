@@ -1,4 +1,4 @@
-<!--pruebas comentario
+<!--BORRADO POR YA NO SER RELEVANTE
 # Archivos con comentarios a leer
 
 1. flipper/src/styles/globals.css
@@ -14,8 +14,8 @@ hora colombia GMT-5
 
 1. Javascript Framework: NextJS seteado con typescript, optimizar para que tenga un highlight score de 100 o cercano (esto se hace para mejorar la SEO y que la pagina genere mas traccion cuando se lanze al publico)
    1. https://github.com/GoogleChrome/lighthouse#using-lighthouse-in-chrome-devtools (para medir performance y SEO del sitio)
-2. Database: PostgreSQL
-3. ORM: Sequelize
+2. Database: PostgreSQL con Supabase
+3. ORM: Prisma<!--Sequelize CAMBIADO POR MARCOS-->
 4. CSS: Tailwind CSS
 5. Auth: JWT
 
@@ -58,35 +58,41 @@ Clave 12345678
 
 # Url Map
 
-## /events DONE
+## /home
 
-US #6 #10 #13 ADMIN-EMPRESA-USUARIO
+US #6 #10 #13 ADMIN-EMPRESA-TRABAJADOR
 
-## /events/create-events DONE
+## /home/create-events
 
 US #1 EMPRESA
 
-## /events/:id DONE
+## /home/:id D
 
 US #2 #5 #12 EMPRESA-USUARIO
 
-## /register DONE
+## /register
 
 US #3
 
-## /login landing page DONE
+## / landing page
+
+ACA IRIA EL LOGIN
 
 ## /dashboard
 
 (restringir solo para usuarios admin) US #4 ADMIN
 Ver Usuarios y empresas registrados
 
-## /history
+## /home/history
 
 US #8 #9 EMPRESA-USUARIO
 
 # URL diagram
 
+<!--
+BORRADO POR QUEDAR DESACTUALIZADO
 ![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1681499114/flipper-henry-project/url-flow_mcvnnw.png)
 
-NOTA: events/:id/cancelform fue removido por ser innecesario
+NOTA: events/:id/cancelform fue removido por ser innecesario-->
+
+![url_flow](https://res.cloudinary.com/dok0di4qp/image/upload/v1682176877/flipper-henry-project/Screenshot_2023-04-22_12-20-37_bmk66j.png)
