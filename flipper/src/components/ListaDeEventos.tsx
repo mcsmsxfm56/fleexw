@@ -18,17 +18,20 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
     <div>
       {eventos &&
         eventos.map((event: evento) => {
-          return (
-            <div>
-              <EventCard
-                nombre={event.nombre}
-                fecha_inicio={event.fecha_inicio}
-                observaciones={event.observaciones}
-                hora={event.fecha_inicio}
-                lugar={event.lugar}
-              />
-            </div>
-          );
+          if (event.isDeleted === false) {
+            return (
+              <div>
+                <EventCard
+                  nombre={event.nombre}
+                  fecha_inicio={event.fecha_inicio}
+                  observaciones={event.observaciones}
+                  hora={event.fecha_inicio}
+                  lugar={event.lugar}
+                  isDeleted={event.isDeleted}
+                />
+              </div>
+            );
+          }
         })}
     </div>
   );

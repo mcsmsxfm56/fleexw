@@ -9,6 +9,7 @@ export interface evento {
   observaciones: string;
   hora: string;
   lugar: string;
+  isDeleted: boolean;
 }
 export interface Props {
   eventos: evento[];
