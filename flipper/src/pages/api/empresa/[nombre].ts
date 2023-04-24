@@ -1,12 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import jwt from "jsonwebtoken";
 
+interface putEmpresa {
+  name?: string;
+  nombreceo?: string;
+  email?: string;
+  ciudad?: string;
+  direccion?: string;
+  telefono?: string;
+  //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
+}
+interface token {
+  id: string;
+  email: string;
+  iat: number;
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const nombre: string = req.query[0] as string;
+    const nombre: string = req.query.nombre as string;
     let user = await prisma.empresa.findFirst({
       where: {
         nombre: nombre,
@@ -42,23 +57,23 @@ export default async function handler(
     }
     res.status(200).send("DELETE");
   } else if (req.method === "PUT") {
-    const nombre: string = req.query.nombre as string;
-    if (Object.keys(req.body).length === 0) {
-      res.status(400).send("Objeto vacio");
+    const { authorization } = req.headers;
+    const idEmpresa: string = req.query.nombre as string;
+
+    if (authorization === undefined || authorization.length !== 204) {
+      return res.status(400).json({ message: "Autorizacion rechazada" });
     }
-    interface putEmpresa {
-      name?: string;
-      isDeleted?: boolean;
-      nombreceo?: string;
-      email?: string;
-      ciudad?: string;
-      direccion?: string;
-      telefono?: string;
-      //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
+
+    const empresaFound = await prisma.empresa.findUnique({
+      where: { id: idEmpresa },
+    });
+
+    if (!empresaFound) {
+      return res.status(404).json({ message: "empresa inexistente" });
     }
+
     let {
       name,
-      isDeleted,
       nombreceo,
       email,
       ciudad,
@@ -67,79 +82,111 @@ export default async function handler(
     }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
     putEmpresa = req.body;
 
-    if (typeof isDeleted == "boolean") {
-      //console.log(req.query);
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
-          isDeleted: isDeleted,
-        },
-      });
-      res.status(200).send("PUT");
+    let token = null;
+    if (
+      authorization &&
+      authorization.toLocaleLowerCase().startsWith("bearer")
+    ) {
+      token = authorization.split(" ")[1]; // obtenemos el token del authorization '[bearer] [token]'
+    }
+    if (!token) {
+      return res.status(401).send("Token inexistente o invalido");
     }
 
-    if (typeof name === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+    const { id } = decodedToken as token;
+
+    if (decodedToken) {
+      const empresaUpdate = await prisma.empresa.update({
+        where: { id: id },
         data: {
           nombre: name,
-        },
-      });
-    }
-    if (typeof nombreceo === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
-          nombreceo: nombreceo,
-        },
-      });
-    }
-    if (typeof email === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
+          nombreceo,
           email,
-        },
+          ciudad,
+          direccion,
+          telefono,
+        } as putEmpresa,
       });
+      return res.status(200).json(empresaUpdate);
     }
-    if (typeof ciudad === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
-          ciudad: ciudad,
-        },
-      });
-    }
-    if (typeof direccion === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
-          direccion: direccion,
-        },
-      });
-    }
-    if (typeof telefono === "string") {
-      const updateEvent = await prisma.empresa.update({
-        where: {
-          nombre: nombre,
-        },
-        data: {
-          telefono: telefono,
-        },
-      });
-    }
-    res.status(200).send("check status");
+
+    // if (Object.keys(req.body).length === 0) {
+    //   res.status(400).send("Objeto vacio");
+    // }
+
+    // if (typeof isDeleted == "boolean") {
+    //   //console.log(req.query);
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       isDeleted: isDeleted,
+    //     },
+    //   });
+    //   res.status(200).send("PUT");
+    // }
+    // if (typeof name === "string") {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       nombre: name,
+    //     },
+    //   });
+    // }
+    // if (typeof nombreceo === "string") {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       nombreceo: nombreceo,
+    //     },
+    //   });
+    // }
+    // if (typeof email === "string") {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       email,
+    //     },
+    //   });
+    // }
+    // if (typeof ciudad === "string") {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       ciudad: ciudad,
+    //     },
+    //   });
+    // }
+    // if (typeof direccion === "string") {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       direccion: direccion,
+    //     },
+    //   });
+    // }
+    // if (telefono !== null) {
+    //   const updateEvent = await prisma.empresa.update({
+    //     where: {
+    //       nombre: nombre,
+    //     },
+    //     data: {
+    //       telefono: telefono,
+    //     },
+    //   });
+    // }
+    //res.status(200).json("check status");
   }
 }
