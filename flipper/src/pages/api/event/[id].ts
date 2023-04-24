@@ -5,198 +5,106 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const id: string = req.query.id as string;
+  const evento = await prisma.evento.findUnique({
+    where: {
+      id,
+    },
+
+    include: {
+      trabajadores: true,
+    },
+  });
+  /*
+  1. RUTA GET /api/home/:idEvento
+  /api/home/2
+  */
   if (req.method === "GET") {
-    //ruta GET /api/empresa/name para obtener una empresa en especifico
-    //NextApiRequest.query extends {}
-    //req.query[0] as unknown
-    const id: number = parseInt(req.query[0] as string);
-    const event = await prisma.evento.findUnique({
+    /*
+    if (evento?.isDeleted) {
+      res.status(404).send("evento no encontrado");
+    } else {
+      res.status(200).send(evento);
+    }
+    */
+    //const id: string = req.query.id as string; //id del usuario
+    //console.log(id);
+    const userTrabajador = await prisma.trabajador.findUnique({
       where: {
         id,
       },
     });
-
-    res.status(200).send(event);
-  } else if (req.method === "DELETE") {
-    //recibe la id del evento por query y hace borrado logico
-    const id: number = parseInt(req.query[0] as string);
-    const event = await prisma.evento.update({
+    if (userTrabajador === null) {
+      const userEmpresa = await prisma.empresa.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          nombre: true,
+          isDeleted: true,
+          nombreceo: true,
+          email: true,
+          ciudad: true,
+          direccion: true,
+          telefono: true,
+          eventos: true,
+        },
+      });
+      console.log(userEmpresa); //cuando no encuentra nada user === null
+      res.status(200).send(userEmpresa);
+    }
+    const allEvents = await prisma.evento.findMany();
+    console.log(allEvents); //cuando no encuentra nada user === null
+    res.status(200).send(allEvents);
+  }
+  /*
+  2. RUTA PUT /api/home/:idEvento
+  /api/home/2
+  RUTA PARA QUE LA EMPRESA PUEDA ACTUALIZAR EL STATUS DEL POSTULANTE
+  {
+    "trabajadorId": "34326e6f-2392-4097-810a-715df40bace1",
+    "status": "RECHAZADO"
+  }
+  */
+  if (req.method === "PUT") {
+    if (evento?.isDeleted) {
+      res.status(404).send("evento no encontrado");
+    } else {
+      res.status(200).send(evento);
+    }
+    const trabajadorId: string = req.body.trabajadorId as string;
+    const status: string = req.body.status as string;
+    const eventoUpdate = await prisma.trabajadoresEnEventos.update({
       where: {
-        id,
+        eventoId_trabajadorId: {
+          eventoId: id,
+          trabajadorId,
+        },
       },
       data: {
-        isDeleted: true,
+        status,
       },
     });
-
-    res.status(200).send("deleted");
-  } else if (req.method === "UPDATE") {
-    const id: number = parseInt(req.query[0] as string);
-    //console.log(id);
-    if (Object.keys(req.body).length === 0) {
-      res.status(400).send("Objeto vacio");
-    }
-    interface putEvento {
-      isDeleted?: boolean;
-      nombre?: string;
-      fecha?: string | Date;
-      hora_final?: string | Date;
-      lugar?: string;
-      cupos?: number;
-      perfil?: string;
-      pago?: number;
-      observaciones?: string;
-      trabajadores?: string;
-    }
-    let {
-      isDeleted,
-      trabajadores,
-      nombre,
-      fecha,
-      hora_final,
-      lugar,
-      cupos,
-      perfil,
-      pago,
-      observaciones,
-    }: putEvento = req.body;
-
-    if (typeof isDeleted == "boolean") {
-      //console.log(req.body);
-      const updateEvent = await prisma.evento.update({
+    res.status(200).send("Status del candidato actualizado");
+  }
+  /*
+  3. RUTA DELETE /api/home/:idEvento
+  /api/home/2
+  RUTA PARA QUE LA EMPRESA PUEDA CANCELAR EVENTOS
+  */
+  if (req.method === "DELETE") {
+    if (evento?.isDeleted) {
+      res.status(404).send("evento no encontrado o ya eliminado");
+    } else {
+      const deletedEvent = await prisma.evento.update({
         where: {
           id,
         },
         data: {
-          isDeleted: isDeleted,
-        },
-      });
-      res.status(200).send("PUT");
-    }
-
-    if (typeof trabajadores === "string") {
-      const updateTrabajadores = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          trabajadores: {
-            create: {
-              assignedBy: "test",
-              trabajadorId: trabajadores,
-            },
-            /* 
-            {
-              assignedAt?: Date | string
-              assignedBy: string
-              trabajadorId: string |TrabajadorCreateNestedOneWithoutEventosInput
-            },
-            TrabajadorCreateNestedOneWithoutEventosInput type
-            
-            */
-          },
-        },
-      });
-      //res.status(200).send("PUT");
-    }
-
-    if (typeof nombre === "string") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          nombre,
-        },
-      });
-      //res.status(200).send("PUT nombre");
-    }
-    if (typeof fecha === "string") {
-      /*
-      {
-        "fecha": "10 October 2020 03:20 UTC"
-        //en fecha tambien se setea la hora de inicio
-      }
-      */
-      fecha = new Date(fecha);
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          fecha,
-          hora_inicio: fecha,
+          isDeleted: true,
         },
       });
     }
-    if (typeof hora_final === "string") {
-      /*
-      {
-        "hora_final": "10 October 2020 03:20 UTC"
-        //en hora final solo se toma la hora, la fecha puede ser cualquiera que no afecta
-      }
-      */
-      hora_final = new Date(hora_final);
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          hora_final,
-        },
-      });
-    }
-    if (typeof lugar === "string") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          lugar,
-        },
-      });
-    }
-    if (typeof cupos === "number") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          cupos,
-        },
-      });
-    }
-    if (typeof perfil === "string") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          perfil,
-        },
-      });
-    }
-    if (typeof pago === "number") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          pago,
-        },
-      });
-    }
-    if (typeof observaciones === "string") {
-      const updateEvent = await prisma.evento.update({
-        where: {
-          id,
-        },
-        data: {
-          observaciones,
-        },
-      });
-    }
-    //res.status(400).send("ningun campo valido se edito");
-    res.status(200).send("check status");
+    res.status(200).send("Evento borrado con exito");
   }
 }

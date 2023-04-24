@@ -39,6 +39,7 @@ export const useSesionUsuarioContext = () => {
   }; // se va a usar para desloguearse al apretar un link(con func de boton) en el header o navBar
 
   return {
+    id,
     isLogged: Boolean(token),
     login,
     logout,
