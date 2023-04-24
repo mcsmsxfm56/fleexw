@@ -3,11 +3,6 @@ import { useContext, useState } from "react";
 import { iniciarSesion } from "@/services/iniciarSesion";
 import { useRouter } from "next/router";
 
-type UsuarioLogueado = {
-  rol: string;
-  token: string;
-  nombre: string;
-};
 export const useSesionUsuarioContext = () => {
   const { rol, token, nombre, setRol, setToken, setNombre } =
     useContext(SesionUsuarioContext);

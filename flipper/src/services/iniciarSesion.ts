@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
+const URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000/";
 
 interface UsuarioParaLoguear {
   email: string;
@@ -23,9 +23,4 @@ export function iniciarSesion(
   return axios
     .post(`api/users/login`, usuario)
     .then((response) => response.data);
-  /* const usuarioLogueado: UsuarioLogueado = {
-            rol: response.data.rol,
-            token: response.data.token,
-            nombre: response.data.nombre
-        }  */
 }
