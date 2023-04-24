@@ -24,6 +24,7 @@ export const crearEmpresa = async (body: DataRegister) => {
   const hashedPassword = await bcrypt.hash(body.password, salt);
   body.password = hashedPassword;
   body.email = body?.email.toLowerCase();
+  body.nombre = body.nombre.toLowerCase();
   const newObj = {
     nombre: body.nombre,
     nombreceo: body.nombreceo,
