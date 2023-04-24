@@ -10,6 +10,7 @@ interface UsuarioParaLoguear {
 }
 
 type UsuarioLogueado = {
+  id: string,
   rol: string;
   token: string;
   nombre: string;
