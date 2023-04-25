@@ -15,7 +15,7 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
     const { logout, nombre } = useSesionUsuarioContext()
     return (
         <div className={!isExpanded ?
-            "h-screen md:w-1/5 lg:w-[250px] absolute top-0 md:top-[64px] -left-36 md:left-0 bottom-0 bg-gray-100 flex flex-col transition-[left] md:transition-none duration-500 ease-out" :
+            "h-screen md:w-1/5 lg:w-[250px] absolute md:block top-0 md:top-[64px] -left-36 md:left-0 bottom-0 bg-gray-100 flex flex-col transition-[left] md:transition-none duration-500 ease-out" :
             "h-screen absolute bg-gray-100 top-0 md:top-[64px] left-0 flex flex-col transition-[left] md:transition-none duration-500 ease-out"}>
 
             <IconContext.Provider value={{ color: "#3F3F3F", size: "1.5em", className: "global-class-name" }}>
@@ -45,7 +45,7 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
                     <Link href="" className={"w-full block text-[#0c0019]"}>Crear</Link>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Confirmar</Link>
+                    <Link href="" className={"w-full block text-[#0c0019]"}>Postulaciones</Link>
                 </li>
                 <li className='w-full'>
                     <Link href="" className={"w-full block text-[#0c0019]"}>Perfil</Link>
