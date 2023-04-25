@@ -1,18 +1,24 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import Link from "next/link";
-import React from "react";
-import Image from "next/image";
-import { IconContext } from "react-icons";
-import { FaArrowLeft } from "react-icons/fa";
-import perfilProvisorio from "../assets/images/imagenPerfilProvisoria.png";
+
+import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
+import Link from 'next/link'
+import React, { Dispatch, SetStateAction, useRef } from 'react'
+import Image from 'next/image'
+import { IconContext } from 'react-icons'
+import { FaArrowLeft } from 'react-icons/fa'
+import perfilProvisorio from "../assets/images/imagenPerfilProvisoria.png"
+import { ShowElements } from '@/types/Types'
 
 interface Props {
-  isExpanded: boolean;
-  setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  isExpanded: boolean,
+  showElements: ShowElements
+  setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>
+  setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>
 }
 
-const Menu = ({ isExpanded, setIsExpanded }: Props) => {
-  const { logout, nombre } = useSesionUsuarioContext();
+
+const Menu = ({ isExpanded, setIsExpanded, showElements, setShowElements }: Props) => {
+  const { logout, nombre } = useSesionUsuarioContext()
+
   return (
     <div
       className={
@@ -36,65 +42,87 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
         </button>
       </IconContext.Provider>
 
-      <ul
-        className={
-          "px-4 md:mt-8 flex flex-col gap-8 items-start border-black rounded transition-all"
-        }
-      >
-        <li className="w-full flex justify-center">
+      <ul className={"px-4 md:mt-8 flex flex-col gap-8 items-start border-black rounded transition-all"}>
+        <li className='w-full flex justify-center'>
           <div className="avatar">
             <div className="w-20 rounded-full">
               <Image src={perfilProvisorio} alt="Picture of the author" />
             </div>
           </div>
         </li>
-        <li className="w-full text-center">
+        <li className='w-full text-center'>
           <span className={"w-full block text-[#0c0019]"}>{nombre}</span>
         </li>
-        <li className="w-full">
-          <Link href="" className={"w-full block text-[#0c0019]"}>
-            Mis Eventos
-          </Link>
+        <li className='w-full'>
+          <button className={"w-full block text-[#0c0019]"}
+            onClick={() => {
+              setShowElements({
+                showEventos: true,
+                showHistorial: false,
+                showCrear: false,
+                showPostulaciones: false,
+                showPerfil: false,
+              })
+            }}>Mis Eventos</button>
         </li>
-        <li className="w-full">
-          <Link href="" className={"w-full block text-[#0c0019]"}>
-            Historial
-          </Link>
+        <li className='w-full'>
+          <button className={"w-full block text-[#0c0019]"}
+            onClick={() => {
+              setShowElements({
+                showEventos: false,
+                showHistorial: true,
+                showCrear: false,
+                showPostulaciones: false,
+                showPerfil: false,
+              })
+            }}>Historial</button>
         </li>
-        <li className="w-full">
-          <Link href="" className={"w-full block text-[#0c0019]"}>
-            Crear
-          </Link>
+        <li className='w-full'>
+          <button className={"w-full block text-[#0c0019]"}
+            onClick={() => {
+              setShowElements({
+                showEventos: false,
+                showHistorial: false,
+                showCrear: true,
+                showPostulaciones: false,
+                showPerfil: false,
+              })
+            }}>Crear</button>
         </li>
-        <li className="w-full">
-          <Link
-            href="/home/crear-evento"
-            className={"w-full block text-[#0c0019]"}
-          >
-            Postulaciones
-          </Link>
+        <li className='w-full'>
+          <button className={"w-full block text-[#0c0019]"}
+            onClick={() => {
+              setShowElements({
+                showEventos: false,
+                showHistorial: false,
+                showCrear: false,
+                showPostulaciones: true,
+                showPerfil: false,
+              })
+            }}>Postulaciones</button>
         </li>
-        <li className="w-full">
-          <Link href="" className={"w-full block text-[#0c0019]"}>
-            Perfil
-          </Link>
+        <li className='w-full'>
+          <button className={"w-full block text-[#0c0019]"}
+            onClick={() => {
+              setShowElements({
+                showEventos: false,
+                showHistorial: false,
+                showCrear: false,
+                showPostulaciones: false,
+                showPerfil: true,
+              })
+            }}>Perfil</button>
         </li>
-        <li className="w-full">
-          <Link href="" className={"w-full block text-[#0c0019]"}>
-            Boton de Ayuda
-          </Link>
+        <li className='w-full'>
+          <Link href="" className={"w-full block text-[#0c0019]"}>Boton de Ayuda</Link>
         </li>
-        <li className="w-full">
-          <button
-            className={"w-full blockx] text-[#0c0019]"}
-            onClick={() => logout()}
-          >
-            Salir
-          </button>
+        <li className='w-full'>
+          <button className={"w-full blockx] text-[#0c0019]"} onClick={() => logout()}>Salir</button>
         </li>
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Menu;
+export default Menu
+

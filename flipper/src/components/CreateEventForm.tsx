@@ -76,8 +76,8 @@ const CreateEventForm = () => {
     });
     setIsLoading(false);
   };
-  console.log(formik.values);
-  console.log(id);
+  /* console.log(formik.values);
+  console.log(id); */
   return (
     <>
       <h3 className="text-white font-bold">
@@ -192,11 +192,10 @@ const CreateEventForm = () => {
             )}
             <button
               type="submit"
-              className={`${
-                formik.touched && formik.isValid
+              className={`${formik.touched && formik.isValid
                   ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                   : "bg-slate-400"
-              } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold transition duration-300`}
+                } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold transition duration-300`}
               disabled={!formik.isValid}
             >
               Crear Evento

@@ -53,3 +53,12 @@ export interface createEvent {
   pago: number;
   observaciones: string;
 }
+
+
+export interface ShowElements {
+  showEventos: boolean,
+  showHistorial: boolean,
+  showCrear: boolean,
+  showPostulaciones: boolean,
+  showPerfil: boolean,
+}
