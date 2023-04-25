@@ -5,7 +5,7 @@ interface Props2 {
   eventos: evento[];
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
-  console.log("lista de eventos", eventos);
+  /*  console.log("lista de eventos", eventos); */
   if (eventos.length === 0) {
     return (
       <div>

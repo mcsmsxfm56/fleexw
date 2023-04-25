@@ -11,7 +11,7 @@ interface EventCardProps {
 }
 
 export const EventCard: React.FC<evento> = (evento) => {
-  console.log("card", evento);
+  /* console.log("card", evento); */
 
   return (
     <div className="bg-white rounded-sm border-2 border-[#787d81] h-[166px] flex flex-col justify-between p-2 mb-2 w-full">
