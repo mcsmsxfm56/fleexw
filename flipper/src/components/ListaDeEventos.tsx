@@ -1,5 +1,5 @@
 import React from "react";
-import { evento } from "@/pages/empresa";
+import { evento } from "@/components/Eventos";
 import { EventCard } from "./EventCard";
 interface Props2 {
   eventos: evento[];
@@ -15,13 +15,14 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   }
 
   return (
-    <div>
+    <div className="w-full flex flex-col items-center">
       {eventos &&
         eventos.map((event: evento) => {
           if (event.isDeleted === false) {
             return (
               <div>
                 <EventCard
+                  perfil={event.perfil}
                   nombre={event.nombre}
                   fecha_inicio={event.fecha_inicio}
                   observaciones={event.observaciones}
