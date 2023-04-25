@@ -1,18 +1,24 @@
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
 import Link from 'next/link'
-import React from 'react'
+import React, { Dispatch, SetStateAction, useRef } from 'react'
 import Image from 'next/image'
 import { IconContext } from 'react-icons'
 import { FaArrowLeft } from 'react-icons/fa'
 import perfilProvisorio from "../assets/images/imagenPerfilProvisoria.png"
+import { ShowElements } from '@/types/Types'
 
 interface Props {
     isExpanded: boolean,
+    showElements: ShowElements
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>
+    setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>
 }
 
-const Menu = ({ isExpanded, setIsExpanded }: Props) => {
+
+
+const Menu = ({ isExpanded, setIsExpanded, showElements, setShowElements }: Props) => {
     const { logout, nombre } = useSesionUsuarioContext()
+
     return (
         <div className={!isExpanded ?
             "h-screen md:w-1/5 lg:w-[250px] absolute md:block top-0 md:top-[64px] -left-36 md:left-0 bottom-0 bg-gray-100 flex flex-col transition-[left] md:transition-none duration-500 ease-out" :
@@ -36,19 +42,64 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
                     <span className={"w-full block text-[#0c0019]"}>{nombre}</span>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Mis Eventos</Link>
+                    <button className={"w-full block text-[#0c0019]"}
+                        onClick={() => {
+                            setShowElements({
+                                showEventos: true,
+                                showHistorial: false,
+                                showCrear: false,
+                                showPostulaciones: false,
+                                showPerfil: false,
+                            })
+                        }}>Mis Eventos</button>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Historial</Link>
+                    <button className={"w-full block text-[#0c0019]"}
+                        onClick={() => {
+                            setShowElements({
+                                showEventos: false,
+                                showHistorial: true,
+                                showCrear: false,
+                                showPostulaciones: false,
+                                showPerfil: false,
+                            })
+                        }}>Historial</button>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Crear</Link>
+                    <button className={"w-full block text-[#0c0019]"}
+                        onClick={() => {
+                            setShowElements({
+                                showEventos: false,
+                                showHistorial: false,
+                                showCrear: true,
+                                showPostulaciones: false,
+                                showPerfil: false,
+                            })
+                        }}>Crear</button>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Postulaciones</Link>
+                    <button className={"w-full block text-[#0c0019]"}
+                        onClick={() => {
+                            setShowElements({
+                                showEventos: false,
+                                showHistorial: false,
+                                showCrear: false,
+                                showPostulaciones: true,
+                                showPerfil: false,
+                            })
+                        }}>Postulaciones</button>
                 </li>
                 <li className='w-full'>
-                    <Link href="" className={"w-full block text-[#0c0019]"}>Perfil</Link>
+                    <button className={"w-full block text-[#0c0019]"}
+                        onClick={() => {
+                            setShowElements({
+                                showEventos: false,
+                                showHistorial: false,
+                                showCrear: false,
+                                showPostulaciones: false,
+                                showPerfil: true,
+                            })
+                        }}>Perfil</button>
                 </li>
                 <li className='w-full'>
                     <Link href="" className={"w-full block text-[#0c0019]"}>Boton de Ayuda</Link>
