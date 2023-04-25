@@ -22,7 +22,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const nombre: string = req.query.nombre as string;
-    let user = await prisma.empresa.findFirst({
+    let user = await prisma.empresa.findUnique({
       where: {
         nombre: nombre,
       },
@@ -38,6 +38,7 @@ export default async function handler(
         eventos: true,
       },
     });
+
     if (user) {
       res.status(200).send(user);
     } else {
