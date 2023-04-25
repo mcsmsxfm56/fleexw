@@ -22,7 +22,7 @@ const Eventos: React.FC = () => {
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
     await axios
-      .get(`http://localhost:3000/api/empresa/${sessionName}`)
+      .get(`/api/empresa/${sessionName}`)
       .then((response) => setEventos(response.data))
       .catch((e) => e.message);
   };
