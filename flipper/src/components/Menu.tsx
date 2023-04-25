@@ -1,6 +1,7 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 import { IconContext } from "react-icons";
 import { FaArrowLeft } from "react-icons/fa";
 import perfilProvisorio from "../assets/images/imagenPerfilProvisoria.png";
@@ -16,8 +17,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
     <div
       className={
         !isExpanded
-          ? "h-screen flex flex-col absolute top-0 -left-32 bottom-0 transition-[left] duration-500 ease-out"
-          : "h-screen flex flex-col absolute bg-gray-100 top-0 left-0 transition-[left] duration-500 ease-out rounded"
+          ? "h-screen md:w-1/5 lg:w-[250px] absolute md:block top-0 md:top-[64px] -left-36 md:left-0 bottom-0 bg-gray-100 flex flex-col transition-[left] md:transition-none duration-500 ease-out"
+          : "h-screen absolute bg-gray-100 top-0 md:top-[64px] left-0 flex flex-col transition-[left] md:transition-none duration-500 ease-out"
       }
     >
       <IconContext.Provider
@@ -27,56 +28,65 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
           className: "global-class-name",
         }}
       >
-        <button className="" onClick={() => setIsExpanded(!isExpanded)}>
+        <button
+          className="mt-5 mb-8 md:hidden"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
           <FaArrowLeft />
         </button>
       </IconContext.Provider>
+
       <ul
         className={
-          "flex flex-col items-start border-black rounded transition-all"
+          "px-4 md:mt-8 flex flex-col gap-8 items-start border-black rounded transition-all"
         }
       >
-        <li className="w-full">
+        <li className="w-full flex justify-center">
           <div className="avatar">
-            <div className="w-24 rounded-full">
-              <img src={`${perfilProvisorio}`} />
+            <div className="w-20 rounded-full">
+              <Image src={perfilProvisorio} alt="Picture of the author" />
             </div>
           </div>
         </li>
-        <li>
-          <span className={"min-w-[80px] text-[#0c0019]"}>{nombre}</span>
+        <li className="w-full text-center">
+          <span className={"w-full block text-[#0c0019]"}>{nombre}</span>
         </li>
-        <li>
-          <Link href="" className={"min-w-[80px] text-[#0c0019]"}>
-            Perfil
+        <li className="w-full">
+          <Link href="" className={"w-full block text-[#0c0019]"}>
+            Mis Eventos
           </Link>
         </li>
-        <li>
-          <Link href="" className={"min-w-[80px] text-[#0c0019]"}>
+        <li className="w-full">
+          <Link href="" className={"w-full block text-[#0c0019]"}>
             Historial
           </Link>
         </li>
-        <li>
-          <Link
-            href="/home/crear-evento"
-            className={"min-w-[80px] text-[#0c0019]"}
-          >
+        <li className="w-full">
+          <Link href="" className={"w-full block text-[#0c0019]"}>
             Crear
           </Link>
         </li>
-        <li>
-          <Link href="" className={"min-w-[80px] text-[#0c0019]"}>
-            Confirmar
+        <li className="w-full">
+          <Link
+            href="/home/crear-evento"
+            className={"w-full block text-[#0c0019]"}
+          >
+            Postulaciones
           </Link>
         </li>
-        <li>
-          <Link href="" className={"min-w-[80px] text-[#0c0019]"}>
+        <li className="w-full">
+          <Link href="" className={"w-full block text-[#0c0019]"}>
+            Perfil
+          </Link>
+        </li>
+        <li className="w-full">
+          <Link href="" className={"w-full block text-[#0c0019]"}>
             Boton de Ayuda
           </Link>
         </li>
-        <li>
+        <li className="w-full">
           <button
-            className={"min-w-[80px] text-[#0c0019]"}
+            className={"w-full blockx] text-[#0c0019]"}
             onClick={() => logout()}
           >
             Salir

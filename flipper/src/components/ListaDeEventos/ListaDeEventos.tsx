@@ -1,11 +1,11 @@
 import React from "react";
-import { evento } from "@/components/Eventos";
+import { evento } from "@/components/ListaDeEventos/Eventos";
 import { EventCard } from "./EventCard";
 interface Props2 {
   eventos: evento[];
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
-  console.log("lista de eventos", eventos);
+  /*  console.log("lista de eventos", eventos); */
   if (eventos.length === 0) {
     return (
       <div>
@@ -15,7 +15,7 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full">
       {eventos &&
         eventos.map((event: evento) => {
           if (event.isDeleted === false) {
