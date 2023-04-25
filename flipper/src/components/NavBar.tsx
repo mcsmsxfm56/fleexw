@@ -1,9 +1,14 @@
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext';
 import React, { useState } from 'react'
-import Link from 'next/link';
 import Menu from './Menu';
+import { ShowElements } from '@/types/Types';
+interface Props {
+    showElements: ShowElements
+    setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>
+}
 
-const NavBar = () => {
+const NavBar = ({ showElements, setShowElements }: Props) => {
+
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
@@ -18,7 +23,12 @@ const NavBar = () => {
             <div className="flex-1">
                 <a className="btn btn-ghost normal-case text-xl">Eventos</a>
             </div>
-            <Menu isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+            <Menu
+                isExpanded={isExpanded}
+                setIsExpanded={setIsExpanded}
+                showElements={showElements}
+                setShowElements={setShowElements}
+            />
         </nav>
     )
 }
