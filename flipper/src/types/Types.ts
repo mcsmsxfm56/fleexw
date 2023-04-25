@@ -1,5 +1,5 @@
 // Interfaz para los datos de registro de Empresa
-export interface CompanyData{
+export interface CompanyData {
   nombre: string;
   nombreceo: string;
   email: string;
@@ -20,7 +20,7 @@ export interface WorkerRegisterData {
 }
 
 // Interfaz para los datos completos de Trabajador
-export interface WorkerData{
+export interface WorkerData {
   email: string;
   name: string;
   password: string;
@@ -39,4 +39,17 @@ export interface WorkerData{
   certificado_bancario: string | null;
   idNumber: number | null;
   idType: string | null;
+}
+
+//Interfaz para crear eventos
+export interface createEvent {
+  id_empresa: string;
+  nombre: string;
+  fecha_inicio: string;
+  fecha_final: string;
+  lugar: string;
+  cupos: number;
+  perfil: string;
+  pago: number;
+  observaciones: string;
 }

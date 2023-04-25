@@ -12,7 +12,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<evento> = (evento) => {
   console.log("card", evento);
-
+  console.log(evento.hora + "evento hora");
   return (
     <div className="bg-white rounded-sm border-2 border-[#787d81] h-[166px] flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
@@ -32,9 +32,7 @@ export const EventCard: React.FC<evento> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
         <AiFillClockCircle />
-        <p className="mr-5">
-          {evento.hora.replace("2023-04-22T", "").slice(0, 5)}
-        </p>
+        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

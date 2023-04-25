@@ -87,11 +87,21 @@ export default async function handler(
         pago,
         observaciones,
       }: inputPostApiHomeCreateEventId = req.body;
-      console.log(nombre);
+      //console.log("req.body funciona");
+      //console.log(nombre);
+      //fecha_inicio_input.slice(0, -1);
+      //fecha_final_input.slice(0, -1);
       fecha_inicio = new Date(fecha_inicio);
-      console.log(fecha_inicio);
+      let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
+      fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+      //console.log(fecha_inicio.toISOString());
+      //fecha_inicio = new Date(fecha_inicio);
+      //console.log(fecha_inicio);
       fecha_final = new Date(fecha_final);
-      console.log(fecha_final);
+      let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
+      fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+      //fecha_final = new Date(fecha_final.toISOString());
+      //console.log(fecha_final);
       const eventoCreado = await prisma.evento.create({
         data: {
           id_empresa,
