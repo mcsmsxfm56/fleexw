@@ -1,3 +1,4 @@
+import Eventos from "@/components/Eventos";
 import NavBar from "@/components/NavBar";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
@@ -15,6 +16,9 @@ export default function Home() {
       <header className="bg-indigo-600 text-slate-100 flex justify-between">
         <NavBar />
       </header>
+      <main className="bg-gray-200">
+        <Eventos />
+      </main>
     </>
   );
 }

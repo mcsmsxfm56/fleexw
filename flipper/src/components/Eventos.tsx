@@ -1,9 +1,10 @@
-import ListaEventos from "../../components/ListaDeEventos";
+import ListaEventos from "./ListaDeEventos";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import axios from "axios";
 import React, { useState } from "react";
 
 export interface evento {
+  perfil: string;
   nombre: string;
   fecha_inicio: string;
   observaciones: string;
@@ -14,7 +15,7 @@ export interface evento {
 export interface Props {
   eventos: evento[];
 }
-const ListaDeEventos: React.FC = () => {
+const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
   const userContext = useSesionUsuarioContext();
 
@@ -30,13 +31,15 @@ const ListaDeEventos: React.FC = () => {
   }, []);
 
   return (
-    <section>
-      <h1 className="text-6xl">lista de eventos</h1>
-      <div>
+    <div className="h-screen w-full">
+      <div className="p-2 flex items-start">
+        <h1 className="text-5xl mb-2 mt-4 text-indigo-700">Lista de Eventos</h1>
+      </div>
+      <div className="p-2 max-w-6xl">
         <ListaEventos eventos={eventos?.eventos} />
       </div>
-    </section>
+    </div>
   );
 };
 
-export default ListaDeEventos;
+export default Eventos;
