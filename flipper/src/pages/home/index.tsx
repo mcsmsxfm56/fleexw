@@ -1,6 +1,9 @@
 import Historial from "@/components/HistorialDeEventos/Historial";
 import Eventos from "@/components/ListaDeEventos/Eventos";
 import NavBar from "@/components/NavBar";
+import PerfilEmpresa from "@/components/Perfil/PerfilEmpresa";
+
+
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const hardcoded = {
@@ -20,6 +23,7 @@ export default function Home() {
       <main className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]">
         <Eventos />
         <Historial />
+        <PerfilEmpresa/>
       </main>
     </>
   );
