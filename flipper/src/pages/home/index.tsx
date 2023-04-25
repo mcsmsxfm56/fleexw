@@ -4,6 +4,7 @@ import NavBar from "@/components/NavBar";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ShowElements } from "@/types/Types";
+import CreateEventForm from "@/components/CreateEventForm";
 
 const hardcoded = {
   nombreEvento: "Nombre evento2",
@@ -32,6 +33,7 @@ export default function Home() {
       <main className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]">
         {showElements.showEventos && <Eventos />}
         {showElements.showHistorial && <Historial />}
+        {showElements.showCrear && <CreateEventForm />}
       </main>
     </>
   );

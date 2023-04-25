@@ -41,6 +41,20 @@ export interface WorkerData {
   idType: string | null;
 }
 
+//Interfaz para crear eventos
+export interface createEvent {
+  id_empresa: string;
+  nombre: string;
+  fecha_inicio: string;
+  fecha_final: string;
+  lugar: string;
+  cupos: number;
+  perfil: string;
+  pago: number;
+  observaciones: string;
+}
+
+
 export interface ShowElements {
   showEventos: boolean,
   showHistorial: boolean,
