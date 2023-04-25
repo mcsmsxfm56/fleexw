@@ -1,4 +1,5 @@
-import Eventos from "@/components/Eventos";
+import Historial from "@/components/HistorialDeEventos/Historial";
+import Eventos from "@/components/ListaDeEventos/Eventos";
 import NavBar from "@/components/NavBar";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
@@ -18,6 +19,7 @@ export default function Home() {
       </header>
       <main className="bg-gray-200">
         <Eventos />
+        <Historial />
       </main>
     </>
   );

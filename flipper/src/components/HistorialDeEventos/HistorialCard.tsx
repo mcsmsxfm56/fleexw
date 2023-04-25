@@ -1,23 +1,13 @@
 import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
-import { Props, evento } from "@/components/Eventos";
+import { evento } from "@/components/ListaDeEventos/Eventos";
 
-interface EventCardProps {
-  nombreEvento: string;
-  fechaEvento: string;
-  observaciones: string;
-  hora: string;
-  direccion: string;
-}
-
-export const EventCard: React.FC<evento> = (evento) => {
-  console.log("card", evento);
-
+export const HistorialCard: React.FC<evento> = (evento) => {
   return (
-    <div className="bg-white rounded-sm border-2 border-[#787d81] h-[166px] flex flex-col justify-between p-2 mb-2 w-full">
+    <div className="bg-white rounded-sm border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        <AiFillDelete className="text-[#731111]" size={30} />
+        {/* <AiFillDelete className="text-[#731111]" size={30} /> */}
       </div>
       <hr></hr>
       <div className="text-indigo-700">
