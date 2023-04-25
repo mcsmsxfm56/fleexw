@@ -7,7 +7,7 @@ const NavBar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <nav className="navbar bg-indigo-600">
+        <nav className="navbar relative bg-indigo-600">
             <div className="flex-none">
                 <button className="btn btn-square btn-sm btn-ghost md:hidden" onClick={() => setIsExpanded(!isExpanded)}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-7 h-7 stroke-current">

@@ -17,7 +17,7 @@ export default function Home() {
       <header className="bg-indigo-600 text-slate-100 flex justify-between">
         <NavBar />
       </header>
-      <main className="bg-gray-200">
+      <main className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]">
         <Eventos />
         <Historial />
       </main>
