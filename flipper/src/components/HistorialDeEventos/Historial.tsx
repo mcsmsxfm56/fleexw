@@ -11,6 +11,7 @@ export interface evento {
   hora: string;
   lugar: string;
   isDeleted: boolean;
+  id: string;
 }
 export interface Props {
   eventos: evento[];
@@ -29,7 +30,7 @@ const Historial: React.FC = () => {
   React.useEffect(() => {
     userEvent();
   }, []);
-
+  //console.log(eventos);
   return (
     <div className="h-screen w-full">
       <div className="p-2 flex items-start">
