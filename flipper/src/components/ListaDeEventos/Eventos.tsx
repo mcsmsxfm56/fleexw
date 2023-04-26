@@ -17,7 +17,7 @@ export interface Props {
 }
 
 type Ordering = "asc" | "desc";
-const buttonStyle = "";
+const buttonStyle = "btn bg-[#4B39EF] normal-case text-lg";
 
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
@@ -75,11 +75,12 @@ const Eventos: React.FC = () => {
       </div>
       {/* Ordenamiento por fechas */}
       <div>
-        <div>
+        <h2 className="text-2xl text-black my-4 text-center">Ordenar eventos por Fecha</h2>
+        <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
-          <button className={buttonStyle} onClick={() => setOrder("desc")}>
+          <button className={buttonStyle + " ml-4"} onClick={() => setOrder("desc")}>
             Descendente
           </button>
         </div>
