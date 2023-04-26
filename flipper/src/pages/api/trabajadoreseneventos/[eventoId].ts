@@ -51,4 +51,27 @@ export default async function handler(
       res.status(400).send(error);
     }
   }
+  if (req.method === "POST") {
+    /*
+    {
+      "trabajadorId": "9c386e92-b891-4cd7-965e-31d6772f5014"
+    }
+    OBJETO ESPERADO
+    */
+    const trabajadorId = req.body.trabajadorId as string;
+    try {
+      const trabajadorCreateStatus = await prisma.trabajadoresEnEventos.create({
+        data: {
+          eventoId,
+          trabajadorId,
+          status: "PENDIENTE",
+        },
+      });
+      //console.log(eventoId);
+      //console.log(trabajadorUpdateStatus);
+      res.status(200).send(trabajadorCreateStatus);
+    } catch (error: unknown) {
+      res.status(400).send(error);
+    }
+  }
 }
