@@ -11,6 +11,7 @@ export interface evento {
   hora: string;
   lugar: string;
   isDeleted: boolean;
+  id: string;
 }
 export interface Props {
   eventos: evento[];
