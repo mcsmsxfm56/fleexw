@@ -15,8 +15,8 @@ export default async function handler(
           },
         }
       );
-      console.log(eventoId);
-      console.log(trabajadoresEnEventos);
+      //console.log(eventoId);
+      //console.log(trabajadoresEnEventos);
       res.status(200).send(trabajadoresEnEventos);
     } catch (error: unknown) {
       res.status(400).send(error);
