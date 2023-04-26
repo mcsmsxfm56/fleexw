@@ -29,6 +29,7 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
                   hora={event.fecha_inicio}
                   lugar={event.lugar}
                   isDeleted={event.isDeleted}
+                  id={event.id}
                 />
               </div>
             );
