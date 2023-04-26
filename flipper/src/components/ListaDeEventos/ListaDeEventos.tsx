@@ -20,7 +20,7 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
         eventos.map((event: evento) => {
           if (event.isDeleted === false) {
             return (
-              <div>
+              <div key={`${event.nombre}_key`}>
                 <EventCard
                   key={event.id}
                   perfil={event.perfil}
