@@ -6,7 +6,7 @@ interface Props2 {
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   /*  console.log("lista de eventos", eventos); */
-  if (eventos.length === 0) {
+  if (eventos.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
       <div>
         <h2>No se han cargado eventos todavia</h2>
@@ -16,12 +16,13 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
 
   return (
     <div className="w-full">
-      {eventos &&
+      {eventos ? (
         eventos.map((event: evento) => {
           if (event.isDeleted === false) {
             return (
               <div>
                 <EventCard
+                  key={event.id}
                   perfil={event.perfil}
                   nombre={event.nombre}
                   fecha_inicio={event.fecha_inicio}
@@ -34,7 +35,12 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
               </div>
             );
           }
-        })}
+        })
+      ) : (
+        <div>
+          <h2>No se han cargado eventos todavia</h2>
+        </div>
+      )}
     </div>
   );
 };

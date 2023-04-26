@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import { cancelNotification, transport } from "@/services/transportEmail";
 
 export default async function handler(
   req: NextApiRequest,
@@ -104,6 +105,24 @@ export default async function handler(
           isDeleted: true,
         },
       });
+      // const emailTrabajador = evento?.trabajadores.map(
+      //   (trab) => trab?.trabajadorId
+      // );
+      // console.log(emailTrabajador);
+
+      // const findTrabajador = await prisma.trabajador.findMany({
+      //   where: {
+      //     id: emailTrabajador?.join(" "),
+      //   },
+      // });
+      // console.log(findTrabajador);
+      const emails = ["francoaglieri@hotmail.com", "francoaglieri62@gmail.com"];
+
+      transport.sendMail(
+        cancelNotification(emails, evento?.nombre),
+        (err: any, info: any) =>
+          err ? console.log(err) : console.log(info.response)
+      );
     }
     res.status(200).send("Evento borrado con exito");
   }
