@@ -2,8 +2,8 @@
 
 import { createEvent } from "@/types/Types";
 import React, { useEffect, useState } from "react";
-import InputField from "./InputField";
-import LoadingSubmitForm from "./LoadingSubmitForm";
+import InputField from "../InputField";
+import LoadingSubmitForm from "../LoadingSubmitForm";
 import { Post_Company_Register } from "@/services/PostRegister";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
@@ -193,8 +193,8 @@ const CreateEventForm = () => {
             <button
               type="submit"
               className={`${formik.touched && formik.isValid
-                  ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
-                  : "bg-slate-400"
+                ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
+                : "bg-slate-400"
                 } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold transition duration-300`}
               disabled={!formik.isValid}
             >
