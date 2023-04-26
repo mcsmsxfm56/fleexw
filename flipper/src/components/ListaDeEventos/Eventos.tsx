@@ -23,7 +23,7 @@ const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
   const userContext = useSesionUsuarioContext();
 
-  const [ordering, setOrdering] = useState<Ordering>("asc");
+  const [order, setOrder] = useState<Ordering>("asc");
 
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
@@ -38,20 +38,35 @@ const Eventos: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    console.log("Effect Order " + ordering);
+    ordering(order);
+  }, [order]);
+
+  const ordering = (order: Ordering) => {
+
     function orderAsc(a: evento, b: evento) {
-      if (a.fecha_inicio < b.fecha_inicio) return 1;
+      if (a.fecha_inicio < b.fecha_inicio) return -1;
+      if (a.fecha_inicio > b.fecha_inicio) return 1;
       return 0;
     }
 
     function orderDesc(a: evento, b: evento) {
+      if (a.fecha_inicio < b.fecha_inicio) return 1;
       if (a.fecha_inicio > b.fecha_inicio) return -1;
       return 0;
     }
 
-    if (ordering == "asc") eventos.eventos.sort(orderAsc);
-    else eventos.eventos.sort(orderDesc);
-  }, [ordering, eventos]);
+    let sorted = [];
+    if (order == "asc") {
+      sorted = [...eventos.eventos].sort(orderAsc);
+    } else {
+      sorted = [...eventos.eventos].sort(orderDesc);
+    }
+
+    const eventosSorted = {
+      ...eventos, eventos: sorted
+    }
+    setEventos(eventosSorted);
+  };
 
   return (
     <div className="h-screen w-full">
@@ -61,10 +76,10 @@ const Eventos: React.FC = () => {
       {/* Ordenamiento por fechas */}
       <div>
         <div>
-          <button className={buttonStyle} onClick={() => setOrdering("asc")}>
+          <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
-          <button className={buttonStyle} onClick={() => setOrdering("desc")}>
+          <button className={buttonStyle} onClick={() => setOrder("desc")}>
             Descendente
           </button>
         </div>
