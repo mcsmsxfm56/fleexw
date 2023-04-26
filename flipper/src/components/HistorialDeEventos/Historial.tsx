@@ -29,7 +29,7 @@ const Historial: React.FC = () => {
   React.useEffect(() => {
     userEvent();
   }, []);
-
+  //console.log(eventos);
   return (
     <div className="h-screen w-full">
       <div className="p-2 flex items-start">

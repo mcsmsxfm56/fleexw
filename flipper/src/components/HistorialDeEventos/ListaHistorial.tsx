@@ -14,7 +14,7 @@ const ListaHistorial: React.FC<Props2> = ({ eventos }) => {
       </div>
     );
   }
-
+  console.log(eventos);
   return (
     <div className="w-full">
       {eventos &&
