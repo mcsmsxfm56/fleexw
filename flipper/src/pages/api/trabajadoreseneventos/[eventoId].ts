@@ -67,7 +67,7 @@ export default async function handler(
           status: "PENDIENTE",
         },
       });
-      //console.log(eventoId);
+      //console.log(eventoId);//
       //console.log(trabajadorUpdateStatus);
       res.status(200).send(trabajadorCreateStatus);
     } catch (error: unknown) {
