@@ -1,6 +1,9 @@
 import Historial from "@/components/HistorialDeEventos/Historial";
 import Eventos from "@/components/ListaDeEventos/Eventos";
 import NavBar from "@/components/NavBar";
+import PerfilEmpresa from "@/components/Perfil/PerfilEmpresa";
+
+
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ShowElements } from "@/types/Types";
@@ -31,9 +34,13 @@ export default function Home() {
         <NavBar showElements={showElements} setShowElements={setShowElements} />
       </header>
       <main className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]">
+
+        <PerfilEmpresa/>
+
         {showElements.showEventos && <Eventos />}
         {showElements.showHistorial && <Historial />}
         {showElements.showCrear && <CreateEventForm />}
+
       </main>
     </>
   );
