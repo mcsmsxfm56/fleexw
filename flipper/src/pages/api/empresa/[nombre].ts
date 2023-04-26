@@ -26,16 +26,10 @@ export default async function handler(
       where: {
         nombre: nombre,
       },
-      select: {
-        email: true,
-        nombre: true,
-        nombreceo: true,
-        isDeleted: true,
-        ciudad: true,
-        direccion: true,
-        telefono: true,
-        password: false,
-        eventos: true,
+      include: {
+        eventos: {
+          include: { trabajadores: { include: { trabajadores: true } } },
+        },
       },
     });
 
