@@ -3,9 +3,9 @@
 import { Post_Worker_Register } from "@/services/PostRegister";
 import { WorkerRegisterData } from "@/types/Types";
 import React, { useEffect, useState } from "react";
-import InputField from "./InputField";
-import SelectField from "./SelectField";
-import LoadingSubmitForm from "./LoadingSubmitForm";
+import InputField from "../InputField";
+import SelectField from "../SelectField";
+import LoadingSubmitForm from "../LoadingSubmitForm";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -168,11 +168,10 @@ const WorkerRegisterForm = () => {
             )}
             <button
               type="submit"
-              className={`${
-                formik.touched && formik.isValid
+              className={`${formik.touched && formik.isValid
                   ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer transition duration-200"
                   : "bg-slate-400"
-              } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold`}
+                } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold`}
               disabled={!formik.isValid}
             >
               Crear Cuenta de Trabajador
