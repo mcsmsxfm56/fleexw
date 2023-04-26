@@ -18,13 +18,13 @@ export interface Props {
 }
 
 type Ordering = "asc" | "desc";
-const buttonStyle = "btn bg-[#4B39EF] normal-case text-lg";
+const buttonStyle = "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
   const userContext = useSesionUsuarioContext();
 
-  const [order, setOrder] = useState<Ordering>("asc");
+  const [order, setOrder] = useState<Ordering>("desc");
 
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
