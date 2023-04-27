@@ -1,42 +1,33 @@
-// v-----------------------------v SelectField v-----------------------------v
+import { ErrorMessage, Field } from "formik";
+import React from "react";
 
-interface SelectFieldData {
-  opciones: string[];
-  defaultOp: string;
+interface InputSelectProps {
+  id: string;
   name: string;
-  value: string | number;
-  changeFunc: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
+  defaultOp: string;
+  opciones: string[];
 }
 
-const SelectField = ({
-  defaultOp,
-  opciones,
-  name,
-  value,
-  changeFunc,
-}: SelectFieldData) => {
+const SelectField = ({ name, opciones, id, defaultOp }: InputSelectProps) => {
   return (
-    <label className="w-full">
-      <select
+    <>
+      <Field
+        as="select"
         name={name}
-        value={value}
-        onChange={changeFunc}
-        className="w-full my-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
+        id={id}
+        className="h-10 pl-4 cursor-pointer select select-primary w-full max-w-xs md:w-screen md:flex  md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:justify-center"
       >
-        <option value="" className="font-bold">
-          {defaultOp}:
+        <option key={`Select_0`} value="">
+          {defaultOp}
         </option>
         {opciones.map((op, index) => (
-          <option
-            key={`${name}_${index}`}
-            value={op}
-            className="font-bold rounded my-2"
-          >
-            {op.charAt(0).toUpperCase() + op.slice(1)}
+          <option key={`Select_${op}_${index}`} value={op}>
+            {op}
           </option>
         ))}
-      </select>
-    </label>
+      </Field>
+      <ErrorMessage name={name} component="div" className="text-red-500" />
+    </>
   );
 };
 

@@ -1,37 +1,25 @@
-// v-----------------------------v InputField v-----------------------------v
+import { ErrorMessage, Field } from "formik";
+import React from "react";
 
-interface InputFieldData {
-  text: string;
-  type: string;
+interface InputFieldProps {
+  id: string;
   name: string;
-  value: string | number;
-  changeFunc: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
+  type: string;
+  placeholder: string;
 }
 
-const InputField = ({
-  text,
-  type,
-  name,
-  value,
-  changeFunc,
-}: InputFieldData) => {
+const InputField = ({ id, name, placeholder, type }: InputFieldProps) => {
   return (
-    <div className="w-full mb-4">
-      <label className="relative text-indigo-600 text-lg">
-        {text}
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={changeFunc}
-          className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
-          placeholder=" "
-        />
-        {/* <span className="text-2xl text-white text-opacity-80 absolute left-0 mt-2 mx-4 transition duration-300 input-text">
-          {text}
-        </span> */}
-      </label>
-    </div>
+    <>
+      <Field
+        id={id}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+      />
+      <ErrorMessage name={name} component="div" className="text-red-500" />
+    </>
   );
 };
 
