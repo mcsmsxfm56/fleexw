@@ -98,7 +98,7 @@ const Eventos: React.FC = () => {
         </div>
       </div>
       <div className="p-2 max-w-6xl">
-        {eventos.eventos.length ? (
+        {eventos.eventos ? (
           <ListaEventos eventos={eventos?.eventos} />
         ) : (
           <p>Cargando...</p>
