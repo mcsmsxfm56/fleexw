@@ -22,7 +22,7 @@ export const cancelNotification = (
     text: `
     Estimado Trabajador,
     
-    Queremos informarle que el Evento ${evento_nombre}, ha sido cancelado. Si usted habia sido aprobado, ya no deberá asistir al mismo.
+    Queremos informarle que el Evento ${evento_nombre}, ha sido cancelado. Si usted habia sido aprobado para el puesto, ya no deberá asistir.
 
     Disculpe las molestias.
 
