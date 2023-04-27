@@ -27,7 +27,7 @@ const EventDatail = () => {
 
 
     return (
-        <div className='h-screen'>
+        <div className='h-screen overflow-y-auto'>
             <header className="bg-indigo-600 text-slate-100 flex justify-between">
                 <NavBar />
             </header>
@@ -65,7 +65,7 @@ const EventDatail = () => {
                             Postulaciones
                         </p>
                     </div>
-                    <div>
+                    <div className="">
                         {eventDetail?.trabajadores?.map((trabajadorPorEvento) => {
                             const idPostulante = trabajadorPorEvento.trabajadorId;
                             if (trabajadorPorEvento.status === "PENDIENTE")

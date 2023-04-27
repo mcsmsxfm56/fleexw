@@ -23,7 +23,7 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
       className={
         !isExpanded
           ? "h-screen md:w-1/4 lg:w-[250px] xl:h-[121vh] 2xl:h-screen absolute md:block top-0 md:top-[64px] -left-40 md:left-0 bottom-0 bg-indigo-600 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40"
-          : "h-screen bg-indigo-600 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
+          : "h-screen  xl:h-[121vh] 2xl:h-screen bg-indigo-600 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
       }>
       <IconContext.Provider
         value={{

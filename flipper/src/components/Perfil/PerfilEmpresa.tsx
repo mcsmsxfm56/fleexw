@@ -35,8 +35,9 @@ const PerfilEmpresa: React.FC = () => {
   }, []);
 
   return (
-    <>
 
+    <div className="h-screen bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
+            lg:w-[calc(100vw-268px)] flex justify-center items-center">
       <div className="card h-2/4 w-2/4 bg-#1E1E1E shadow-inner border-solid border-4 rounded-2xl border-[#4B39EF]">
         <figure className="px-10 pt-10">
           <Image className="w-36 text-black" src={perfilProvisorio} alt="Picture of the author" />
@@ -53,8 +54,8 @@ const PerfilEmpresa: React.FC = () => {
           <h5 className="text-3xl font-bold text-black">Email: {profile?.email}</h5>
         </div>
       </div>
+    </div>
 
-    </>
   );
 };
 

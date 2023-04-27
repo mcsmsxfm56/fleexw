@@ -99,7 +99,8 @@ const Historial: React.FC = () => {
   }, []);
   //console.log(eventos);
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
+            lg:w-[calc(100vw-268px)]">
       <div className="p-2 flex items-start">
         <h1 className="text-5xl mb-2 mt-4 text-indigo-700">
           Historial de Eventos<br></br>
