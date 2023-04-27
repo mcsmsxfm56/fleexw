@@ -4,7 +4,7 @@ import RegisterForm from "@/components/Register/RegisterForm";
 
 export default function Register() {
   return (
-    <div className="bg-[#101213] p-4">
+    <div className="p-4">
       <RegisterForm />
     </div>
   );
