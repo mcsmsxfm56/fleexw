@@ -4,10 +4,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
-const fetcher: Fetcher<any, any> = (endpoint: any) =>
+const fetcher = (endpoint: any) =>
   fetch(endpoint)
     .then((res) => {
-      return res.body;
+      return res.text();
     })
     .then((data) => {
       console.log(data);
@@ -27,7 +27,7 @@ export interface evento {
   id: string;
 }
 export interface Props {
-  eventos: evento[];
+  eventos: any;
 }
 
 type Ordering = "asc" | "desc";
@@ -140,7 +140,9 @@ const Eventos: React.FC = () => {
         </div>
       </div>
       <div className="p-2 max-w-6xl">
-        <ListaEventos eventos={data?.eventos} />
+        {
+          //<ListaEventos eventos={data?.eventos} />
+        }
       </div>
     </div>
   );
