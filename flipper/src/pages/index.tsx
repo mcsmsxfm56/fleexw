@@ -44,9 +44,9 @@ function LogIn() {
                     validationSchema={validationSchema}
                 >
                     <Form className="grid gap-5">
-                        <Field id="email" name="email" placeholder=" Dirección de correo electrónico" className="h-10 pl-4 border-2 border-zinc-200 rounded-full" />
+                        <Field id="email" name="email" placeholder=" Dirección de correo electrónico" className="h-10 pl-4 input input-bordered input-primary" />
                         <ErrorMessage name="email" component="div" className="text-red-500" />
-                        <Field id="password" name="password" placeholder=" Contraseña" className="h-10 pl-4 border-2 border-zinc-200 rounded-full" />
+                        <Field id="password" name="password" placeholder=" Contraseña" className="h-10 pl-4 input input-bordered input-primary" />
                         <ErrorMessage name="password" component="div" className="text-red-500" />
                         <button type="submit" className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2">Submit</button>
                     </Form>

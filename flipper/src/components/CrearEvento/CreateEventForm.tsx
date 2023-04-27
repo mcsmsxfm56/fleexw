@@ -139,99 +139,151 @@ const CreateEventForm = () => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-start">
+          className="w-full flex flex-col items-start"
+        >
           <div className="w-full">
-            <InputField
-              name="nombre"
-              text="Nombre"
-              type="text"
-              value={formik.values.nombre}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Nombre
+                <input
+                  name="nombre"
+                  placeholder="Nombre"
+                  type="text"
+                  value={formik.values.nombre}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.nombre ? (
             <div className="text-red-600">{formik.errors.nombre}</div>
           ) : null}
           <div className="w-full">
-            <InputField
-              name="fecha_inicio"
-              text="Fecha inicio"
-              type="datetime-local"
-              value={formik.values.fecha_inicio}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Fecha Inicio
+                <input
+                  name="fecha_inicio"
+                  placeholder="Fecha inicio"
+                  type="datetime-local"
+                  value={formik.values.fecha_inicio}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.fecha_inicio ? (
             <div className="text-red-600">{formik.errors.fecha_inicio}</div>
           ) : null}
           <div className="w-full">
-            <InputField
-              name="fecha_final"
-              text="Fecha final"
-              type="datetime-local"
-              value={formik.values.fecha_final}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Fecha Inicial
+                <input
+                  name="fecha_final"
+                  placeholder="Fecha final"
+                  type="datetime-local"
+                  value={formik.values.fecha_final}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.fecha_final ? (
             <div className="text-red-600">{formik.errors.fecha_final}</div>
           ) : null}
           <div className="w-full">
-            <InputField
-              name="lugar"
-              text="Dirección"
-              type="text"
-              value={formik.values.lugar}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Dirección
+                <input
+                  name="lugar"
+                  placeholder="Dirección"
+                  type="text"
+                  value={formik.values.lugar}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.lugar ? (
             <div className="text-red-600">{formik.errors.lugar}</div>
           ) : null}
           <div className="w-full">
-            <InputField
-              name="cupos"
-              text="Cupos"
-              type="number"
-              value={formik.values.cupos}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Cupos
+                <input
+                  name="cupos"
+                  placeholder="Cupos"
+                  type="number"
+                  value={formik.values.cupos}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.cupos ? (
             <div className="text-red-600 mb-2">{formik.errors.cupos}</div>
           ) : null}
+
           <div className="w-full">
-            <InputField
-              name="perfil"
-              text="Perfil"
-              type="text"
-              value={formik.values.perfil}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Perfil
+                <input
+                  name="perfil"
+                  placeholder="Perfil"
+                  type="text"
+                  value={formik.values.perfil}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.perfil ? (
             <div className="text-red-600">{formik.errors.perfil}</div>
           ) : null}
+
           <div className="w-full">
-            <InputField
-              name="pago"
-              text="Pago"
-              type="number"
-              value={formik.values.pago}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Pago
+                <input
+                  name="pago"
+                  placeholder="Pago"
+                  type="number"
+                  value={formik.values.pago}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.pago ? (
             <div className="text-red-600 mb-2">{formik.errors.pago}</div>
           ) : null}
+
           <div className="w-full">
-            <InputField
-              name="observaciones"
-              text="Observaciones"
-              type="text"
-              value={formik.values.observaciones}
-              changeFunc={formik.handleChange}
-            />
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Observaciones
+                <input
+                  name="observaciones"
+                  placeholder="Observaciones"
+                  type="text"
+                  value={formik.values.observaciones}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
+                />
+              </label>
+            </div>
           </div>
           {formik.errors.observaciones ? (
             <div className="text-red-600">{formik.errors.observaciones}</div>
@@ -257,7 +309,8 @@ const CreateEventForm = () => {
                       ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                       : "bg-slate-400"
                   } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
-                  disabled={!formik.isValid}>
+                  disabled={!formik.isValid}
+                >
                   Crear Evento
                 </button>
               </>
