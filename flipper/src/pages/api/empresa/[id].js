@@ -1,27 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import jwt from "jsonwebtoken";
 
-interface putEmpresa {
-  name?: string;
-  nombreceo?: string;
-  email?: string;
-  ciudad?: string;
-  direccion?: string;
-  telefono?: string;
-  //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-}
-interface token {
-  id: string;
-  email: string;
-  iat: number;
-}
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req, res) {
   if (req.method === "GET") {
-    const id: string = req.query.id as string;
+    const { id } = req.query;
     let user = await prisma.empresa.findUnique({
       where: {
         nombre: id,
@@ -53,7 +35,7 @@ export default async function handler(
     res.status(200).send("DELETE");
   } else if (req.method === "PUT") {
     const { authorization } = req.headers;
-    const idEmpresa: string = req.query.nombre as string;
+    const idEmpresa = req.query.nombre;
 
     if (authorization === undefined || authorization.length !== 204) {
       return res.status(400).json({ message: "Autorizacion rechazada" });
@@ -67,16 +49,6 @@ export default async function handler(
       return res.status(404).json({ message: "empresa inexistente" });
     }
 
-    let {
-      name,
-      nombreceo,
-      email,
-      ciudad,
-      direccion,
-      telefono,
-    }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-    putEmpresa = req.body;
-
     let token = null;
     if (
       authorization &&
@@ -88,8 +60,8 @@ export default async function handler(
       return res.status(401).send("Token inexistente o invalido");
     }
 
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
-    const { id } = decodedToken as token;
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const { id } = decodedToken;
 
     if (decodedToken) {
       const empresaUpdate = await prisma.empresa.update({
@@ -101,7 +73,7 @@ export default async function handler(
           ciudad,
           direccion,
           telefono,
-        } as putEmpresa,
+        },
       });
       return res.status(200).json(empresaUpdate);
     }
