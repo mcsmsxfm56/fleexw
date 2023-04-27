@@ -6,13 +6,14 @@ interface Props2 {
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   /*  console.log("lista de eventos", eventos); */
+  /* 
   if (eventos.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
       <div>
         <h2>No se han cargado eventos todavia</h2>
       </div>
     );
-  }
+  }*/
 
   return (
     <div className="w-full">
