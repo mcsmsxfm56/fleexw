@@ -18,7 +18,8 @@ export interface Props {
 }
 
 type Ordering = "asc" | "desc";
-const buttonStyle = "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
@@ -30,7 +31,11 @@ const Eventos: React.FC = () => {
     const sessionName = localStorage.getItem("nombre");
     await axios
       .get(`/api/empresa/${sessionName}`)
-      .then((response) => setEventos(response.data))
+      .then((response) => {
+        setEventos(response.data);
+        console.log("Eventos.tsx");
+        console.log(eventos);
+      })
       .catch((e) => e.message);
   };
 
@@ -43,7 +48,6 @@ const Eventos: React.FC = () => {
   }, [order]);
 
   const ordering = (order: Ordering) => {
-
     function orderAsc(a: evento, b: evento) {
       if (a.fecha_inicio < b.fecha_inicio) return -1;
       if (a.fecha_inicio > b.fecha_inicio) return 1;
@@ -64,8 +68,9 @@ const Eventos: React.FC = () => {
     }
 
     const eventosSorted = {
-      ...eventos, eventos: sorted
-    }
+      ...eventos,
+      eventos: sorted,
+    };
     setEventos(eventosSorted);
   };
 
@@ -77,12 +82,17 @@ const Eventos: React.FC = () => {
       </div>
       {/* Ordenamiento por fechas */}
       <div>
-        <h2 className="text-2xl text-black my-4 text-center">Ordenar eventos por Fecha</h2>
+        <h2 className="text-2xl text-black my-4 text-center">
+          Ordenar eventos por Fecha
+        </h2>
         <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
-          <button className={buttonStyle + " ml-4"} onClick={() => setOrder("desc")}>
+          <button
+            className={buttonStyle + " ml-4"}
+            onClick={() => setOrder("desc")}
+          >
             Descendente
           </button>
         </div>
