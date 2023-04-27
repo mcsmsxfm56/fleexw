@@ -4,10 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
-const fetcher = (endpoint: any) =>
-  axios.get(endpoint).then((res) => {
-    return res.data;
-  });
+const fetcher = (endpoint: any) => fetch(endpoint).then((res) => res.json());
 
 //fetch(endpoint).then((res) => res);
 //Props indica el tipado de la respuesta y string el tipado de endpoint
@@ -39,7 +36,10 @@ const Eventos: React.FC = () => {
   // Perform localStorage action
   //var sessionName = localStorage.getItem("nombre");
   //console.log(sessionName);
-  const { data, error, isLoading } = useSWR("/api/empresa/marcos", fetcher);
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/empresa/marcos`,
+    fetcher
+  );
   // }
   if (error) {
     console.log(error);
@@ -47,7 +47,6 @@ const Eventos: React.FC = () => {
   }
   if (isLoading) return <div>loading...</div>;
   console.log(data);
-  console.log(useSWR);
   //const userEvent = async () => {
   //const sessionName = localStorage.getItem("nombre");
   //fetch(`api/empresa/${sessionName}`)
