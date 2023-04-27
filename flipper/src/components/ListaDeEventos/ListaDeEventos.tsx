@@ -4,16 +4,16 @@ import { EventCard } from "./EventCard";
 interface Props2 {
   eventos: evento[];
 }
-const ListaEventos: React.FC<Props2> = ({ eventos }) => {
+const ListaEventos = ({ eventos }: Props2) => {
   /*  console.log("lista de eventos", eventos); */
-  /* 
+
   if (eventos.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
       <div>
         <h2>No se han cargado eventos todavia</h2>
       </div>
     );
-  }*/
+  }
 
   return (
     <div className="w-full">
