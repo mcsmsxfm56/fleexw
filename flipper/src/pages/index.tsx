@@ -30,7 +30,7 @@ function LogIn() {
     };
 
     return (
-        <div className="min-h-screen flex justify-center items-center">
+        <div className="min-h-screen flex justify-center items-center mx-8">
             <div className="max-w-xl flex flex-col gap-10">
                 <h1 className="font-bold text-3xl">
                     Inicia Sesión
