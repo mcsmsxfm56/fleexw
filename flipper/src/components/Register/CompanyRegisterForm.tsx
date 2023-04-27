@@ -6,7 +6,7 @@ import InputField from "../InputField";
 import LoadingSubmitForm from "../LoadingSubmitForm";
 import { Post_Company_Register } from "@/services/PostRegister";
 import { useRouter } from "next/router";
-import { Form, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 
 const harcodedData = {
@@ -79,12 +79,11 @@ const CompanyRegisterForm = () => {
       <h3 className="text-white font-bold">
         Todos los campos son obligatorios
       </h3>
+
       <form
         onSubmit={formik.handleSubmit}
         className="w-full flex flex-col items-center"
       >
-
-
         <InputField
           name="nombre"
           text="Nombre"

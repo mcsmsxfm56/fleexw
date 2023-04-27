@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import WorkerRegisterForm from "./WorkerRegisterForm";
 import CompanyRegisterForm from "./CompanyRegisterForm";
 import { useRouter } from "next/router";
+import CompanyRegisterForm2 from "./CompanyRegisterForm2";
 
 type CurrentRol = "" | "empresa" | "trabajador";
 
@@ -33,7 +34,7 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col items-center max-w-xl m-auto relative">
+    <div className="rounded-lg flex flex-col items-center max-w-lg m-auto relative">
       <h1 className="text-[#95A1AC] mb-4 font-bold text-3xl self-baseline">
         Bienvenido!
       </h1>
@@ -48,7 +49,7 @@ const RegisterForm: React.FC = () => {
       <select
         value={currentRol}
         onChange={handleChangeState}
-        className="w-full mb-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
+        className="w-full mb-4 py-2 pl-4 rounded-lg font-bold cursor-pointer"
       >
         {RolTypes.map((rol, index) => (
           <option key={`Rol_${index}`} value={rol.value} className="font-bold">
@@ -59,7 +60,8 @@ const RegisterForm: React.FC = () => {
       {currentRol == "" && (
         <span className="text-white">Debe seleccionar un rol</span>
       )}
-      {currentRol == "empresa" && <CompanyRegisterForm />}
+      {/* {currentRol == "empresa" && <CompanyRegisterForm />} */}
+      {currentRol == "empresa" && <CompanyRegisterForm2 />}
       {currentRol == "trabajador" && <WorkerRegisterForm />}
     </div>
   );
