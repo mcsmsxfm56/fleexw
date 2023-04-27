@@ -8,6 +8,7 @@ import { Post_Company_Register } from "@/services/PostRegister";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import Swal from "sweetalert2";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const harcodedData = {
@@ -78,16 +79,59 @@ const CreateEventForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then(() => {
-      alert("Evento creado");
-      router.push("/home");
-    });
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("No se pudo realizar la peticion");
+        }
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "#B1FFBD",
+          color: "green",
+          iconColor: "green",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Evento creado exitosamente",
+        });
+        router.push("/home");
+      })
+      .catch((e) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "red",
+          color: "white",
+          iconColor: "white",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "No se pudo crear el evento",
+        });
+      });
     setIsLoading(false);
   };
   /* console.log(formik.values);
   console.log(id); */
   return (
-    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col lg:h-full items-center">
+    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-screen lg:h-full items-center">
       <div className="xl:-mr-[250px]">
         <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 text-2xl">
           Crea tu Evento
