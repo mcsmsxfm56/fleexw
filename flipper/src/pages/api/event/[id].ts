@@ -12,12 +12,14 @@ export default async function handler(
     where: {
       id,
     },
+
     include: {
       trabajadores: {
         include: {
-          trabajadores: true,
-        },
+          trabajadores: true
+        }
       },
+
     },
   });
   if (req.method === "GET") {

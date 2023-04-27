@@ -36,6 +36,7 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
 
   //aca tengo que usar un useEffect para que reconozca que estoy del lado del cliente y asi poder acceder al objeto window
   useEffect(() => {
+
     //console.log(window.localStorage.getItem('rol'));
     //console.log(window.localStorage.getItem('token'));
     //console.log(window.localStorage.getItem('nombre'));
