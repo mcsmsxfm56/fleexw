@@ -5,11 +5,14 @@ import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
 const fetcher: Fetcher<any, any> = (endpoint: any) =>
-  fetch(endpoint).then((res) => {
-    console.log(res.body);
-    res.json();
-    console.log(res.json());
-  });
+  fetch(endpoint)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
 //fetch(endpoint).then((res) => res);
 //Props indica el tipado de la respuesta y string el tipado de endpoint
 
