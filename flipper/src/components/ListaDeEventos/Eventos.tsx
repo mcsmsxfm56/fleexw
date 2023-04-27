@@ -5,7 +5,11 @@ import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
 const fetcher: Fetcher<Props, string> = (endpoint) =>
-  fetch(endpoint).then((res) => res.json());
+  axios
+    .get(endpoint)
+    .then((response) => response.data)
+    .catch((e) => e.message);
+//fetch(endpoint).then((res) => res);
 //Props indica el tipado de la respuesta y string el tipado de endpoint
 
 export interface evento {
