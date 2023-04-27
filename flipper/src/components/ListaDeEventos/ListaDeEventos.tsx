@@ -2,7 +2,7 @@ import React from "react";
 import { evento } from "@/components/ListaDeEventos/Eventos";
 import { EventCard } from "./EventCard";
 interface Props2 {
-  eventos: evento[];
+  eventos: evento[] | undefined;
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   /*  console.log("lista de eventos", eventos); 
