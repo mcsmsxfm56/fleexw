@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
-const fetcher: Fetcher<any, string> = (endpoint) =>
+const fetcher: Fetcher<any, any> = (endpoint: any) =>
   fetch(endpoint).then((res) => res.json());
 //fetch(endpoint).then((res) => res);
 //Props indica el tipado de la respuesta y string el tipado de endpoint
