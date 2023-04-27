@@ -37,7 +37,10 @@ const Eventos: React.FC = () => {
   //console.log(sessionName);
   var { data, error, isLoading } = useSWR(`/api/empresa/marcos`, fetcher);
   // }
-  if (error) return <div>failed to load</div>;
+  if (error) {
+    console.log(error);
+    return <div>failed to load</div>;
+  }
   if (isLoading) return <div>loading...</div>;
   console.log(data);
   console.log(useSWR);
