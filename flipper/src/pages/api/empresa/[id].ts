@@ -21,10 +21,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const nombre: string = req.query.nombre as string;
+    const id: string = req.query.id as string;
     let user = await prisma.empresa.findUnique({
       where: {
-        nombre: nombre,
+        nombre: id,
       },
       include: {
         eventos: {
