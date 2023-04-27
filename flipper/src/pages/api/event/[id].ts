@@ -12,7 +12,12 @@ export default async function handler(
     },
 
     include: {
-      trabajadores: true,
+      trabajadores: {
+        include: {
+          trabajadores: true
+        }
+      },
+
     },
   });
   /*
@@ -20,43 +25,50 @@ export default async function handler(
   /api/home/2
   */
   if (req.method === "GET") {
-    /*
-    if (evento?.isDeleted) {
-      res.status(404).send("evento no encontrado");
-    } else {
-      res.status(200).send(evento);
+    try {
+      if (evento) return res.status(200).send(evento);
+    } catch (error: any) {
+      res.status(400).send(error.message);
     }
-    */
-    //const id: string = req.query.id as string; //id del usuario
-    //console.log(id);
-    const userTrabajador = await prisma.trabajador.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (userTrabajador === null) {
-      const userEmpresa = await prisma.empresa.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          nombre: true,
-          isDeleted: true,
-          nombreceo: true,
-          email: true,
-          ciudad: true,
-          direccion: true,
-          telefono: true,
-          eventos: true,
-        },
-      });
-      console.log(userEmpresa); //cuando no encuentra nada user === null
-      res.status(200).send(userEmpresa);
-    }
-    const allEvents = await prisma.evento.findMany();
-    console.log(allEvents); //cuando no encuentra nada user === null
-    res.status(200).send(allEvents);
   }
+  // if (req.method === "GET") {
+  //   /*
+  //   if (evento?.isDeleted) {
+  //     res.status(404).send("evento no encontrado");
+  //   } else {
+  //     res.status(200).send(evento);
+  //   }
+  //   */
+  //   //const id: string = req.query.id as string; //id del usuario
+  //   //console.log(id);
+  //   const userTrabajador = await prisma.trabajador.findUnique({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  //   if (userTrabajador === null) {
+  //     const userEmpresa = await prisma.empresa.findUnique({
+  //       where: {
+  //         id,
+  //       },
+  //       select: {
+  //         nombre: true,
+  //         isDeleted: true,
+  //         nombreceo: true,
+  //         email: true,
+  //         ciudad: true,
+  //         direccion: true,
+  //         telefono: true,
+  //         eventos: true,
+  //       },
+  //     });
+  //     console.log(userEmpresa); //cuando no encuentra nada user === null
+  //     res.status(200).send(userEmpresa);
+  //   }
+  //   const allEvents = await prisma.evento.findMany();
+  //   console.log(allEvents); //cuando no encuentra nada user === null
+  //   res.status(200).send(allEvents);
+  // }
   /*
   2. RUTA PUT /api/home/:idEvento
   /api/home/2
