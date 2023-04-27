@@ -34,6 +34,7 @@ const Eventos: React.FC = () => {
   if (typeof window !== "undefined") {
     // Perform localStorage action
     var sessionName = localStorage.getItem("nombre");
+    console.log(sessionName);
     var { data, error, isLoading } = useSWR(
       `api/empresa/${sessionName}`,
       fetcher
