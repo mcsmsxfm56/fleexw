@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Menu from "./Menu/Menu";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { ShowElements } from "@/types/Types";
+import Link from "next/link";
 
 const NavBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -26,7 +27,7 @@ const NavBar = () => {
         </button>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">Eventos</a>
+        <Link href="/home" className="btn btn-ghost normal-case text-xl">Eventos</Link>
       </div>
       <Menu isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
     </nav>
