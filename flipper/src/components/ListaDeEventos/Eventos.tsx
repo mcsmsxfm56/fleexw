@@ -36,10 +36,7 @@ const Eventos: React.FC = () => {
   // Perform localStorage action
   //var sessionName = localStorage.getItem("nombre");
   //console.log(sessionName);
-  const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/empresa/marcos`,
-    fetcher
-  );
+  const { data, error, isLoading } = useSWR(`/api/empresa/marcos`, fetcher);
   // }
   if (error) {
     console.log(error);
