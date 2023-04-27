@@ -72,7 +72,7 @@ const Eventos: React.FC = () => {
     setEventos(eventosSorted);
   };
 
-  //console.log(eventos);//toda la info del user empresa, los eventos estan en eventos.eventos
+  console.log(eventos); //toda la info del user empresa, los eventos estan en eventos.eventos
   return (
     <div className="h-screen w-full">
       <div className="p-2 flex items-start">
