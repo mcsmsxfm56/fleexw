@@ -27,9 +27,17 @@ const validationSchema = yup.object({
   fecha_inicio: yup.string().required(""),
   fecha_final: yup.string().required(""),
   lugar: yup.string().required(""),
-  cupos: yup.number().required().positive().integer(),
+  cupos: yup
+    .number()
+    .required("El cupo debe ser mayor a 0")
+    .positive("El cupo debe ser mayor a 0")
+    .integer(),
   perfil: yup.string().required(""),
-  pago: yup.number().required().positive().integer(),
+  pago: yup
+    .number()
+    .required("El Pago debe ser mayor a 0")
+    .positive("El Pago debe ser mayor a 0")
+    .integer(),
   observaciones: yup.string().required(""),
 });
 
@@ -79,131 +87,141 @@ const CreateEventForm = () => {
   /* console.log(formik.values);
   console.log(id); */
   return (
-    <>
-      <h3 className="text-white font-bold">
-        Todos los campos son obligatorios
-      </h3>
+    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col lg:h-full items-center">
+      <div className="xl:-mr-[250px]">
+        <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 text-2xl">
+          Crea tu Evento
+        </h3>
 
-      <form
-        onSubmit={formik.handleSubmit}
-        className="w-full flex flex-col items-center"
-      >
-        <InputField
-          name="nombre"
-          text="Nombre"
-          type="text"
-          value={formik.values.nombre}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.nombre ? (
-          <div className="text-red-500">{formik.errors.nombre}</div>
-        ) : null}
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full flex flex-col items-start">
+          <div className="w-full">
+            <InputField
+              name="nombre"
+              text="Nombre"
+              type="text"
+              value={formik.values.nombre}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.nombre ? (
+            <div className="text-red-600">{formik.errors.nombre}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="fecha_inicio"
+              text="Fecha inicio"
+              type="datetime-local"
+              value={formik.values.fecha_inicio}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.fecha_inicio ? (
+            <div className="text-red-600">{formik.errors.fecha_inicio}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="fecha_final"
+              text="Fecha final"
+              type="datetime-local"
+              value={formik.values.fecha_final}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.fecha_final ? (
+            <div className="text-red-600">{formik.errors.fecha_final}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="lugar"
+              text="Dirección"
+              type="text"
+              value={formik.values.lugar}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.lugar ? (
+            <div className="text-red-600">{formik.errors.lugar}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="cupos"
+              text="Cupos"
+              type="number"
+              value={formik.values.cupos}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.cupos ? (
+            <div className="text-red-600 mb-2">{formik.errors.cupos}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="perfil"
+              text="Perfil"
+              type="text"
+              value={formik.values.perfil}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.perfil ? (
+            <div className="text-red-600">{formik.errors.perfil}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="pago"
+              text="Pago"
+              type="number"
+              value={formik.values.pago}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.pago ? (
+            <div className="text-red-600 mb-2">{formik.errors.pago}</div>
+          ) : null}
+          <div className="w-full">
+            <InputField
+              name="observaciones"
+              text="Observaciones"
+              type="text"
+              value={formik.values.observaciones}
+              changeFunc={formik.handleChange}
+            />
+          </div>
+          {formik.errors.observaciones ? (
+            <div className="text-red-600">{formik.errors.observaciones}</div>
+          ) : null}
 
-        <InputField
-          name="fecha_inicio"
-          text="Fecha inicio"
-          type="datetime-local"
-          value={formik.values.fecha_inicio}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.fecha_inicio ? (
-          <div className="text-red-500">{formik.errors.fecha_inicio}</div>
-        ) : null}
-
-        <InputField
-          name="fecha_final"
-          text="Fecha final"
-          type="datetime-local"
-          value={formik.values.fecha_final}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.fecha_final ? (
-          <div className="text-red-500">{formik.errors.fecha_final}</div>
-        ) : null}
-
-        <InputField
-          name="lugar"
-          text="Dirección"
-          type="text"
-          value={formik.values.lugar}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.lugar ? (
-          <div className="text-red-500">{formik.errors.lugar}</div>
-        ) : null}
-
-        <InputField
-          name="cupos"
-          text="cupos"
-          type="number"
-          value={formik.values.cupos}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.cupos ? (
-          <div className="text-red-500">{formik.errors.cupos}</div>
-        ) : null}
-
-        <InputField
-          name="perfil"
-          text="perfil"
-          type="text"
-          value={formik.values.perfil}
-          changeFunc={formik.handleChange}
-        />
-        {formik.errors.perfil ? (
-          <div className="text-red-500">{formik.errors.perfil}</div>
-        ) : null}
-
-        <InputField
-          name="pago"
-          text="pago"
-          type="number"
-          value={formik.values.pago}
-          changeFunc={formik.handleChange}
-        />
-
-        {formik.errors.pago ? (
-          <div className="text-red-500">{formik.errors.pago}</div>
-        ) : null}
-
-        <InputField
-          name="observaciones"
-          text="observaciones"
-          type="text"
-          value={formik.values.observaciones}
-          changeFunc={formik.handleChange}
-        />
-
-        {formik.errors.observaciones ? (
-          <div className="text-red-500">{formik.errors.observaciones}</div>
-        ) : null}
-
-        {submitError && (
-          <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
-            {submitError}
-          </span>
-        )}
-        {isLoading ? (
-          <LoadingSubmitForm />
-        ) : (
-          <>
-            {!formik.isValid && (
-              <p className="text-white mt-4">Debe rellenar todos los campos</p>
+          {submitError && (
+            <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+              {submitError}
+            </span>
+          )}
+          <div className="w-full text-center">
+            {isLoading ? (
+              <LoadingSubmitForm />
+            ) : (
+              <>
+                {!formik.isValid && (
+                  <p className="text-red-600">Debe rellenar todos los campos</p>
+                )}
+                <button
+                  type="submit"
+                  className={`${
+                    formik.touched && formik.isValid
+                      ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
+                      : "bg-slate-400"
+                  } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
+                  disabled={!formik.isValid}>
+                  Crear Evento
+                </button>
+              </>
             )}
-            <button
-              type="submit"
-              className={`${formik.touched && formik.isValid
-                ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
-                : "bg-slate-400"
-                } rounded-lg px-16 py-2 my-4 text-lg text-white font-bold transition duration-300`}
-              disabled={!formik.isValid}
-            >
-              Crear Evento
-            </button>
-          </>
-        )}
-      </form>
-    </>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

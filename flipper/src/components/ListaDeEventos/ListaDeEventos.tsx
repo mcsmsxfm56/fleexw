@@ -4,7 +4,7 @@ import { EventCard } from "./EventCard";
 interface Props2 {
   eventos: evento[];
 }
-const ListaEventos = ({ eventos }: Props2) => {
+const ListaEventos: React.FC<Props2> = ({ eventos }) => {
   /*  console.log("lista de eventos", eventos); */
 
   if (eventos.filter((evento) => evento.isDeleted === false).length === 0) {
