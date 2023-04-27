@@ -32,6 +32,7 @@ const Eventos: React.FC = () => {
     await axios
       .get(`api/empresa/${sessionName}`)
       .then((response) => {
+        console.log(response.data);
         setEventos(response.data);
         console.log("useEffect se ejecuta");
         console.log(eventos);
