@@ -30,7 +30,7 @@ const Eventos: React.FC = () => {
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
     await axios
-      .get(`/api/empresa/${sessionName}`)
+      .get(`api/empresa/${sessionName}`)
       .then((response) => {
         setEventos(response.data);
         console.log("useEffect se ejecuta");
