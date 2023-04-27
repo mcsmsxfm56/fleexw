@@ -6,7 +6,7 @@ import useSWR, { Fetcher } from "swr";
 
 const fetcher: Fetcher<any, any> = (endpoint: any) =>
   fetch(endpoint).then((res) => {
-    console.log(res);
+    console.log(res.body);
     res.json();
     console.log(res.json());
   });
