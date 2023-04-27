@@ -17,14 +17,14 @@ const InputField = ({
 }: InputFieldData) => {
   return (
     <div className="w-full mb-4">
-      <label className="relative text-white text-lg">
+      <label className="relative text-indigo-600 text-lg">
         {text}
         <input
           type={type}
           name={name}
           value={value}
           onChange={changeFunc}
-          className="w-full px-4 py-2 bg-[#101213] text-sm rounded-lg border-2 border-white text-white  transition duration-300"
+          className="w-full input input-bordered input-primary max-w-xs md:w-screen md:flex md:flex-col md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:flex-col lg:justify-center"
           placeholder=" "
         />
         {/* <span className="text-2xl text-white text-opacity-80 absolute left-0 mt-2 mx-4 transition duration-300 input-text">
