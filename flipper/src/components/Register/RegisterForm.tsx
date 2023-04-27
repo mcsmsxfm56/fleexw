@@ -33,13 +33,13 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col items-center ">
-      <h1 className="text-[#95A1AC] mb-4 text-4xl self-baseline">
+    <div className="rounded-lg flex flex-col items-center max-w-xl m-auto relative">
+      <h1 className="text-[#95A1AC] mb-4 font-bold text-3xl self-baseline">
         Bienvenido!
       </h1>
 
       <button
-        className="w-[40px] h-[40px] text-[#646C70] rounded-3xl absolute right-[1em] font-bold hover:bg-slate-400 transition duration-200"
+        className="w-[40px] h-[40px] text-[#646C70] rounded-3xl absolute right-0 font-bold hover:bg-slate-400 transition duration-200"
         onClick={() => router.push("/")}
       >
         X
