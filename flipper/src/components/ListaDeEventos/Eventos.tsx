@@ -24,9 +24,12 @@ const buttonStyle =
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
   const userContext = useSesionUsuarioContext();
-  const sessionName = localStorage.getItem("nombre");
-  const [order, setOrder] = useState<Ordering>("desc");
 
+  const [order, setOrder] = useState<Ordering>("desc");
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    var sessionName = localStorage.getItem("nombre");
+  }
   const userEvent = async () => {
     //const sessionName = localStorage.getItem("nombre");
     fetch(`api/empresa/${sessionName}`)
