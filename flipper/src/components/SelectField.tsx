@@ -15,7 +15,7 @@ const SelectField = ({ name, opciones, id, defaultOp }: InputSelectProps) => {
         as="select"
         name={name}
         id={id}
-        className="h-10 pl-4 border-2 border-zinc-200 rounded-lg cursor-pointer"
+        className="h-10 pl-4 cursor-pointer select select-primary w-full max-w-xs md:w-screen md:flex  md:justify-center md:max-w-lg lg:w-screen lg:max-w-xl lg:flex lg:justify-center"
       >
         <option key={`Select_0`} value="">
           {defaultOp}

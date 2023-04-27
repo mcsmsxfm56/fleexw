@@ -42,7 +42,7 @@ const WorkerRegisterForm = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="">
       <h3 className="text-white font-bold text-center my-4">
         Todos los campos son obligatorios
       </h3>
