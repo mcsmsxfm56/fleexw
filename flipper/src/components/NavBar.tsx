@@ -1,13 +1,10 @@
-import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext';
 import React, { useState } from 'react'
-import Menu from './Menu';
+import Menu from './Menu/Menu';
+import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext';
 import { ShowElements } from '@/types/Types';
-interface Props {
-    showElements: ShowElements
-    setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>
-}
 
-const NavBar = ({ showElements, setShowElements }: Props) => {
+
+const NavBar = () => {
 
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -26,8 +23,6 @@ const NavBar = ({ showElements, setShowElements }: Props) => {
             <Menu
                 isExpanded={isExpanded}
                 setIsExpanded={setIsExpanded}
-                showElements={showElements}
-                setShowElements={setShowElements}
             />
         </nav>
     )
