@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import NavBar from '@/components/NavBar'
+import { traerEventoYPostulantes } from '@/services/traerEventoYPostulantes'
+import { DetalleEvento } from '../../types/Types';
+import Link from 'next/link';
+import { BsCheckCircleFill, BsXCircleFill } from 'react-icons/bs';
+import { IconContext } from 'react-icons'
+
 
 
 const EventDatail = () => {
     const router = useRouter()
-    const [eventDetail, setEventDetail] = useState<any>(null)
+    const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null)
 
 
 
     const { idEvent } = router.query
 
     useEffect(() => {
-        axios.get(`/api/event/${idEvent}`)
-            .then(response => response.data)
+        traerEventoYPostulantes(idEvent as string)
             .then(data => {
-                console.log(data.trabajadores[0].trabajadores.name);
                 setEventDetail(data)
             })
             .catch(error => console.log(error.message))
@@ -34,21 +38,137 @@ const EventDatail = () => {
                 <p>Observaciones: {eventDetail?.observaciones}</p>
                 <p>Postulaciones</p>
             </div>
-            <div>
-                <p>Pendientes:</p>
-                <ul>
-                    {
-                        eventDetail?.trabajadores?.map((trabajadorPorEvento: any) => {
-                            return (
-                                <li>
-                                    <div>
-                                        <p >{trabajadorPorEvento.trabajadores.name}</p>
-                                    </div>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
+            <div className='flex flex-col justify-center items-center '>
+
+                {
+                    eventDetail?.trabajadores?.map((trabajadorPorEvento) => {
+                        const idPostulante = trabajadorPorEvento.trabajadorId
+                        if (trabajadorPorEvento.status === "PENDIENTE") return (
+                            <>
+                                <p>Pendientes:</p>
+                                <ul>
+                                    <li>
+                                        <div className='flex'>
+                                            <div>
+                                                <Link href={`/postulaciones/${idPostulante}`} className='text-[#605BDC]'>{trabajadorPorEvento.trabajadores.name}</Link>
+                                                <p>Perfil:
+                                                    <span>Ejemplo hardcodeado</span>
+                                                </p>
+                                            </div>
+                                            <div className='min-w-[250px] flex justify-center gap-8 '>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "red",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsXCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "green",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsCheckCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </>
+                        )
+                        if (trabajadorPorEvento.status === "RECHAZADO") return (
+                            <>
+                                <p>Rechazado:</p>
+                                <ul>
+                                    <li>
+                                        <div className='flex'>
+                                            <div>
+                                                <Link href={`/postulaciones/${idPostulante}`} className='text-[#605BDC]'>{trabajadorPorEvento.trabajadores.name}</Link>
+                                                <p>Perfil:
+                                                    <span>Ejemplo hardcodeado</span>
+                                                </p>
+                                            </div>
+                                            <div className='min-w-[250px] flex justify-center gap-8 '>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "red",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsXCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "green",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsCheckCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </>
+                        )
+                        return (
+                            <>
+                                <p>Aprobado:</p>
+                                <ul>
+                                    <li>
+                                        <div className='flex'>
+                                            <div>
+                                                <Link href={`/postulaciones/${idPostulante}`} className='text-[#605BDC]'>{trabajadorPorEvento.trabajadores.name}</Link>
+                                                <p>Perfil:
+                                                    <span>Ejemplo hardcodeado</span>
+                                                </p>
+                                            </div>
+                                            <div className='min-w-[250px] flex justify-center gap-8 '>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "red",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsXCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                                <IconContext.Provider
+                                                    value={{
+                                                        color: "green",
+                                                        size: "1.5em",
+                                                        className: "global-class-name",
+                                                    }}
+                                                >
+                                                    <button >
+                                                        <BsCheckCircleFill />
+                                                    </button>
+                                                </IconContext.Provider>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </>
+                        )
+                    })
+                }
+
             </div>
         </div>
 
