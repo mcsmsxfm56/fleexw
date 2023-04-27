@@ -33,8 +33,6 @@ const Eventos: React.FC = () => {
       .get(`/api/empresa/${sessionName}`)
       .then((response) => {
         setEventos(response.data);
-        //console.log("Eventos.tsx");
-        //console.log(eventos);
       })
       .catch((e) => e.message);
   };
@@ -98,11 +96,7 @@ const Eventos: React.FC = () => {
         </div>
       </div>
       <div className="p-2 max-w-6xl">
-        {eventos.eventos ? (
-          <ListaEventos eventos={eventos?.eventos} />
-        ) : (
-          <p>Cargando...</p>
-        )}
+        <ListaEventos eventos={eventos?.eventos} />
       </div>
     </div>
   );

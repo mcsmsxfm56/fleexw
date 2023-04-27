@@ -5,6 +5,22 @@ interface Props2 {
   eventos: evento[];
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
+  /*  console.log("lista de eventos", eventos); 
+  ESTO SE SACO POR QUE ROMPE EL DEPLOY, RESULTA QUE SI EN ALGUN MOMENTO EVENTOS ES UN
+  ARRAY VACIO (LO QUE OCURRE CUANDO SE LLAMA AL BACK POR LOS EVENTOS), JAVASCRIPT LO EVALUA
+  COMO undefined, undefined.filter RETORNA UN ERROR DE TIPADO
+  console.log("ListaDeEventos.tsx");
+  console.log(eventos);
+
+    if (eventos.filter((evento) => evento.isDeleted === false).length === 0) {
+      return (
+        <div>
+          <h2>No se han cargado eventos todavia</h2>
+        </div>
+      );
+    }
+  
+*/
   return (
     <div className="w-full">
       {eventos ? (
