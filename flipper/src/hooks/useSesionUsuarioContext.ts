@@ -9,6 +9,7 @@ export const useSesionUsuarioContext = () => {
 
   const [error, setError] = useState(false);
   const router = useRouter();
+
   const login = async (email: string, password: string) => {
     try {
       /*  const usuarioData =  */
