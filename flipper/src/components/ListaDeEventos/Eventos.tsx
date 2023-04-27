@@ -31,16 +31,16 @@ const Eventos: React.FC = () => {
   //const userContext = useSesionUsuarioContext();
 
   //const [order, setOrder] = useState<Ordering>("desc");
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    var sessionName = localStorage.getItem("nombre");
-    console.log(sessionName);
-    var { data, error, isLoading } = useSWR(
-      `/api/empresa/${sessionName}`,
-      fetcher
-    );
-  }
+  //if (typeof window !== "undefined") {
+  // Perform localStorage action
+  //var sessionName = localStorage.getItem("nombre");
+  //console.log(sessionName);
+  var { data, error, isLoading } = useSWR(`/api/empresa/marcos`, fetcher);
+  // }
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
   console.log(data);
+  console.log(useSWR);
   //const userEvent = async () => {
   //const sessionName = localStorage.getItem("nombre");
   //fetch(`api/empresa/${sessionName}`)
