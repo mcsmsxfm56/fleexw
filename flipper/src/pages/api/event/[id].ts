@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import { cancelNotification, transport } from "@/services/transportEmail";
+import { DataTRegister } from "../users/register/trabajador";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,17 +22,17 @@ export default async function handler(
 
     },
   });
-  /*
-  1. RUTA GET /api/home/:idEvento
-  /api/home/2
-  */
   if (req.method === "GET") {
     try {
       if (evento) return res.status(200).send(evento);
     } catch (error: any) {
-      res.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
   }
+  /*
+  1. RUTA GET /api/home/:idEvento
+  /api/home/2
+  */
   // if (req.method === "GET") {
   //   /*
   //   if (evento?.isDeleted) {
@@ -68,7 +70,7 @@ export default async function handler(
   //   const allEvents = await prisma.evento.findMany();
   //   console.log(allEvents); //cuando no encuentra nada user === null
   //   res.status(200).send(allEvents);
-  // }
+  //}
   /*
   2. RUTA PUT /api/home/:idEvento
   /api/home/2
@@ -106,7 +108,7 @@ export default async function handler(
   */
   if (req.method === "DELETE") {
     if (evento?.isDeleted) {
-      res.status(404).send("evento no encontrado o ya eliminado");
+      return res.status(404).send("evento no encontrado o ya eliminado");
     } else {
       const deletedEvent = await prisma.evento.update({
         where: {
@@ -116,7 +118,33 @@ export default async function handler(
           isDeleted: true,
         },
       });
+      const trabajadoresEvento = await prisma.trabajadoresEnEventos.findMany({
+        where: {
+          eventoId: evento?.id,
+        },
+        include: {
+          trabajadores: true,
+        },
+      });
+      let aprobados: any = [];
+      trabajadoresEvento.forEach((e: any) => {
+        if (e.status === "APROBADO") {
+          aprobados.push(e);
+        }
+      });
+
+      if (aprobados.length > 0) {
+        const mails = aprobados.map((e: any) => {
+          return e.trabajadores.email;
+        });
+
+        transport.sendMail(
+          cancelNotification(mails, evento?.nombre),
+          (err: any, info: any) =>
+            err ? console.log(err) : console.log(info.response)
+        );
+      }
+      return res.status(200).send("Evento borrado con exito");
     }
-    res.status(200).send("Evento borrado con exito");
   }
 }

@@ -22,9 +22,7 @@ export const HistorialCard: React.FC<evento> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
         <AiFillClockCircle />
-        <p className="mr-5">
-          {evento.hora.replace("2023-04-22T", "").slice(0, 5)}
-        </p>
+        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

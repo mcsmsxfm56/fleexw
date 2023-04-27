@@ -21,7 +21,7 @@ interface decodeToken {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DataTRegister | string>
+  res: NextApiResponse<DataTRegister | {}>
 ) {
   //console.log(req.headers);
   const { id } = req.query;
@@ -32,7 +32,30 @@ export default async function handler(
     if (req.method === "GET") {
       try {
         const trabajador = await buscarTrabajador(id as string);
-        res.status(200).send(trabajador);
+
+        const newTrabajador = {
+          name: trabajador.name,
+          ciudad: trabajador.ciudad,
+          direccion: trabajador.direccion,
+          email: trabajador.email,
+          phone: trabajador.phone,
+          genero: trabajador.genero,
+          edad: "", // habria que unificar el formato de la fecha de nacimiento para poder hacer una fn que retorne la edad
+          estatura: trabajador.estatura,
+          grupo_sanguineo: trabajador.grupo_sanguineo,
+          talle_camiseta: trabajador.talla_camiseta,
+          idType: trabajador.idType,
+          idNumber: trabajador.idNumber,
+          imagen_dni: trabajador.imagen_dni,
+          foto:
+            trabajador.foto ??
+            " https://th.bing.com/th/id/OIP.OaHQ7x61nQd8AnrEDOLtYwHaHa?pid=ImgDet&rs=1 ",
+          cv: trabajador.cv,
+          rut: trabajador.rut,
+          certificado_bancario: trabajador.certificado_bancario,
+        };
+
+        res.status(200).send(newTrabajador);
       } catch (error: any) {
         res.status(400).send(error.message);
       }
