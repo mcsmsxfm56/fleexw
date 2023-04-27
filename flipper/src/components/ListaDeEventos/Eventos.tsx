@@ -7,7 +7,7 @@ import useSWR, { Fetcher } from "swr";
 const fetcher: Fetcher<any, any> = (endpoint: any) =>
   fetch(endpoint)
     .then((res) => {
-      return res.json();
+      return res.body;
     })
     .then((data) => {
       console.log(data);
