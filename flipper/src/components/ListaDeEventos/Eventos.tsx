@@ -5,14 +5,10 @@ import React, { useState } from "react";
 import useSWR, { Fetcher } from "swr";
 
 const fetcher = (endpoint: any) =>
-  fetch(endpoint)
-    .then((res) => {
-      return res.text();
-    })
-    .then((data) => {
-      console.log(data);
-      return data;
-    });
+  axios.get(endpoint).then((res) => {
+    return res.data;
+  });
+
 //fetch(endpoint).then((res) => res);
 //Props indica el tipado de la respuesta y string el tipado de endpoint
 
