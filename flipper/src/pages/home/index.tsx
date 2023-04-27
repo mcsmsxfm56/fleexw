@@ -23,16 +23,14 @@ export default function Home() {
 
   return (
     <>
-      <header className="bg-indigo-600 text-slate-100 flex justify-between">
-        <NavBar />
-      </header>
-      <main className="bg-gray-200 w-full md:w-4/5 md:ml-[20%] lg:ml-[250px] xl:w-full xl:ml-0">
-        {showElements.showEventos && <Eventos />}
-        {showElements.showHistorial && <Historial />}
-        {showElements.showCrear && <CreateEventForm />}
-        {showElements.showPostulaciones && <PostulacionesTrabajador />}
-        {showElements.showPerfil && <PerfilEmpresa />}
-      </main>
+
+
+      {showElements.showEventos && <Eventos />}
+      {showElements.showHistorial && <Historial />}
+      {showElements.showCrear && <CreateEventForm />}
+      {showElements.showPostulaciones && <PostulacionesTrabajador />}
+      {showElements.showPerfil && <PerfilEmpresa />}
+
     </>
   );
 }

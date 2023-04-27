@@ -4,8 +4,13 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { ShowElements } from "@/types/Types";
 import Link from "next/link";
 
-const NavBar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+
+interface Props {
+  isExpanded: boolean;
+  setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const NavBar = ({ isExpanded, setIsExpanded }: Props) => {
+
 
   return (
     <nav className="navbar relative bg-indigo-600 w-full h-full">
@@ -29,7 +34,7 @@ const NavBar = () => {
       <div className="flex-1">
         <Link href="/home" className="btn btn-ghost normal-case text-xl">Eventos</Link>
       </div>
-      <Menu isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+
     </nav>
   );
 };
