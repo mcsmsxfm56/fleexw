@@ -19,10 +19,10 @@ export const PostulanteCard: React.FC<PropsCard> = ({
       <div
         className={
           status === "PENDIENTE"
-            ? "bg-yellow-300 flex p-4 rounded-md justify-around w-full gap-2 mb-6"
+            ? "bg-yellow-300 flex p-4 rounded-md justify-between w-full gap-2 mb-6"
             : status === "RECHAZADO"
-            ? "bg-red-400 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
-            : "bg-green-300 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
+              ? "bg-red-400 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
+              : "bg-green-300 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
         }>
         <div>
           <Link
@@ -35,26 +35,29 @@ export const PostulanteCard: React.FC<PropsCard> = ({
           </p>
         </div>
         <div className="min-w-[250px] flex justify-end gap-4 ">
-          <IconContext.Provider
-            value={{
-              color: "red",
-              size: "1.5em",
-              className: "global-class-name",
-            }}>
-            <button>
-              <BsXCircleFill />
-            </button>
-          </IconContext.Provider>
-          <IconContext.Provider
-            value={{
-              color: "green",
-              size: "1.5em",
-              className: "global-class-name",
-            }}>
-            <button>
-              <BsCheckCircleFill />
-            </button>
-          </IconContext.Provider>
+          {status !== "RECHAZADO" &&
+            <IconContext.Provider
+              value={{
+                color: "red",
+                size: "1.5em",
+                className: "global-class-name",
+              }}>
+              <button>
+                <BsXCircleFill />
+              </button>
+            </IconContext.Provider>}
+          {
+            status !== "APROBADO" &&
+            <IconContext.Provider
+              value={{
+                color: "green",
+                size: "1.5em",
+                className: "global-class-name",
+              }}>
+              <button>
+                <BsCheckCircleFill />
+              </button>
+            </IconContext.Provider>}
         </div>
       </div>
     </li>
