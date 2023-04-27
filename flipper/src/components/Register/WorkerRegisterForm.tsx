@@ -108,7 +108,7 @@ const WorkerRegisterForm = () => {
           ) : (
             <button
               type="submit"
-              className="self-center bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2"
+              className="self-center bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2 hover:bg-indigo-500 transition duration-100"
             >
               Crear cuenta de Trabajador
             </button>

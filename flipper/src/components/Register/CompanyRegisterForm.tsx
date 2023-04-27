@@ -113,7 +113,7 @@ const CompanyRegisterForm = () => {
           ) : (
             <button
               type="submit"
-              className="self-center bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2"
+              className="self-center bg-indigo-600 hover:bg-indigo-500 transition duration-100 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2"
             >
               Crear cuenta de Empresa
             </button>
