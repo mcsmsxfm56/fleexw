@@ -24,11 +24,11 @@ const buttonStyle =
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
   const userContext = useSesionUsuarioContext();
-
+  const sessionName = localStorage.getItem("nombre");
   const [order, setOrder] = useState<Ordering>("desc");
 
   const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
+    //const sessionName = localStorage.getItem("nombre");
     fetch(`api/empresa/${sessionName}`)
       .then((res) => res.json())
       .then((response) => {
@@ -41,7 +41,15 @@ const Eventos: React.FC = () => {
   };
 
   React.useEffect(() => {
-    userEvent();
+    //userEvent();
+    fetch(`api/empresa/${sessionName}`)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        setEventos(response);
+        console.log("useEffect se ejecuta");
+        console.log(eventos);
+      });
   }, []);
 
   React.useEffect(() => {
