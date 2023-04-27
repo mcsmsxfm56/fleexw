@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import WorkerRegisterForm from "./WorkerRegisterForm";
 import CompanyRegisterForm from "./CompanyRegisterForm";
-import { useRouter } from "next/router";
-import CompanyRegisterForm2 from "./CompanyRegisterForm2";
 
 type CurrentRol = "" | "empresa" | "trabajador";
 
@@ -60,8 +59,7 @@ const RegisterForm: React.FC = () => {
       {currentRol == "" && (
         <span className="text-white">Debe seleccionar un rol</span>
       )}
-      {/* {currentRol == "empresa" && <CompanyRegisterForm />} */}
-      {currentRol == "empresa" && <CompanyRegisterForm2 />}
+      {currentRol == "empresa" && <CompanyRegisterForm />}
       {currentRol == "trabajador" && <WorkerRegisterForm />}
     </div>
   );
