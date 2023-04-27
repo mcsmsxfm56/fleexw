@@ -33,6 +33,8 @@ const Eventos: React.FC = () => {
       .get(`/api/empresa/${sessionName}`)
       .then((response) => {
         setEventos(response.data);
+        console.log("useEffect se ejecuta");
+        console.log(eventos);
       })
       .catch((e) => e.message);
   };
