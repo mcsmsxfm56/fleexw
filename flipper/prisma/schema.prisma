@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+//falta agregar un campo para manejar la autorizacion por parte del admin
 model Empresa {
   nombre String @unique
   isDeleted Boolean @default(false)
