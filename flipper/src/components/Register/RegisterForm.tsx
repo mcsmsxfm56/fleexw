@@ -33,7 +33,7 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col items-center max-w-lg m-auto relative">
+    <div className="rounded-lg flex flex-col items-center m-auto relative max-w-xs md:w-screen md:max-w-lg lg:w-screen lg:max-w-xl">
       <h1 className="text-[#95A1AC] mb-4 font-bold text-3xl self-baseline">
         Bienvenido!
       </h1>
