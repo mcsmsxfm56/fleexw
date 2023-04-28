@@ -3,12 +3,13 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import NavBar from "@/components/NavBar";
 import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
-import { DetalleEvento } from "../../types/Types";
+import { DetalleEvento } from "../../../types/Types";
 import Link from "next/link";
 import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostulanteCard } from "@/components/PostulanteCard";
 import AppLayout from "@/components/AppLayout/AppLayout";
+import { HiPencil } from "react-icons/hi";
 
 const EventDatail = () => {
   const router = useRouter();
@@ -29,13 +30,18 @@ const EventDatail = () => {
   return (
     <AppLayout>
       <div className="h-full overflow-auto">
-        <main
+        <div
           className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
             lg:w-[calc(100vw-268px)] h-screen">
           <div className="flex flex-col justify-center items-center gap-10">
-            <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
-              Evento: {eventDetail?.nombre}
-            </p>
+            <div className="w-full flex flex-row justify-between items-center">
+              <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
+                Evento: {eventDetail?.nombre}
+              </p>
+              <HiPencil
+                className="text-[#f6ea06]"
+                size={30} />
+            </div>
             <div className="flex gap-10">
               <div className="flex flex-col">
                 <p className="text-center font-bold text-xl">
@@ -134,7 +140,7 @@ const EventDatail = () => {
               })}
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </AppLayout>
   );

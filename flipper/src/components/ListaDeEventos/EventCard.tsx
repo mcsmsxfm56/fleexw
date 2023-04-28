@@ -1,4 +1,5 @@
 import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
+import { HiPencil } from "react-icons/hi";
 import { IoLocationSharp } from "react-icons/io5";
 import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
@@ -26,14 +27,21 @@ export const EventCard: React.FC<evento> = (evento) => {
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        <AiFillDelete
-          className="text-[#731111]"
-          size={30}
-          onClick={async () => {
-            await borradoLogico(evento.id);
-            router.reload();
-          }}
-        />
+        <div className="flex gap-8">
+          <Link href={`/evento/editar/${evento.id}`}>
+            <HiPencil
+              className="text-[#f6ea06]"
+              size={30} />
+          </Link>
+          <AiFillDelete
+            className="text-[#731111]"
+            size={30}
+            onClick={async () => {
+              await borradoLogico(evento.id);
+              router.reload();
+            }}
+          />
+        </div>
       </div>
       <hr></hr>
       <div className="text-indigo-700 flex">
@@ -50,7 +58,7 @@ export const EventCard: React.FC<evento> = (evento) => {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Link href={`evento/${evento.id}`}>Ver Detalle</Link>
+          <Link href={`evento/detalle/${evento.id}`}>Ver Detalle</Link>
         </div>
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
