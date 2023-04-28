@@ -79,7 +79,7 @@ const Historial: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         realmethod: "GET",
-        nombreEmpresa: localStorage.getItem("nombre"),
+        nombreEmpresa: sessionName,
       }),
     })
       .then((res) => res.json())
