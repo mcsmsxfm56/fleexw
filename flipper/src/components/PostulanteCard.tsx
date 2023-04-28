@@ -6,7 +6,7 @@ import { log } from "console";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 
 interface PropsCard {
-  idEvent: string
+  idEvent: string;
   idPostulante: string;
   nombre: string;
   status: string;
@@ -16,12 +16,11 @@ export const PostulanteCard: React.FC<PropsCard> = ({
   idEvent,
   idPostulante,
   nombre,
-  status
+  status,
 }) => {
   const handleStatus = (statusNuevo: string) => {
-    aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent })
-
-  }
+    aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent });
+  };
   return (
     <li>
       <div
@@ -29,8 +28,8 @@ export const PostulanteCard: React.FC<PropsCard> = ({
           status === "PENDIENTE"
             ? "bg-yellow-300 flex p-4 rounded-md justify-between w-full gap-2 mb-6"
             : status === "RECHAZADO"
-              ? "bg-red-400 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
-              : "bg-green-300 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
+            ? "bg-red-400 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
+            : "bg-green-300 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
         }>
         <div>
           <Link
@@ -43,17 +42,16 @@ export const PostulanteCard: React.FC<PropsCard> = ({
           </p>
         </div>
         <div className="min-w-[250px] flex justify-end gap-4 ">
-          {status !== "RECHAZADO" &&
-            <button onClick={() => handleStatus("RECHAZADO")} >
+          {status !== "RECHAZADO" && (
+            <button onClick={() => handleStatus("RECHAZADO")}>
               <BsXCircleFill className="text-[red]" size={30} />
             </button>
-          }
-          {
-            status !== "APROBADO" &&
+          )}
+          {status !== "APROBADO" && (
             <button onClick={() => handleStatus("APROBADO")}>
               <BsCheckCircleFill className="text-[green]" size={30} />
             </button>
-          }
+          )}
         </div>
       </div>
     </li>

@@ -43,24 +43,26 @@ const EventDatail = () => {
   }, [idEvent]);
 
   useEffect(() => {
-    eventDetail?.trabajadores.map((trabajadorPorEvento) => {
-      if (trabajadorPorEvento.status === "PENDIENTE") {
-        setPostulantes((prevState) => ({
-          ...prevState,
-          pendientes: [...prevState.pendientes, trabajadorPorEvento],
-        }));
-      } else if (trabajadorPorEvento.status === "APROBADO") {
-        setPostulantes((prevState) => ({
-          ...prevState,
-          aprobados: [...prevState.aprobados, trabajadorPorEvento],
-        }));
-      } else {
-        setPostulantes((prevState) => ({
-          ...prevState,
-          rechazados: [...prevState.rechazados, trabajadorPorEvento],
-        }));
-      }
-    });
+    if (eventDetail) {
+      eventDetail?.trabajadores.map((trabajadorPorEvento) => {
+        if (trabajadorPorEvento.status === "PENDIENTE") {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            pendientes: [...prevState.pendientes, trabajadorPorEvento],
+          }));
+        } else if (trabajadorPorEvento.status === "APROBADO") {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            aprobados: [...prevState.aprobados, trabajadorPorEvento],
+          }));
+        } else {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            rechazados: [...prevState.rechazados, trabajadorPorEvento],
+          }));
+        }
+      });
+    }
   }, [eventDetail]);
 
   return (
@@ -160,7 +162,7 @@ const EventDatail = () => {
               <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
                 Rechazados
               </p>
-              <ul>
+              <ul className="mb-8">
                 {postulantes?.rechazados.map((postulante) => {
                   return (
                     <PostulanteCard
