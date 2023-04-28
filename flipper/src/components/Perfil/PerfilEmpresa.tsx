@@ -21,10 +21,17 @@ const PerfilEmpresa: React.FC = () => {
   console.log(nombre);
 
   const userEvent = async () => {
-    await axios
-      .get(`http://localhost:3000/api/empresa/${nombre}`)
-      .then((response) => {
-        setProfile(response.data);
+    await fetch("/api/empresa", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        nombreEmpresa: nombre,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setProfile(data);
       })
       .catch((e) => e.message);
   };
@@ -36,7 +43,8 @@ const PerfilEmpresa: React.FC = () => {
   return (
     <div
       className="h-screen w-full bg-gray-200 md:w-full md:ml-[4%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)] flex justify-center items-center ">
+            lg:w-[calc(100vw-268px)] flex justify-center items-center "
+    >
       <div className="card lg:w-6/12 h-4/5 lg:pt-0 bg-#1E1E1E shadow-inner border-t-2 border-b-2 rounded-md border-[#4B39EF]">
         <div className="card-body p-2 flex flex-col justify-center h-full w-full">
           <figure className="mb-6">
