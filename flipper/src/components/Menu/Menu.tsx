@@ -5,7 +5,7 @@ import { IconContext } from "react-icons";
 import { FaArrowLeft } from "react-icons/fa";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import ListaDePestañasDelMenu from "./ListaDePestañasDelMenu";
+import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
 import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
 import { ShowElements } from "@/types/Types";
 
@@ -34,7 +34,7 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
         </p>
       </div>
 
-      <ListaDePestañasDelMenu
+      <ListaDePestanasDelMenu
         setShowElements={setShowElements}
         setIsExpanded={() => setIsExpanded(false)}
       />

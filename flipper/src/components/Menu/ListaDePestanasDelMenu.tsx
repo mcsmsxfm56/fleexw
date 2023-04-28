@@ -1,13 +1,18 @@
 import React from "react";
 import { ShowElements } from "@/types/Types";
 import { BotonesDePestañasDelMenu } from "@/utils/BotonesDePestañasDelMenu";
+import { useRouter } from "next/router";
+import Home from '../../pages/home/index';
+
 
 interface Props {
   setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>;
   setIsExpanded: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
-const ListaDePestañasDelMenu = ({ setShowElements, setIsExpanded }: Props) => {
+const ListaDePestanasDelMenu = ({ setShowElements, setIsExpanded }: Props) => {
+  const router = useRouter()
+
   const handleShowElements = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -20,7 +25,9 @@ const ListaDePestañasDelMenu = ({ setShowElements, setIsExpanded }: Props) => {
       showPerfil: idButton === "Perfil" ? true : false,
     });
     setIsExpanded(false);
+    router.asPath !== "/home" && router.push("/home")
   };
+
   return (
     <ul
       className={
@@ -42,4 +49,4 @@ const ListaDePestañasDelMenu = ({ setShowElements, setIsExpanded }: Props) => {
   );
 };
 
-export default ListaDePestañasDelMenu;
+export default ListaDePestanasDelMenu;
