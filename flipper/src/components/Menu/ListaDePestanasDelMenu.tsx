@@ -31,14 +31,14 @@ const ListaDePestanasDelMenu = ({ setShowElements, setIsExpanded }: Props) => {
   return (
     <ul
       className={
-        "px-4 md:mt-8 flex flex-col gap-8 items-start border-black rounded transition-all"
+        "px-4 md:mt-8 flex flex-col gap-4 items-start border-black rounded transition-all"
       }>
       {BotonesDePestañasDelMenu.map((pestaña) => {
         return (
           <li className="w-full" key={pestaña}>
             <button
               id={pestaña}
-              className={"w-full block text-white"}
+              className={"w-full block text-white hover:bg-indigo-500 transition duration-100 py-4"}
               onClick={handleShowElements}>
               {pestaña}
             </button>
