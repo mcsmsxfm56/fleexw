@@ -4,16 +4,13 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { ShowElements } from "@/types/Types";
 import Link from "next/link";
 
-
 interface Props {
   isExpanded: boolean;
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const NavBar = ({ isExpanded, setIsExpanded }: Props) => {
-
-
   return (
-    <nav className="navbar relative bg-indigo-600 w-full h-full">
+    <nav className="navbar fixed bg-indigo-600 w-full h-[50px] z-50">
       <div className="flex-none">
         <button
           className="btn btn-square btn-sm btn-ghost md:hidden"
@@ -31,10 +28,11 @@ const NavBar = ({ isExpanded, setIsExpanded }: Props) => {
           </svg>
         </button>
       </div>
-      <div className="flex-1">
-        <Link href="/home" className="btn btn-ghost normal-case text-xl">Eventos</Link>
+      <div className="flex-1 justify-center">
+        <Link href="/home" className="btn btn-ghost normal-case text-xl">
+          Eventos
+        </Link>
       </div>
-
     </nav>
   );
 };

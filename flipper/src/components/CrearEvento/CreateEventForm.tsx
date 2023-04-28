@@ -131,16 +131,15 @@ const CreateEventForm = () => {
   /* console.log(formik.values);
   console.log(id); */
   return (
-    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-screen lg:h-full items-center">
+    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-full lg:h-full items-center">
       <div className="xl:-mr-[250px]">
-        <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 text-2xl">
+        <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 pt-20 text-2xl">
           Crea tu Evento
         </h3>
 
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-start"
-        >
+          className="w-full flex flex-col items-start">
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
@@ -309,8 +308,7 @@ const CreateEventForm = () => {
                       ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                       : "bg-slate-400"
                   } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
-                  disabled={!formik.isValid}
-                >
+                  disabled={!formik.isValid}>
                   Crear Evento
                 </button>
               </>

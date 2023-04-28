@@ -18,7 +18,8 @@ export interface Props {
 }
 
 type Ordering = "asc" | "desc";
-const buttonStyle = "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
@@ -43,7 +44,6 @@ const Eventos: React.FC = () => {
   }, [order]);
 
   const ordering = (order: Ordering) => {
-
     function orderAsc(a: evento, b: evento) {
       if (a.fecha_inicio < b.fecha_inicio) return -1;
       if (a.fecha_inicio > b.fecha_inicio) return 1;
@@ -64,31 +64,37 @@ const Eventos: React.FC = () => {
     }
 
     const eventosSorted = {
-      ...eventos, eventos: sorted
-    }
+      ...eventos,
+      eventos: sorted,
+    };
     setEventos(eventosSorted);
   };
 
   //console.log(eventos);//toda la info del user empresa, los eventos estan en eventos.eventos
   return (
-    <div className="h-screen bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
+    <div
+      className="h-screen w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
             lg:w-[calc(100vw-268px)]">
-      <div className="p-2 flex items-start">
-        <h1 className="text-5xl mb-2 mt-4 text-indigo-700">Lista de Eventos</h1>
+      <div className="p-2">
+        <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
+          Lista de Eventos
+        </h1>
       </div>
       {/* Ordenamiento por fechas */}
-      <div>
-        <h2 className="text-2xl text-black my-4 text-center">Ordenar eventos por Fecha</h2>
-        <div className="flex justify-center">
+      <div className="p-2 lg:text-center 2xl:text-center">
+        <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
+        <div className="flex lg:justify-center 2xl:justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
-          <button className={buttonStyle + " ml-4"} onClick={() => setOrder("desc")}>
+          <button
+            className={buttonStyle + " ml-2"}
+            onClick={() => setOrder("desc")}>
             Descendente
           </button>
         </div>
       </div>
-      <div className="p-2 max-w-6xl">
+      <div className="p-2 lg:flex lg:justify-center">
         <ListaEventos eventos={eventos?.eventos} />
       </div>
     </div>

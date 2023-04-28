@@ -22,30 +22,17 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
     <div
       className={
         !isExpanded
-          ? "h-screen md:w-1/4 lg:w-[250px] xl:h-[121vh] 2xl:h-screen absolute md:block top-0 md:top-[64px] -left-40 md:left-0 bottom-0 bg-indigo-600 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40"
-          : "h-screen  xl:h-[121vh] 2xl:h-screen bg-indigo-600 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
+          ? "h-full md:w-1/4 lg:w-[250px] md:pt-20 2xl:h-screen fixed md:block top-0 md:top-0 -left-40 md:left-0 bottom-0 bg-indigo-600 lg:pt-20 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40"
+          : "h-screen 2xl:h-screen bg-indigo-600 items-center px-4 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
       }>
-      <IconContext.Provider
-        value={{
-          color: "white",
-          size: "1.5em",
-          className: "global-class-name",
-        }}>
-        <button
-          className="mt-5 mb-8 md:hidden"
-          onClick={() => setIsExpanded(!isExpanded)}>
-          <FaArrowLeft />
-        </button>
-      </IconContext.Provider>
-
-      <div className="avatar flex justify-center mt-8">
+      <div className="avatar flex flex-col items-center justify-center gap-2">
         <div className="w-20 rounded-full ">
           <Image src={perfilProvisorio} alt="Picture of the author" />
         </div>
+        <p className={"w-full block text-white text-center md:mt-0"}>
+          {nombre}
+        </p>
       </div>
-      <p className={"w-full block text-white text-center -mt-8 md:mt-0"}>
-        {nombre}
-      </p>
 
       <ListaDePestañasDelMenu
         setShowElements={setShowElements}

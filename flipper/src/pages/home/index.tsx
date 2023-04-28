@@ -9,6 +9,7 @@ import { ShowElements } from "@/types/Types";
 import CreateEventForm from "@/components/CrearEvento/CreateEventForm";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import AppLayout from "@/components/AppLayout/AppLayout";
 
 const hardcoded = {
   nombreEvento: "Nombre evento2",
@@ -22,15 +23,14 @@ export default function Home() {
   const { showElements } = useContext(MenuContext);
 
   return (
-    <>
-
-
-      {showElements.showEventos && <Eventos />}
-      {showElements.showHistorial && <Historial />}
-      {showElements.showCrear && <CreateEventForm />}
-      {showElements.showPostulaciones && <PostulacionesTrabajador />}
-      {showElements.showPerfil && <PerfilEmpresa />}
-
-    </>
+    <AppLayout>
+      <>
+        {showElements.showEventos && <Eventos />}
+        {showElements.showHistorial && <Historial />}
+        {showElements.showCrear && <CreateEventForm />}
+        {showElements.showPostulaciones && <PostulacionesTrabajador />}
+        {showElements.showPerfil && <PerfilEmpresa />}
+      </>
+    </AppLayout>
   );
 }
