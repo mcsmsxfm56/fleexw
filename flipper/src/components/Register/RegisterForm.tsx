@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import WorkerRegisterForm from "./WorkerRegisterForm";
 import CompanyRegisterForm from "./CompanyRegisterForm";
-import { useRouter } from "next/router";
 
 type CurrentRol = "" | "empresa" | "trabajador";
 
@@ -33,13 +33,13 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col items-center ">
-      <h1 className="text-[#95A1AC] mb-4 text-4xl self-baseline">
+    <div className="rounded-lg flex flex-col items-center m-auto relative max-w-xs md:w-screen md:max-w-lg lg:w-screen lg:max-w-xl">
+      <h1 className="text-[#95A1AC] mb-4 font-bold text-3xl self-baseline">
         Bienvenido!
       </h1>
 
       <button
-        className="w-[40px] h-[40px] text-[#646C70] rounded-3xl absolute right-[1em] font-bold hover:bg-slate-400 transition duration-200"
+        className="w-[40px] h-[40px] text-[#646C70] rounded-3xl absolute right-0 font-bold hover:bg-slate-400 transition duration-200"
         onClick={() => router.push("/")}
       >
         X
@@ -48,7 +48,7 @@ const RegisterForm: React.FC = () => {
       <select
         value={currentRol}
         onChange={handleChangeState}
-        className="w-full mb-4 py-2 pl-4 rounded-lg text-[#434648] font-bold cursor-pointer"
+        className="w-full mb-4 py-2 pl-4 rounded-lg font-bold cursor-pointer"
       >
         {RolTypes.map((rol, index) => (
           <option key={`Rol_${index}`} value={rol.value} className="font-bold">

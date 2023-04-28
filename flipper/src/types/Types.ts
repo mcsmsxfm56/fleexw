@@ -41,6 +41,32 @@ export interface WorkerData {
   idType: string | null;
 }
 
+export interface Trabajadores extends WorkerData {
+  id: string,
+}
+
+export interface TrabajadorStatus {
+  eventoId: string,
+  trabajadorId: string,
+  status: string,
+  trabajadores: Trabajadores
+}
+
+export interface DetalleEvento {
+  id: string,
+  isDeleted: boolean,
+  nombre: string,
+  id_empresa: string,
+  fecha_inicio: string,
+  fecha_final: string,
+  lugar: string,
+  cupos: number,
+  perfil: string,
+  pago: number,
+  observaciones: string,
+  trabajadores: TrabajadorStatus[]
+}
+
 //Interfaz para crear eventos
 export interface createEvent {
   id_empresa: string;

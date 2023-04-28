@@ -1,23 +1,77 @@
+import React, { Dispatch, SetStateAction, useContext, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { IconContext } from "react-icons";
+import { FaArrowLeft } from "react-icons/fa";
+import { MenuContext } from "@/context/MenuContext";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
+import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
+import { ShowElements } from "@/types/Types";
 
+interface Props {
+  isExpanded: boolean;
+  setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Menu = ({ isExpanded, setIsExpanded }: Props) => {
+  const { logout, nombre } = useSesionUsuarioContext();
+  const { setShowElements } = useContext(MenuContext);
+
+  return (
+    <div
+      className={
+        !isExpanded
+          ? "h-full md:w-1/4 lg:w-[250px] md:pt-20 2xl:h-screen fixed md:block top-0 md:top-0 -left-40 md:left-0 bottom-0 bg-indigo-600 lg:pt-20 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40"
+          : "h-screen 2xl:h-screen bg-indigo-600 items-center px-4 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
+      }>
+      <div className="avatar flex flex-col items-center justify-center gap-2">
+        <div className="w-20 rounded-full ">
+          <Image src={perfilProvisorio} alt="Picture of the author" />
+        </div>
+        <p className={"w-full block text-white text-center md:mt-0"}>
+          {nombre}
+        </p>
+      </div>
+
+      <ListaDePestanasDelMenu
+        setShowElements={setShowElements}
+        setIsExpanded={() => setIsExpanded(false)}
+      />
+
+      <Link href="" className={"w-full block text-white text-center"}>
+        Boton de Ayuda
+      </Link>
+      <button className={"w-full block text-white"} onClick={() => logout()}>
+        Cerrar Sesión
+      </button>
+    </div>
+  );
+};
+
+export default Menu;
+
+//MENU OLD
+/* 
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
 import Link from 'next/link'
-import React, { Dispatch, SetStateAction, useRef } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useRef } from 'react'
 import Image from 'next/image'
 import { IconContext } from 'react-icons'
 import { FaArrowLeft } from 'react-icons/fa'
 import perfilProvisorio from "../assets/images/imagenPerfilProvisoria.png"
 import { ShowElements } from '@/types/Types'
+import { MenuContext } from '@/context/MenuContext'
 
 interface Props {
   isExpanded: boolean,
-  showElements: ShowElements
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>
-  setShowElements: React.Dispatch<React.SetStateAction<ShowElements>>
 }
 
 
-const Menu = ({ isExpanded, setIsExpanded, showElements, setShowElements }: Props) => {
+const Menu = ({ isExpanded, setIsExpanded }: Props) => {
   const { logout, nombre } = useSesionUsuarioContext()
+  const { setShowElements } = useContext(MenuContext)
 
   return (
     <div
@@ -124,5 +178,4 @@ const Menu = ({ isExpanded, setIsExpanded, showElements, setShowElements }: Prop
   )
 }
 
-export default Menu
-
+export default Menu */

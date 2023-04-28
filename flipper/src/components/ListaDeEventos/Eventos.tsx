@@ -2,16 +2,6 @@ import ListaEventos from "./ListaDeEventos";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import axios from "axios";
 import React, { useState } from "react";
-import useSWR, { Fetcher } from "swr";
-
-const fetcher = (endpoint: any) =>
-  fetch(endpoint).then((res) => {
-    console.log(endpoint);
-    res.json();
-  });
-
-//fetch(endpoint).then((res) => res);
-//Props indica el tipado de la respuesta y string el tipado de endpoint
 
 export interface evento {
   perfil: string;
@@ -24,7 +14,7 @@ export interface evento {
   id: string;
 }
 export interface Props {
-  eventos: any;
+  eventos: evento[];
 }
 
 type Ordering = "asc" | "desc";
@@ -32,54 +22,27 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const Eventos: React.FC = () => {
-  //const [eventos, setEventos] = useState<Props>({ eventos: [] });
-  //const userContext = useSesionUsuarioContext();
+  const [eventos, setEventos] = useState<Props>({ eventos: [] });
+  const userContext = useSesionUsuarioContext();
 
-  //const [order, setOrder] = useState<Ordering>("desc");
-  //if (typeof window !== "undefined") {
-  // Perform localStorage action
-  //var sessionName = localStorage.getItem("nombre");
-  //console.log(sessionName);
-  const { data, error, isLoading } = useSWR(
-    `https://henry-project-flipper.vercel.app/api/empresa/marcos`,
-    fetcher
-  );
-  // }
-  if (error) {
-    console.log(error);
-    return <div>failed to load</div>;
-  }
-  if (isLoading) return <div>loading...</div>;
-  console.log(data);
-  //const userEvent = async () => {
-  //const sessionName = localStorage.getItem("nombre");
-  //fetch(`api/empresa/${sessionName}`)
-  //.then((res) => res.json())
-  //.then((response) => {
-  // console.log(response);
-  //setEventos(response);
-  //console.log("useEffect se ejecuta");
-  //console.log(eventos);
-  //})
-  //.catch((e) => e.message);
-  //};
+  const [order, setOrder] = useState<Ordering>("desc");
 
-  //React.useEffect(() => {
-  //userEvent();
-  //fetch(`api/empresa/${sessionName}`)
-  //.then((res) => res.json())
-  //.then((response) => {
-  //console.log(response);
-  //setEventos(response);
-  //console.log("useEffect se ejecuta");
-  ///console.log(eventos);
-  //});
-  //}, []);
+  const userEvent = async () => {
+    const sessionName = localStorage.getItem("nombre");
+    await axios
+      .get(`/api/empresa/${sessionName}`)
+      .then((response) => setEventos(response.data))
+      .catch((e) => e.message);
+  };
 
-  ///React.useEffect(() => {
-  //ordering(order);
-  //}, [order]);
-  /*
+  React.useEffect(() => {
+    userEvent();
+  }, []);
+
+  React.useEffect(() => {
+    ordering(order);
+  }, [order]);
+
   const ordering = (order: Ordering) => {
     function orderAsc(a: evento, b: evento) {
       if (a.fecha_inicio < b.fecha_inicio) return -1;
@@ -107,41 +70,34 @@ const Eventos: React.FC = () => {
     setEventos(eventosSorted);
   };
 
-  console.log(eventos); //toda la info del user empresa, los eventos estan en eventos.eventos
-  */
+  //console.log(eventos);//toda la info del user empresa, los eventos estan en eventos.eventos
   return (
-    <div className="h-screen w-full">
-      <div className="p-2 flex items-start">
-        <h1 className="text-5xl mb-2 mt-4 text-indigo-700">Lista de Eventos</h1>
+    <div
+      className="h-screen w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
+            lg:w-[calc(100vw-268px)]"
+    >
+      <div className="p-2">
+        <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
+          Lista de Eventos
+        </h1>
       </div>
       {/* Ordenamiento por fechas */}
-      <div>
-        <h2 className="text-2xl text-black my-4 text-center">
-          Ordenar eventos por Fecha
-        </h2>
-        <div className="flex justify-center">
-          <button
-            className={buttonStyle}
-            onClick={() => {
-              //setOrder("asc")
-            }}
-          >
+      <div className="p-2 lg:text-center 2xl:text-center">
+        <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
+        <div className="flex lg:justify-center 2xl:justify-center">
+          <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
           <button
-            className={buttonStyle + " ml-4"}
-            onClick={() => {
-              //setOrder("desc")
-            }}
+            className={buttonStyle + " ml-2"}
+            onClick={() => setOrder("desc")}
           >
             Descendente
           </button>
         </div>
       </div>
-      <div className="p-2 max-w-6xl">
-        {
-          //<ListaEventos eventos={data?.eventos} />
-        }
+      <div className="p-2 lg:flex lg:justify-center">
+        <ListaEventos eventos={eventos?.eventos} />
       </div>
     </div>
   );
