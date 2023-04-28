@@ -3,19 +3,19 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import NavBar from "@/components/NavBar";
 import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
-import { DetalleEvento, TrabajadorStatus } from '../../../types/Types';
+import { DetalleEvento, TrabajadorStatus } from "../../../types/Types";
 import Link from "next/link";
 import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostulanteCard } from "@/components/PostulanteCard";
 import AppLayout from "@/components/AppLayout/AppLayout";
 import { HiPencil } from "react-icons/hi";
-import { log } from 'console';
+import { log } from "console";
 
 interface postulante {
-  rechazados: TrabajadorStatus[],
-  aprobados: TrabajadorStatus[],
-  pendientes: TrabajadorStatus[]
+  rechazados: TrabajadorStatus[];
+  aprobados: TrabajadorStatus[];
+  pendientes: TrabajadorStatus[];
 }
 
 const EventDatail = () => {
@@ -24,8 +24,8 @@ const EventDatail = () => {
   const [postulantes, setPostulantes] = useState<postulante>({
     rechazados: [],
     aprobados: [],
-    pendientes: []
-  })
+    pendientes: [],
+  });
 
   console.log(postulantes);
 
@@ -45,17 +45,23 @@ const EventDatail = () => {
   useEffect(() => {
     eventDetail?.trabajadores.map((trabajadorPorEvento) => {
       if (trabajadorPorEvento.status === "PENDIENTE") {
-        setPostulantes({ ...postulantes, pendientes: [...postulantes.pendientes, trabajadorPorEvento] })
+        setPostulantes((prevState) => ({
+          ...prevState,
+          pendientes: [...prevState.pendientes, trabajadorPorEvento],
+        }));
+      } else if (trabajadorPorEvento.status === "APROBADO") {
+        setPostulantes((prevState) => ({
+          ...prevState,
+          aprobados: [...prevState.aprobados, trabajadorPorEvento],
+        }));
+      } else {
+        setPostulantes((prevState) => ({
+          ...prevState,
+          rechazados: [...prevState.rechazados, trabajadorPorEvento],
+        }));
       }
-      else if (trabajadorPorEvento.status === "APROBADO") {
-        setPostulantes({ ...postulantes, aprobados: [...postulantes.aprobados, trabajadorPorEvento] })
-      }
-      else {
-        setPostulantes({ ...postulantes, rechazados: [...postulantes.rechazados, trabajadorPorEvento] })
-      }
-    })
-  }
-    , [eventDetail])
+    });
+  }, [eventDetail]);
 
   return (
     <AppLayout>
@@ -68,9 +74,7 @@ const EventDatail = () => {
               <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
                 Evento: {eventDetail?.nombre}
               </p>
-              <HiPencil
-                className="text-[#f6ea06]"
-                size={30} />
+              <HiPencil className="text-[#f6ea06]" size={30} />
             </div>
             <div className="flex gap-10">
               <div className="flex flex-col">
@@ -125,52 +129,49 @@ const EventDatail = () => {
                 Pendientes
               </p>
               <ul>
-                {
-                  postulantes.pendientes.map((postulante) => {
-                    return (
-                      <PostulanteCard
-                        idEvent={idEvent as string}
-                        idPostulante={postulante.trabajadorId}
-                        nombre={postulante.trabajadores.name}
-                        status={postulante.status}
-                      />
-                    )
-                  })
-                }
+                {postulantes?.pendientes.map((postulante) => {
+                  return (
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
+                  );
+                })}
               </ul>
               <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
                 Aprobados
               </p>
               <ul>
-                {
-                  postulantes.aprobados.map((postulante) => {
-                    return (
-                      <PostulanteCard
-                        idEvent={idEvent as string}
-                        idPostulante={postulante.trabajadorId}
-                        nombre={postulante.trabajadores.name}
-                        status={postulante.status}
-                      />
-                    )
-                  })
-                }
+                {postulantes?.aprobados.map((postulante) => {
+                  return (
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
+                  );
+                })}
               </ul>
               <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
                 Rechazados
               </p>
               <ul>
-                {
-                  postulantes.rechazados.map((postulante) => {
-                    return (
-                      <PostulanteCard
-                        idEvent={idEvent as string}
-                        idPostulante={postulante.trabajadorId}
-                        nombre={postulante.trabajadores.name}
-                        status={postulante.status}
-                      />
-                    )
-                  })
-                }
+                {postulantes?.rechazados.map((postulante) => {
+                  return (
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -182,7 +183,8 @@ const EventDatail = () => {
 
 export default EventDatail;
 
-{/* <ul>
+{
+  /* <ul>
   {eventDetail?.trabajadores?.map((trabajadorPorEvento) => {
     const idPostulante = trabajadorPorEvento.trabajadorId;
     if (trabajadorPorEvento.status === "PENDIENTE")
@@ -232,4 +234,5 @@ export default EventDatail;
 
       </>
     );
-  })} */}
+  })} */
+}
