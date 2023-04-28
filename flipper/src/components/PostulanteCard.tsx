@@ -2,6 +2,8 @@ import React from "react";
 import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import Link from "next/link";
+import { log } from "console";
+import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 
 interface PropsCard {
   idPostulante: string;
@@ -14,6 +16,10 @@ export const PostulanteCard: React.FC<PropsCard> = ({
   nombre,
   status,
 }) => {
+  const handleStatus = (statusNuevo: string) => {
+    aceptarORechazarPostulante({ idPostulante, statusNuevo })
+
+  }
   return (
     <li>
       <div
@@ -36,28 +42,16 @@ export const PostulanteCard: React.FC<PropsCard> = ({
         </div>
         <div className="min-w-[250px] flex justify-end gap-4 ">
           {status !== "RECHAZADO" &&
-            <IconContext.Provider
-              value={{
-                color: "red",
-                size: "1.5em",
-                className: "global-class-name",
-              }}>
-              <button>
-                <BsXCircleFill />
-              </button>
-            </IconContext.Provider>}
+            <button onClick={() => handleStatus("RECHAZADO")} >
+              <BsXCircleFill className="text-[red]" size={30} />
+            </button>
+          }
           {
             status !== "APROBADO" &&
-            <IconContext.Provider
-              value={{
-                color: "green",
-                size: "1.5em",
-                className: "global-class-name",
-              }}>
-              <button>
-                <BsCheckCircleFill />
-              </button>
-            </IconContext.Provider>}
+            <button onClick={() => handleStatus("APROBADO")}>
+              <BsCheckCircleFill className="text-[green]" size={30} />
+            </button>
+          }
         </div>
       </div>
     </li>

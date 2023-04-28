@@ -244,7 +244,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
-                Fecha Inicial
+                Fecha Final
                 <input
                   name="fecha_final"
                   placeholder="Fecha final"

@@ -23,14 +23,13 @@ const buttonStyle =
 
 const Eventos: React.FC = () => {
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
-  const userContext = useSesionUsuarioContext();
+  const { nombre } = useSesionUsuarioContext();
 
   const [order, setOrder] = useState<Ordering>("desc");
 
   const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
     await axios
-      .get(`/api/empresa/${sessionName}`)
+      .get(`/api/empresa/${nombre}`)
       .then((response) => setEventos(response.data))
       .catch((e) => e.message);
   };

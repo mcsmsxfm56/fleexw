@@ -80,7 +80,7 @@ export default async function handler(
     "status": "RECHAZADO"
   }
   */
-  if (req.method === "PUT") {
+  if (req.method === "PUT" && req.body.realmethod === "PUT") {
     if (evento?.isDeleted) {
       res.status(404).send("evento no encontrado");
     } else {
