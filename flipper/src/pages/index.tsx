@@ -12,6 +12,8 @@ import {
     ErrorMessage,
 } from 'formik';
 import validationSchema from "@/utils/validationSchema";
+import { useState } from "react";
+import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 
 interface FormValues {
     email: "",
@@ -23,6 +25,7 @@ interface FormValues {
 function LogIn() {
 
     const { login, hasLoginError } = useSesionUsuarioContext();
+    const [loading, setLoading] = useState(false);
 
     const initialValues: FormValues = {
         email: "",
@@ -38,17 +41,22 @@ function LogIn() {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={async (values, actions) => {
+                        setLoading(true);
                         await login(values.email, values.password);
                         actions.setSubmitting(false);
+                        setLoading(false);
                     }}
                     validationSchema={validationSchema}
                 >
                     <Form className="grid gap-5">
                         <Field id="email" name="email" placeholder=" Dirección de correo electrónico" className="h-10 pl-4 input input-bordered input-primary" />
                         <ErrorMessage name="email" component="div" className="text-red-500" />
-                        <Field id="password" name="password" placeholder=" Contraseña" className="h-10 pl-4 input input-bordered input-primary" />
+                        <Field id="password" name="password" type="password" placeholder=" Contraseña" className="h-10 pl-4 input input-bordered input-primary" />
                         <ErrorMessage name="password" component="div" className="text-red-500" />
-                        <button type="submit" className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2 hover:bg-indigo-500 transition duration-100">Submit</button>
+                        {
+                            loading ? <LoadingSubmitForm /> 
+                            : <button type="submit" className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2 hover:bg-indigo-500 transition duration-100">Submit</button>
+                        }
                     </Form>
                 </Formik>
                 {hasLoginError && (
