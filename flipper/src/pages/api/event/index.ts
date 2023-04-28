@@ -7,7 +7,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id: string = req.query.id as string;
+  //res.status(200).send("llega a la ruta");
+  /* console.log(req.method); */
+  const id: string = req.body.eventoId as string;
+  /* console.log(id); */
   const evento = await prisma.evento.findUnique({
     where: {
       id,
@@ -16,22 +19,21 @@ export default async function handler(
     include: {
       trabajadores: {
         include: {
-          trabajadores: true
-        }
+          trabajadores: true,
+        },
       },
-
     },
   });
-  if (req.method === "GET") {
+  if (req.method === "PUT" && req.body.realmethod === "GET") {
     try {
       if (evento) return res.status(200).send(evento);
     } catch (error: any) {
-      return res.status(400).send(error.message);
+      return res.status(400).send(evento);
     }
   }
   /*
-  1. RUTA GET /api/home/:idEvento
-  /api/home/2
+  1. RUTA GET /api/event/:idEvento
+  /api/event/2
   */
   // if (req.method === "GET") {
   //   /*
@@ -106,10 +108,12 @@ export default async function handler(
   /api/home/2
   RUTA PARA QUE LA EMPRESA PUEDA CANCELAR EVENTOS
   */
-  if (req.method === "DELETE") {
+  if (req.method === "PUT" && req.body.realmethod === "DELETE") {
+    console.log("detecta que es deleted");
     if (evento?.isDeleted) {
       return res.status(404).send("evento no encontrado o ya eliminado");
     } else {
+      console.log(id);
       const deletedEvent = await prisma.evento.update({
         where: {
           id,

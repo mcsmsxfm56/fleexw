@@ -6,18 +6,20 @@ import { log } from "console";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 
 interface PropsCard {
+  idEvent: string
   idPostulante: string;
   nombre: string;
   status: string;
 }
 
 export const PostulanteCard: React.FC<PropsCard> = ({
+  idEvent,
   idPostulante,
   nombre,
-  status,
+  status
 }) => {
   const handleStatus = (statusNuevo: string) => {
-    aceptarORechazarPostulante({ idPostulante, statusNuevo })
+    aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent })
 
   }
   return (

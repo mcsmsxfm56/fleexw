@@ -13,11 +13,20 @@ interface EventCardProps {
   direccion: string;
 }
 const borradoLogico = async (eventoId: string) => {
-  await fetch(`api/event/${eventoId}`, {
-    method: "DELETE",
-  }).then((response) => {
-    alert("borrado con exito");
-  });
+  await fetch(`/api/event`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "DELETE",
+      eventoId,
+    }),
+  })
+    .then((response) => {
+      alert("borrado con exito");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 export const EventCard: React.FC<evento> = (evento) => {
   /* console.log("card", evento); */
@@ -29,9 +38,7 @@ export const EventCard: React.FC<evento> = (evento) => {
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
         <div className="flex gap-8">
           <Link href={`/evento/editar/${evento.id}`}>
-            <HiPencil
-              className="text-[#f6ea06]"
-              size={30} />
+            <HiPencil className="text-[#f6ea06]" size={30} />
           </Link>
           <AiFillDelete
             className="text-[#731111]"

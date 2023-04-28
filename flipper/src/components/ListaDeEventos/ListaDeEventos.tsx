@@ -2,10 +2,13 @@ import React from "react";
 import { evento } from "@/components/ListaDeEventos/Eventos";
 import { EventCard } from "./EventCard";
 interface Props2 {
-  eventos: evento[];
+  eventos: evento[] | undefined;
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
-  /*  console.log("lista de eventos", eventos); */
+  //console.log("lista de eventos", eventos);
+
+  //console.log("ListaDeEventos.tsx");
+  //console.log(eventos);
 
   if (eventos?.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
