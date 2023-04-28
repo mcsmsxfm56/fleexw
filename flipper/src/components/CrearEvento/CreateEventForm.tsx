@@ -191,7 +191,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   /* console.log(formik.values);
   console.log(id); */
   return (
-    <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-full lg:h-full items-center">
+    <div className="w-full h-full max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-full lg:h-full items-center">
       <div className="xl:-mr-[250px]">
         <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 pt-20 text-2xl">
           {
