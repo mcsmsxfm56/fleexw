@@ -99,9 +99,11 @@ const Historial: React.FC = () => {
   }, []);
   //console.log(eventos);
   return (
-    <div className="h-screen w-full">
-      <div className="p-2 flex items-start">
-        <h1 className="text-5xl mb-2 mt-4 text-indigo-700">
+    <div
+      className="h-screen bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
+            lg:w-[calc(100vw-268px)]">
+      <div className="p-2 text-center pt-16">
+        <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">
           Historial de Eventos<br></br>
           <ExcelDownloder
             data={data2}
@@ -112,7 +114,7 @@ const Historial: React.FC = () => {
           </ExcelDownloder>
         </h1>
       </div>
-      <div className="p-2 max-w-6xl">
+      <div className="p-2 flex justify-center">
         <ListaHistorial eventos={eventos?.eventos} />
       </div>
     </div>
