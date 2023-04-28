@@ -42,7 +42,11 @@ const validationSchema = yup.object({
   observaciones: yup.string().required(""),
 });
 
-const CreateEventForm = () => {
+interface PropsCreateEventForm {
+  idEvent?: string
+}
+
+const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
@@ -72,60 +76,116 @@ const CreateEventForm = () => {
   const submitHandler = async (values: createEvent) => {
     setSubmitError("");
     setIsLoading(true);
-    await fetch("/api/event/create-event", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("No se pudo realizar la peticion");
-        }
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top",
-          showConfirmButton: false,
-          timer: 3000,
-          background: "#B1FFBD",
-          color: "green",
-          iconColor: "green",
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "success",
-          title: "Evento creado exitosamente",
-        });
-        router.push("/home");
+    router.asPath !== "/home" ?
+      await fetch(`http://localhost:3000/api/event/create-event/${idEvent}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       })
-      .catch((e) => {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top",
-          showConfirmButton: false,
-          timer: 3000,
-          background: "red",
-          color: "white",
-          iconColor: "white",
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("No se pudo realizar la petición");
+          }
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            background: "#B1FFBD",
+            color: "green",
+            iconColor: "green",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
 
-        Toast.fire({
-          icon: "error",
-          title: "No se pudo crear el evento",
+          Toast.fire({
+            icon: "success",
+            title: "Evento actualizado exitosamente",
+          });
+          router.push("/home");
+        })
+        .catch((e) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            background: "red",
+            color: "white",
+            iconColor: "white",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "error",
+            title: "No se pudo actualizar el evento",
+          });
+        }) :
+
+      await fetch("/api/event/create-event", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("No se pudo realizar la peticion");
+          }
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            background: "#B1FFBD",
+            color: "green",
+            iconColor: "green",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "success",
+            title: "Evento creado exitosamente",
+          });
+          router.push("/home");
+        })
+        .catch((e) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            background: "red",
+            color: "white",
+            iconColor: "white",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "error",
+            title: "No se pudo crear el evento",
+          });
         });
-      });
     setIsLoading(false);
   };
   /* console.log(formik.values);
@@ -134,7 +194,12 @@ const CreateEventForm = () => {
     <div className="w-full h-screen max-sm:h-full md:ml-6 lg:ml-0 flex flex-col 2xl:h-full lg:h-full items-center">
       <div className="xl:-mr-[250px]">
         <h3 className="text-indigo-600 font-bold text-center p-3 mt-2 pt-20 text-2xl">
-          Crea tu Evento
+          {
+            router.asPath !== "/home" ?
+              "Editar Evento" :
+              "Crea tu Evento"
+          }
+
         </h3>
 
         <form
@@ -303,13 +368,17 @@ const CreateEventForm = () => {
                 )}
                 <button
                   type="submit"
-                  className={`${
-                    formik.touched && formik.isValid
-                      ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
-                      : "bg-slate-400"
-                  } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
+                  className={`${formik.touched && formik.isValid
+                    ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
+                    : "bg-slate-400"
+                    } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
                   disabled={!formik.isValid}>
-                  Crear Evento
+                  {
+                    router.asPath !== "/home" ?
+                      "Actualizar Evento" :
+                      "Crear Evento"
+                  }
+
                 </button>
               </>
             )}
