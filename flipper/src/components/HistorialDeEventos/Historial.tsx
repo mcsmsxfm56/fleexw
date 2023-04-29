@@ -74,11 +74,18 @@ const Historial: React.FC = () => {
 
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
-    await axios
-      .get(`api/empresa/${sessionName}`)
+    await fetch("/api/empresa", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        nombreEmpresa: sessionName,
+      }),
+    })
+      .then((res) => res.json())
       .then((response) => {
-        setEventos(response.data);
-        response.data.eventos.map((evento: eventoExcel) => {
+        setEventos(response);
+        response.eventos.map((evento: eventoExcel) => {
           evento.trabajadores.map((obj) => {
             let objExcel = {
               nombre_trabajador: obj.trabajadores.name,
