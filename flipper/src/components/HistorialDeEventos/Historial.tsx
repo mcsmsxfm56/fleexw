@@ -74,11 +74,18 @@ const Historial: React.FC = () => {
 
   const userEvent = async () => {
     const sessionName = localStorage.getItem("nombre");
-    await axios
-      .get(`api/empresa/${sessionName}`)
+    await fetch("/api/empresa", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        nombreEmpresa: sessionName,
+      }),
+    })
+      .then((res) => res.json())
       .then((response) => {
-        setEventos(response.data);
-        response.data.eventos.map((evento: eventoExcel) => {
+        setEventos(response);
+        response.eventos.map((evento: eventoExcel) => {
           evento.trabajadores.map((obj) => {
             let objExcel = {
               nombre_trabajador: obj.trabajadores.name,
@@ -100,7 +107,7 @@ const Historial: React.FC = () => {
   //console.log(eventos);
   return (
     <div
-      className="h-screen bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
+      className="h-full bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
             lg:w-[calc(100vw-268px)]">
       <div className="p-2 text-center pt-16">
         <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">

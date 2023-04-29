@@ -5,6 +5,9 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx}",
   ],
+  variants: {
+    backgroundColor: ["active", "focus", "hover"],
+  },
   theme: {
     extend: {
       backgroundImage: {
