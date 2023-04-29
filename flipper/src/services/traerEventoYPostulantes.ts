@@ -6,6 +6,14 @@ export function traerEventoYPostulantes(
     idEvent: string
 ): Promise<DetalleEvento> {
     //request con axios para obtener el usuario
-    return axios.get(`/api/event/${idEvent}`)
+    return axios(
+        {
+            method: 'put',
+            url: `/api/event`,
+            data: {
+                eventoId: idEvent,
+                realmethod: "GET"
+            }
+        })
         .then(response => response.data)
 }

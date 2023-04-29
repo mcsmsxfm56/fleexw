@@ -8,9 +8,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   //res.status(200).send("llega a la ruta");
-  console.log(req.method);
+  /* console.log(req.method); */
   const id: string = req.body.eventoId as string;
-  console.log(id);
+  /* console.log(id); */
   const evento = await prisma.evento.findUnique({
     where: {
       id,
@@ -24,16 +24,16 @@ export default async function handler(
       },
     },
   });
-  if (req.method === "GET") {
+  if (req.method === "PUT" && req.body.realmethod === "GET") {
     try {
       if (evento) return res.status(200).send(evento);
     } catch (error: any) {
-      return res.status(400).send(error.message);
+      return res.status(400).send(evento);
     }
   }
   /*
-  1. RUTA GET /api/home/:idEvento
-  /api/home/2
+  1. RUTA GET /api/event/:idEvento
+  /api/event/2
   */
   // if (req.method === "GET") {
   //   /*

@@ -51,7 +51,6 @@ const Eventos: React.FC = () => {
   //const [data2, setData] = useState();
   /*
   const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
     await axios
       .put(`/api/empresa`, {
         realmethod: "GET",

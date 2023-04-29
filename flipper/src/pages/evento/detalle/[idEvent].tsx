@@ -3,17 +3,31 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import NavBar from "@/components/NavBar";
 import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
-import { DetalleEvento } from "../../../types/Types";
+import { DetalleEvento, TrabajadorStatus } from "../../../types/Types";
 import Link from "next/link";
 import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { PostulanteCard } from "@/components/PostulanteCard";
 import AppLayout from "@/components/AppLayout/AppLayout";
 import { HiPencil } from "react-icons/hi";
+import { log } from "console";
+
+interface postulante {
+  rechazados: TrabajadorStatus[];
+  aprobados: TrabajadorStatus[];
+  pendientes: TrabajadorStatus[];
+}
 
 const EventDatail = () => {
   const router = useRouter();
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
+  const [postulantes, setPostulantes] = useState<postulante>({
+    rechazados: [],
+    aprobados: [],
+    pendientes: [],
+  });
+
+  console.log(postulantes);
 
   const { idEvent } = router.query;
 
@@ -22,10 +36,34 @@ const EventDatail = () => {
       traerEventoYPostulantes(idEvent as string)
         .then((data) => {
           setEventDetail(data);
+          console.log(data);
         })
         .catch((error) => console.log(error.message));
     }
   }, [idEvent]);
+
+  useEffect(() => {
+    if (eventDetail) {
+      eventDetail?.trabajadores.map((trabajadorPorEvento) => {
+        if (trabajadorPorEvento.status === "PENDIENTE") {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            pendientes: [...prevState.pendientes, trabajadorPorEvento],
+          }));
+        } else if (trabajadorPorEvento.status === "APROBADO") {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            aprobados: [...prevState.aprobados, trabajadorPorEvento],
+          }));
+        } else {
+          setPostulantes((prevState) => ({
+            ...prevState,
+            rechazados: [...prevState.rechazados, trabajadorPorEvento],
+          }));
+        }
+      });
+    }
+  }, [eventDetail]);
 
   return (
     <AppLayout>
@@ -38,9 +76,7 @@ const EventDatail = () => {
               <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
                 Evento: {eventDetail?.nombre}
               </p>
-              <HiPencil
-                className="text-[#f6ea06]"
-                size={30} />
+              <HiPencil className="text-[#f6ea06]" size={30} />
             </div>
             <div className="flex gap-10">
               <div className="flex flex-col">
@@ -91,53 +127,54 @@ const EventDatail = () => {
               </p>
             </div>
             <div className="h-full">
-              {eventDetail?.trabajadores?.map((trabajadorPorEvento) => {
-                const idPostulante = trabajadorPorEvento.trabajadorId;
-                if (trabajadorPorEvento.status === "PENDIENTE")
+              <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+                Pendientes
+              </p>
+              <ul>
+                {postulantes?.pendientes.map((postulante) => {
                   return (
-                    <>
-                      <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
-                        Pendientes
-                      </p>
-                      <ul>
-                        <PostulanteCard
-                          idPostulante={idPostulante}
-                          nombre={trabajadorPorEvento.trabajadores.name}
-                          status={trabajadorPorEvento.status}
-                        />
-                      </ul>
-                    </>
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
                   );
-                if (trabajadorPorEvento.status === "RECHAZADO")
+                })}
+              </ul>
+              <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+                Aprobados
+              </p>
+              <ul>
+                {postulantes?.aprobados.map((postulante) => {
                   return (
-                    <>
-                      <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
-                        Rechazados
-                      </p>
-                      <ul>
-                        <PostulanteCard
-                          idPostulante={idPostulante}
-                          nombre={trabajadorPorEvento.trabajadores.name}
-                          status={trabajadorPorEvento.status}
-                        />
-                      </ul>
-                    </>
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
                   );
-                return (
-                  <>
-                    <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
-                      Aprobados
-                    </p>
-                    <ul>
-                      <PostulanteCard
-                        idPostulante={idPostulante}
-                        nombre={trabajadorPorEvento.trabajadores.name}
-                        status={trabajadorPorEvento.status}
-                      />
-                    </ul>
-                  </>
-                );
-              })}
+                })}
+              </ul>
+              <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+                Rechazados
+              </p>
+              <ul className="mb-8">
+                {postulantes?.rechazados.map((postulante) => {
+                  return (
+                    <PostulanteCard
+                      key={postulante.trabajadorId}
+                      idEvent={idEvent as string}
+                      idPostulante={postulante.trabajadorId}
+                      nombre={postulante.trabajadores.name}
+                      status={postulante.status}
+                    />
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </div>
@@ -147,3 +184,57 @@ const EventDatail = () => {
 };
 
 export default EventDatail;
+
+{
+  /* <ul>
+  {eventDetail?.trabajadores?.map((trabajadorPorEvento) => {
+    const idPostulante = trabajadorPorEvento.trabajadorId;
+    if (trabajadorPorEvento.status === "PENDIENTE")
+      return (
+        <>
+          <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+            Pendientes
+          </p>
+
+          <PostulanteCard
+            idEvent={idEvent as string}
+            idPostulante={idPostulante}
+            nombre={trabajadorPorEvento.trabajadores.name}
+            status={trabajadorPorEvento.status}
+          />
+
+        </>
+      );
+    if (trabajadorPorEvento.status === "RECHAZADO")
+      return (
+        <>
+          <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+            Rechazados
+          </p>
+
+          <PostulanteCard
+            idEvent={idEvent as string}
+            idPostulante={idPostulante}
+            nombre={trabajadorPorEvento.trabajadores.name}
+            status={trabajadorPorEvento.status}
+          />
+
+        </>
+      );
+    return (
+      <>
+        <p className="font-bold text-white text-2xl bg-indigo-600 p-2 pr-6 pl-6 rounded-sm mb-4 mt-4">
+          Aprobados
+        </p>
+
+        <PostulanteCard
+          idEvent={idEvent as string}
+          idPostulante={idPostulante}
+          nombre={trabajadorPorEvento.trabajadores.name}
+          status={trabajadorPorEvento.status}
+        />
+
+      </>
+    );
+  })} */
+}
