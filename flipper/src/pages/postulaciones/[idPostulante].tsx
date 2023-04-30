@@ -57,11 +57,11 @@ function DetallePostulado() {
     <div className='flex justify-center items-center h-screen '>
 
       <div className=" md:w-2/4 md:flex bg-[#D9D9D9] border-2 rounded-3xl border-[#4B39EF] divide-solid  ">
-        <div className="flex flex-col items-center mx-auto">
-          <figure className="flex flex-col px-8 pt-2 md:flex-row md:items-center md:gap-12">
-            <img className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32" src={trabajador?.foto} alt="Picture of the author" />
+        <div className="flex flex-col items-center mx-auto ">
+          <div>
+            <img className="w-32 rounded-full" src={trabajador?.foto} alt="Picture of the author" />
             <h3 className={styles.input}>{trabajador?.name}</h3>
-          </figure>
+          </div>
 
 
           <div className='flex-col justify-center items-center lg:w-96'>

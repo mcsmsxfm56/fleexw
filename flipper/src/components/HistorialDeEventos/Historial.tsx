@@ -1,8 +1,7 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from "axios";
 import React, { useState } from "react";
 import ListaHistorial from "./ListaHistorial";
 import { useExcelDownloder } from "react-xls";
+import useSWR, { Fetcher } from "swr";
 
 export interface evento {
   perfil: string;
@@ -61,15 +60,23 @@ interface eventoExcel {
 interface dataType {
   datos_Eventos: {}[];
 }
+const fetcher: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "GET",
+      nombreEmpresa: localStorage.getItem("nombre"),
+    }),
+  }).then((res) => res.json());
+};
+
 const Historial: React.FC = () => {
+  const { data } = useSWR("/api/empresa", fetcher);
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
-  const userContext = useSesionUsuarioContext();
   const { ExcelDownloder, Type } = useExcelDownloder();
-  //const [data, setData] = useState<dataType>({datos_Eventos: []});
   const data2: dataType = {
-    // Worksheet named animals
     datos_Eventos: [],
-    // Worksheet named pokemons
   };
 
   const userEvent = async () => {

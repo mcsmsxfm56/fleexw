@@ -1,5 +1,4 @@
 import ListaEventos from "./ListaDeEventos";
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import useSWR, { Fetcher } from "swr";
 import React, { useState } from "react";
 
@@ -49,34 +48,9 @@ const Eventos: React.FC = () => {
       var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
     }
   }
-  //const [data2, setData] = useState({ eventos: [] });
-  //if (!isLoading) {
-  //setData(data);
-  //}
-  //console.log(data);
-  //console.log(error);
-  //console.log(isLoading);
-
-  //console.log(data);
-  //const userContext = useSesionUsuarioContext();
 
   const [order, setOrder] = useState<Ordering>("desc");
-  //const [data2, setData] = useState();
-  /*
-  const userEvent = async () => {
-    await axios
-      .put(`/api/empresa`, {
-        realmethod: "GET",
-        nombreEmpresa: sessionName,
-      })
-      .then((response) => setEventos(response.data))
-      .catch((e) => e.message);
-  };
 
-  React.useEffect(() => {
-    userEvent();
-  }, []);
-  */
   React.useEffect(() => {
     ordering(order);
   }, [order, data]);
@@ -127,16 +101,12 @@ const Eventos: React.FC = () => {
       eventos: sorted,
     };
     data = eventosSorted;
-    //console.log(data);
   };
-
-  //console.log(eventos);//toda la info del user empresa, los eventos estan en eventos.eventos
 
   if (error) {
     console.log(error);
     return <div>ERROR</div>;
   }
-  //if (isLoading) return <div>Cargando...</div>;
 
   console.log(data);
   return (
