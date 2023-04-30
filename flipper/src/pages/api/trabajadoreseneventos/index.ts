@@ -5,8 +5,27 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const eventoId = req.query.eventoId as string;
+  if (req.method === "PUT" && req.body.realmethod === "GET") {
+    const trabajadorId = req.body.trabajadorId;
+    const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
+      where: {
+        trabajadorId,
+      },
+      include: {
+        evento: {
+          include: {
+            empresa: true,
+          },
+        },
+      },
+    });
+    //console.log(eventoId);
+    //console.log(trabajadoresEnEventos);
+    //console.log(trabajadoresEnEventos);
+    return res.status(200).send(trabajadoresEnEventos);
+  }
   if (req.method === "GET") {
+    const eventoId = req.body.eventoId as string;
     try {
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
         {
@@ -31,6 +50,7 @@ export default async function handler(
     OBJETO ESPERADO
     */
     const status = req.body.status as string;
+    const eventoId = req.body.eventoId as string;
     const trabajadorId = req.body.trabajadorId as string;
     try {
       const trabajadorUpdateStatus = await prisma.trabajadoresEnEventos.update({
@@ -58,6 +78,7 @@ export default async function handler(
     }
     OBJETO ESPERADO
     */
+    const eventoId = req.body.eventoId as string;
     const trabajadorId = req.body.trabajadorId as string;
     try {
       const trabajadorCreateStatus = await prisma.trabajadoresEnEventos.create({
