@@ -1,8 +1,7 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from "axios";
 import React, { useState } from "react";
 import ListaHistorial from "./ListaHistorial";
 import { useExcelDownloder } from "react-xls";
+import useSWR, { Fetcher } from "swr";
 
 export interface evento {
   perfil: string;
@@ -61,54 +60,51 @@ interface eventoExcel {
 interface dataType {
   datos_Eventos: {}[];
 }
+const fetcher: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "GET",
+      nombreEmpresa: localStorage.getItem("nombre"),
+    }),
+  }).then((res) => res.json());
+};
+
 const Historial: React.FC = () => {
+  const { data } = useSWR("/api/empresa", fetcher);
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
-  const userContext = useSesionUsuarioContext();
   const { ExcelDownloder, Type } = useExcelDownloder();
-  //const [data, setData] = useState<dataType>({datos_Eventos: []});
   const data2: dataType = {
-    // Worksheet named animals
     datos_Eventos: [],
-    // Worksheet named pokemons
   };
 
   const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
-    await fetch("/api/empresa", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        realmethod: "GET",
-        nombreEmpresa: sessionName,
-      }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setEventos(response);
-        response.eventos.map((evento: eventoExcel) => {
-          evento.trabajadores.map((obj) => {
-            let objExcel = {
-              nombre_trabajador: obj.trabajadores.name,
-              fecha_del_evento: evento.fecha_inicio,
-              nombre_del_evento: evento.nombre,
-              perfil: evento.perfil,
-              lugar_del_evento: evento.lugar,
-              pago: evento.pago,
-            };
-            data2.datos_Eventos.push(objExcel);
-          });
-        });
-      })
-      .catch((e) => e.message);
+    setEventos(data);
+    data.eventos.map((evento: eventoExcel) => {
+      evento.trabajadores.map((obj) => {
+        let objExcel = {
+          nombre_trabajador: obj.trabajadores.name,
+          fecha_del_evento: evento.fecha_inicio,
+          nombre_del_evento: evento.nombre,
+          perfil: evento.perfil,
+          lugar_del_evento: evento.lugar,
+          pago: evento.pago,
+          telefono_trabajador: obj.trabajadores.phone,
+        };
+        data2.datos_Eventos.push(objExcel);
+      });
+    });
   };
   React.useEffect(() => {
     userEvent();
   }, []);
-  //console.log(eventos);
+
   return (
     <div
       className="h-full bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]">
+            lg:w-[calc(100vw-268px)]"
+    >
       <div className="p-2 text-center pt-16">
         <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">
           Historial de Eventos<br></br>
