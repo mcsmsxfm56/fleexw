@@ -7,6 +7,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method === "GET") {
+    let allEvents = await prisma.evento.findMany();
+    allEvents = allEvents.filter((objEvent) => objEvent.isDeleted === false);
+    return res.status(200).send(allEvents);
+  }
   //res.status(200).send("llega a la ruta");
   /* console.log(req.method); */
   const id: string = req.body.eventoId as string;

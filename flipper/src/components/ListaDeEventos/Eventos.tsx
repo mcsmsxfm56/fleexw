@@ -22,7 +22,7 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcher: Fetcher<any, string> = (apiRoute) => {
+const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -33,9 +33,22 @@ const fetcher: Fetcher<any, string> = (apiRoute) => {
   }).then((res) => res.json());
 };
 
+const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute).then((res) => res.json());
+};
+
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
-  let { isLoading, error, data } = useSWR("/api/empresa", fetcher);
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const rol = localStorage.getItem("rol");
+    if (rol === "trabajador") {
+      var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
+    }
+    if (rol === "empresa") {
+      var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
+    }
+  }
   //const [data2, setData] = useState({ eventos: [] });
   //if (!isLoading) {
   //setData(data);
@@ -47,7 +60,7 @@ const Eventos: React.FC = () => {
   //console.log(data);
   //const userContext = useSesionUsuarioContext();
 
-  const [order, setOrder] = useState<Ordering>("desc");
+  //const [order, setOrder] = useState<Ordering>("desc");
   //const [data2, setData] = useState();
   /*
   const userEvent = async () => {
@@ -63,7 +76,7 @@ const Eventos: React.FC = () => {
   React.useEffect(() => {
     userEvent();
   }, []);
-  */
+  
   React.useEffect(() => {
     ordering(order);
   }, [order, data]);
@@ -103,11 +116,13 @@ const Eventos: React.FC = () => {
     return <div>ERROR</div>;
   }
   //if (isLoading) return <div>Cargando...</div>;
-
+*/
+  console.log(data);
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]">
+            lg:w-[calc(100vw-268px)]"
+    >
       <div className="p-2">
         <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
           Lista de Eventos
@@ -117,19 +132,21 @@ const Eventos: React.FC = () => {
       <div className="p-2 lg:text-center 2xl:text-center">
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
         <div className="flex lg:justify-center 2xl:justify-center">
-          <button className={buttonStyle} onClick={() => setOrder("asc")}>
+          <button
+            className={buttonStyle} //onClick={() => setOrder("asc")}
+          >
             Ascendente
           </button>
           <button
             className={buttonStyle + " ml-2"}
-            onClick={() => setOrder("desc")}
+            //onClick={() => setOrder("desc")}
           >
             Descendente
           </button>
         </div>
       </div>
       <div className="p-2 lg:flex lg:justify-center">
-        <ListaEventos eventos={data?.eventos} />
+        <ListaEventos eventos={Array.isArray(data) ? data : data?.eventos} />
       </div>
     </div>
   );
