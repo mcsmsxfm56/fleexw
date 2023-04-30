@@ -60,7 +60,7 @@ const Eventos: React.FC = () => {
   //console.log(data);
   //const userContext = useSesionUsuarioContext();
 
-  //const [order, setOrder] = useState<Ordering>("desc");
+  const [order, setOrder] = useState<Ordering>("desc");
   //const [data2, setData] = useState();
   /*
   const userEvent = async () => {
@@ -76,7 +76,7 @@ const Eventos: React.FC = () => {
   React.useEffect(() => {
     userEvent();
   }, []);
-  
+  */
   React.useEffect(() => {
     ordering(order);
   }, [order, data]);
@@ -95,10 +95,31 @@ const Eventos: React.FC = () => {
     }
 
     let sorted: any = [];
-    if (order == "asc" && isLoading === false) {
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
       sorted = data.eventos.sort(orderAsc);
-    } else if (order == "desc" && isLoading === false) {
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
       sorted = data.eventos.sort(orderDesc);
+    }
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderAsc);
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderDesc);
     }
 
     const eventosSorted = {
@@ -116,7 +137,7 @@ const Eventos: React.FC = () => {
     return <div>ERROR</div>;
   }
   //if (isLoading) return <div>Cargando...</div>;
-*/
+
   console.log(data);
   return (
     <div
@@ -132,14 +153,12 @@ const Eventos: React.FC = () => {
       <div className="p-2 lg:text-center 2xl:text-center">
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
         <div className="flex lg:justify-center 2xl:justify-center">
-          <button
-            className={buttonStyle} //onClick={() => setOrder("asc")}
-          >
+          <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
           <button
             className={buttonStyle + " ml-2"}
-            //onClick={() => setOrder("desc")}
+            onClick={() => setOrder("desc")}
           >
             Descendente
           </button>
