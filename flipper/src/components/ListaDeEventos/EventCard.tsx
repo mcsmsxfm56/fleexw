@@ -36,19 +36,21 @@ export const EventCard: React.FC<evento> = (evento) => {
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        <div className="flex gap-8">
-          <Link href={`/evento/editar/${evento.id}`}>
-            <HiPencil className="text-[#f6ea06]" size={30} />
-          </Link>
-          <AiFillDelete
-            className="text-[#731111]"
-            size={30}
-            onClick={async () => {
-              await borradoLogico(evento.id);
-              router.reload();
-            }}
-          />
-        </div>
+        {localStorage.getItem("rol") === "empresa" ? (
+          <div className="flex gap-8">
+            <Link href={`/evento/editar/${evento.id}`}>
+              <HiPencil className="text-[#f6ea06]" size={30} />
+            </Link>
+            <AiFillDelete
+              className="text-[#731111]"
+              size={30}
+              onClick={async () => {
+                await borradoLogico(evento.id);
+                router.reload();
+              }}
+            />
+          </div>
+        ) : null}
       </div>
       <hr></hr>
       <div className="text-indigo-700 flex">

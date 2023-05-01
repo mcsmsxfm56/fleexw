@@ -21,7 +21,7 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcher: Fetcher<any, string> = (apiRoute) => {
+const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -32,8 +32,22 @@ const fetcher: Fetcher<any, string> = (apiRoute) => {
   }).then((res) => res.json());
 };
 
+const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute).then((res) => res.json());
+};
+
+//string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
-  let { isLoading, error, data } = useSWR("/api/empresa", fetcher);
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const rol = localStorage.getItem("rol");
+    if (rol === "trabajador") {
+      var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
+    }
+    if (rol === "empresa") {
+      var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
+    }
+  }
 
   const [order, setOrder] = useState<Ordering>("desc");
 
@@ -55,10 +69,31 @@ const Eventos: React.FC = () => {
     }
 
     let sorted: any = [];
-    if (order == "asc" && isLoading === false) {
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
       sorted = data.eventos.sort(orderAsc);
-    } else if (order == "desc" && isLoading === false) {
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
       sorted = data.eventos.sort(orderDesc);
+    }
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderAsc);
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderDesc);
     }
 
     const eventosSorted = {
@@ -73,6 +108,7 @@ const Eventos: React.FC = () => {
     return <div>ERROR</div>;
   }
 
+  console.log(data);
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
@@ -99,7 +135,7 @@ const Eventos: React.FC = () => {
         </div>
       </div>
       <div className="p-2 lg:flex lg:justify-center">
-        <ListaEventos eventos={data?.eventos} />
+        <ListaEventos eventos={Array.isArray(data) ? data : data?.eventos} />
       </div>
     </div>
   );

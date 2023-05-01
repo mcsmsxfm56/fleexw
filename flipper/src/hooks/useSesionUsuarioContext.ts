@@ -46,5 +46,6 @@ export const useSesionUsuarioContext = () => {
     logout,
     nombre,
     hasLoginError: error,
+    rol,
   };
 };
