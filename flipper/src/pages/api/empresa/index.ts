@@ -47,7 +47,6 @@ export default async function handler(
   }
   */
   if (req.method === "PUT" && req.body.realmethod === "GET") {
-    const nombre: string = req.body.nombreEmpresa as string;
     const idEmpresa: string = req.body.idEmpresa as string;
     let user = await prisma.empresa.findUnique({
       where: { id: idEmpresa },

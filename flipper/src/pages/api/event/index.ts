@@ -12,24 +12,21 @@ export default async function handler(
     allEvents = allEvents.filter((objEvent) => objEvent.isDeleted === false);
     return res.status(200).send(allEvents);
   }
-  //res.status(200).send("llega a la ruta");
-  /* console.log(req.method); */
-  const id: string = req.body.eventoId as string;
-  /* console.log(id); */
-  const evento = await prisma.evento.findUnique({
-    where: {
-      id,
-    },
+  if (req.method === "PUT" && req.body.realmethod === "GET") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
 
-    include: {
-      trabajadores: {
-        include: {
-          trabajadores: true,
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
         },
       },
-    },
-  });
-  if (req.method === "PUT" && req.body.realmethod === "GET") {
+    });
     try {
       if (evento) return res.status(200).send(evento);
     } catch (error: any) {
@@ -88,6 +85,20 @@ export default async function handler(
   }
   */
   if (req.method === "PUT" && req.body.realmethod === "PUT") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
+        },
+      },
+    });
     if (evento?.isDeleted) {
       res.status(404).send("evento no encontrado");
     } else {
@@ -114,6 +125,20 @@ export default async function handler(
   RUTA PARA QUE LA EMPRESA PUEDA CANCELAR EVENTOS
   */
   if (req.method === "PUT" && req.body.realmethod === "DELETE") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
+        },
+      },
+    });
     console.log("detecta que es deleted");
     if (evento?.isDeleted) {
       return res.status(404).send("evento no encontrado o ya eliminado");
