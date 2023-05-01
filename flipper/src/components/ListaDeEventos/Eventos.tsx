@@ -27,7 +27,7 @@ const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       realmethod: "GET",
-      nombreEmpresa: localStorage.getItem("nombre"),
+      idEmpresa: localStorage.getItem("id"),
     }),
   }).then((res) => res.json());
 };

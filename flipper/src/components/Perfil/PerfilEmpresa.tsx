@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Image from "next/image";
 import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
+import { useRouter } from "next/router";
 
 
 
@@ -19,8 +20,9 @@ interface ProfileEmpresa {
 
 const PerfilEmpresa: React.FC = () => {
   const [profile, setProfile] = useState<ProfileEmpresa>();
-  const { nombre } = useSesionUsuarioContext();
-  console.log(nombre);
+  const { nombre, id } = useSesionUsuarioContext();
+  // console.log(nombre);
+  const router = useRouter()
 
   const userEvent = async () => {
     await fetch("/api/empresa", {
@@ -28,7 +30,8 @@ const PerfilEmpresa: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         realmethod: "GET",
-        nombreEmpresa: nombre,
+        // nombreEmpresa: nombre,
+        idEmpresa: id
       }),
     })
       .then((response) => response.json())
@@ -79,8 +82,8 @@ const PerfilEmpresa: React.FC = () => {
             Email: {profile?.email}
           </h5>
           <div className='flex justify-between m-4 md:mx-10'>
-            <button onClick={() => alert('Esta funcion todavia no está disponible')} className={stylesProfile.button}>Modificar</button>
-            <button onClick={() => alert('falta implementar')} className={stylesProfile.button}>Volver</button>
+            <button onClick={() => router.push('/editar')} className={stylesProfile.button}>Modificar</button>
+            <button onClick={() => router.back()} className={stylesProfile.button}>Volver</button>
 
           </div>
         </div>

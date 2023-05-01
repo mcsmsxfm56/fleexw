@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import jwt from "jsonwebtoken";
 
 interface empresa {
   nombre: string;
@@ -10,6 +11,22 @@ interface empresa {
   telefono: string;
   password: string | undefined;
   id: string;
+}
+interface putEmpresa {
+  realmethod?: string;
+  name?: string;
+  nombreceo?: string;
+  email?: string;
+  ciudad?: string;
+  direccion?: string;
+  telefono?: string;
+  idEmpresa?: string;
+  //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
+}
+interface token {
+  id: string;
+  email: string;
+  iat: number;
 }
 
 export default async function handler(
@@ -31,11 +48,9 @@ export default async function handler(
   */
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const nombre: string = req.body.nombreEmpresa as string;
-
+    const idEmpresa: string = req.body.idEmpresa as string;
     let user = await prisma.empresa.findUnique({
-      where: {
-        nombre,
-      },
+      where: { id: idEmpresa },
       include: {
         eventos: {
           include: { trabajadores: { include: { trabajadores: true } } },
@@ -47,6 +62,65 @@ export default async function handler(
       res.status(200).send(user);
     } else {
       res.status(400).send("Empresa no encontrada");
+    }
+  }
+
+  if (req.method === "PUT" && req.body.realmethod === "PUT") {
+    const { authorization } = req.headers;
+
+    let {
+      realmethod,
+      name,
+      nombreceo,
+      email,
+      ciudad,
+      direccion,
+      telefono,
+      idEmpresa,
+    }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
+    putEmpresa = req.body;
+    if (authorization === undefined) {
+      return res.status(400).json({ message: "Autorizacion rechazada" });
+    }
+
+    let token = null;
+    if (
+      authorization &&
+      authorization.toLocaleLowerCase().startsWith("bearer")
+    ) {
+      token = authorization.split(" ")[1]; // obtenemos el token del authorization '[bearer] [token]'
+    }
+    if (!token) {
+      return res.status(401).send("Token inexistente o invalido");
+    }
+
+    const empresaFound = await prisma.empresa.findUnique({
+      where: { id: idEmpresa },
+    });
+
+    if (!empresaFound) {
+      return res.status(404).json({ message: "empresa inexistente" });
+    }
+
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+    const { id } = decodedToken as token;
+
+    if (decodedToken) {
+      const empresaUpdate = await prisma.empresa.update({
+        where: { id: id },
+        data: {
+          nombre: name,
+          nombreceo,
+          email,
+          ciudad,
+          direccion,
+          telefono,
+        } as putEmpresa,
+      });
+      return res.status(200).json({
+        message: "Datos modificados con exito",
+        empresaUpdate,
+      });
     }
   }
 }
