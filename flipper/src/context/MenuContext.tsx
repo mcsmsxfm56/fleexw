@@ -1,12 +1,15 @@
 'use client'
 
-import { Dispatch, SetStateAction, createContext, useState, useEffect } from "react";
-import { ShowElements } from '../types/Types';
+import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { ShowElementsEmpresa, ShowElementsTrabajador } from '../types/Types';
+
 
 
 interface MenuContextProps {
-    showElements: ShowElements
-    setShowElements: Dispatch<SetStateAction<ShowElements>>
+    showElementsEmpresa: ShowElementsEmpresa
+    setShowElementsEmpresa: Dispatch<SetStateAction<ShowElementsEmpresa>>
+    showElementsTrabajador: ShowElementsTrabajador
+    setShowElementsTrabajador: Dispatch<SetStateAction<ShowElementsTrabajador>>
 }
 
 export const MenuContext = createContext<MenuContextProps>({} as MenuContextProps)
@@ -17,7 +20,13 @@ interface propsProvider {
 
 export const MenuProvider = ({ children }: propsProvider) => {
 
-    const [showElements, setShowElements] = useState({
+    const [showElementsTrabajador, setShowElementsTrabajador] = useState({
+        showEventosTrabajador: true,
+        showEventosConfirmadosTrabajador: false,
+        showHistorialTrabajador: false,
+        showPerfilTrabajador: false,
+    })
+    const [showElementsEmpresa, setShowElementsEmpresa] = useState({
         showEventos: true,
         showHistorial: false,
         showCrear: false,
@@ -26,7 +35,7 @@ export const MenuProvider = ({ children }: propsProvider) => {
     })
 
     return (
-        <MenuContext.Provider value={{ showElements, setShowElements }}>
+        <MenuContext.Provider value={{ showElementsEmpresa, setShowElementsEmpresa, showElementsTrabajador, setShowElementsTrabajador }}>
             {children}
         </MenuContext.Provider>
     )

@@ -103,7 +103,7 @@ const Historial: React.FC = () => {
   const userEvent = async () => {
     if (rol === "empresa") {
       setEventos(data);
-      data.eventos.map((evento: eventoExcel) => {
+      data?.eventos.map((evento: eventoExcel) => {
         evento.trabajadores.map((obj) => {
           let objExcel = {
             nombre_trabajador: obj.trabajadores.name,

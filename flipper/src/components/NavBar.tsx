@@ -1,7 +1,3 @@
-import React, { useState } from "react";
-import Menu from "./Menu/Menu";
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import { ShowElements } from "@/types/Types";
 import Link from "next/link";
 
 interface Props {

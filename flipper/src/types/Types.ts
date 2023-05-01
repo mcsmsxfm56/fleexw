@@ -81,10 +81,17 @@ export interface createEvent {
 }
 
 
-export interface ShowElements {
+export interface ShowElementsEmpresa {
   showEventos: boolean,
   showHistorial: boolean,
   showCrear: boolean,
   showPostulaciones: boolean,
   showPerfil: boolean,
+}
+
+export interface ShowElementsTrabajador {
+  showEventosTrabajador: boolean,
+  showEventosConfirmadosTrabajador: boolean,
+  showHistorialTrabajador: boolean,
+  showPerfilTrabajador: boolean,
 }
