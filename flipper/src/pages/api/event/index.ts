@@ -165,7 +165,10 @@ export default async function handler(
         if (e.status === "APROBADO") {
           aprobados.push(e);
         }
+        e.status = 'CANCELADO';
       });
+
+      console.log(trabajadoresEvento)
 
       if (aprobados.length > 0) {
         const mails = aprobados.map((e: any) => {
@@ -178,6 +181,17 @@ export default async function handler(
             err ? console.log(err) : console.log(info.response)
         );
       }
+
+      // Actualiza las postulaciones para sean CANCELADO
+      await prisma.trabajadoresEnEventos.updateMany({
+        where: {
+          eventoId: evento?.id,
+        },
+        data: {
+          status: 'CANCELADO'
+        }
+      })
+
       return res.status(200).send("Evento borrado con exito");
     }
   }
