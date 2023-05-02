@@ -80,6 +80,7 @@ model TrabajadoresEnEventos {
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
   status String
+  notificacionVista Boolean @default(true)
   @@id([eventoId, trabajadorId])
 }
 
