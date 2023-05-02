@@ -46,6 +46,7 @@ model Evento {
   cupos Int
   perfil String
   pago Int
+  numeroPostulantes Int @default(0)
   observaciones String
   trabajadores TrabajadoresEnEventos[]
 }
