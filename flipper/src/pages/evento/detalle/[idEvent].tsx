@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
-import NavBar from "@/components/NavBar";
 import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
 import { DetalleEvento, TrabajadorStatus } from "../../../types/Types";
-import Link from "next/link";
-import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
-import { IconContext } from "react-icons";
 import { PostulanteCard } from "@/components/PostulanteCard";
 import AppLayout from "@/components/AppLayout/AppLayout";
 import { HiPencil } from "react-icons/hi";
-import { log } from "console";
+import { admitirOrestringirPostulaciones } from "@/services/admitirOrestringirPostulaciones";
+import LoadingSubmitForm from "@/components/LoadingSubmitForm";
+
+
 
 interface postulante {
   rechazados: TrabajadorStatus[];
@@ -26,8 +24,9 @@ const EventDatail = () => {
     aprobados: [],
     pendientes: [],
   });
+  const [loading, setLoading] = useState(false)
 
-  console.log(postulantes);
+  /* console.log(postulantes); */
 
   const { idEvent } = router.query;
 
@@ -36,11 +35,11 @@ const EventDatail = () => {
       traerEventoYPostulantes(idEvent as string)
         .then((data) => {
           setEventDetail(data);
-          console.log(data);
+          /* console.log(data); */
         })
         .catch((error) => console.log(error.message));
     }
-  }, [idEvent]);
+  }, [idEvent, loading]);
 
   useEffect(() => {
     if (eventDetail) {
@@ -64,6 +63,20 @@ const EventDatail = () => {
       });
     }
   }, [eventDetail]);
+
+  const handleadmitirOrestringirPostulaciones = async () => {
+    /* console.log(eventDetail?.admitePostulaciones); */
+    const admitePostulaciones = !eventDetail?.admitePostulaciones //le voy a enviar la contraria para hacer el cambio
+    /* console.log(admitePostulaciones); */
+    try {
+      setLoading(true)
+      await admitirOrestringirPostulaciones(idEvent as string, admitePostulaciones)
+    } catch (error: any) {
+      console.log(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <AppLayout>
@@ -96,29 +109,42 @@ const EventDatail = () => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col">
-              <p className="text-center font-bold text-xl">
-                Perfiles Solicitados:
-              </p>
-              <p className="text-center font-bold text-lg">
-                {" "}
-                {eventDetail?.perfil}
-              </p>
+            <div className="flex gap-10">
+              <div className="flex flex-col">
+                <p className="text-center font-bold text-xl">
+                  Perfiles Solicitados:
+                </p>
+                <p className="text-center font-bold text-lg">
+                  {" "}
+                  {eventDetail?.perfil}
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-center font-bold text-xl">
+                  Ciudad Y Dirección:
+                </p>
+                <p className="text-center font-bold text-lg">
+                  {eventDetail?.lugar}
+                </p>
+              </div>
             </div>
             <div className="flex flex-col">
               <p className="text-center font-bold text-xl">
-                Ciudad Y Dirección:
+                Observaciones:
               </p>
-              <p className="text-center font-bold text-lg">
-                {eventDetail?.lugar}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <p className="text-center font-bold text-xl">Observaciones:</p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
-            </div>
+            </div>{
+              !loading ?
+                <button
+                  className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]"
+                  onClick={handleadmitirOrestringirPostulaciones}>
+                  {eventDetail?.admitePostulaciones ?
+                    "Cerrar Postulaciones" :
+                    "Abrir Postulaciones"}
+                </button> :
+                <LoadingSubmitForm />}
           </div>
           <div className="flex flex-col justify-center items-center ">
             <div>
