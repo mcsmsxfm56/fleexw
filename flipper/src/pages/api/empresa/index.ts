@@ -108,12 +108,12 @@ export default async function handler(
       const empresaUpdate = await prisma.empresa.update({
         where: { id: id },
         data: {
-          nombre: name,
-          nombreceo,
-          email,
-          ciudad,
-          direccion,
-          telefono,
+          nombre: null ?? name,
+          nombreceo: null ?? nombreceo,
+          email: null ?? email,
+          ciudad: null ?? ciudad,
+          direccion: null ?? direccion,
+          telefono: null ?? telefono,
         } as putEmpresa,
       });
       return res.status(200).json({
