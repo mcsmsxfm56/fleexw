@@ -8,15 +8,19 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
 import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
 import { ShowElementsEmpresa } from "@/types/Types";
+import ReactWhatsapp from "react-whatsapp";
 
 interface Props {
   isExpanded: boolean;
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const phoneNumber = "";
+
 const Menu = ({ isExpanded, setIsExpanded }: Props) => {
   const { logout, nombre } = useSesionUsuarioContext();
-  const { setShowElementsEmpresa, setShowElementsTrabajador } = useContext(MenuContext);
+  const { setShowElementsEmpresa, setShowElementsTrabajador } =
+    useContext(MenuContext);
 
   return (
     <div
@@ -24,7 +28,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
         !isExpanded
           ? "h-full md:w-1/4 lg:w-[250px] md:pt-20 2xl:h-screen fixed md:block top-0 md:top-0 -left-60 md:left-0 bottom-0 bg-indigo-600 lg:pt-20 flex flex-col gap-4 transition-[left] md:transition-none duration-500 ease-out z-40"
           : "h-screen 2xl:h-screen bg-indigo-600 items-center px-4 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
-      }>
+      }
+    >
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
           <Image src={perfilProvisorio} alt="Picture of the author" />
@@ -32,7 +37,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
         <p
           className={
             "w-full block text-white capitalize font-bold text-2xl text-center md:mt-0"
-          }>
+          }
+        >
           {nombre}
         </p>
       </div>
@@ -46,9 +52,18 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
           <Link
             href=""
             className={
-              "pl-4 text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500"
-            }>
-            Boton de Ayuda
+              "pl-4 text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"
+            }
+          >
+            <ReactWhatsapp
+              // number={`phoneNumber`}
+              number="1-212-736-5000"
+              message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
+              element="a"
+              className="absolute block top-0 left-0 w-full h-full"
+            >
+            </ReactWhatsapp>
+              Boton de Ayuda
           </Link>
           <div>
             <svg
@@ -61,7 +76,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
               stroke={"#4B39EF"}
               fill="none"
               strokeLinecap="round"
-              strokeLinejoin="round">
+              strokeLinejoin="round"
+            >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <circle cx="12" cy="12" r="9" />
               <line x1="12" y1="17" x2="12" y2="17.01" />
@@ -75,7 +91,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
             className={
               "text-left text-indigo-600 font-bold p-2 bg-[#e5e7eb] pl-4 w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500"
             }
-            onClick={() => logout()}>
+            onClick={() => logout()}
+          >
             Cerrar Sesión
           </button>
           <div>
@@ -89,7 +106,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
               stroke="#4B39EF"
               fill="none"
               strokeLinecap="round"
-              strokeLinejoin="round">
+              strokeLinejoin="round"
+            >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
               <path d="M7 12h14l-3 -3m0 6l3 -3" />
@@ -102,4 +120,3 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
 };
 
 export default Menu;
-
