@@ -7,6 +7,7 @@ import { HiPencil } from "react-icons/hi";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 interface postulante {
   rechazados: TrabajadorStatus[];
@@ -17,6 +18,7 @@ interface postulante {
 }
 
 const EventDatail = () => {
+  const { rol } = useSesionUsuarioContext();
   const router = useRouter();
   const [rows, setRows] = useState<{}[]>([]);
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
@@ -222,33 +224,35 @@ const EventDatail = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <Box
-              sx={{
-                height: 300,
-                width: "100%",
-                "& .super-app-theme--header": {
-                  backgroundColor: "rgba(229, 231, 235)",
-                  color: "#000000",
-                },
-                "& .super-app-theme--cell": {
-                  backgroundColor: "rgba(229, 231, 235)",
-                  color: "#000000",
-                  fontWeight: "600",
-                },
-                border: 2,
-                borderColor: "black",
-              }}
-            >
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSizeOptions={[5, 10, 25]}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 5 } },
+            {rol === "empresa" ? (
+              <Box
+                sx={{
+                  height: 300,
+                  width: "100%",
+                  "& .super-app-theme--header": {
+                    backgroundColor: "rgba(229, 231, 235)",
+                    color: "#000000",
+                  },
+                  "& .super-app-theme--cell": {
+                    backgroundColor: "rgba(229, 231, 235)",
+                    color: "#000000",
+                    fontWeight: "600",
+                  },
+                  border: 2,
+                  borderColor: "black",
                 }}
-                checkboxSelection
-              />
-            </Box>
+              >
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSizeOptions={[5, 10, 25]}
+                  initialState={{
+                    pagination: { paginationModel: { pageSize: 5 } },
+                  }}
+                  checkboxSelection
+                />
+              </Box>
+            ) : null}
           </div>
           {}
         </div>

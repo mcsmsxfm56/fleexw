@@ -74,7 +74,8 @@ export default async function handler(
   if (req.method === "POST") {
     /*
     {
-      "trabajadorId": "9c386e92-b891-4cd7-965e-31d6772f5014"
+      "trabajadorId": "9c386e92-b891-4cd7-965e-31d6772f5014",
+      "eventoId": ""
     }
     OBJETO ESPERADO
     */
@@ -90,9 +91,9 @@ export default async function handler(
       });
       //console.log(eventoId);//
       //console.log(trabajadorUpdateStatus);
-      res.status(200).send(trabajadorCreateStatus);
+      return res.status(200).send(trabajadorCreateStatus);
     } catch (error: unknown) {
-      res.status(400).send(error);
+      return res.status(400).send(error);
     }
   }
 }

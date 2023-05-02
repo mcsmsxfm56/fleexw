@@ -4,6 +4,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 import Link from "next/link";
 interface EventCardProps {
@@ -12,11 +13,12 @@ interface EventCardProps {
   observaciones: string;
   hora: string;
   direccion: string;
+  idEvento: string;
 }
 
 export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   /* console.log("card", evento); */
-
+  const { id } = useSesionUsuarioContext();
   const router = useRouter();
 
   return (
@@ -39,7 +41,25 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Link href={`evento/detalle/${evento.id}`}>Postularse</Link>
+          <button
+            className="bg-black rounded-md"
+            onClick={async () => {
+              let response = await fetch("/api/trabajadoreseneventos", {
+                method: "POST",
+                body: JSON.stringify({
+                  trabajadorId: id,
+                  eventoId: evento.id,
+                }),
+                headers: { "Content-type": "application/json; charset=UTF-8" },
+              }).then((response) => {
+                response.json();
+              });
+              alert(response);
+              router.push(`/evento/detalle/${evento.id}`);
+            }}
+          >
+            Postularse
+          </button>
         </div>
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize">
