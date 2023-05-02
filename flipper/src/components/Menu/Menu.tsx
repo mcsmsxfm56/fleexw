@@ -49,22 +49,15 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
       />
       <div className="flex flex-col gap-4 mt-4 border-r-2 border-indigo-600">
         <div className="flex justify-between">
-          <Link
-            href=""
-            className={
-              "pl-4 text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"
-            }
+          <ReactWhatsapp
+            // number={`phoneNumber`}
+            number="1-212-736-5000"
+            message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
+            element="a"
+            className="pl-4 cursor-pointer text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"
           >
-            <ReactWhatsapp
-              // number={`phoneNumber`}
-              number="1-212-736-5000"
-              message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
-              element="a"
-              className="absolute block top-0 left-0 w-full h-full"
-            >
-            </ReactWhatsapp>
-              Boton de Ayuda
-          </Link>
+            Boton de Ayuda
+          </ReactWhatsapp>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
