@@ -65,6 +65,7 @@ export interface DetalleEvento {
   pago: number,
   observaciones: string,
   trabajadores: TrabajadorStatus[]
+  admitePostulaciones: boolean
 }
 
 //Interfaz para crear eventos
