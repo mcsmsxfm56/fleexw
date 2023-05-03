@@ -1,6 +1,7 @@
-import ListaEventos from "./ListaDeEventos";
 import useSWR, { Fetcher } from "swr";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ListaEventosTrabajador from "./ListaDeEventosTrabajador";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export interface evento {
   perfil: string;
@@ -21,37 +22,28 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      realmethod: "GET",
-      idEmpresa: localStorage.getItem("id"),
-    }),
-  }).then((res) => res.json());
-};
-
-const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute).then((res) => res.json());
-};
-
 //string define el tipado de la url recibida, any el tipado de la respuesta
-const Eventos: React.FC = () => {
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    const rol = localStorage.getItem("rol");
-    if (rol === "trabajador") {
-      var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
-    }
-    if (rol === "empresa") {
-      var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
-    }
-  }
 
+const EventosTrabajador: React.FC = () => {
+  const { id } = useSesionUsuarioContext();
+  const fetcherCiudadEventos: Fetcher<any, string> = (apiRoute) => {
+    return fetch(apiRoute, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        id: id,
+      }),
+    }).then((res) => res.json());
+  };
+  // Perform localStorage action
+  var { isLoading, error, data } = useSWR(
+    "/api/trabajador/eventos",
+    fetcherCiudadEventos
+  );
   const [order, setOrder] = useState<Ordering>("desc");
 
-  React.useEffect(() => {
+  useEffect(() => {
     ordering(order);
   }, [order, data]);
 
@@ -74,13 +66,13 @@ const Eventos: React.FC = () => {
       isLoading === false &&
       data.constructor.name === "Object"
     ) {
-      sorted = data.eventos?.sort(orderAsc);
+      sorted = data.eventos.sort(orderAsc);
     } else if (
       order == "desc" &&
       isLoading === false &&
       data.constructor.name === "Object"
     ) {
-      sorted = data.eventos?.sort(orderDesc);
+      sorted = data.eventos.sort(orderDesc);
     }
     if (
       order == "asc" &&
@@ -105,15 +97,18 @@ const Eventos: React.FC = () => {
 
   if (error) {
     console.log(error);
-    return <div>ERROR</div>;
+    return (
+      <div>
+        <p>ERROR</p>
+      </div>
+    );
   }
 
-  /* console.log(data); */
+  console.log(data);
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]"
-    >
+            lg:w-[calc(100vw-268px)]">
       <div className="p-2">
         <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
           Lista de Eventos
@@ -128,17 +123,18 @@ const Eventos: React.FC = () => {
           </button>
           <button
             className={buttonStyle + " ml-2"}
-            onClick={() => setOrder("desc")}
-          >
+            onClick={() => setOrder("desc")}>
             Descendente
           </button>
         </div>
       </div>
       <div className="p-2 lg:flex lg:justify-center">
-        <ListaEventos eventos={Array.isArray(data) ? data : data?.eventos} />
+        <ListaEventosTrabajador
+          eventos={Array.isArray(data) ? data : data?.eventos}
+        />
       </div>
     </div>
   );
 };
 
-export default Eventos;
+export default EventosTrabajador;

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/x-data-grid": "^6.3.0",
     "@prisma/client": "^4.13.0",
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",
@@ -34,6 +37,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-loader-spinner": "^5.3.4",
+    "react-whatsapp": "^0.3.0",
     "react-xls": "^0.1.1",
     "sweetalert2": "^11.7.3",
     "swr": "^2.1.5",

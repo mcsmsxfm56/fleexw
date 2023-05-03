@@ -30,11 +30,13 @@ export const PostulanteCard: React.FC<PropsCard> = ({
             : status === "RECHAZADO"
             ? "bg-red-400 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
             : "bg-green-300 flex p-4 rounded-md justify-between w-full gap-2 mb-2"
-        }>
+        }
+      >
         <div>
           <Link
             href={`/postulaciones/${idPostulante}`}
-            className="text-indigo-600 font-bold capitalize">
+            className="text-indigo-600 font-bold capitalize"
+          >
             {nombre}
           </Link>
           <p className="text-indigo-600 font-bold">
