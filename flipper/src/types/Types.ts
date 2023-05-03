@@ -96,3 +96,20 @@ export interface ShowElementsTrabajador {
   showHistorialTrabajador: boolean,
   showPerfilTrabajador: boolean,
 }
+
+// ----- Notificaciones -----
+export type NotificationSingle = {
+  eventoId: string;
+  trabajadorId: string;
+  status: string;
+  evento: {
+    nombre: string;
+    pago: number;
+    fecha_inicio: Date;
+    fecha_finalizacion: Date;
+    lugar: string;
+    observaciones: string;
+  };
+};
+
+export type NotificationList = NotificationSingle[];
