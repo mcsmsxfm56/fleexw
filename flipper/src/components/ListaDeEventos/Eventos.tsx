@@ -108,7 +108,7 @@ const Eventos: React.FC = () => {
     return <div>ERROR</div>;
   }
 
-  console.log(data);
+  /* console.log(data); */
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]

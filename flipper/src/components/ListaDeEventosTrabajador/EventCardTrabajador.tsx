@@ -39,7 +39,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Link href={`evento/detalle/${evento.id}`}>Postularse</Link>
+          <Link href={`evento/detalle/${evento.id}`} className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]">Postularse</Link>
         </div>
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize">
