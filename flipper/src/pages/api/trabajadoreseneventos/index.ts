@@ -8,8 +8,19 @@ export default async function handler(
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const trabajadorId = req.body.trabajadorId;
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
+      // Donde la fecha de inicio no haya pasado
       where: {
-        trabajadorId,
+        AND: [
+          {
+            trabajadorId,
+          }, {
+            evento: {
+              fecha_inicio: {
+                gte: new Date()
+              }
+            }
+          }
+        ]
       },
       include: {
         evento: {

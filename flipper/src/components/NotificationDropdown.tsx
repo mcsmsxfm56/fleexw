@@ -25,7 +25,7 @@ const NotificationDropdown = () => {
   }, [notifications]);
 
   return (
-    <div className={`dropdown dropdown-end dropdown-open fixed top-4 right-4`}>
+    <div className={`dropdown dropdown-end fixed top-4 right-4`}>
       <label
         tabIndex={0}
         className={`btn m-1 ${newNotif && "bg-red-800" } hover:bg-[#4F46E5]`}
