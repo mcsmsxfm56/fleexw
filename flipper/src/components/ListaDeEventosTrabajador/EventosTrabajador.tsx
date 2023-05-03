@@ -65,20 +65,20 @@ const EventosTrabajador: React.FC = () => {
     if (
       order == "asc" &&
       isLoading === false &&
-      data.constructor.name === "Object"
+      data?.constructor.name === "Object"
     ) {
       sorted = data.eventos.sort(orderAsc);
     } else if (
       order == "desc" &&
       isLoading === false &&
-      data.constructor.name === "Object"
+      data?.constructor.name === "Object"
     ) {
       sorted = data.eventos?.sort(orderDesc);
     }
     if (
       order == "asc" &&
       isLoading === false &&
-      data.constructor.name === "Array"
+      data?.constructor.name === "Array"
     ) {
       sorted = data.sort(orderAsc);
     } else if (
@@ -105,7 +105,7 @@ const EventosTrabajador: React.FC = () => {
     );
   }
 
-  console.log(data);
+  //console.log(data);
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
