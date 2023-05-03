@@ -12,7 +12,7 @@ import CreateEventForm from "@/components/CrearEvento/CreateEventForm";
 import EventosTrabajador from "@/components/ListaDeEventosTrabajador/EventosTrabajador";
 import EventosConfirmadosTrabajador from "@/components/ListaDeEventos/EventosConfirmadosTrabajador";
 import HistorialTrabajador from "@/components/HistorialDeEventos/HistorialTrabajador";
-import PerfilTrabajador from "@/components/Perfil/PerfilTrabajador";
+import { PerfilTrabajador } from "@/components/Perfil/PerfilTrabajador";
 
 const hardcoded = {
   nombreEvento: "Nombre evento2",
