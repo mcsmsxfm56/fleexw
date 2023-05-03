@@ -10,6 +10,8 @@ import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import Link from "next/link";
 
 interface postulante {
   rechazados: TrabajadorStatus[];
@@ -20,6 +22,7 @@ interface postulante {
 }
 
 const EventDatail = () => {
+  const { rol } = useSesionUsuarioContext();
   const router = useRouter();
   const [rows, setRows] = useState<{}[]>([]);
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
@@ -30,7 +33,7 @@ const EventDatail = () => {
     asistieron: [],
     faltaron: [],
   });
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
   /* console.log(postulantes); */
   let id = 0;
@@ -172,17 +175,20 @@ const EventDatail = () => {
 
   const handleadmitirOrestringirPostulaciones = async () => {
     /* console.log(eventDetail?.admitePostulaciones); */
-    const admitePostulaciones = !eventDetail?.admitePostulaciones //le voy a enviar la contraria para hacer el cambio
+    const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
     /* console.log(admitePostulaciones); */
     try {
-      setLoading(true)
-      await admitirOrestringirPostulaciones(idEvent as string, admitePostulaciones)
+      setLoading(true);
+      await admitirOrestringirPostulaciones(
+        idEvent as string,
+        admitePostulaciones
+      );
     } catch (error: any) {
-      console.log(error.message)
+      console.log(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <AppLayout>
@@ -196,6 +202,7 @@ const EventDatail = () => {
               <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
                 Evento: {eventDetail?.nombre}
               </p>
+
               <HiPencil className="text-[#f6ea06]" size={30} />
             </div>
             <div className="flex gap-10">
@@ -236,50 +243,56 @@ const EventDatail = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl">
-                Observaciones:
-              </p>
+              <p className="text-center font-bold text-xl">Observaciones:</p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
-            </div>{loading ?
-              <LoadingSubmitForm /> :
-              <button
-                className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]"
-                onClick={handleadmitirOrestringirPostulaciones}>
-                {eventDetail?.admitePostulaciones ?
-                  "Cerrar Postulaciones" :
-                  "Abrir Postulaciones"}
-              </button>}
+            </div>
           </div>
           <div className="flex justify-center">
-            <Box
-              sx={{
-                height: 300,
-                width: "100%",
-                "& .super-app-theme--header": {
-                  backgroundColor: "rgba(229, 231, 235)",
-                  color: "#000000",
-                },
-                "& .super-app-theme--cell": {
-                  backgroundColor: "rgba(229, 231, 235)",
-                  color: "#000000",
-                  fontWeight: "600",
-                },
-                border: 2,
-                borderColor: "black",
-              }}
-            >
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSizeOptions={[5, 10, 25]}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 5 } },
-                }}
-                checkboxSelection
-              />
-            </Box>
+            {rol === "empresa" ? (
+              <div>
+                {loading ? (
+                  <LoadingSubmitForm />
+                ) : (
+                  <button
+                    className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]"
+                    onClick={handleadmitirOrestringirPostulaciones}
+                  >
+                    {eventDetail?.admitePostulaciones
+                      ? "Cerrar Postulaciones"
+                      : "Abrir Postulaciones"}
+                  </button>
+                )}
+                <Box
+                  sx={{
+                    height: 300,
+                    width: "100%",
+                    "& .super-app-theme--header": {
+                      backgroundColor: "rgba(229, 231, 235)",
+                      color: "#000000",
+                    },
+                    "& .super-app-theme--cell": {
+                      backgroundColor: "rgba(229, 231, 235)",
+                      color: "#000000",
+                      fontWeight: "600",
+                    },
+                    border: 2,
+                    borderColor: "black",
+                  }}
+                >
+                  <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSizeOptions={[5, 10, 25]}
+                    initialState={{
+                      pagination: { paginationModel: { pageSize: 5 } },
+                    }}
+                    checkboxSelection
+                  />
+                </Box>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
