@@ -1,10 +1,13 @@
+import AppLayout from "@/components/AppLayout/AppLayout";
 import FormEditarPerfil from "@/components/Perfil/FormEditarPerfil";
 
 const Editar = () => {
 
   return (
     <div>
-      <FormEditarPerfil />
+      <AppLayout>
+        <FormEditarPerfil />
+      </AppLayout>
     </div>
   )
 }
