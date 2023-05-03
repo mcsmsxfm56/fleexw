@@ -81,6 +81,44 @@ export default async function handler(
     */
     const eventoId = req.body.eventoId as string;
     const trabajadorId = req.body.trabajadorId as string;
+    let evento = await prisma.evento.findUnique({
+      where: {
+        id: eventoId,
+      },
+      include: {
+        trabajadores: true,
+      },
+    });
+
+    //console.log(evento);//evento.trabajadores array de objetos donde cada objeto
+    //tiene la propiedad trabajadorId evento.trabajadores.amp((objTrabajador) => objTrabajador.trabajadorId)
+    let check = evento?.trabajadores.filter(
+      (objTrabajador) => objTrabajador.trabajadorId === trabajadorId
+    );
+    if (check?.length !== 0) {
+      return res.status(400).send("ya te postulaste a este evento");
+    }
+
+    if (
+      evento?.cupos === evento?.numeroPostulantes ||
+      evento?.admitePostulaciones === false
+    ) {
+      evento = await prisma.evento.update({
+        where: {
+          id: eventoId,
+        },
+        data: {
+          admitePostulaciones: false,
+        },
+        include: {
+          trabajadores: true,
+        },
+      });
+      return res
+        .status(404)
+        .send("No se aceptan mas postulaciones en este evento");
+    }
+
     try {
       const trabajadorCreateStatus = await prisma.trabajadoresEnEventos.create({
         data: {
@@ -89,9 +127,19 @@ export default async function handler(
           status: "PENDIENTE",
         },
       });
+      const counter = await prisma.evento.update({
+        where: {
+          id: eventoId,
+        },
+        data: {
+          numeroPostulantes: {
+            increment: 1,
+          },
+        },
+      });
       //console.log(eventoId);//
       //console.log(trabajadorUpdateStatus);
-      return res.status(200).send(trabajadorCreateStatus);
+      return res.status(200).send("postulacion realizada con exito");
     } catch (error: unknown) {
       return res.status(400).send(error);
     }
