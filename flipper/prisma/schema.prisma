@@ -19,6 +19,7 @@ model Empresa {
   isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
+  authorizedByAdmin Boolean @default(false)
   ciudad String
   direccion String @unique
   telefono String @unique

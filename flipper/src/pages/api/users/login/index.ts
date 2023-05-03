@@ -27,7 +27,7 @@ export default async function handler(
     });
 
     const empresaEncontrada: any = await prisma.empresa.findFirst({
-      where: { email: email },
+      where: { email: email, authorizedByAdmin: true },
     });
     const user = empresaEncontrada || trabajadorEncontrado;
 
