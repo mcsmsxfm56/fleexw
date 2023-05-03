@@ -47,20 +47,24 @@ export default async function handler(
   }
   */
   if (req.method === "PUT" && req.body.realmethod === "GET") {
-    const idEmpresa: string = req.body.idEmpresa as string;
-    let user = await prisma.empresa.findUnique({
-      where: { id: idEmpresa },
-      include: {
-        eventos: {
-          include: { trabajadores: { include: { trabajadores: true } } },
+    try {
+      const idEmpresa: string = req.body.idEmpresa as string;
+      //console.log(idEmpresa);
+      let user = await prisma.empresa.findUnique({
+        where: { id: idEmpresa },
+        include: {
+          eventos: {
+            include: { trabajadores: { include: { trabajadores: true } } },
+          },
         },
-      },
-    });
-
-    if (user) {
-      res.status(200).send(user);
-    } else {
-      res.status(400).send("Empresa no encontrada");
+      });
+      if (user) {
+        return res.status(200).send(user);
+      } else {
+        return res.status(400).send("Empresa no encontrada");
+      }
+    } catch (error: unknown) {
+      return res.status(400).send(error);
     }
   }
 
@@ -108,12 +112,12 @@ export default async function handler(
       const empresaUpdate = await prisma.empresa.update({
         where: { id: id },
         data: {
-          nombre: name,
-          nombreceo,
-          email,
-          ciudad,
-          direccion,
-          telefono,
+          nombre: null ?? name,
+          nombreceo: null ?? nombreceo,
+          email: null ?? email,
+          ciudad: null ?? ciudad,
+          direccion: null ?? direccion,
+          telefono: null ?? telefono,
         } as putEmpresa,
       });
       return res.status(200).json({

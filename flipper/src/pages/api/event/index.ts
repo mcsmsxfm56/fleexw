@@ -100,9 +100,7 @@ export default async function handler(
       },
     });
     if (evento?.isDeleted) {
-      res.status(404).send("evento no encontrado");
-    } else {
-      res.status(200).send(evento);
+      return res.status(404).send("evento no encontrado");
     }
     const trabajadorId: string = req.body.trabajadorId as string;
     const status: string = req.body.status as string;
@@ -117,7 +115,9 @@ export default async function handler(
         status,
       },
     });
-    res.status(200).send("Status del candidato actualizado");
+    return res
+      .status(200)
+      .send(`Status del candidato actualizado a ${eventoUpdate.status}`);
   }
   /*
   3. RUTA DELETE /api/home/:idEvento
@@ -165,7 +165,10 @@ export default async function handler(
         if (e.status === "APROBADO") {
           aprobados.push(e);
         }
+        e.status = 'CANCELADO';
       });
+
+      console.log(trabajadoresEvento)
 
       if (aprobados.length > 0) {
         const mails = aprobados.map((e: any) => {
@@ -178,6 +181,17 @@ export default async function handler(
             err ? console.log(err) : console.log(info.response)
         );
       }
+
+      // Actualiza las postulaciones para sean CANCELADO
+      await prisma.trabajadoresEnEventos.updateMany({
+        where: {
+          eventoId: evento?.id,
+        },
+        data: {
+          status: 'CANCELADO'
+        }
+      })
+
       return res.status(200).send("Evento borrado con exito");
     }
   }

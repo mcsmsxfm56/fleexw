@@ -29,7 +29,7 @@ export default async function handler(
   const { authorization } = req.headers;
 
   try {
-    if (req.method === "GET") {
+    if (req.method === "PUT" && req.body.realmethod === "GET") {
       try {
         const trabajador = await buscarTrabajador(id as string);
 
@@ -55,9 +55,9 @@ export default async function handler(
           certificado_bancario: trabajador.certificado_bancario,
         };
 
-        res.status(200).send(newTrabajador);
+        return res.status(200).send(newTrabajador);
       } catch (error: any) {
-        res.status(400).send(error.message);
+        return res.status(400).send(error.message);
       }
     }
     if (req.method === "PUT") {
@@ -103,9 +103,11 @@ export default async function handler(
         if (elimiar) {
           return res.status(200).send("Trabajador eliminado correctamente");
         }
-      } catch (error) {}
+      } catch (error: any) {
+        return res.status(400).send(error.message);
+      }
     }
   } catch (error: any) {
-    res.status(400).send(error.message);
+    return res.status(400).send(error.message);
   }
 }

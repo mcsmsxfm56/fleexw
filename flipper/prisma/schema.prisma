@@ -46,6 +46,7 @@ model Evento {
   cupos Int
   perfil String
   pago Int
+  numeroPostulantes Int @default(0)
   observaciones String
   trabajadores TrabajadoresEnEventos[]
 }
@@ -80,6 +81,7 @@ model TrabajadoresEnEventos {
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
   status String
+  notificacionVista Boolean @default(true)
   @@id([eventoId, trabajadorId])
 }
 

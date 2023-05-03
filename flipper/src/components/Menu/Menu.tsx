@@ -52,7 +52,8 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
             number="1-212-736-5000"
             message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
             element="a"
-            className="pl-4 cursor-pointer text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative">
+            className="pl-4 cursor-pointer text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"
+          >
             Boton de Ayuda
           </ReactWhatsapp>
           <div>

@@ -67,7 +67,7 @@ export const EventCard: React.FC<evento> = (evento) => {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Link href={`evento/detalle/${evento.id}`}>Ver Detalle</Link>
+          <Link href={`evento/detalle/${evento.id}`} className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]">Ver Detalle</Link>
         </div>
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
