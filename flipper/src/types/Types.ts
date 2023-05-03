@@ -102,11 +102,12 @@ export type NotificationSingle = {
   eventoId: string;
   trabajadorId: string;
   status: string;
+  notificacionVista: boolean;
   evento: {
     nombre: string;
     pago: number;
     fecha_inicio: Date;
-    fecha_finalizacion: Date;
+    fecha_final: Date;
     lugar: string;
     observaciones: string;
   };
