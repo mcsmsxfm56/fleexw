@@ -84,7 +84,7 @@ const EventosTrabajador: React.FC = () => {
     } else if (
       order == "desc" &&
       isLoading === false &&
-      data.constructor.name === "Array"
+      data?.constructor.name === "Array"
     ) {
       sorted = data.sort(orderDesc);
     }
@@ -97,7 +97,7 @@ const EventosTrabajador: React.FC = () => {
   };
 
   if (error) {
-    console.log(error);
+    console.log(error.message);
     return (
       <div>
         <p>ERROR</p>

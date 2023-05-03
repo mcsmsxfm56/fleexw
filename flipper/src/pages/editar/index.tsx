@@ -1,11 +1,13 @@
-import EditarPerfil from "@/components/Perfil/EditarPerfil"
+import AppLayout from "@/components/AppLayout/AppLayout";
+import FormEditarPerfil from "@/components/Perfil/FormEditarPerfil";
 
 const Editar = () => {
+
   return (
     <div>
-      <h1>editar perfil empresa</h1>
-      {/* falta hacer el formulario de modificacion, pero el resto esta listo */}
-      {/* <EditarPerfil /> */}
+      <AppLayout>
+        <FormEditarPerfil />
+      </AppLayout>
     </div>
   )
 }

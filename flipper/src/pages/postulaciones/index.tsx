@@ -1,4 +1,4 @@
-import EditaPerfil from '@/components/Perfil/EditarPerfil'
+import EditaPerfil from '@/components/Perfil/FormEditarPerfil'
 import React from 'react'
 
 
