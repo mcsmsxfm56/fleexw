@@ -94,7 +94,6 @@ const EventDatail = () => {
       traerEventoYPostulantes(idEvent as string)
         .then((data) => {
           setEventDetail(data);
-          /* console.log(data); */
         })
         .catch((error) => console.log(error.message));
     }
@@ -111,12 +110,17 @@ const EventDatail = () => {
           Perfil: eventDetail?.perfil,
           Status: trabajadorPorEvento.status,
         };
-        setRows((prevState) => [...prevState, objPush]);
+        if (rows.length < eventDetail.trabajadores.length) {
+          setRows((prev) => [...prev, objPush])
+
+        }
+
       });
     }
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
+    console.log('Rows en el boton postulaciones', rows);
     /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
     /* console.log(admitePostulaciones); */
