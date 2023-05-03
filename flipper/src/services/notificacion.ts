@@ -1,7 +1,7 @@
 import { NotificationList } from "@/types/Types";
 import axios, { AxiosError } from "axios";
 
-export async function Set_Ver_Notificación(trabajadorId: string, eventoId: string, notificacionVista: boolean) {
+export async function set_Ver_Notificación(trabajadorId: string, eventoId: string, notificacionVista: boolean) {
   return axios({
     method: 'put',
     url: '/api/notificaciones',

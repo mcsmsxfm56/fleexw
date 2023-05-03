@@ -1,3 +1,4 @@
+import { set_Ver_Notificación } from "@/services/notificacion";
 import { NotificationSingle } from "@/types/Types";
 import React, { useState } from "react";
 
@@ -13,10 +14,10 @@ const NotificationCard = ({ notif }: NotificationCardProps) => {
 
   const [visto, setVisto] = useState(notificacionVista);
 
-  const handleVisto = () => {
+  const handleVisto = async () => {
     // Manda a la BD que la notificación ya se vió
-    
     setVisto(true);
+    set_Ver_Notificación(trabajadorId, eventoId, true);
   };
 
   return (
