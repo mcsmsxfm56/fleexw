@@ -9,6 +9,7 @@ export default async function handler(
     const trabajadorId = req.body.trabajadorId as string;
     const eventoId = req.body.eventoId as string;
     const notificacionVista = req.body.notificacionVista as boolean;
+    // Buscar evento y guardarme la fecha de inicio
     try {
       const trabajadorenevento = await prisma.trabajadoresEnEventos.update({
         where: {
@@ -16,6 +17,7 @@ export default async function handler(
             eventoId,
             trabajadorId,
           },
+          // Donde la fecha de inicio no haya pasado
         },
         data: {
           notificacionVista
