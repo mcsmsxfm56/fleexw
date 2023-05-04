@@ -97,6 +97,10 @@ export interface ShowElementsTrabajador {
   showPerfilTrabajador: boolean,
 }
 
+export interface FormValues {
+  email: string,
+  password: string
+}
 // ----- Notificaciones -----
 export type NotificationSingle = {
   eventoId: string;
