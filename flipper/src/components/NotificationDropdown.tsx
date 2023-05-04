@@ -40,7 +40,7 @@ const NotificationDropdown = () => {
   };
 
   return (
-    <div className={`dropdown dropdown-end top-[4px] right-0 fixed z-[100] md:top-4 md:right-4`}>
+    <div className={`dropdown dropdown-end top-[4px] right-0 fixed z-[100] md:top-[8px] md:right-4`}>
       <label
         tabIndex={0}
         className={`shadow-lg btn border-0 m-1 bg-transparent md:bg-black ${newNotif && "bg-red-800 md:bg-orange-300"} hover:bg-[#4F46E5]`}
@@ -50,7 +50,7 @@ const NotificationDropdown = () => {
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 overflow-y-scroll h-[80vh] flex flex-nowrap border-white z-50"
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 overflow-y-scroll h-[60vh] flex flex-nowrap border-white z-50 relative"
       >
         {notifications.length === 0 ? (
           <p className="flex justify-center items-center h-full">No hay notificaciones</p>
