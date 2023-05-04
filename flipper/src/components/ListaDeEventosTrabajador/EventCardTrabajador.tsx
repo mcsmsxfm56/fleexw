@@ -29,8 +29,8 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
         </Link>
       </div>
       <hr></hr>
-      <div className="text-indigo-700 flex">
-        <div className="flex-1">
+      <div className="text-indigo-700 flex justify-around">
+        <div className="w-[60%]">
           <p className="text-2xl font-bold">
             {evento.fecha_inicio.slice(0, 10)}
           </p>
@@ -42,10 +42,10 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
             {evento.observaciones}
           </p>
         </div>
-        <div className="flex-1 flex justify-center items-center">
+        <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (
             <button
-              className="bg-black rounded-md"
+              className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC]"
               onClick={async () => {
                 let response = await fetch("/api/trabajadoreseneventos", {
                   method: "POST",
@@ -73,11 +73,11 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
               Postularse
             </button>
           ) : (
-            <p>no se admiten mas postulaciones</p>
+            <p className="bg-red-300 text-center text-lg font-bold px-2 rounded-lg">No se admiten más postulaciones</p>
           )}
         </div>
       </div>
-      <div className="text-[#4031c6] flex items-center gap-1 capitalize">
+      <div className="text-[#4031c6] flex items-center gap-1 capitalize ml-2">
         <AiFillClockCircle />
         <p className="mr-5">{evento.hora.slice(11, 16)}</p>
         <IoLocationSharp />

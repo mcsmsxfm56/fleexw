@@ -50,7 +50,7 @@ const NotificationDropdown = () => {
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 overflow-y-scroll h-[80vh] flex flex-nowrap border-white z-50"
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 overflow-y-scroll h-[60vh] flex flex-nowrap border-white z-50 relative"
       >
         {notifications.length === 0 ? (
           <p className="flex justify-center items-center h-full">No hay notificaciones</p>

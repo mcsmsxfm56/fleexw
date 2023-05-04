@@ -27,7 +27,7 @@ const Menu = ({ isExpanded, setIsExpanded }: Props) => {
       className={
         !isExpanded
           ? "h-full md:w-1/4 lg:w-[250px] md:pt-20 2xl:h-screen fixed md:block top-0 md:top-0 -left-60 md:left-0 bottom-0 bg-indigo-600 lg:pt-20 flex flex-col gap-4 transition-[left] md:transition-none duration-500 ease-out z-40"
-          : "h-screen 2xl:h-screen bg-indigo-600 items-center px-4 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed"
+          : "h-screen 2xl:h-screen bg-indigo-600 items-center px-4 top-0 md:top-[64px] left-0 flex flex-col justify-center gap-8 transition-[left] md:transition-none duration-500 ease-out z-40 fixed mt-[20px]"
       }>
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
