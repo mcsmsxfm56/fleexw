@@ -101,9 +101,9 @@ export default async function handler(
       });
       //console.log(eventoId);//
       //console.log(trabajadorUpdateStatus);
-      res.status(200).send(trabajadorCreateStatus);
+      return res.status(200).send(trabajadorCreateStatus);
     } catch (error: unknown) {
-      res.status(400).send(error);
+      return res.status(400).send(error);
     }
   }
 }

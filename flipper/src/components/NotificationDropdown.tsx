@@ -11,24 +11,38 @@ const NotificationDropdown = () => {
   const { id } = useSesionUsuarioContext();
 
   useEffect(() => {
-    Get_Postulaciones_Trabajador(id).then((data) => {
-      console.log(data);
-      setNotifications(data);
-    });
+    /**
+     * cada 10 segundos, revisa las notificaciones
+     * La primera llamada es para la ejecute en el momento de crearse
+     * Luego, cada 10 segundos
+     */ 
+    getNotif();
+    const interval = setInterval(() => {
+      getNotif();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    console.log("checking new notif...");
-    notifications.forEach((notif) => {
-      if (!notif.notificacionVista) setNewNotif(true);
+  const getNotif = async () => {
+    Get_Postulaciones_Trabajador(id).then((data) => {
+      setNotifications(data);
+      checkNewNotif(data);
     });
-  }, [notifications]);
+  };
+
+  const checkNewNotif = (notifList: NotificationList) => {
+    notifList.forEach((notif) => {
+      if (!notif.notificacionVista) setNewNotif(true);
+      else setNewNotif(false);
+    });
+  };
 
   return (
     <div className={`dropdown dropdown-end fixed top-4 right-4`}>
       <label
         tabIndex={0}
-        className={`btn m-1 ${newNotif && "bg-red-800" } hover:bg-[#4F46E5]`}
+        className={`btn m-1 ${newNotif && "bg-red-800"} hover:bg-[#4F46E5]`}
         onClick={() => setNewNotif(false)}
       >
         {newNotif ? <VscBellDot size={40} /> : <VscBell size={40} />}
@@ -38,7 +52,7 @@ const NotificationDropdown = () => {
         className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 overflow-y-scroll h-[80vh] flex flex-nowrap border-white z-50"
       >
         {notifications.length === 0 ? (
-          <p>No hay notificaciones</p>
+          <p className="flex justify-center items-center h-full">No hay notificaciones</p>
         ) : (
           notifications.map((notif, index) => (
             <li key={`notification_${index}`}>
