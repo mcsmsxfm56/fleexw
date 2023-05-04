@@ -24,7 +24,7 @@ export default async function handler(
       where: { id },
     });
     if (trabajador) {
-      const eventosPorCiudad = await prisma.evento.findMany({
+      let eventosPorCiudad = await prisma.evento.findMany({
         where: {
           lugar: {
             contains: trabajador.ciudad as string,
@@ -33,7 +33,8 @@ export default async function handler(
         },
       });
       if (!eventosPorCiudad) {
-        throw new Error("Todavia no hay eventos para tu ciudad");
+        const eventosNotFound = "No hay eventos disponibles";
+        res.status(404).send(eventosNotFound);
       }
       return res.status(200).send(eventosPorCiudad);
     }

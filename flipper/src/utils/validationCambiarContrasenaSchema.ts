@@ -1,0 +1,6 @@
+import * as yup from "yup";
+
+export default yup.object().shape({
+    /* email: yup.string().required("Email requerido").email("Formato inválido"), */
+    password: yup.string().required("Password requerido"),
+});

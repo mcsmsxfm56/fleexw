@@ -26,13 +26,13 @@ const EventDatail = () => {
   const router = useRouter();
   const [rows, setRows] = useState<{}[]>([]);
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
-  const [postulantes, setPostulantes] = useState<postulante>({
-    rechazados: [],
-    aprobados: [],
-    pendientes: [],
-    asistieron: [],
-    faltaron: [],
-  });
+  // const [postulantes, setPostulantes] = useState<postulante>({
+  //   rechazados: [],
+  //   aprobados: [],
+  //   pendientes: [],
+  //   asistieron: [],
+  //   faltaron: [],
+  // });
   const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
   /* console.log(postulantes); */
@@ -94,86 +94,33 @@ const EventDatail = () => {
       traerEventoYPostulantes(idEvent as string)
         .then((data) => {
           setEventDetail(data);
-          /* console.log(data); */
         })
         .catch((error) => console.log(error.message));
     }
+
   }, [idEvent, loading]);
 
   useEffect(() => {
     if (eventDetail) {
       eventDetail?.trabajadores.map((trabajadorPorEvento) => {
-        if (trabajadorPorEvento.status === "PENDIENTE") {
-          setPostulantes((prevState) => ({
-            ...prevState,
-            pendientes: [...prevState.pendientes, trabajadorPorEvento],
-          }));
-          let objPush = {
-            id: id++,
-            UUID: trabajadorPorEvento.trabajadorId,
-            Nombre: trabajadorPorEvento.trabajadores.name,
-            Perfil: eventDetail?.perfil,
-            Status: trabajadorPorEvento.status,
-          };
-          setRows((prevState) => [...prevState, objPush]);
-        } else if (trabajadorPorEvento.status === "APROBADO") {
-          setPostulantes((prevState) => ({
-            ...prevState,
-            aprobados: [...prevState.aprobados, trabajadorPorEvento],
-          }));
-          let objPush = {
-            id: id++,
-            UUID: trabajadorPorEvento.trabajadorId,
-            Nombre: trabajadorPorEvento.trabajadores.name,
-            Perfil: eventDetail?.perfil,
-            Status: trabajadorPorEvento.status,
-          };
-          setRows((prevState) => [...prevState, objPush]);
-        } else if (trabajadorPorEvento.status === "RECHAZADO") {
-          setPostulantes((prevState) => ({
-            ...prevState,
-            rechazados: [...prevState.rechazados, trabajadorPorEvento],
-          }));
-          let objPush = {
-            id: id++,
-            UUID: trabajadorPorEvento.trabajadorId,
-            Nombre: trabajadorPorEvento.trabajadores.name,
-            Perfil: eventDetail?.perfil,
-            Status: trabajadorPorEvento.status,
-          };
-          setRows((prevState) => [...prevState, objPush]);
-        } else if (trabajadorPorEvento.status === "ASISTIO") {
-          setPostulantes((prevState) => ({
-            ...prevState,
-            asistieron: [...prevState.asistieron, trabajadorPorEvento],
-          }));
-          let objPush = {
-            id: id++,
-            UUID: trabajadorPorEvento.trabajadorId,
-            Nombre: trabajadorPorEvento.trabajadores.name,
-            Perfil: eventDetail?.perfil,
-            Status: trabajadorPorEvento.status,
-          };
-          setRows((prevState) => [...prevState, objPush]);
-        } else {
-          setPostulantes((prevState) => ({
-            ...prevState,
-            faltaron: [...prevState.faltaron, trabajadorPorEvento],
-          }));
-          let objPush = {
-            id: id++,
-            UUID: trabajadorPorEvento.trabajadorId,
-            Nombre: trabajadorPorEvento.trabajadores.name,
-            Perfil: eventDetail?.perfil,
-            Status: trabajadorPorEvento.status,
-          };
-          setRows((prevState) => [...prevState, objPush]);
+        let objPush = {
+          id: id++,
+          UUID: trabajadorPorEvento.trabajadorId,
+          Nombre: trabajadorPorEvento.trabajadores.name,
+          Perfil: eventDetail?.perfil,
+          Status: trabajadorPorEvento.status,
+        };
+        if (rows.length < eventDetail.trabajadores.length) {
+          setRows((prev) => [...prev, objPush])
+
         }
+
       });
     }
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
+    console.log('Rows en el boton postulaciones', rows);
     /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
     /* console.log(admitePostulaciones); */
