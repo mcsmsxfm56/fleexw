@@ -97,7 +97,6 @@ const EventDatail = () => {
         })
         .catch((error) => console.log(error.message));
     }
-
   }, [idEvent, loading]);
 
   useEffect(() => {
@@ -111,16 +110,14 @@ const EventDatail = () => {
           Status: trabajadorPorEvento.status,
         };
         if (rows.length < eventDetail.trabajadores.length) {
-          setRows((prev) => [...prev, objPush])
-
+          setRows((prev) => [...prev, objPush]);
         }
-
       });
     }
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
-    console.log('Rows en el boton postulaciones', rows);
+    console.log("Rows en el boton postulaciones", rows);
     /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
     /* console.log(admitePostulaciones); */
@@ -139,22 +136,26 @@ const EventDatail = () => {
 
   return (
     <AppLayout>
-      <div className="h-full overflow-auto">
+      <div className="h-full overflow-auto mt-8">
         <div
           className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)] h-screen"
+            lg:w-[calc(100vw-268px)]"
         >
-          <div className="flex flex-col justify-center items-center gap-10">
+          <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center">
-              <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 -mx-10">
+              <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
                 Evento: {eventDetail?.nombre}
+                {rol === "empresa" && (
+                  <HiPencil
+                    className="text-[#f6ea06] absolute top-3 right-3 rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
+                    size={30}
+                  />
+                )}
               </p>
-
-              <HiPencil className="text-[#f6ea06]" size={30} />
             </div>
             <div className="flex gap-10">
               <div className="flex flex-col">
-                <p className="text-center font-bold text-xl">
+                <p className="text-center font-bold text-xl text-black">
                   Fecha de Inicio:
                 </p>
                 <p className="text-center font-bold text-lg">
@@ -162,7 +163,7 @@ const EventDatail = () => {
                 </p>
               </div>
               <div className="flex flex-col">
-                <p className="text-center font-bold text-xl">
+                <p className="text-center font-bold text-xl text-black">
                   Fecha de Finalizacion:
                 </p>
                 <p className="text-center font-bold text-lg">
@@ -172,7 +173,7 @@ const EventDatail = () => {
             </div>
             <div className="flex gap-10">
               <div className="flex flex-col">
-                <p className="text-center font-bold text-xl">
+                <p className="text-center font-bold text-xl text-black">
                   Perfiles Solicitados:
                 </p>
                 <p className="text-center font-bold text-lg">
@@ -181,7 +182,7 @@ const EventDatail = () => {
                 </p>
               </div>
               <div className="flex flex-col">
-                <p className="text-center font-bold text-xl">
+                <p className="text-center font-bold text-xl text-black">
                   Ciudad Y Dirección:
                 </p>
                 <p className="text-center font-bold text-lg">
@@ -190,7 +191,7 @@ const EventDatail = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl">Observaciones:</p>
+              <p className="text-center font-bold text-xl text-black">Observaciones:</p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
@@ -198,12 +199,12 @@ const EventDatail = () => {
           </div>
           <div className="flex justify-center">
             {rol === "empresa" ? (
-              <div>
+              <div className="flex flex-col items-center my-8">
                 {loading ? (
                   <LoadingSubmitForm />
                 ) : (
                   <button
-                    className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]"
+                    className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC] mb-4"
                     onClick={handleadmitirOrestringirPostulaciones}
                   >
                     {eventDetail?.admitePostulaciones
