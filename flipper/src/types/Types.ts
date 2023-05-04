@@ -96,3 +96,8 @@ export interface ShowElementsTrabajador {
   showHistorialTrabajador: boolean,
   showPerfilTrabajador: boolean,
 }
+
+export interface FormValues {
+  email: string,
+  password: string
+}
