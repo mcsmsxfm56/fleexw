@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import EditTrabajadorContactoSchema from "@/utils/EditTrabajadorContactoSchema";
 import {
@@ -15,7 +15,9 @@ import {
 import useSWR, { Fetcher } from "swr";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { Fab } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, Field, ErrorMessage } from "formik";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const theme = createTheme({
   palette: {
@@ -27,35 +29,28 @@ const theme = createTheme({
 });
 
 interface Contacto {
-  ciudad: string;
-  direccion: string;
-  email: string;
-  phone: string;
-}
-
-interface Postulante {
-  name: string;
-
-  genero: string;
-  edad: string;
-  estatura: string;
-  grupo_sanguineo: string;
-  talla_camiseta: string;
-  idType: string;
-  idNumber: number;
-  nacimiento: string;
-  foto: string;
-  cv: string;
-  certificado_bancario: string;
-  rut: string;
+  ciudad?: string;
+  direccion?: string;
+  email?: string;
+  phone?: string;
+  genero?: string;
+  nacimiento?: string;
+  estatura?: string;
+  grupo_sanguineo?: string;
+  talla_camiseta?: string;
+  foto?: string;
+  cv?: string;
+  certificado_bancario?: string;
+  rut?: string;
 }
 
 export const PerfilTrabajador: React.FC = () => {
-  const { id } = useSesionUsuarioContext();
-  const token = localStorage.getItem("token");
+  const { id, token } = useSesionUsuarioContext();
   const [open, setOpen] = useState<boolean>(false);
   const [open2, setOpen2] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>("");
+  const [contactoInfo, setContactoInfo] = useState<Contacto>({});
+  const [refresh, setRefresh] = useState<boolean>();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -88,18 +83,89 @@ export const PerfilTrabajador: React.FC = () => {
   };
   // Perform localStorage action
   let { isLoading, error, data } = useSWR("/api/trabajador", fetcherProfile);
-  const initialValuesContacto: Contacto = {
-    ciudad: data?.ciudad ?? "",
-    direccion: data?.direccion ?? "",
-    email: data?.email ?? "",
-    phone: data?.phone ?? "",
+
+  const submitHandler = async (values: Contacto) => {
+    setRefresh(true);
+    console.log("entre");
+    console.log(values);
+    setSubmitError("");
+
+    await fetch("/api/trabajador/modTrabajador", {
+      method: "PUT",
+      headers: {
+        Accept: "Aplication/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        values,
+      }),
+    })
+      .then((res) => {
+        console.log(refresh);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "#B1FFBD",
+          color: "green",
+          iconColor: "green",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Datos de Contacto actualizados correctamente",
+        });
+      })
+      .catch((e) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "red",
+          color: "white",
+          iconColor: "white",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "No se pudo actualizar la informacion",
+        });
+        setSubmitError(e.response.data);
+      })
+      .finally(() => {
+        console.log(refresh);
+        setContactoInfo({});
+        setOpen(false);
+        setRefresh(false);
+      });
   };
-  const submitHandler = (values: Contacto) => {};
-  //   useEffect(() => {
-  //     if (id) {
-  //       fetcherProfile("/api/trabajador");
-  //     }
-  //   }, [id]);
+  useEffect(() => {
+    fetcherProfile("/api/trabajador");
+  }, [refresh, data]);
+
+  const handleChange = (
+    Event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    return setContactoInfo({
+      ...contactoInfo,
+      [Event.target.name]: Event.target.value,
+    });
+  };
+  console.log(contactoInfo);
+  console.log("data", data);
 
   const styles = {
     input: "font-bold text-3xl text-indigo-600 capitalize",
@@ -142,90 +208,97 @@ export const PerfilTrabajador: React.FC = () => {
                     onClick={handleClickOpen}>
                     <EditIcon />
                   </Fab>
-                  <Formik
-                    initialValues={initialValuesContacto}
-                    onSubmit={(values, actions) => {
-                      submitHandler(values);
-                      actions.setSubmitting(false);
-                    }}
-                    validationSchema={EditTrabajadorContactoSchema}>
-                    <Dialog open={open} onClose={handleClose}>
-                      <DialogTitle color="secondary">
-                        <p className="font-bold">Completa tu Informacion</p>
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          <p className="font-bold">
-                            Es obligatorio que completes tus datos para poder
-                            postularte a un evento. De lo contrario no podras
-                            participar de los mismos.
-                            <br />
-                            Disculpe las molestias!
-                          </p>
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle color="secondary">
+                      <p className="font-bold">Completa tu Informacion</p>
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <p className="font-bold">
+                          Es obligatorio que completes tus datos para poder
+                          postularte a un evento. De lo contrario no podras
+                          participar de los mismos.
                           <br />
-                          <p className="font-bold">Flipper Eventos.</p>
-                        </DialogContentText>
-                        <Form>
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="ciudad"
-                            label="Ciudad"
-                            type="text"
-                            fullWidth
-                            defaultValue={data?.ciudad}
-                            color="secondary"
-                            variant="standard"
-                          />
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="telefono"
-                            label="Telefono"
-                            type="text"
-                            fullWidth
-                            defaultValue={data?.phone}
-                            color="secondary"
-                            variant="standard"
-                          />
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="email"
-                            label="Email Address"
-                            type="text"
-                            fullWidth
-                            defaultValue={data?.email}
-                            color="secondary"
-                            variant="standard"
-                          />
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="direccion"
-                            label="Direccion"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            color="secondary"
-                          />
-                        </Form>
-                        {submitError && (
-                          <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
-                            {submitError}
-                          </span>
-                        )}
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose} color="secondary">
-                          <p className="font-bold">Cancelar</p>
-                        </Button>
-                        <Button onClick={handleClose} color="secondary">
-                          <p className="font-bold">Actualizar</p>
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </Formik>
+                          Disculpe las molestias!
+                        </p>
+                        <br />
+                        <p className="font-bold">Flipper Eventos.</p>
+                      </DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="ciudad"
+                        name="ciudad"
+                        label="Ciudad"
+                        type="text"
+                        onChange={(Event) => handleChange(Event)}
+                        fullWidth
+                        defaultValue={data?.ciudad}
+                        color="secondary"
+                        variant="standard">
+                        <ErrorMessage
+                          name="ciudad"
+                          component="div"
+                          className="text-red-500"
+                        />
+                      </TextField>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="telefono"
+                        name="phone"
+                        label="Telefono"
+                        type="text"
+                        onChange={(Event) => handleChange(Event)}
+                        fullWidth
+                        defaultValue={data?.phone}
+                        color="secondary"
+                        variant="standard"></TextField>
+
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="email"
+                        name="email"
+                        label="Email Address"
+                        type="text"
+                        onChange={(Event) => handleChange(Event)}
+                        fullWidth
+                        defaultValue={data?.email}
+                        color="secondary"
+                        variant="standard"></TextField>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="direccion"
+                        name="direccion"
+                        label="Direccion"
+                        defaultValue={data?.direccion}
+                        type="text"
+                        onChange={(Event) => handleChange(Event)}
+                        fullWidth
+                        variant="standard"
+                        color="secondary"></TextField>
+                      {submitError && (
+                        <span className="bg-red-600 text-white font-bold px-8 py-2 rounded mb-4">
+                          {submitError}
+                        </span>
+                      )}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={handleClose}
+                        type="button"
+                        color="secondary">
+                        Cancelar
+                      </Button>
+                      <Button
+                        color="secondary"
+                        onClick={() => submitHandler(contactoInfo)}>
+                        Actualizar
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </ThemeProvider>
               </div>
               <h5 className={dataStyle}>
@@ -237,7 +310,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Direccion:{" "}
                 <span className="font-normal text-xl">
-                  {data?.direccion ?? "-"}
+                  {data?.direccion || "-"}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>

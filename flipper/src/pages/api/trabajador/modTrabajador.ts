@@ -24,42 +24,10 @@ export default async function handler(
   res: NextApiResponse<DataTRegister | {}>
 ) {
   //console.log(req.headers);
-  const { id } = req.body;
   const body = req.body;
   const { authorization } = req.headers;
 
   try {
-    if (req.method === "PUT" && req.body.realmethod === "GET") {
-      try {
-        const trabajador = await buscarTrabajador(id as string);
-
-        const newTrabajador = {
-          name: trabajador.name,
-          ciudad: trabajador.ciudad,
-          direccion: trabajador.direccion,
-          email: trabajador.email,
-          phone: trabajador.phone,
-          genero: trabajador.genero,
-          edad: "", // habria que unificar el formato de la fecha de nacimiento para poder hacer una fn que retorne la edad
-          estatura: trabajador.estatura,
-          grupo_sanguineo: trabajador.grupo_sanguineo,
-          talle_camiseta: trabajador.talla_camiseta,
-          idType: trabajador.idType,
-          idNumber: trabajador.idNumber,
-          imagen_dni: trabajador.imagen_dni,
-          foto:
-            trabajador.foto ??
-            " https://th.bing.com/th/id/OIP.OaHQ7x61nQd8AnrEDOLtYwHaHa?pid=ImgDet&rs=1 ",
-          cv: trabajador.cv,
-          rut: trabajador.rut,
-          certificado_bancario: trabajador.certificado_bancario,
-        };
-
-        return res.status(200).send(newTrabajador);
-      } catch (error: any) {
-        return res.status(400).send(error.message);
-      }
-    }
     if (req.method === "PUT") {
       console.log("entre a la ruta");
       console.log(authorization);
@@ -78,8 +46,10 @@ export default async function handler(
       console.log(id);
 
       if (decodedToken) {
+        console.log(body);
+
         const trabajadorModificar = await prisma.trabajador.update({
-          where: { id: id },
+          where: { id: id as string },
           data: {
             phone: null ?? body.phone,
             email: null ?? body.email,
@@ -100,16 +70,6 @@ export default async function handler(
         console.log(trabajadorModificar);
 
         return res.status(200).send(trabajadorModificar);
-      }
-    }
-    if (req.method === "DELETE") {
-      try {
-        const elimiar = await eliminarTrabajador(id as string);
-        if (elimiar) {
-          return res.status(200).send("Trabajador eliminado correctamente");
-        }
-      } catch (error: any) {
-        return res.status(400).send(error.message);
       }
     }
   } catch (error: any) {
