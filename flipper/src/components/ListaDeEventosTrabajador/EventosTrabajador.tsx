@@ -23,19 +23,20 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 //string define el tipado de la url recibida, any el tipado de la respuesta
+const fetcherCiudadEventos: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "GET",
+      id: localStorage.getItem("id"),
+    }),
+  }).then((res) => res.json());
+};
 
 const EventosTrabajador: React.FC = () => {
   const { id } = useSesionUsuarioContext();
-  const fetcherCiudadEventos: Fetcher<any, string> = (apiRoute) => {
-    return fetch(apiRoute, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        realmethod: "GET",
-        id: id,
-      }),
-    }).then((res) => res.json());
-  };
+
   // Perform localStorage action
   var { isLoading, error, data } = useSWR(
     "/api/trabajador/eventos",
@@ -64,26 +65,26 @@ const EventosTrabajador: React.FC = () => {
     if (
       order == "asc" &&
       isLoading === false &&
-      data.constructor.name === "Object"
+      data?.constructor.name === "Object"
     ) {
       sorted = data.eventos.sort(orderAsc);
     } else if (
       order == "desc" &&
       isLoading === false &&
-      data.constructor.name === "Object"
+      data?.constructor.name === "Object"
     ) {
-      sorted = data.eventos.sort(orderDesc);
+      sorted = data.eventos?.sort(orderDesc);
     }
     if (
       order == "asc" &&
       isLoading === false &&
-      data.constructor.name === "Array"
+      data?.constructor.name === "Array"
     ) {
       sorted = data.sort(orderAsc);
     } else if (
       order == "desc" &&
       isLoading === false &&
-      data.constructor.name === "Array"
+      data?.constructor.name === "Array"
     ) {
       sorted = data.sort(orderDesc);
     }
@@ -96,7 +97,7 @@ const EventosTrabajador: React.FC = () => {
   };
 
   if (error) {
-    console.log(error);
+    console.log(error.message);
     return (
       <div>
         <p>ERROR</p>
@@ -104,11 +105,12 @@ const EventosTrabajador: React.FC = () => {
     );
   }
 
-  console.log(data);
+  //console.log(data);
   return (
     <div
       className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]">
+            lg:w-[calc(100vw-268px)]"
+    >
       <div className="p-2">
         <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
           Lista de Eventos
@@ -123,7 +125,8 @@ const EventosTrabajador: React.FC = () => {
           </button>
           <button
             className={buttonStyle + " ml-2"}
-            onClick={() => setOrder("desc")}>
+            onClick={() => setOrder("desc")}
+          >
             Descendente
           </button>
         </div>

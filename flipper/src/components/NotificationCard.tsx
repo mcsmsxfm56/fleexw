@@ -14,21 +14,18 @@ const pendienteStatus = "text-yellow-600 border-yellow-600 bg-yellow-300";
 
 const NotificationCard = ({ notif }: NotificationCardProps) => {
   const { evento, status, eventoId, trabajadorId, notificacionVista } = notif;
-
   const [visto, setVisto] = useState(notificacionVista);
 
   const handleVisto = async () => {
     // Manda a la BD que la notificación ya se vió
-    if (!visto) {
-      setVisto(true);
-      set_Ver_Notificación(trabajadorId, eventoId, true);
-    }
+    setVisto(true);
+    set_Ver_Notificación(trabajadorId, eventoId, true);
   };
 
   return (
     <div
-      className={`flex flex-col my-2 bg-gray-200 hover:bg-gray-300 text-black gap-1 ${
-        !visto && "bg-orange-500"
+      className={`flex flex-col my-2 hover:bg-gray-300 text-black gap-1 ${
+        !visto ? "bg-orange-500" : "bg-gray-200"
       }`}
       onMouseEnter={handleVisto}
     >
@@ -45,8 +42,12 @@ const NotificationCard = ({ notif }: NotificationCardProps) => {
         {status}
       </p>
       <p className="text-start w-full">Lugar: {evento.lugar}</p>
-      <p className="text-start w-full">Inicia: {evento.fecha_inicio.toString()}</p>
-      <p className="text-start w-full">Termina: {evento.fecha_final.toString()}</p>
+      <p className="text-start w-full">
+        Inicia: {evento.fecha_inicio.toString()}
+      </p>
+      <p className="text-start w-full">
+        Termina: {evento.fecha_final.toString()}
+      </p>
       <p className="text-start w-full">Pago: ${evento.pago}</p>
       <p>{evento.observaciones}</p>
     </div>

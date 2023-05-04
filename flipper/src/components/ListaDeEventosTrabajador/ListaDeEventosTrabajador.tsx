@@ -13,6 +13,7 @@ export interface EventoTrabajador {
   id: string;
   cupos: number;
   pago: number;
+  admitePostulaciones: boolean;
 }
 interface Props2 {
   eventos: EventoTrabajador[];
@@ -50,6 +51,7 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
                   id={event.id}
                   pago={event.cupos}
                   cupos={event.pago}
+                  admitePostulaciones={event.admitePostulaciones}
                 />
               </div>
             );
