@@ -29,6 +29,7 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
     <div className="w-full md:w-10/12 lg:w-3/5">
       {eventos ? (
         eventos.map((event: eventoTrabajador) => {
+
           if (event.status === 'APROBADO') {
             return (
               <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
@@ -36,6 +37,7 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
                   <h2>Status: {event.status}</h2>
                   <h2>Evento: {event.evento.nombre}</h2>
                   <h2>Lugar: {event.evento.lugar}</h2>
+                  <h2>Fecha: {event.evento.fecha_final.slice(0, 10)}</h2>
                   <h2>Pago: ${event.evento.pago}</h2>
                   <h2>Observaciones: {event.evento.observaciones}</h2>
                 </div>
