@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import NotificationCard from "./NotificationCard";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { VscBell, VscBellDot } from "react-icons/vsc";
+import { BsFillBellFill } from "react-icons/bs";
 
 const NotificationDropdown = () => {
   const [notifications, setNotifications] = useState<NotificationList>([]);
@@ -39,13 +40,13 @@ const NotificationDropdown = () => {
   };
 
   return (
-    <div className={`dropdown dropdown-end fixed top-4 right-4`}>
+    <div className={`dropdown dropdown-end top-[4px] right-0 fixed z-[100] md:top-4 md:right-4`}>
       <label
         tabIndex={0}
-        className={`btn m-1 ${newNotif && "bg-red-800"} hover:bg-[#4F46E5]`}
+        className={`shadow-lg btn border-0 m-1 bg-transparent md:bg-black ${newNotif && "bg-red-800 md:bg-orange-300"} hover:bg-[#4F46E5]`}
         onClick={() => setNewNotif(false)}
       >
-        {newNotif ? <VscBellDot size={40} /> : <VscBell size={40} />}
+        {newNotif ? <VscBellDot size={35} color="red" /> : <BsFillBellFill size={35} color="white" />}
       </label>
       <ul
         tabIndex={0}
