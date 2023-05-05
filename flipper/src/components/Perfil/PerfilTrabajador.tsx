@@ -859,34 +859,34 @@ export const PerfilTrabajador: React.FC = () => {
               </div>
               <h5 className={dataStyle}>
                 Curriculum Vitae:{" "}
-                <Link href={`${data?.cv.split(" ").slice(1)}`}>
+                <Link href={`${data?.cv?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl capitalize">
-                    {data?.cv.split(" ").slice(0, 1) ?? "-"}
+                    {data?.cv?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Rut:{" "}
-                <Link href={`${data?.rut.split(" ").slice(1)}`}>
+                <Link href={`${data?.rut?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.rut.split(" ").slice(0, 1) ?? "-"}
+                    {data?.rut?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Certificado Bancario:{" "}
                 <Link
-                  href={`${data?.certificado_bancario.split(" ").slice(1)}`}>
+                  href={`${data?.certificado_bancario?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.certificado_bancario.split(" ").slice(0, 1) ?? "-"}{" "}
+                    {data?.certificado_bancario?.split(" ").slice(0, 1) ?? "-"}{" "}
                   </span>
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Imagen DNI:{" "}
-                <Link href={`${data?.imagen_dni.split(" ").slice(1)}`}>
+                <Link href={`${data?.imagen_dni?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.imagen_dni.split(" ").slice(0, 1) ?? "-"}
+                    {data?.imagen_dni?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
