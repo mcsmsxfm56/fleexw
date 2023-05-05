@@ -8,8 +8,20 @@ export default async function handler(
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const trabajadorId = req.body.trabajadorId;
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
+      // Donde la fecha de inicio no haya pasado
       where: {
-        trabajadorId,
+        AND: [
+          {
+            trabajadorId,
+          },
+          {
+            evento: {
+              fecha_inicio: {
+                gte: new Date(),
+              },
+            },
+          },
+        ],
       },
       include: {
         evento: {
@@ -70,6 +82,37 @@ export default async function handler(
     } catch (error: unknown) {
       res.status(400).send(error);
     }
+  }
+  if (req.method === "POST" && req.body.realmethod === "HISTORIAL") {
+    const trabajadorId = req.body.trabajadorId;
+    const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
+      // Donde la fecha de inicio HAYA pasado
+      where: {
+        AND: [
+          {
+            trabajadorId,
+          },
+          {
+            evento: {
+              fecha_inicio: {
+                lte: new Date(),
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        evento: {
+          include: {
+            empresa: true,
+          },
+        },
+      },
+    });
+    //console.log(eventoId);
+    //console.log(trabajadoresEnEventos);
+    //console.log(trabajadoresEnEventos);
+    return res.status(200).send(trabajadoresEnEventos);
   }
   if (req.method === "POST") {
     /*

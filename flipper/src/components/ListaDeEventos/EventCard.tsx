@@ -39,10 +39,13 @@ export const EventCard: React.FC<evento> = (evento) => {
         {localStorage.getItem("rol") === "empresa" ? (
           <div className="flex gap-8">
             <Link href={`/evento/editar/${evento.id}`}>
-              <HiPencil className="text-[#f6ea06]" size={30} />
+              <HiPencil
+                className="text-[#f6ea06] rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
+                size={30}
+              />
             </Link>
             <AiFillDelete
-              className="text-[#731111]"
+              className="text-red-600 cursor-pointer rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
               size={30}
               onClick={async () => {
                 await borradoLogico(evento.id);
@@ -67,7 +70,12 @@ export const EventCard: React.FC<evento> = (evento) => {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Link href={`evento/detalle/${evento.id}`} className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]">Ver Detalle</Link>
+          <Link
+            href={`evento/detalle/${evento.id}`}
+            className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]"
+          >
+            Ver Detalle
+          </Link>
         </div>
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">

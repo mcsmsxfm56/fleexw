@@ -113,6 +113,7 @@ export default async function handler(
       },
       data: {
         status,
+        notificacionVista: false
       },
     });
     return res
