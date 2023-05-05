@@ -10,11 +10,12 @@ const HistorialTrabajador = () => {
     const getEventos = async () => {
         const eventos = await axios(
             {
-                method: 'POST',
+                method: 'PUT',
                 url: `/api/trabajadoreseneventos`,
                 data: {
                     trabajadorId: id,
-                    realmethod: "HISTORIAL"
+                    realmethod: "GET",
+                    historial: true
                 }
             })
         setDataEvento(eventos.data)
