@@ -773,7 +773,7 @@ export const PerfilTrabajador: React.FC = () => {
                               setNames({
                                 ...names,
                                 certificado_bancario: Event.target.files[0].name
-                                  .split("")
+                                  .split(" ")
                                   .join(""),
                               });
                             }}
