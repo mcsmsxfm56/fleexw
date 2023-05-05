@@ -4,6 +4,7 @@ import MenuMobile from "../Menu/MenuMobile";
 import LogIn from "../../pages/index";
 import NotificationDropdown from "../NotificationDropdown";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import MenuDesktop from "../Menu/MenuDesktop";
 
 interface propsAppLayout {
   children: JSX.Element | JSX.Element[];
@@ -15,13 +16,14 @@ const AppLayout = ({ children }: propsAppLayout) => {
 
   return (
     <>
-      <header className="bg-indigo-600 text-slate-100 justify-between block lg:hidden">
+      <header className="bg-indigo-600 text-slate-100 justify-between block md:hidden">
         <NavBar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
       </header>
-      <main className="bg-gray-200 w-full md:w-4/5 md:ml-[20%] lg:ml-[250px] xl:w-full xl:ml-0">
-        <MenuMobile isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+      <main className="bg-gray-200 w-full md:flex md:overflow-hidden md:h-screen">
         {rol === "trabajador" && <NotificationDropdown />}
-        {children}
+        <MenuMobile isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        <MenuDesktop />
+        <div className="w-full h-full md:overflow-scroll">{children}</div>
       </main>
     </>
   );
