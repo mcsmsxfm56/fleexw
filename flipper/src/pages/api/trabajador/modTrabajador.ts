@@ -13,12 +13,6 @@ interface token {
   iat: number;
 }
 
-interface decodeToken {
-  email: string;
-  id: string;
-  iat: number;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DataTRegister | {}>
@@ -29,8 +23,6 @@ export default async function handler(
 
   try {
     if (req.method === "PUT") {
-      console.log("entre a la ruta");
-      console.log(authorization);
       let token = null;
       if (
         authorization &&
@@ -43,31 +35,29 @@ export default async function handler(
       }
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
       const { id } = decodedToken as token;
-      console.log(id);
 
       if (decodedToken) {
         console.log(body);
 
         const trabajadorModificar = await prisma.trabajador.update({
-          where: { id: id as string },
+          where: { id: id },
           data: {
-            phone: null ?? body.phone,
-            email: null ?? body.email,
-            nacimiento: null ?? body.nacimiento,
-            genero: null ?? body.genero,
-            ciudad: null ?? body.ciudad,
-            direccion: null ?? body.direccion,
-            estatura: null ?? body.estatura,
-            talla_camiseta: null ?? body.talla_camiseta,
-            grupo_sanguineo: null ?? body.grupo_sanguineo,
-            imagen_dni: null ?? body.imagen_dni,
-            foto: null ?? body.foto,
-            cv: null ?? body.cv,
-            rut: null ?? body.rut,
-            certificado_bancario: null ?? body.certificado_bancario,
+            phone: null ?? body.values.phone,
+            email: null ?? body.values.email,
+            nacimiento: null ?? body.values.nacimiento,
+            genero: null ?? body.values.genero,
+            ciudad: null ?? body.values.ciudad,
+            direccion: null ?? body.values.direccion,
+            estatura: null ?? body.values.estatura,
+            talla_camiseta: null ?? body.values.talla_camiseta,
+            grupo_sanguineo: null ?? body.values.grupo_sanguineo,
+            imagen_dni: null ?? body.values.imagen_dni,
+            foto: null ?? body.values.foto,
+            cv: null ?? body.values.cv,
+            rut: null ?? body.values.rut,
+            certificado_bancario: null ?? body.values.certificado_bancario,
           },
         });
-        console.log(trabajadorModificar);
 
         return res.status(200).send(trabajadorModificar);
       }
