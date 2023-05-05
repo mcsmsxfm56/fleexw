@@ -38,17 +38,21 @@ export default async function handler(
 
       if (decodedToken) {
         console.log(body);
-
+        console.log(body.values.estatura);
+        if (body.values.estatura) {
+          const valorNuevo = Number(body.values.estatura);
+          body.values.estatura = valorNuevo;
+        }
         const trabajadorModificar = await prisma.trabajador.update({
           where: { id: id },
           data: {
-            phone: null ?? body.values.phone,
+            phone: null ?? body?.values.phone,
             email: null ?? body.values.email,
-            nacimiento: null ?? (body.values.nacimiento as string),
+            nacimiento: null ?? body.values.nacimiento,
             genero: null ?? body.values.genero,
             ciudad: null ?? body.values.ciudad,
             direccion: null ?? body.values.direccion,
-            estatura: null ?? Number(body.values.estatura),
+            estatura: null ?? body.values.estatura,
             talla_camiseta: null ?? body.values.talla_camiseta,
             grupo_sanguineo: null ?? body.values.grupo_sanguineo,
             imagen_dni: null ?? body.values.imagen_dni,
@@ -58,11 +62,14 @@ export default async function handler(
             certificado_bancario: null ?? body.values.certificado_bancario,
           },
         });
+        console.log(trabajadorModificar);
 
         return res.status(200).send(trabajadorModificar);
       }
     }
   } catch (error: any) {
+    console.log(error.message);
+
     return res.status(400).send(error.message);
   }
 }

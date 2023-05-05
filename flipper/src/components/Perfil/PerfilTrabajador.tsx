@@ -124,6 +124,8 @@ export const PerfilTrabajador: React.FC = () => {
     "/api/trabajador",
     fetcherProfile
   );
+  console.log(data);
+  console.log(contactoInfo);
 
   const submitHandlerArchivos = async (files: any) => {
     setLoading(true);
@@ -471,7 +473,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Direccion:{" "}
                 <span className="font-normal text-xl capitalize">
-                  {data?.direccion || "-"}
+                  {data?.direccion ?? "-"}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>
@@ -549,9 +551,7 @@ export const PerfilTrabajador: React.FC = () => {
                             label="Edad"
                             type="text"
                             fullWidth
-                            defaultValue={
-                              data?.nacimiento === "-" ? "" : data?.nacimiento
-                            }
+                            defaultValue={data?.edad === "-" ? "" : data?.edad}
                             color="secondary"
                             variant="standard"
                           />
@@ -567,7 +567,7 @@ export const PerfilTrabajador: React.FC = () => {
                             onChange={(Event) => handleChange(Event)}
                             name="estatura"
                             label="Estatura"
-                            type="number"
+                            type="text"
                             fullWidth
                             defaultValue={
                               data?.estatura === "-" ? "" : data?.estatura
@@ -611,9 +611,9 @@ export const PerfilTrabajador: React.FC = () => {
                             label="Talla de Camiseta"
                             type="text"
                             defaultValue={
-                              data?.talla_camiseta === "-"
+                              data?.talle_camiseta === "-"
                                 ? ""
-                                : data?.talla_camiseta
+                                : data?.talle_camiseta
                             }
                             fullWidth
                             variant="standard"
@@ -643,9 +643,7 @@ export const PerfilTrabajador: React.FC = () => {
               </h5>
               <h5 className={dataStyle}>
                 Edad:{" "}
-                <span className="font-normal text-xl">
-                  {data?.nacimiento ?? "-"}
-                </span>{" "}
+                <span className="font-normal text-xl">{data?.edad ?? "-"}</span>{" "}
               </h5>
               <h5 className={dataStyle}>
                 Estatura:{" "}
@@ -662,7 +660,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Talle de camisa:{" "}
                 <span className="font-normal text-xl capitalize">
-                  {data?.talla_camiseta}
+                  {data?.talle_camiseta}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>
