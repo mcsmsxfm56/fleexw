@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@firebase/app": "^0.9.9",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@mui/x-data-grid": "^6.3.0",
@@ -29,6 +30,7 @@
     "daisyui": "^2.51.5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "firebase": "^9.21.0",
     "formik": "^2.2.9",
     "jsonwebtoken": "^9.0.0",
     "mui-validate": "^1.0.0",
