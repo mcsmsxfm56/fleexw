@@ -251,6 +251,7 @@ export const PerfilTrabajador: React.FC = () => {
       }),
     })
       .then((res) => {
+        //
         const Toast = Swal.mixin({
           toast: true,
           position: "top",
@@ -291,7 +292,6 @@ export const PerfilTrabajador: React.FC = () => {
           icon: "error",
           title: "No se pudo actualizar la informacion",
         });
-        console.log(e);
         setSubmitError(e.message);
       })
       .finally(async () => {
@@ -322,7 +322,7 @@ export const PerfilTrabajador: React.FC = () => {
   const section = "bg-white p-4 items-start mx-5 w-full mx-auto rounded-md";
 
   return (
-    <div className="flex items-center justify-center w-full h-screen 2xl:ml-36 lg:h-full lg:ml-36 2xl:h-full">
+    <div className="flex justify-center w-full h-screen 2xl:ml-36 lg:h-full lg:ml-36 2xl:h-full">
       <div className=" md:w-2/4 md:flex bg-[#e5e7eb] ">
         <div className="flex flex-col items-center mx-auto w-full">
           <div className="flex items-center gap-4 p-4 bg-white w-full rounded-md mt-6">
@@ -470,7 +470,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Direccion:{" "}
                 <span className="font-normal text-xl capitalize">
-                  {data?.direccion || "-"}
+                  {data?.direccion ?? "-"}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>
@@ -542,7 +542,7 @@ export const PerfilTrabajador: React.FC = () => {
                           required={[true, "Debes Completar este campo"]}>
                           <TextField
                             margin="dense"
-                            id="edad"
+                            id="nacimiento"
                             onChange={(Event) => handleChange(Event)}
                             name="nacimiento"
                             label="Edad"
@@ -564,7 +564,7 @@ export const PerfilTrabajador: React.FC = () => {
                             onChange={(Event) => handleChange(Event)}
                             name="estatura"
                             label="Estatura"
-                            type="number"
+                            type="text"
                             fullWidth
                             defaultValue={
                               data?.estatura === "-" ? "" : data?.estatura
@@ -608,9 +608,9 @@ export const PerfilTrabajador: React.FC = () => {
                             label="Talla de Camiseta"
                             type="text"
                             defaultValue={
-                              data?.talla_camiseta === "-"
+                              data?.talle_camiseta === "-"
                                 ? ""
-                                : data?.talla_camiseta
+                                : data?.talle_camiseta
                             }
                             fullWidth
                             variant="standard"
@@ -657,7 +657,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Talle de camisa:{" "}
                 <span className="font-normal text-xl capitalize">
-                  {data?.talla_camiseta ?? "-"}
+                  {data?.talle_camiseta}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>
@@ -768,7 +768,7 @@ export const PerfilTrabajador: React.FC = () => {
                               setNames({
                                 ...names,
                                 certificado_bancario: Event.target.files[0].name
-                                  .split("")
+                                  .split(" ")
                                   .join(""),
                               });
                             }}
@@ -859,34 +859,34 @@ export const PerfilTrabajador: React.FC = () => {
               </div>
               <h5 className={dataStyle}>
                 Curriculum Vitae:{" "}
-                <Link href={`${data?.cv.split(" ").slice(1)}`}>
+                <Link href={`${data?.cv?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl capitalize">
-                    {data?.cv.split(" ").slice(0, 1) ?? "-"}
+                    {data?.cv?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Rut:{" "}
-                <Link href={`${data?.rut.split(" ").slice(1)}`}>
+                <Link href={`${data?.rut?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.rut.split(" ").slice(0, 1) ?? "-"}
+                    {data?.rut?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Certificado Bancario:{" "}
                 <Link
-                  href={`${data?.certificado_bancario.split(" ").slice(1)}`}>
+                  href={`${data?.certificado_bancario?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.certificado_bancario.split(" ").slice(0, 1) ?? "-"}{" "}
+                    {data?.certificado_bancario?.split(" ").slice(0, 1) ?? "-"}{" "}
                   </span>
                 </Link>
               </h5>
               <h5 className={dataStyle}>
                 Imagen DNI:{" "}
-                <Link href={`${data?.imagen_dni.split(" ").slice(1)}`}>
+                <Link href={`${data?.imagen_dni?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
-                    {data?.imagen_dni.split(" ").slice(0, 1) ?? "-"}
+                    {data?.imagen_dni?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
                 </Link>
               </h5>
