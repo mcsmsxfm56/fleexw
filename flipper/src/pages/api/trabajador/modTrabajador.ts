@@ -44,11 +44,11 @@ export default async function handler(
           data: {
             phone: null ?? body.values.phone,
             email: null ?? body.values.email,
-            nacimiento: null ?? body.values.nacimiento,
+            nacimiento: null ?? (body.values.nacimiento as string),
             genero: null ?? body.values.genero,
             ciudad: null ?? body.values.ciudad,
             direccion: null ?? body.values.direccion,
-            estatura: null ?? body.values.estatura,
+            estatura: null ?? Number(body.values.estatura),
             talla_camiseta: null ?? body.values.talla_camiseta,
             grupo_sanguineo: null ?? body.values.grupo_sanguineo,
             imagen_dni: null ?? body.values.imagen_dni,

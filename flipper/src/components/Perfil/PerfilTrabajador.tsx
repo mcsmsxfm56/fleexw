@@ -251,6 +251,7 @@ export const PerfilTrabajador: React.FC = () => {
       }),
     })
       .then((res) => {
+        //
         const Toast = Swal.mixin({
           toast: true,
           position: "top",
@@ -291,7 +292,7 @@ export const PerfilTrabajador: React.FC = () => {
           icon: "error",
           title: "No se pudo actualizar la informacion",
         });
-        console.log(e);
+        console.error(e.message);
         setSubmitError(e.message);
       })
       .finally(async () => {
@@ -542,13 +543,15 @@ export const PerfilTrabajador: React.FC = () => {
                           required={[true, "Debes Completar este campo"]}>
                           <TextField
                             margin="dense"
-                            id="edad"
+                            id="nacimiento"
                             onChange={(Event) => handleChange(Event)}
                             name="nacimiento"
                             label="Edad"
                             type="text"
                             fullWidth
-                            defaultValue={data?.edad === "-" ? "" : data?.edad}
+                            defaultValue={
+                              data?.nacimiento === "-" ? "" : data?.nacimiento
+                            }
                             color="secondary"
                             variant="standard"
                           />
@@ -640,7 +643,9 @@ export const PerfilTrabajador: React.FC = () => {
               </h5>
               <h5 className={dataStyle}>
                 Edad:{" "}
-                <span className="font-normal text-xl">{data?.edad ?? "-"}</span>{" "}
+                <span className="font-normal text-xl">
+                  {data?.nacimiento ?? "-"}
+                </span>{" "}
               </h5>
               <h5 className={dataStyle}>
                 Estatura:{" "}
@@ -657,7 +662,7 @@ export const PerfilTrabajador: React.FC = () => {
               <h5 className={dataStyle}>
                 Talle de camisa:{" "}
                 <span className="font-normal text-xl capitalize">
-                  {data?.talla_camiseta ?? "-"}
+                  {data?.talla_camiseta}
                 </span>{" "}
               </h5>
               <h5 className={dataStyle}>
