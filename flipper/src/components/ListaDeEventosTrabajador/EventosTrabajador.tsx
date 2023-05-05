@@ -105,7 +105,7 @@ const EventosTrabajador: React.FC = () => {
     );
   }
   return (
-    <div className="h-full w-full bg-gray-200 flex flex-col items-center pt-20">
+    <div className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10">
       <div className="p-2">
         <h1 className="text-5xl text-indigo-700 text-center">
           Lista de Eventos
