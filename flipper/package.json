@@ -29,6 +29,7 @@
     "daisyui": "^2.51.5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "firebase": "^9.21.0",
     "formik": "^2.2.9",
     "jsonwebtoken": "^9.0.0",
     "mui-validate": "^1.0.0",
