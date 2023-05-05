@@ -28,20 +28,37 @@ function DetallePostulado() {
   const [trabajador, setTrabajador] = useState<Postulante>()
   const route = useRouter()
   const { idPostulante } = route.query
+  // console.log(idPostulante)
 
-
-  const getData = async (id: string) => {
-    await axios
-      .get(`http://localhost:3000/api/trabajador/${id}`)
-      .then((response) => setTrabajador(response.data))
-      .catch((e) => e.message);
+  const getPostulante = async () => {
+    const eventos = await axios(
+      {
+        method: 'PUT',
+        url: `/api/trabajador`,
+        data: {
+          id: idPostulante,
+          realmethod: "GET"
+        }
+      })
+    setTrabajador(eventos.data)
   }
 
   useEffect(() => {
-    if (idPostulante) {
-      getData(idPostulante as string)
-    }
+    if (idPostulante) getPostulante()
+
   }, [idPostulante])
+  // const getData = async (id: string) => {
+  //   await axios
+  //     .get(`http://localhost:3000/api/trabajador/${id}`)
+  //     .then((response) => setTrabajador(response.data))
+  //     .catch((e) => e.message);
+  // }
+
+  // useEffect(() => {
+  //   if (idPostulante) {
+  //     getData(idPostulante as string)
+  //   }
+  // }, [idPostulante])
 
   const styles = {
     input: 'font-mono text text-3xl text-black capitalize'
