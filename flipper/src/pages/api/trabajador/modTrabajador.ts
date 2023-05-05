@@ -37,8 +37,6 @@ export default async function handler(
       const { id } = decodedToken as token;
 
       if (decodedToken) {
-        console.log(body);
-        console.log(body.values.estatura);
         if (body.values.estatura) {
           const valorNuevo = Number(body.values.estatura);
           body.values.estatura = valorNuevo;
@@ -62,8 +60,6 @@ export default async function handler(
             certificado_bancario: null ?? body.values.certificado_bancario,
           },
         });
-        console.log(trabajadorModificar);
-
         return res.status(200).send(trabajadorModificar);
       }
     }

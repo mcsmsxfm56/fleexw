@@ -124,8 +124,6 @@ export const PerfilTrabajador: React.FC = () => {
     "/api/trabajador",
     fetcherProfile
   );
-  console.log(data);
-  console.log(contactoInfo);
 
   const submitHandlerArchivos = async (files: any) => {
     setLoading(true);
@@ -294,7 +292,6 @@ export const PerfilTrabajador: React.FC = () => {
           icon: "error",
           title: "No se pudo actualizar la informacion",
         });
-        console.error(e.message);
         setSubmitError(e.message);
       })
       .finally(async () => {
