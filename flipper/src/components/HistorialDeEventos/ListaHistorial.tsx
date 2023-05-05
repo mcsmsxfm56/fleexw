@@ -7,14 +7,14 @@ interface Props2 {
 }
 
 const ListaHistorial: React.FC<Props2> = ({ eventos }) => {
-  if (eventos.length === 0) {
+  if (eventos?.length === 0) {
     return (
       <div>
         <h2>No se han cargado eventos todavia</h2>
       </div>
     );
   }
-  console.log(eventos);
+  /* console.log(eventos); */
   return (
     <div className="w-full lg:w-10/12">
       {eventos &&

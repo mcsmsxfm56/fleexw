@@ -1,5 +1,4 @@
 import ListaEventos from "./ListaDeEventos";
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import useSWR, { Fetcher } from "swr";
 import React, { useState } from "react";
 
@@ -22,49 +21,36 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcher: Fetcher<any, string> = (apiRoute) => {
+const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       realmethod: "GET",
-      nombreEmpresa: localStorage.getItem("nombre"),
+      idEmpresa: localStorage.getItem("id"),
     }),
   }).then((res) => res.json());
 };
 
+const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute).then((res) => res.json());
+};
+
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
-  let { isLoading, error, data } = useSWR("/api/empresa", fetcher);
-  //const [data2, setData] = useState({ eventos: [] });
-  //if (!isLoading) {
-  //setData(data);
-  //}
-  //console.log(data);
-  //console.log(error);
-  //console.log(isLoading);
-
-  //console.log(data);
-  //const userContext = useSesionUsuarioContext();
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const rol = localStorage.getItem("rol");
+    if (rol === "trabajador") {
+      var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
+    }
+    if (rol === "empresa") {
+      var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
+    }
+  }
 
   const [order, setOrder] = useState<Ordering>("desc");
-  //const [data2, setData] = useState();
-  /*
-  const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
-    await axios
-      .put(`/api/empresa`, {
-        realmethod: "GET",
-        nombreEmpresa: sessionName,
-      })
-      .then((response) => setEventos(response.data))
-      .catch((e) => e.message);
-  };
 
-  React.useEffect(() => {
-    userEvent();
-  }, []);
-  */
   React.useEffect(() => {
     ordering(order);
   }, [order, data]);
@@ -83,10 +69,31 @@ const Eventos: React.FC = () => {
     }
 
     let sorted: any = [];
-    if (order == "asc" && isLoading === false) {
-      sorted = data.eventos.sort(orderAsc);
-    } else if (order == "desc" && isLoading === false) {
-      sorted = data.eventos.sort(orderDesc);
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
+      sorted = data.eventos?.sort(orderAsc);
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Object"
+    ) {
+      sorted = data.eventos?.sort(orderDesc);
+    }
+    if (
+      order == "asc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderAsc);
+    } else if (
+      order == "desc" &&
+      isLoading === false &&
+      data.constructor.name === "Array"
+    ) {
+      sorted = data.sort(orderDesc);
     }
 
     const eventosSorted = {
@@ -94,20 +101,17 @@ const Eventos: React.FC = () => {
       eventos: sorted,
     };
     data = eventosSorted;
-    //console.log(data);
   };
-
-  //console.log(eventos);//toda la info del user empresa, los eventos estan en eventos.eventos
 
   if (error) {
     console.log(error);
     return <div>ERROR</div>;
   }
-  //if (isLoading) return <div>Cargando...</div>;
 
+  /* console.log(data); */
   return (
     <div
-      className="h-screen w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
+      className="h-full w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
             lg:w-[calc(100vw-268px)]"
     >
       <div className="p-2">
@@ -131,7 +135,7 @@ const Eventos: React.FC = () => {
         </div>
       </div>
       <div className="p-2 lg:flex lg:justify-center">
-        <ListaEventos eventos={data?.eventos} />
+        <ListaEventos eventos={Array.isArray(data) ? data : data?.eventos} />
       </div>
     </div>
   );

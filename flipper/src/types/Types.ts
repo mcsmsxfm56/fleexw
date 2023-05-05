@@ -65,6 +65,7 @@ export interface DetalleEvento {
   pago: number,
   observaciones: string,
   trabajadores: TrabajadorStatus[]
+  admitePostulaciones: boolean
 }
 
 //Interfaz para crear eventos
@@ -81,10 +82,39 @@ export interface createEvent {
 }
 
 
-export interface ShowElements {
+export interface ShowElementsEmpresa {
   showEventos: boolean,
   showHistorial: boolean,
   showCrear: boolean,
   showPostulaciones: boolean,
   showPerfil: boolean,
 }
+
+export interface ShowElementsTrabajador {
+  showEventosTrabajador: boolean,
+  showEventosConfirmadosTrabajador: boolean,
+  showHistorialTrabajador: boolean,
+  showPerfilTrabajador: boolean,
+}
+
+export interface FormValues {
+  email: string,
+  password: string
+}
+// ----- Notificaciones -----
+export type NotificationSingle = {
+  eventoId: string;
+  trabajadorId: string;
+  status: string;
+  notificacionVista: boolean;
+  evento: {
+    nombre: string;
+    pago: number;
+    fecha_inicio: Date;
+    fecha_final: Date;
+    lugar: string;
+    observaciones: string;
+  };
+};
+
+export type NotificationList = NotificationSingle[];

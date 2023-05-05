@@ -7,33 +7,35 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //res.status(200).send("llega a la ruta");
-  console.log(req.method);
-  const id: string = req.body.eventoId as string;
-  console.log(id);
-  const evento = await prisma.evento.findUnique({
-    where: {
-      id,
-    },
+  if (req.method === "GET") {
+    let allEvents = await prisma.evento.findMany();
+    allEvents = allEvents.filter((objEvent) => objEvent.isDeleted === false);
+    return res.status(200).send(allEvents);
+  }
+  if (req.method === "PUT" && req.body.realmethod === "GET") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
 
-    include: {
-      trabajadores: {
-        include: {
-          trabajadores: true,
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
         },
       },
-    },
-  });
-  if (req.method === "GET") {
+    });
     try {
       if (evento) return res.status(200).send(evento);
     } catch (error: any) {
-      return res.status(400).send(error.message);
+      return res.status(400).send(evento);
     }
   }
   /*
-  1. RUTA GET /api/home/:idEvento
-  /api/home/2
+  1. RUTA GET /api/event/:idEvento
+  /api/event/2
   */
   // if (req.method === "GET") {
   //   /*
@@ -83,10 +85,22 @@ export default async function handler(
   }
   */
   if (req.method === "PUT" && req.body.realmethod === "PUT") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
+        },
+      },
+    });
     if (evento?.isDeleted) {
-      res.status(404).send("evento no encontrado");
-    } else {
-      res.status(200).send(evento);
+      return res.status(404).send("evento no encontrado");
     }
     const trabajadorId: string = req.body.trabajadorId as string;
     const status: string = req.body.status as string;
@@ -99,9 +113,12 @@ export default async function handler(
       },
       data: {
         status,
+        notificacionVista: false
       },
     });
-    res.status(200).send("Status del candidato actualizado");
+    return res
+      .status(200)
+      .send(`Status del candidato actualizado a ${eventoUpdate.status}`);
   }
   /*
   3. RUTA DELETE /api/home/:idEvento
@@ -109,6 +126,20 @@ export default async function handler(
   RUTA PARA QUE LA EMPRESA PUEDA CANCELAR EVENTOS
   */
   if (req.method === "PUT" && req.body.realmethod === "DELETE") {
+    const id: string = req.body.eventoId as string;
+    const evento = await prisma.evento.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        trabajadores: {
+          include: {
+            trabajadores: true,
+          },
+        },
+      },
+    });
     console.log("detecta que es deleted");
     if (evento?.isDeleted) {
       return res.status(404).send("evento no encontrado o ya eliminado");
@@ -135,7 +166,10 @@ export default async function handler(
         if (e.status === "APROBADO") {
           aprobados.push(e);
         }
+        e.status = 'CANCELADO';
       });
+
+      console.log(trabajadoresEvento)
 
       if (aprobados.length > 0) {
         const mails = aprobados.map((e: any) => {
@@ -148,6 +182,17 @@ export default async function handler(
             err ? console.log(err) : console.log(info.response)
         );
       }
+
+      // Actualiza las postulaciones para sean CANCELADO
+      await prisma.trabajadoresEnEventos.updateMany({
+        where: {
+          eventoId: evento?.id,
+        },
+        data: {
+          status: 'CANCELADO'
+        }
+      })
+
       return res.status(200).send("Evento borrado con exito");
     }
   }

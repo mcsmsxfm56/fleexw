@@ -1,8 +1,8 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from "axios";
 import React, { useState } from "react";
 import ListaHistorial from "./ListaHistorial";
 import { useExcelDownloder } from "react-xls";
+import useSWR, { Fetcher } from "swr";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export interface evento {
   perfil: string;
@@ -61,53 +61,86 @@ interface eventoExcel {
 interface dataType {
   datos_Eventos: {}[];
 }
+
+const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "GET",
+      trabajadorId: localStorage.getItem("id"),
+    }),
+  }).then((res) => res.json());
+};
+
+const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
+  return fetch(apiRoute, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      realmethod: "GET",
+      idEmpresa: localStorage.getItem("id"),
+    }),
+  }).then((res) => res.json());
+};
+
 const Historial: React.FC = () => {
+  const { id, nombre, rol } = useSesionUsuarioContext();
+  if (rol === "trabajador") {
+    var { isLoading, error, data } = useSWR(
+      "/api/trabajadoreseneventos",
+      fetcherTrabajador
+    );
+  } else if (rol === "empresa") {
+    var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
+  }
   const [eventos, setEventos] = useState<Props>({ eventos: [] });
-  const userContext = useSesionUsuarioContext();
   const { ExcelDownloder, Type } = useExcelDownloder();
-  //const [data, setData] = useState<dataType>({datos_Eventos: []});
   const data2: dataType = {
-    // Worksheet named animals
     datos_Eventos: [],
-    // Worksheet named pokemons
   };
 
   const userEvent = async () => {
-    const sessionName = localStorage.getItem("nombre");
-    await fetch("/api/empresa", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        realmethod: "GET",
-        nombreEmpresa: sessionName,
-      }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setEventos(response);
-        response.eventos.map((evento: eventoExcel) => {
-          evento.trabajadores.map((obj) => {
-            let objExcel = {
-              nombre_trabajador: obj.trabajadores.name,
-              fecha_del_evento: evento.fecha_inicio,
-              nombre_del_evento: evento.nombre,
-              perfil: evento.perfil,
-              lugar_del_evento: evento.lugar,
-              pago: evento.pago,
-            };
-            data2.datos_Eventos.push(objExcel);
-          });
+    if (rol === "empresa") {
+      setEventos(data);
+      data?.eventos.map((evento: eventoExcel) => {
+        evento.trabajadores.map((obj) => {
+          let objExcel = {
+            nombre_trabajador: obj.trabajadores.name,
+            fecha_del_evento: evento.fecha_inicio,
+            nombre_del_evento: evento.nombre,
+            perfil: evento.perfil,
+            lugar_del_evento: evento.lugar,
+            pago: evento.pago,
+            telefono: obj.trabajadores.phone,
+          };
+          data2.datos_Eventos.push(objExcel);
         });
-      })
-      .catch((e) => e.message);
+      });
+    } else if (rol === "trabajador") {
+      let eventosAprobados: Props = { eventos: [] };
+      data?.map((evento: any) => {
+        if (evento.status === "APROBADO") {
+          let objExcel = {
+            fecha_del_evento: evento.evento.fecha_inicio,
+            nombre_del_evento: evento.evento.nombre,
+            nombre_empresa: evento.evento.empresa.nombre,
+            pago: evento.evento.pago,
+          };
+          data2.datos_Eventos.push(objExcel);
+          eventosAprobados.eventos.push(evento.evento);
+        }
+      });
+      setEventos(eventosAprobados);
+    }
   };
   React.useEffect(() => {
     userEvent();
-  }, []);
-  //console.log(eventos);
+  }, [data]);
+
   return (
     <div
-      className="h-screen bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
+      className="h-full bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
             lg:w-[calc(100vw-268px)]"
     >
       <div className="p-2 text-center pt-16">

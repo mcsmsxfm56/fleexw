@@ -1,38 +1,75 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
+import { DataTRegister } from "../users/register/trabajador";
+import {
+  buscarTrabajador,
+  eliminarTrabajador,
+} from "@/services/trabajadorController";
 
-//tipado del objeto json esperado en GET /api/trabajador
-//tipado del objeto json esperado en POST /api/trabajador
-//tipado del objeto json esperado en UPDATE /api/trabajador
-//tipado del objeto json esperado en DELETE /api/trabajador
+interface token {
+  id: string;
+  email: string;
+  iat: number;
+}
 
-//ejemplo de request esperado en GET /api/trabajador
-//ejemplo de request esperado en POST /api/trabajador
-//ejemplo de request esperado en UPDATE /api/trabajador
-//ejemplo de request esperado en DELETE /api/trabajador
+interface decodeToken {
+  email: string;
+  id: string;
+  iat: number;
+}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<DataTRegister | {}>
 ) {
-  if (req.method === "GET") {
-    try {
-      const trabajadores = await prisma.trabajador.findMany();
-      res.status(200).send(trabajadores);
-    } catch (error: any) {
-      res.status(400).send(error.message);
+  //console.log(req.headers);
+  const { id } = req.body;
+
+  try {
+    if (req.method === "PUT" && req.body.realmethod === "GET") {
+      try {
+        const trabajador = await buscarTrabajador(id as string);
+
+        const newTrabajador = {
+          name: trabajador.name,
+          ciudad: trabajador.ciudad,
+          direccion: trabajador.direccion,
+          email: trabajador.email,
+          phone: trabajador.phone,
+          genero: trabajador.genero,
+          edad: "", // habria que unificar el formato de la fecha de nacimiento para poder hacer una fn que retorne la edad
+          estatura: trabajador.estatura,
+          grupo_sanguineo: trabajador.grupo_sanguineo,
+          talle_camiseta: trabajador.talla_camiseta,
+          idType: trabajador.idType,
+          idNumber: trabajador.idNumber,
+          imagen_dni: trabajador.imagen_dni,
+          foto:
+            trabajador.foto ??
+            " https://th.bing.com/th/id/OIP.OaHQ7x61nQd8AnrEDOLtYwHaHa?pid=ImgDet&rs=1 ",
+          cv: trabajador.cv,
+          rut: trabajador.rut,
+          certificado_bancario: trabajador.certificado_bancario,
+        };
+
+        return res.status(200).send(newTrabajador);
+      } catch (error: any) {
+        return res.status(400).send(error.message);
+      }
     }
-  }
-  if (req.method === "POST") {
-    //ruta POST /api/trabajador para buscar eventos
-    res.status(200).send("POST");
-  }
-  if (req.method === "UPDATE") {
-    //ruta UPDATE /api/trabajador para buscar eventos
-    res.status(200).send("UPDATE");
-  }
-  if (req.method === "DELETE") {
-    //ruta DELETE /api/trabajador para buscar eventos
-    res.status(200).send("DELETE");
+
+    if (req.method === "DELETE") {
+      try {
+        const elimiar = await eliminarTrabajador(id as string);
+        if (elimiar) {
+          return res.status(200).send("Trabajador eliminado correctamente");
+        }
+      } catch (error: any) {
+        return res.status(400).send(error.message);
+      }
+    }
+  } catch (error: any) {
+    return res.status(400).send(error.message);
   }
 }

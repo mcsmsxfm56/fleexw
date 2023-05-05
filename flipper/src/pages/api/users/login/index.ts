@@ -11,6 +11,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const body = req.body;
+
   if (!body.email || !body.password) {
     return res.send("mandatory data are missing");
   }
