@@ -19,8 +19,6 @@ interface Props2 {
   eventos: EventoTrabajador[];
 }
 const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
-  console.log("lista de eventos", eventos);
-
   //console.log("ListaDeEventos.tsx");
   //console.log(eventos);
 
