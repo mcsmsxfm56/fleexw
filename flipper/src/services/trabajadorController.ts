@@ -41,7 +41,7 @@ export const crearTrabajador = async (body: bodyCrear) => {
   const hashedPassword = await bcrypt.hash(body.password, salt);
   body.password = hashedPassword;
   body.email = body?.email.toLowerCase();
-  const newObj: DataTRegister = {
+  const newObj = {
     name: body.name,
     idType: body.idType,
     idNumber: body.idNumber,
