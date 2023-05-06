@@ -37,6 +37,7 @@ model Empresa {
 model Evento {
   id String @id @default(uuid())
   isDeleted Boolean @default(false)
+  Canceled Boolean @default(false)
   admitePostulaciones Boolean  @default(true)
   empresa Empresa @relation(fields: [id_empresa], references: [id]) // un evento solo tiene una empresa
   nombre String
