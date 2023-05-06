@@ -138,8 +138,7 @@ const EventDatail = () => {
     <AppLayout>
       <div className="h-full overflow-auto mt-8">
         <div
-          className="bg-gray-200 md:w-4/5 md:ml-[20%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]"
+          className="bg-gray-200 "
         >
           <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center">

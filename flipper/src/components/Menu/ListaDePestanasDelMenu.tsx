@@ -8,7 +8,7 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 interface Props {
   setShowElementsEmpresa: React.Dispatch<React.SetStateAction<ShowElementsEmpresa>>;
   setShowElementsTrabajador: React.Dispatch<React.SetStateAction<ShowElementsTrabajador>>;
-  setIsExpanded: React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsExpanded?: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
 const ListaDePestanasDelMenu = ({ setShowElementsEmpresa, setShowElementsTrabajador, setIsExpanded }: Props) => {
@@ -33,7 +33,7 @@ const ListaDePestanasDelMenu = ({ setShowElementsEmpresa, setShowElementsTrabaja
       showEventosConfirmadosTrabajador: idButton === "Eventos Confirmados" ? true : false,
       showPerfilTrabajador: idButton === "Perfil" ? true : false,
     });
-    setIsExpanded(false);
+    setIsExpanded && setIsExpanded(false);
     router.asPath !== "/home" && router.push("/home");
   };
 
