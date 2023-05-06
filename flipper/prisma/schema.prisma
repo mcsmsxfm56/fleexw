@@ -16,6 +16,7 @@ datasource db {
 //falta agregar un campo para manejar la autorizacion por parte del admin
 model Empresa {
   nombre String @unique
+  resetContrasenaCode String?
   isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
@@ -56,6 +57,7 @@ model Evento {
 model Trabajador {
   id String @id @default(uuid()) //ver si se pueden usar UUID
   status_contratacion TrabajadoresEnEventos[]
+  resetContrasenaCode String?
   name String
   idType String
   idNumber Int
