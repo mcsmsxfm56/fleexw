@@ -120,7 +120,7 @@ const Historial: React.FC = () => {
     } else if (rol === "trabajador") {
       let eventosAprobados: Props = { eventos: [] };
       data?.map((evento: any) => {
-        if (evento.status === "APROBADO") {
+        if (evento.status === "APROBADO" || evento.status === "ASISTIO") {
           let objExcel = {
             fecha_del_evento: evento.evento.fecha_inicio,
             nombre_del_evento: evento.evento.nombre,
