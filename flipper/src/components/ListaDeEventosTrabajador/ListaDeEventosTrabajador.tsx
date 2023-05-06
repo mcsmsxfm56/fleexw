@@ -24,8 +24,8 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
 
   if (eventos?.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
-      <div>
-        <h2>No se han cargado eventos todavia</h2>
+      <div className="w-full md:w-10/12 lg:w-3/5 flex justify-center items-center ">
+        <h2 className="mt-20 font-bold">Lo sentimos, aun no hay eventos disponibles en tu ciudad.</h2>
       </div>
     );
   }
@@ -56,8 +56,8 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
           }
         })
       ) : (
-        <div>
-          <h2>No se han cargado eventos todavia</h2>
+        <div className="w-full md:w-10/12 lg:w-3/5 flex justify-center items-center font-bold mt-20">
+          <h2>Cargando Eventos</h2>
         </div>
       )}
     </div>

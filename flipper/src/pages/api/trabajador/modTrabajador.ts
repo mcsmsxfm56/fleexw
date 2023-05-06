@@ -37,12 +37,14 @@ export default async function handler(
       const { id } = decodedToken as token;
 
       if (decodedToken) {
-        console.log(body);
-
+        if (body.values.estatura) {
+          const valorNuevo = Number(body.values.estatura);
+          body.values.estatura = valorNuevo;
+        }
         const trabajadorModificar = await prisma.trabajador.update({
           where: { id: id },
           data: {
-            phone: null ?? body.values.phone,
+            phone: null ?? body?.values.phone,
             email: null ?? body.values.email,
             nacimiento: null ?? body.values.nacimiento,
             genero: null ?? body.values.genero,
@@ -58,11 +60,12 @@ export default async function handler(
             certificado_bancario: null ?? body.values.certificado_bancario,
           },
         });
-
         return res.status(200).send(trabajadorModificar);
       }
     }
   } catch (error: any) {
+    console.log(error.message);
+
     return res.status(400).send(error.message);
   }
 }
