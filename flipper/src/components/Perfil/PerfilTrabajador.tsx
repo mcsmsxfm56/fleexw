@@ -322,7 +322,7 @@ export const PerfilTrabajador: React.FC = () => {
   const section = "bg-white p-4 items-start mx-5 w-full mx-auto rounded-md";
 
   return (
-    <div className="flex items-center justify-center w-full h-screen 2xl:ml-36 lg:h-full lg:ml-36 2xl:h-full">
+    <div className="flex justify-center w-full h-screen 2xl:ml-36 lg:h-full lg:ml-36 2xl:h-full">
       <div className=" md:w-2/4 md:flex bg-[#e5e7eb] ">
         <div className="flex flex-col items-center mx-auto w-full">
           <div className="flex items-center gap-4 p-4 bg-white w-full rounded-md mt-6">

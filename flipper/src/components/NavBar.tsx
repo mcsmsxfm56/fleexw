@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaHamburger } from "react-icons/fa";
 
 interface Props {
   isExpanded: boolean;

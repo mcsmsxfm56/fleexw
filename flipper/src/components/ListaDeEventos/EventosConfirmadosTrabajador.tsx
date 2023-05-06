@@ -31,8 +31,7 @@ const EventosConfirmadosTrabajador = () => {
 
     return (
         <div
-            className="h-screen w-screen bg-gray-200 md:ml-[10%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]"
+            className="h-screen w-screen bg-gray-200"
         >
             <div className="p-2">
                 <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
