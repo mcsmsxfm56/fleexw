@@ -105,29 +105,28 @@ const EventosTrabajador: React.FC = () => {
     );
   }
   return (
-    <div
-      className="min-h-screen w-full bg-gray-200 md:ml-[10%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]">
+    <div className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10">
       <div className="p-2">
-        <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
+        <h1 className="text-5xl text-indigo-700 text-center">
           Lista de Eventos
         </h1>
       </div>
       {/* Ordenamiento por fechas */}
-      <div className="p-2 lg:text-center 2xl:text-center">
+      <div className="p-2 text-center">
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
-        <div className="flex lg:justify-center 2xl:justify-center">
+        <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
             Ascendente
           </button>
           <button
             className={buttonStyle + " ml-2"}
-            onClick={() => setOrder("desc")}>
+            onClick={() => setOrder("desc")}
+          >
             Descendente
           </button>
         </div>
       </div>
-      <div className="p-2 lg:flex lg:justify-center">
+      <div className="p-2 flex justify-center">
         <ListaEventosTrabajador
           eventos={Array.isArray(data) ? data : data?.eventos}
         />

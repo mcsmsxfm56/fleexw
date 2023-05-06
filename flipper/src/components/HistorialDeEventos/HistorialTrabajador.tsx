@@ -1,11 +1,11 @@
-import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import ListaEventosTrabajador from '../ListaDeEventos/ListaEventosTrabajador'
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
 
 const HistorialTrabajador = () => {
-    const { id } = useSesionUsuarioContext()
-    const [dataEvento, setDataEvento] = useState<[]>()
+  const { id } = useSesionUsuarioContext();
+  const [dataEvento, setDataEvento] = useState<[]>();
 
     const getEventos = async () => {
         const eventos = await axios(
@@ -44,9 +44,16 @@ const HistorialTrabajador = () => {
                     }
                 </div>
 
-            </div>
+        <div className="p-2 flex justify-center">
+          {!dataEvento ? (
+            <h2>Todavia no posee eventos confirmados</h2>
+          ) : (
+            <ListaEventosTrabajador funcionalidad="confirmados" eventos={dataEvento} />
+          )}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default HistorialTrabajador
+export default HistorialTrabajador;

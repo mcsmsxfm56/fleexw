@@ -139,10 +139,7 @@ const Historial: React.FC = () => {
   }, [data]);
 
   return (
-    <div
-      className="h-full bg-gray-200 md:w-4/5 md:ml-[12%] lg:ml-[250px]
-            lg:w-[calc(100vw-268px)]"
-    >
+    <div className="h-full bg-gray-200 w-full">
       <div className="p-2 text-center pt-16">
         <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">
           Historial de Eventos<br></br>

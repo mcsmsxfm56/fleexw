@@ -21,12 +21,12 @@ interface Props {
 const ListaEventosTrabajador: React.FC<Props> = ({ funcionalidad, eventos }) => {
 
   return (
-    <div className="w-full md:w-10/12 lg:w-3/5">
+    <div className="w-full md:w-9/12">
       {eventos ? (
         eventos.map((event: eventoTrabajador) => {
           if (funcionalidad === 'confirmados' && event.status === "APROBADO") {
             return (
-              <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full text-indigo-700">
+              <div key={`historial_evento_T_${event.eventoId}`} className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full text-indigo-700">
                 <div key={`${event.eventoId}_key`} className="flex flex-col">
                   <h2
                     className={`flex justify-start font-bold self-center border-2 border-solid px-8 py-1 rounded-xl
