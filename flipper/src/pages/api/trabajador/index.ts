@@ -38,7 +38,7 @@ export default async function handler(
           email: trabajador.email,
           phone: trabajador.phone,
           genero: trabajador.genero,
-          edad: "", // habria que unificar el formato de la fecha de nacimiento para poder hacer una fn que retorne la edad
+          edad: trabajador.nacimiento, // habria que unificar el formato de la fecha de nacimiento para poder hacer una fn que retorne la edad
           estatura: trabajador.estatura,
           grupo_sanguineo: trabajador.grupo_sanguineo,
           talle_camiseta: trabajador.talla_camiseta,

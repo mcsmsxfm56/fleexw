@@ -43,7 +43,7 @@ const EventosConfirmadosTrabajador = () => {
 
                     {!dataEvento
                         ? <h2>Todavia no posee eventos confirmados</h2>
-                        : <ListaEventosTrabajador eventos={dataEvento} />
+                        : <ListaEventosTrabajador funcionalidad='confirmados' eventos={dataEvento} />
                     }
                 </div>
 

@@ -7,6 +7,8 @@ import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axios from "axios";
 interface EventCardProps {
   nombreEvento: string;
   fechaEvento: string;
@@ -15,11 +17,61 @@ interface EventCardProps {
   direccion: string;
   idEvento: string;
 }
+interface trabajador {
+  eventoId: string
+  notificacionVista: boolean
+  status: string
+  trabajadorId: string
+  trabajadores: []
+
+}
+
+interface trabajadores {
+  admitePostulaciones: boolean
+  cupos: Number
+  fecha_final: string
+  fecha_inicio: string
+  id: string
+  id_empresa: string
+  isDeleted: boolean
+  lugar: string
+  nombre: string
+  numeroPostulantes: Number
+  observaciones: string
+  pago: Number
+  perfil: string
+  trabajadores: trabajador[]
+}
 
 export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
-  /* console.log("card", evento); */
+  // console.log("card", evento);
   const { id } = useSesionUsuarioContext();
   const router = useRouter();
+  const [postulantes, setTrabajadores] = useState<trabajadores>()
+  //guarda los trabajadores del evento
+
+  const trabajadorPostulado = postulantes?.trabajadores.find(trabajador => trabajador.trabajadorId === id)
+  // console.log(trabajadorPostulado)
+
+  const getEventos = async () => {
+    const eventos = await axios(
+      {
+        method: 'PUT',
+        url: `/api/event`,
+        data: {
+          eventoId: evento.id,
+          realmethod: "GET"
+        }
+      })
+    setTrabajadores(eventos.data)
+  }
+
+  useEffect(() => {
+    if (id) {
+      getEventos()
+    }
+  }, [])
+
 
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
@@ -46,6 +98,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
           {evento.admitePostulaciones ? (
             <button
               className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC]"
+
               onClick={async () => {
                 let response = await fetch("/api/trabajadoreseneventos", {
                   method: "POST",
@@ -70,7 +123,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                   });
               }}
             >
-              Postularse
+              {trabajadorPostulado ? 'Estas postulado' : 'Postularse'}
             </button>
           ) : (
             <p className="bg-red-300 text-center text-lg font-bold px-2 rounded-lg">No se admiten más postulaciones</p>

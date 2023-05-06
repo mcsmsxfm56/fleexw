@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useFormik, } from 'formik'
 import * as yup from "yup";
 
+
 import { useSesionUsuarioContext } from '@/hooks/useSesionUsuarioContext';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 
 interface propsModifyProfile {
@@ -37,6 +39,7 @@ const validationSchema = yup.object({
   telefono: yup.string(),
 });
 const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
+  const router = useRouter();
   const [profile, setProfile] = useState<ProfileEmpresa>();
   const { id, token } = useSesionUsuarioContext();
 
@@ -75,6 +78,7 @@ const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
     },
     onSubmit: (values: modifyProfile) => {
       submitHandler(values);
+
     },
     validationSchema,
   });
@@ -98,6 +102,7 @@ const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
       },
       body: JSON.stringify(newValues),
     })
+      .then(res => router.push('/home'))
 
   }
   return (
