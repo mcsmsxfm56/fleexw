@@ -210,7 +210,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary flex flex-col justify-center"
+                  className="w-full input input-bordered input-primary flex flex-col justify-center text-white"
                 />
               </label>
             </div>
@@ -229,7 +229,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="datetime-local"
                   value={formik.values.fecha_inicio}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary flex justify-center"
+                  className="w-full input input-bordered input-primary flex justify-center text-white"
                 />
               </label>
             </div>
@@ -247,7 +247,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="datetime-local"
                   value={formik.values.fecha_final}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>
@@ -265,7 +265,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.lugar}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>
@@ -283,7 +283,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="number"
                   value={formik.values.cupos}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>
@@ -302,7 +302,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.perfil}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>
@@ -321,7 +321,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="number"
                   value={formik.values.pago}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>
@@ -340,7 +340,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.observaciones}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary"
+                  className="w-full input input-bordered input-primary text-white"
                 />
               </label>
             </div>

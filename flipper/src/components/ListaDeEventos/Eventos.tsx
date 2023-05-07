@@ -56,13 +56,13 @@ const Eventos: React.FC = () => {
   }, [order, data]);
 
   const ordering = (order: Ordering) => {
-    function orderAsc(a: evento, b: evento) {
+    function orderDesc(a: evento, b: evento) {
       if (a.fecha_inicio < b.fecha_inicio) return -1;
       if (a.fecha_inicio > b.fecha_inicio) return 1;
       return 0;
     }
 
-    function orderDesc(a: evento, b: evento) {
+    function orderAsc(a: evento, b: evento) {
       if (a.fecha_inicio < b.fecha_inicio) return 1;
       if (a.fecha_inicio > b.fecha_inicio) return -1;
       return 0;
@@ -132,7 +132,7 @@ const Eventos: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="p-2 flex justify-center">
+      <div className="p-2 flex justify-center w-11/12">
         <ListaEventos eventos={Array.isArray(data) ? data : data?.eventos} />
       </div>
     </div>
