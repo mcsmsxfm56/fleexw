@@ -16,6 +16,9 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
+
 export default function Dashboard() {
   let isAdmin: boolean;
   const router = useRouter();
@@ -75,13 +78,16 @@ export default function Dashboard() {
             sheetTrabajadoresEnEventos
           );
         }}
+        className={buttonStyle + " ml-2"}
       >
         Descargar Excel
       </button>
       <br></br>
       Eventos Cancelados:{eventosCancelados}
       <br></br>
-      <Link href="/home">Volver a la home</Link>
+      <button className={buttonStyle + " ml-2"}>
+        <Link href="/home">Volver a la home</Link>
+      </button>
     </div>
   );
 }
