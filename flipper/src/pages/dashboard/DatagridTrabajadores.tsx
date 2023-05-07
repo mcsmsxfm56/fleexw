@@ -5,21 +5,19 @@ import {
   dashboardUpdateTrabajador,
 } from "./middlewareDashboard";
 import useSWR from "swr";
-import { objTrabajador } from "@/types/Types";
+import { objTrabajador, PropsTrabajadorGrid } from "@/types/Types";
 
-export default function DatagridTrabajadores() {
+const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
+  dataTrabajadores,
+}) => {
   const [rowsTrabajadores, setRowsTrabajadores] = useState<{}[]>([]);
-  const { isLoading, error, data } = useSWR(
-    "/api/admin/trabajador",
-    fetcherDashboard
-  );
   useEffect(() => {
-    if (data) {
-      data?.map((objTrabajador: objTrabajador) => {
+    if (dataTrabajadores) {
+      dataTrabajadores?.map((objTrabajador: objTrabajador) => {
         setRowsTrabajadores((prevState) => [...prevState, objTrabajador]);
       });
     }
-  }, [data]);
+  }, [dataTrabajadores]);
   const columnsTrabajador: GridColDef[] = [
     {
       field: "name",
@@ -185,25 +183,25 @@ export default function DatagridTrabajadores() {
         <button
           className="rounded-md bg-black text-white"
           onClick={() => {
-            let name = params.row.name;
-            let idType = params.row.idType;
-            let idNumber = params.row.idNumber;
-            let nacimiento = params.row.nacimiento;
-            let genero = params.row.genero;
-            let phone = params.row.phone;
-            let email = params.row.email;
-            let id = params.row.id;
-            let isDeleted = params.row.isDeleted;
-            let ciudad = params.row.ciudad;
-            let direccion = params.row.direccion;
-            let estatura = params.row.estatura;
-            let talla_camiseta = params.row.talla_camiseta;
-            let grupo_sanguineo = params.row.grupo_sanguineo;
-            let imagen_dni = params.row.imagen_dni;
-            let foto = params.row.foto;
-            let cv = params.row.cv;
-            let rut = params.row.rut;
-            let certificado_bancario = params.row.certificado_bancario;
+            const name = params.row.name;
+            const idType = params.row.idType;
+            const idNumber = params.row.idNumber;
+            const nacimiento = params.row.nacimiento;
+            const genero = params.row.genero;
+            const phone = params.row.phone;
+            const email = params.row.email;
+            const id = params.row.id;
+            const isDeleted = params.row.isDeleted;
+            const ciudad = params.row.ciudad;
+            const direccion = params.row.direccion;
+            const estatura = params.row.estatura;
+            const talla_camiseta = params.row.talla_camiseta;
+            const grupo_sanguineo = params.row.grupo_sanguineo;
+            const imagen_dni = params.row.imagen_dni;
+            const foto = params.row.foto;
+            const cv = params.row.cv;
+            const rut = params.row.rut;
+            const certificado_bancario = params.row.certificado_bancario;
             dashboardUpdateTrabajador(
               name,
               idType,
@@ -243,4 +241,6 @@ export default function DatagridTrabajadores() {
       checkboxSelection
     />
   );
-}
+};
+
+export default DatagridTrabajadores;

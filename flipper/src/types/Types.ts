@@ -176,3 +176,15 @@ export type NotificationSingle = {
 };
 
 export type NotificationList = NotificationSingle[];
+
+export interface PropsEmpresaGrid {
+  dataEmpresas: objEmpresa[];
+}
+
+export interface PropsEventoGrid {
+  dataEventos: objEvento[];
+}
+
+export interface PropsTrabajadorGrid {
+  dataTrabajadores: objTrabajador[];
+}

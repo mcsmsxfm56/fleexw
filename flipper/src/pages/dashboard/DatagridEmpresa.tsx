@@ -1,25 +1,18 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import {
-  fetcherDashboard,
-  aceptarORechazarEmpresa,
-} from "./middlewareDashboard";
-import useSWR from "swr";
-import { objEmpresa } from "@/types/Types";
+import { aceptarORechazarEmpresa } from "./middlewareDashboard";
+import { objEmpresa, PropsEmpresaGrid } from "@/types/Types";
 
-export default function DatagridEmpresa() {
+const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
   const [rowsEmpresa, setRowsEmpresa] = useState<{}[]>([]);
-  const { isLoading, error, data } = useSWR(
-    "/api/admin/empresa",
-    fetcherDashboard
-  );
+
   useEffect(() => {
-    if (data) {
-      data?.map((objEmpresa: objEmpresa) => {
+    if (dataEmpresas) {
+      dataEmpresas?.map((objEmpresa: objEmpresa) => {
         setRowsEmpresa((prevState) => [...prevState, objEmpresa]);
       });
     }
-  }, [data]);
+  }, []);
   const columnsEmpresa: GridColDef[] = [
     {
       field: "nombre",
@@ -142,4 +135,6 @@ export default function DatagridEmpresa() {
       checkboxSelection
     />
   );
-}
+};
+
+export default DatagridEmpresa;

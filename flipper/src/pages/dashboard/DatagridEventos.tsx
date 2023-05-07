@@ -1,22 +1,19 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { fetcherDashboard, dashboardUpdateEvento } from "./middlewareDashboard";
-import useSWR from "swr";
-import { objEvento } from "@/types/Types";
+import { dashboardUpdateEvento } from "./middlewareDashboard";
+import { objEvento, PropsEventoGrid } from "@/types/Types";
 
-export default function DatagridEventos() {
+const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
   const [rowsEventos, setRowsEventos] = useState<{}[]>([]);
-  const { isLoading, error, data } = useSWR(
-    "/api/admin/evento",
-    fetcherDashboard
-  );
+
   useEffect(() => {
-    if (data) {
-      data?.map((objEvento: objEvento) => {
+    if (dataEventos) {
+      dataEventos?.map((objEvento: objEvento) => {
         setRowsEventos((prevState) => [...prevState, objEvento]);
       });
     }
-  }, [data]);
+  }, [dataEventos]);
+
   const columnsEvento: GridColDef[] = [
     {
       field: "nombre",
@@ -135,18 +132,18 @@ export default function DatagridEventos() {
         <button
           className="rounded-md bg-black text-white"
           onClick={() => {
-            let idEvento = params.row.id;
-            let admitePostulaciones = params.row.admitePostulaciones;
-            let nombre = params.row.nombre;
-            let fecha_inicio = params.row.fecha_inicio;
-            let fecha_final = params.row.fecha_final;
-            let lugar = params.row.lugar;
-            let cupos = params.row.cupos;
-            let perfil = params.row.perfil;
-            let pago = params.row.pago;
-            let numeroPostulantes = params.row.numeroPostulantes;
-            let observaciones = params.row.observaciones;
-            let isDeleted = params.row.isDeleted;
+            const idEvento = params.row.id;
+            const admitePostulaciones = params.row.admitePostulaciones;
+            const nombre = params.row.nombre;
+            const fecha_inicio = params.row.fecha_inicio;
+            const fecha_final = params.row.fecha_final;
+            const lugar = params.row.lugar;
+            const cupos = params.row.cupos;
+            const perfil = params.row.perfil;
+            const pago = params.row.pago;
+            const numeroPostulantes = params.row.numeroPostulantes;
+            const observaciones = params.row.observaciones;
+            const isDeleted = params.row.isDeleted;
             dashboardUpdateEvento(
               idEvento,
               admitePostulaciones,
@@ -179,4 +176,6 @@ export default function DatagridEventos() {
       checkboxSelection
     />
   );
-}
+};
+
+export default DatagridEventos;
