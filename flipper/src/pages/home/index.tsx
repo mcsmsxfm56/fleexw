@@ -14,14 +14,6 @@ import EventosConfirmadosTrabajador from "@/components/ListaDeEventos/EventosCon
 import HistorialTrabajador from "@/components/HistorialDeEventos/HistorialTrabajador";
 import { PerfilTrabajador } from "@/components/Perfil/PerfilTrabajador";
 
-const hardcoded = {
-  nombreEvento: "Nombre evento2",
-  fechaEvento: "24 de abril 13:15HS",
-  observaciones: "Observaciones",
-  hora: "8:00 am",
-  direccion: "Calle falsa 123, Barranquilla, Atlantico",
-};
-
 export default function Home() {
   const { showElementsEmpresa, showElementsTrabajador } =
     useContext(MenuContext);

@@ -7,6 +7,21 @@ export default async function handler(
 ) {
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const trabajadorId = req.body.trabajadorId;
+    const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
+      where: {
+        trabajadorId,
+      },
+      include: {
+        evento: {
+          include: {
+            empresa: true,
+          },
+        },
+      },
+    });
+    return res.status(200).send(trabajadoresEnEventos);
+    /*
+    
 
     if (!req.body.historial) {
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
@@ -67,6 +82,7 @@ export default async function handler(
       );
       return res.status(200).send(trabajadoresEnEventos);
     }
+    */
   }
   if (req.method === "GET") {
     const eventoId = req.body.eventoId as string;
