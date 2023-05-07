@@ -68,6 +68,7 @@ export default async function handler(
     );
 
     let rol = "empresa";
+    const isAdmin = user.isAdmin;
     if ("idType" in user) {
       rol = "trabajador";
     }
@@ -76,6 +77,7 @@ export default async function handler(
       id: user.id,
       nombre: user.name || user.nombre,
       rol: rol,
+      isAdmin,
     });
   } catch (error: any) {
     res.status(400).send(error.message);

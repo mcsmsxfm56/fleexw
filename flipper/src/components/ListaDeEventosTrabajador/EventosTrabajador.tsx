@@ -2,6 +2,7 @@ import useSWR, { Fetcher } from "swr";
 import React, { useState, useEffect } from "react";
 import ListaEventosTrabajador from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import Link from "next/link";
 
 export interface evento {
   perfil: string;
@@ -35,7 +36,7 @@ const fetcherCiudadEventos: Fetcher<any, string> = (apiRoute) => {
 };
 
 const EventosTrabajador: React.FC = () => {
-  const { id } = useSesionUsuarioContext();
+  const { id, isAdmin } = useSesionUsuarioContext();
 
   // Perform localStorage action
   var { isLoading, error, data } = useSWR(
@@ -107,6 +108,7 @@ const EventosTrabajador: React.FC = () => {
   return (
     <div className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10">
       <div className="p-2">
+        {isAdmin === true ? <Link href="/dashboard">Dashboard</Link> : null}
         <h1 className="text-5xl text-indigo-700 text-center">
           Lista de Eventos
         </h1>

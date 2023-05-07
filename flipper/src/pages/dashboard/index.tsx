@@ -12,8 +12,21 @@ import {
 } from "@/types/Types";
 import { useState } from "react";
 import DatagridTrabajadoresEnEventos from "./DatagridTrabajadoresEnEventos";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Dashboard() {
+  let isAdmin: boolean;
+  const router = useRouter();
+  if (typeof window !== "undefined") {
+    if (localStorage.getItem("isAdmin") === "true") {
+      isAdmin = true;
+    } else {
+      router.push("/404");
+    }
+  }
+
   const { isLoading, error, data } = useSWR("/api/admin", fetcherDashboard);
   let eventosCancelados = 0;
 
@@ -67,6 +80,8 @@ export default function Dashboard() {
       </button>
       <br></br>
       Eventos Cancelados:{eventosCancelados}
+      <br></br>
+      <Link href="/home">Volver a la home</Link>
     </div>
   );
 }
