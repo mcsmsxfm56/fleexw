@@ -23,16 +23,37 @@ export default async function handler(
     const email = body.email.toLowerCase();
 
     const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
-      where: { email: email },
+      where: {
+        email: email,
+        //isDeleted: false
+      },
     });
 
     const empresaEncontrada: any = await prisma.empresa.findFirst({
-      where: { email: email, authorizedByAdmin: true },
+      where: {
+        email: email,
+        //authorizedByAdmin: true,
+        //isDeleted: false
+      },
     });
     const user = empresaEncontrada || trabajadorEncontrado;
 
     if (!user) return res.status(400).json("no se encontro el usuario");
+    if (empresaEncontrada) {
+      if (empresaEncontrada.authorizedByAdmin === false) {
+        return res.status(400).json("Autorizacion pendiente");
+      }
 
+      if (empresaEncontrada.isDeleted === true) {
+        return res.status(400).json("Su cuenta ha sido baneada");
+      }
+    }
+
+    if (trabajadorEncontrado) {
+      if (trabajadorEncontrado.isDeleted === true) {
+        return res.status(400).json("Su cuenta ha sido baneada");
+      }
+    }
     const comparaPass = await bcrypt.compare(body.password, user.password);
 
     if (!comparaPass) {

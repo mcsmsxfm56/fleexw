@@ -7,7 +7,7 @@ export const useSesionUsuarioContext = () => {
   const { rol, token, nombre, id, setRol, setToken, setNombre, setId } =
     useContext(SesionUsuarioContext);
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<any>();
   const router = useRouter();
 
   const login = async (email: string, password: string) => {
@@ -24,9 +24,8 @@ export const useSesionUsuarioContext = () => {
       setNombre(usuarioActual.nombre);
       setId(usuarioActual.id);
       router.push("/home");
-    } catch (error) {
-      setError(true);
-      console.log(error);
+    } catch (error: any) {
+      setError({ status: true, message: error.response.data });
     }
   };
 
