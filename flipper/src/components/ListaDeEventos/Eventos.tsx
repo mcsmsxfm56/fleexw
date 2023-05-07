@@ -1,6 +1,7 @@
 import ListaEventos from "./ListaDeEventos";
 import useSWR, { Fetcher } from "swr";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export interface evento {
   perfil: string;
@@ -38,19 +39,24 @@ const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
 
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
+  let isAdmin: boolean | string | null = false;
   if (typeof window !== "undefined") {
     // Perform localStorage action
     const rol = localStorage.getItem("rol");
+    isAdmin = localStorage.getItem("isAdmin");
     if (rol === "trabajador") {
       var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
     }
     if (rol === "empresa") {
       var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
     }
+    if (isAdmin === "true") {
+      isAdmin = true;
+    } else if (isAdmin === "false") {
+      isAdmin = false;
+    }
   }
-
   const [order, setOrder] = useState<Ordering>("desc");
-
   React.useEffect(() => {
     ordering(order);
   }, [order, data]);
@@ -110,10 +116,9 @@ const Eventos: React.FC = () => {
 
   /* console.log(data); */
   return (
-    <div
-      className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10"
-    >
+    <div className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10">
       <div className="p-2">
+        {isAdmin === true ? <Link href="/dashboard">Dashboard</Link> : null}
         <h1 className="text-5xl text-indigo-700 text-center">
           Lista de Eventos
         </h1>

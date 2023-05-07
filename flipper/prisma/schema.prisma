@@ -21,13 +21,13 @@ model Empresa {
   isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
+  authorizedByAdmin Boolean @default(false)
   ciudad String
   direccion String @unique
   telefono String @unique
   password String
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
-  authorizedByAdmin Boolean @default(false)
   //@id define una id, @default define un valor default para el campo, autoincrement hace que empieze por uno y continue 
   //https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#default
   //content   String? //? hace que el campo sea opcional, [] haria que el campo sea un array

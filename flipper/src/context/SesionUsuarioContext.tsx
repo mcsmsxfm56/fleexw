@@ -14,10 +14,12 @@ interface ContextProps {
   rol: string;
   token: string;
   nombre: string;
+  isAdmin: boolean;
   setRol: Dispatch<SetStateAction<string>>;
   setToken: Dispatch<SetStateAction<string>>;
   setNombre: Dispatch<SetStateAction<string>>;
   setId: Dispatch<SetStateAction<string>>;
+  setIsAdmin: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SesionUsuarioContext = createContext<ContextProps>(
@@ -33,10 +35,10 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
   const [token, setToken] = useState("");
   const [nombre, setNombre] = useState("");
   const [id, setId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   //aca tengo que usar un useEffect para que reconozca que estoy del lado del cliente y asi poder acceder al objeto window
   useEffect(() => {
-
     //console.log(window.localStorage.getItem('rol'));
     //console.log(window.localStorage.getItem('token'));
     //console.log(window.localStorage.getItem('nombre'));
@@ -49,7 +51,18 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
 
   return (
     <SesionUsuarioContext.Provider
-      value={{ rol, token, nombre, id, setRol, setToken, setNombre, setId }}
+      value={{
+        rol,
+        token,
+        nombre,
+        id,
+        isAdmin,
+        setRol,
+        setToken,
+        setNombre,
+        setId,
+        setIsAdmin,
+      }}
     >
       {children}
     </SesionUsuarioContext.Provider>

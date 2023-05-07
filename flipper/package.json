@@ -16,7 +16,6 @@
     "@mui/material": "^5.12.3",
     "@mui/x-data-grid": "^6.3.0",
     "@prisma/client": "^4.13.0",
-    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "18.15.11",
@@ -43,12 +42,12 @@
     "react-icons": "^4.8.0",
     "react-loader-spinner": "^5.3.4",
     "react-whatsapp": "^0.3.0",
-    "react-xls": "^0.1.1",
-    "sweetalert2": "^11.7.3",
+    "sweetalert2": "^11.4.8",
     "swr": "^2.1.5",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4",
     "validator": "^13.9.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
     "yup": "^1.1.1"
   }
 }
