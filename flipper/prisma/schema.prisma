@@ -17,6 +17,7 @@ datasource db {
 model Empresa {
   nombre String @unique
   resetContrasenaCode String?
+  isAdmin Boolean @default(false)
   isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
@@ -77,6 +78,7 @@ model Trabajador {
   certificado_bancario String? //adjunto
   password String
   isDeleted Boolean @default(false)
+  isAdmin Boolean @default(false)
 }
 
 model TrabajadoresEnEventos {
