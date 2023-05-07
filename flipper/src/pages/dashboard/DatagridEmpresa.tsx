@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { aceptarORechazarEmpresa } from "./middlewareDashboard";
+import { aceptarORechazarEmpresa } from "../../services/servicesDashboard";
 import { objEmpresa, PropsEmpresaGrid } from "@/types/Types";
 
 const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {

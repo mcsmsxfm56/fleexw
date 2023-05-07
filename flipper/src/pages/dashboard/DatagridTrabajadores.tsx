@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   fetcherDashboard,
   dashboardUpdateTrabajador,
-} from "./middlewareDashboard";
+} from "../../services/servicesDashboard";
 import useSWR from "swr";
 import { objTrabajador, PropsTrabajadorGrid } from "@/types/Types";
 

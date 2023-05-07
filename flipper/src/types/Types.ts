@@ -123,6 +123,8 @@ export interface objEvento {
   pago: number;
   numeroPostulantes: number;
   observaciones: string;
+  Canceled: boolean;
+  empresa?: objEmpresa;
 }
 
 export interface objTrabajador {
@@ -155,6 +157,13 @@ export interface objtrabajadoresEnEventos {
   notificacionVista: boolean;
 }
 
+export interface objtrabajadoresEnEventosIncludeEvento {
+  eventoId: string;
+  trabajadorId: string;
+  status: string;
+  notificacionVista: boolean;
+  evento: objEvento;
+}
 export interface FormValues {
   email: string;
   password: string;
@@ -187,4 +196,62 @@ export interface PropsEventoGrid {
 
 export interface PropsTrabajadorGrid {
   dataTrabajadores: objTrabajador[];
+}
+
+export interface evento {
+  perfil: string;
+  nombre: string;
+  fecha_inicio: string;
+  observaciones: string;
+  hora: string;
+  lugar: string;
+  isDeleted: boolean;
+  id: string;
+}
+export interface Props {
+  eventos: evento[];
+}
+
+export interface eventoExcel {
+  cupos: string;
+  fecha_final: string;
+  fecha_inicio: string;
+  id: string;
+  id_empresa: string;
+  isDeleted: boolean;
+  lugar: string;
+  nombre: string;
+  observaciones: string;
+  pago: number;
+  perfil: string;
+  trabajadores: {
+    eventoId: string;
+    trabajadorId: string;
+    status: string;
+    trabajadores: {
+      id: string;
+      name: string;
+      idType: string;
+      idNumber: number;
+      nacimiento: null;
+      genero: null;
+      phone: number;
+      email: string;
+      ciudad: null;
+      direccion: null;
+      estatura: null;
+      talla_camiseta: null;
+      grupo_sanguineo: null;
+      imagen_dni: null;
+      foto: null;
+      cv: null;
+      rut: null;
+      certificado_bancario: null;
+      password: string;
+      isDeleted: boolean;
+    };
+  }[];
+}
+export interface dataType {
+  datos_Eventos: {}[];
 }

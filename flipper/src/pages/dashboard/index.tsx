@@ -3,12 +3,11 @@ import DatagridEventos from "./DatagridEventos";
 import DatagridTrabajadores from "./DatagridTrabajadores";
 import { downloadExcelAdmin } from "../../components/Excel/generateExcel";
 import useSWR from "swr";
-import { fetcherDashboard } from "./middlewareDashboard";
+import { fetcherDashboard } from "../../services/servicesDashboard";
 import { objEmpresa, objEvento, objTrabajador } from "@/types/Types";
 
 export default function Dashboard() {
   const { isLoading, error, data } = useSWR("/api/admin", fetcherDashboard);
-  console.log(data); //{empresaTable: [{objEmpresa}], eventoTable: [{objEvento}], trabajadorTable: [{objTrabajador}]}
   const sheetTrabajador: objTrabajador[] = [];
   const sheetEmpresa: objEmpresa[] = [];
   const sheetEventos: objEvento[] = [];

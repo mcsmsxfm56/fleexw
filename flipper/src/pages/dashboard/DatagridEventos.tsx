@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { dashboardUpdateEvento } from "./middlewareDashboard";
+import { dashboardUpdateEvento } from "../../services/servicesDashboard";
 import { objEvento, PropsEventoGrid } from "@/types/Types";
 
 const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
