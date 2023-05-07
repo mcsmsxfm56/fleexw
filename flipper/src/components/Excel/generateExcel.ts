@@ -1,12 +1,21 @@
-import { objEmpresa, objEvento, objTrabajador } from "@/types/Types";
+import {
+  objEmpresa,
+  objEvento,
+  objTrabajador,
+  objtrabajadoresEnEventos,
+} from "@/types/Types";
 import * as XLSX from "xlsx";
 
 export const downloadExcelAdmin = (
   sheetTrabajador: objTrabajador[],
   sheetEmpresa: objEmpresa[],
-  sheetEventos: objEvento[]
+  sheetEventos: objEvento[],
+  sheetTrabajadoresEnEventos: objtrabajadoresEnEventos[]
 ) => {
   const sheetTrabajador2 = XLSX?.utils.json_to_sheet(sheetTrabajador);
+  const sheetTrabajadoresEnEventos2 = XLSX?.utils.json_to_sheet(
+    sheetTrabajadoresEnEventos
+  );
   const sheetEmpresa2 = XLSX?.utils.json_to_sheet(sheetEmpresa);
   const sheetEventos2 = XLSX?.utils.json_to_sheet(sheetEventos);
   const adminData = XLSX?.utils.book_new();
@@ -17,6 +26,11 @@ export const downloadExcelAdmin = (
   );
   XLSX?.utils.book_append_sheet(adminData, sheetEmpresa2, "Tabla Empresa");
   XLSX?.utils.book_append_sheet(adminData, sheetEventos2, "Tabla Eventos");
+  XLSX?.utils.book_append_sheet(
+    adminData,
+    sheetTrabajadoresEnEventos2,
+    "Tabla TrabajadoresEnEventos"
+  );
   XLSX?.writeFile(adminData, "adminData.xlsx");
 };
 

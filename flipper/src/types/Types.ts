@@ -155,6 +155,7 @@ export interface objtrabajadoresEnEventos {
   trabajadorId: string;
   status: string;
   notificacionVista: boolean;
+  id?: number;
 }
 
 export interface objtrabajadoresEnEventosIncludeEvento {
@@ -196,6 +197,10 @@ export interface PropsEventoGrid {
 
 export interface PropsTrabajadorGrid {
   dataTrabajadores: objTrabajador[];
+}
+
+export interface PropsTrabajadoresEnEventosGrid {
+  dataTrabajadoresEnEventos: objtrabajadoresEnEventos[];
 }
 
 export interface evento {

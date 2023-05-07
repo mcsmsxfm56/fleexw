@@ -156,3 +156,31 @@ export const dashboardUpdateTrabajador = async (
       alert(data);
     });
 };
+
+export const dashboardUpdateTrabajadorEnEventos = async (
+  status: string,
+  notificacionVista: string | boolean,
+  eventoId: string,
+  trabajadorId: string
+) => {
+  if (notificacionVista === "true") {
+    notificacionVista = true;
+  }
+  if (notificacionVista === "false") {
+    notificacionVista = false;
+  }
+  return fetch("/api/trabajadoreseneventos", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      status,
+      notificacionVista,
+      eventoId,
+      trabajadorId,
+    }),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      alert(data);
+    });
+};

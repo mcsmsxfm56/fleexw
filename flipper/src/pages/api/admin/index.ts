@@ -9,10 +9,13 @@ export default async function handler(
     const empresaTable = await prisma.empresa.findMany();
     const eventoTable = await prisma.evento.findMany();
     const trabajadorTable = await prisma.trabajador.findMany();
+    const trabajadoresEnEventosTable =
+      await prisma.trabajadoresEnEventos.findMany();
     const dataDashboard = {
       empresaTable,
       eventoTable,
       trabajadorTable,
+      trabajadoresEnEventosTable,
     };
     return res.status(200).send(dataDashboard);
   }
