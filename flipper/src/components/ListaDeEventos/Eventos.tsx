@@ -108,7 +108,6 @@ const Eventos: React.FC = () => {
     return <div>ERROR</div>;
   }
 
-  /* console.log(data); */
   return (
     <div
       className="h-full w-full bg-gray-200 flex flex-col items-center pt-20 md:pt-10"
@@ -123,13 +122,13 @@ const Eventos: React.FC = () => {
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
         <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
-            Ascendente
+            Más cercanos
           </button>
           <button
             className={buttonStyle + " ml-2"}
             onClick={() => setOrder("desc")}
           >
-            Descendente
+            Más lejanos
           </button>
         </div>
       </div>
