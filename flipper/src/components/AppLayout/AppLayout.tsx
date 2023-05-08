@@ -16,6 +16,7 @@ const AppLayout = ({ children }: propsAppLayout) => {
 
   return (
     <>
+      <div className="fixed w-screen h-screen bg-gray-200 z-[-1]"></div>
       <header className="bg-indigo-600 text-slate-100 justify-between block md:hidden">
         <NavBar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
       </header>

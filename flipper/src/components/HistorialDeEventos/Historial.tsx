@@ -50,8 +50,8 @@ const Historial: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="h-full bg-gray-200 w-full">
-      <div className="p-2 text-center pt-16">
-        <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">
+      <div className="p-2 text-center">
+        <h1 className="text-5xl capitalize mb-2 text-indigo-700 mt-20 md:mt-10">
           Historial de Eventos<br></br>
         </h1>
         <button

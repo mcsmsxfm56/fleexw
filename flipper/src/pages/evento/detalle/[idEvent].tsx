@@ -136,17 +136,17 @@ const EventDatail = () => {
 
   return (
     <AppLayout>
-      <div className="h-full overflow-auto mt-8">
+      <div className="h-full">
         <div
-          className="bg-gray-200 "
+          className="bg-gray-200"
         >
           <div className="flex flex-col justify-center items-center gap-10 relative">
-            <div className="w-full flex flex-row justify-between items-center">
-              <p className="w-full mt-10 bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
+            <div className="w-full flex flex-row justify-between items-center mt-16 md:mt-0">
+              <p className="w-full bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
                 Evento: {eventDetail?.nombre}
                 {rol === "empresa" && (
                   <HiPencil
-                    className="text-[#f6ea06] absolute top-3 right-3 rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
+                    className="text-[#f6ea06] absolute top-3 right-3 rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC] cursor-pointer"
                     size={30}
                   />
                 )}
@@ -198,7 +198,7 @@ const EventDatail = () => {
           </div>
           <div className="flex justify-center">
             {rol === "empresa" ? (
-              <div className="flex flex-col items-center my-8">
+              <div className="flex flex-col items-center my-8 w-11/12 lg:w-9/12">
                 {loading ? (
                   <LoadingSubmitForm />
                 ) : (

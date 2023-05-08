@@ -57,7 +57,7 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
           setShowElementsTrabajador={setShowElementsTrabajador}
           setIsExpanded={() => setIsExpanded(false)}
         />
-        <div className="flex flex-col gap-4 mt-4 border-r-2 border-indigo-600">
+        <div className="flex flex-col gap-4 mt-4 border-r-2 border-indigo-600 w-full">
           <div className="flex justify-between">
             <ReactWhatsapp
               // number={`phoneNumber`}

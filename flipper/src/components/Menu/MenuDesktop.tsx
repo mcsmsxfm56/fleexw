@@ -14,7 +14,7 @@ const MenuDesktop = () => {
 
   return (
     <div
-      className={`hidden md:flex flex-col w-5/12 gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center p-4 `}
+      className={`hidden md:flex flex-col w-5/12 lg:w-4/12 gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center p-4 `}
     >
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
@@ -32,7 +32,7 @@ const MenuDesktop = () => {
         setShowElementsEmpresa={setShowElementsEmpresa}
         setShowElementsTrabajador={setShowElementsTrabajador}
       />
-      <div className="flex flex-col gap-4 mt-4 border-r-2 border-indigo-600">
+      <div className="flex flex-col gap-4 mt-4 border-r-2 border-indigo-600 w-full">
         <div className="flex justify-between">
           <ReactWhatsapp
             // number={`phoneNumber`}
