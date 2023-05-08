@@ -140,20 +140,23 @@ const Historial: React.FC = () => {
 
   return (
     <div className="h-full bg-gray-200 w-full">
-      <div className="p-2 text-center pt-16">
-        <h1 className="text-5xl max-sm:text-4xl max-sm:font-bold capitalize mb-2 mt-4 text-indigo-700">
-          Historial de Eventos<br></br>
-          <ExcelDownloder
-            data={data2}
-            filename={"datosEventos"}
-            type={Type.Button} // or type={'button'}
-          >
-            Descargar excel
-          </ExcelDownloder>
-        </h1>
-      </div>
-      <div className="p-2 flex justify-center">
-        <ListaHistorial eventos={eventos?.eventos} />
+      <div className="flex flex-col h-full">
+        <div className="p-2 text-center">
+          <h1 className="text-5xl capitalize text-indigo-700 mt-20 md:mt-10">
+            Historial de Eventos<br></br>
+            <ExcelDownloder
+              data={data2}
+              filename={"datosEventos"}
+              type={Type.Button} // or type={'button'}
+              className='btn bg-green-600 normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]'
+            >
+              Descargar excel
+            </ExcelDownloder>
+          </h1>
+        </div>
+        <div className="p-2 flex justify-center">
+          <ListaHistorial eventos={eventos?.eventos} />
+        </div>
       </div>
     </div>
   );
