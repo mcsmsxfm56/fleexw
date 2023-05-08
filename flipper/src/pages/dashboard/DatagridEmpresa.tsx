@@ -15,8 +15,16 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
   }, []);
   const columnsEmpresa: GridColDef[] = [
     {
+      field: "isAdmin",
+      headerName: "ES ADMIN",
+      flex: 0.2,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
       field: "nombre",
-      headerName: "Nombre Empresa",
+      headerName: "NOMBRE DE LA EMPRESA",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -24,7 +32,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "nombreceo",
-      headerName: "Nombre CEO",
+      headerName: "NOMBRE DEL CEO",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -32,7 +40,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "telefono",
-      headerName: "Telefono",
+      headerName: "TELEFONO",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -40,7 +48,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "authorizedByAdmin",
-      headerName: "¿Autorizado?",
+      headerName: "AUTORIZACIÓN",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -50,7 +58,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "ciudad",
-      headerName: "Ciudad",
+      headerName: "CIUDAD",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -58,7 +66,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "direccion",
-      headerName: "Direccion",
+      headerName: "DIRECCION",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -66,7 +74,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "email",
-      headerName: "Email",
+      headerName: "CORREO",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -81,7 +89,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
     },
     {
       field: "isDeleted",
-      headerName: "¿Borrado?",
+      headerName: "¿BANEADO?",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",

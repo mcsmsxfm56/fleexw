@@ -61,6 +61,7 @@ model Trabajador {
   resetContrasenaCode String?
   name String
   idType String
+  Edad Int @default(18)
   idNumber Int
   nacimiento String?
   genero String?

@@ -101,20 +101,22 @@ export interface objEmpresa {
   ciudad: string;
   direccion: string;
   email: string;
-  id: string;
+  id?: string;
   isDeleted: boolean;
   nombre: string;
   nombreceo: string;
-  password: string;
+  password?: string;
   telefono: string;
+  isAdmin: boolean | string;
+  resetContrasenaCode?: string;
 }
 
 export interface objEvento {
   id: string;
-  isDeleted: boolean;
-  admitePostulaciones: boolean;
+  isDeleted?: boolean;
+  admitePostulaciones?: boolean;
   nombre: string;
-  id_empresa: string;
+  id_empresa?: string;
   fecha_inicio: string;
   fecha_final: string;
   lugar: string;
@@ -123,8 +125,9 @@ export interface objEvento {
   pago: number;
   numeroPostulantes: number;
   observaciones: string;
-  Canceled: boolean;
+  Canceled?: boolean;
   empresa?: objEmpresa;
+  empresaNombre?: string;
 }
 
 export interface objTrabajador {
@@ -132,7 +135,7 @@ export interface objTrabajador {
   name: string;
   idType: string;
   idNumber: number;
-  nacimiento: null | Date;
+  nacimiento?: null | Date;
   genero: null | string;
   phone: string;
   email: string;
@@ -141,21 +144,34 @@ export interface objTrabajador {
   estatura: null | number;
   talla_camiseta: null | string;
   grupo_sanguineo: null | string;
-  imagen_dni: null | string;
-  foto: null | string;
-  cv: null | string;
-  rut: null | string;
-  certificado_bancario: null | string;
-  password: string;
-  isDeleted: boolean;
+  imagen_dni?: null | string;
+  foto?: null | string;
+  cv?: null | string;
+  rut?: null | string;
+  certificado_bancario?: null | string;
+  password?: string;
+  isDeleted?: boolean;
+  resetContrasenaCode?: string;
+  isAdmin?: string | boolean;
 }
 
 export interface objtrabajadoresEnEventos {
-  eventoId: string;
-  trabajadorId: string;
+  eventoId?: string;
+  trabajadorId?: string;
   status: string;
-  notificacionVista: boolean;
+  notificacionVista?: boolean;
   id?: number;
+  evento?: evento;
+  empresaDelEvento?: string;
+  nombreDelEvento?: string;
+  trabajadorNombre?: string;
+  fechaEvento?: string;
+  lugarEvento?: string;
+  perfilEvento?: string;
+  pago?: number;
+  eventoCancelado?: boolean;
+  observacionesEventos?: string;
+  trabajadores?: objTrabajador;
 }
 
 export interface objtrabajadoresEnEventosIncludeEvento {
@@ -212,6 +228,10 @@ export interface evento {
   lugar: string;
   isDeleted: boolean;
   id: string;
+  empresa?: objEmpresa;
+  trabajadores?: objTrabajador;
+  pago?: number;
+  Canceled?: boolean;
 }
 export interface Props {
   eventos: evento[];
