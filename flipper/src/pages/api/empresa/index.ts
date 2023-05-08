@@ -21,6 +21,7 @@ interface putEmpresa {
   direccion?: string;
   telefono?: string;
   idEmpresa?: string;
+  authorizedByAdmin?: boolean;
   //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
 }
 interface token {
@@ -33,11 +34,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  /*
   if (req.method === "GET") {
     const user = await prisma.empresa.findMany();
     if (user) {
-      user.forEach((empresa: empresa) => (empresa.password = undefined));
       res.status(200).send(user);
     } else {
       res
@@ -45,7 +44,7 @@ export default async function handler(
         .send("No hay empresas, hay que esperar a que se registren");
     }
   }
-  */
+
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     try {
       const idEmpresa: string = req.body.idEmpresa as string;
@@ -54,7 +53,10 @@ export default async function handler(
         where: { id: idEmpresa },
         include: {
           eventos: {
-            include: { trabajadores: { include: { trabajadores: true } } },
+            include: {
+              trabajadores: { include: { trabajadores: true } },
+              empresa: true,
+            },
           },
         },
       });
@@ -67,7 +69,16 @@ export default async function handler(
       return res.status(400).send(error);
     }
   }
-
+  if (req.method === "PUT" && req.body.realmethod === "ADMINPUT") {
+    let { idEmpresa, authorizedByAdmin } = req.body;
+    const empresaUpdate = await prisma.empresa.update({
+      where: { id: idEmpresa },
+      data: {
+        authorizedByAdmin,
+      },
+    });
+    return res.status(200).send({ message: "Empresa autorizada con exito" });
+  }
   if (req.method === "PUT" && req.body.realmethod === "PUT") {
     const { authorization } = req.headers;
 

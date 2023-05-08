@@ -17,16 +17,17 @@ datasource db {
 model Empresa {
   nombre String @unique
   resetContrasenaCode String?
+  isAdmin Boolean @default(false)
   isDeleted Boolean @default(false)
   nombreceo String
   email String @unique
+  authorizedByAdmin Boolean @default(false)
   ciudad String
   direccion String @unique
   telefono String @unique
   password String
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
-  authorizedByAdmin Boolean @default(false)
   //@id define una id, @default define un valor default para el campo, autoincrement hace que empieze por uno y continue 
   //https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#default
   //content   String? //? hace que el campo sea opcional, [] haria que el campo sea un array
@@ -60,6 +61,7 @@ model Trabajador {
   resetContrasenaCode String?
   name String
   idType String
+  Edad Int @default(18)
   idNumber Int
   nacimiento String?
   genero String?
@@ -77,6 +79,7 @@ model Trabajador {
   certificado_bancario String? //adjunto
   password String
   isDeleted Boolean @default(false)
+  isAdmin Boolean @default(false)
 }
 
 model TrabajadoresEnEventos {

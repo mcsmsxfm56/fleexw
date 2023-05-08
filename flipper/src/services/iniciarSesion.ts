@@ -10,10 +10,11 @@ interface UsuarioParaLoguear {
 }
 
 type UsuarioLogueado = {
-  id: string,
+  id: string;
   rol: string;
   token: string;
   nombre: string;
+  isAdmin: boolean;
   error?: unknown;
 };
 
