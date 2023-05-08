@@ -702,7 +702,9 @@ export const PerfilTrabajador: React.FC = () => {
                         <br />
                         <p className="font-bold">Flipper Eventos.</p>
                       </DialogContentText>
-                      <p className="-mb-4 mt-2">Curriculum</p>
+                      <p className="-mb-4 mt-2 font-bold text-indigo-600">
+                        Curriculum | Formato .PDF
+                      </p>
                       <ValidationGroup validation="noisy">
                         <Validate
                           name="cv"
@@ -727,7 +729,9 @@ export const PerfilTrabajador: React.FC = () => {
                           />
                         </Validate>
                       </ValidationGroup>
-                      <p className="-mb-4 mt-2">Rut</p>
+                      <p className="-mb-4 mt-2 font-bold text-indigo-600">
+                        Rut | Formato .PDF
+                      </p>
                       <ValidationGroup validation="noisy">
                         <Validate
                           name="rut"
@@ -752,7 +756,9 @@ export const PerfilTrabajador: React.FC = () => {
                           />
                         </Validate>
                       </ValidationGroup>
-                      <p className="-mb-4 mt-2">Certificado Bancario</p>
+                      <p className="-mb-4 mt-2 font-bold text-indigo-600">
+                        Certificado Bancario | Formato .PDF
+                      </p>
                       <ValidationGroup validation="noisy">
                         <Validate
                           name="certificado_bancario"
@@ -780,7 +786,9 @@ export const PerfilTrabajador: React.FC = () => {
                           />
                         </Validate>
                       </ValidationGroup>
-                      <p className="-mb-4 mt-2">Cargar foto de perfil</p>
+                      <p className="-mb-4 mt-2 font-bold text-indigo-600">
+                        Cargar foto de perfil
+                      </p>
                       <ValidationGroup validation="noisy">
                         <Validate
                           name="foto"
@@ -806,8 +814,8 @@ export const PerfilTrabajador: React.FC = () => {
                           />
                         </Validate>
                       </ValidationGroup>
-                      <p className="-mb-4 mt-2">
-                        Cargar imagen frontal del dni
+                      <p className="-mb-4 mt-2 font-bold text-indigo-600">
+                        Cargar imagen frontal del dni | Formato .PDF
                       </p>
                       <ValidationGroup validation="noisy">
                         <Validate
