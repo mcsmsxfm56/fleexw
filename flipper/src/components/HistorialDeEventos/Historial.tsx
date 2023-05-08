@@ -58,7 +58,7 @@ const Historial: React.FC = () => {
           onClick={() => {
             downloadExcelNoAdmin(data?.eventos); //espera array de objetos eventos
           }}
-          className={buttonStyle + " ml-2"}
+          className={buttonStyle + " ml-2 bg-green-700"}
         >
           Descargar Excel
         </button>

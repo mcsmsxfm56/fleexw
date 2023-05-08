@@ -97,7 +97,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (
             <button
-              className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC]"
+              className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC] w-full px-0"
 
               onClick={async () => {
                 let response = await fetch("/api/trabajadoreseneventos", {

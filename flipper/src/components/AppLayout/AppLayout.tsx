@@ -24,7 +24,7 @@ const AppLayout = ({ children }: propsAppLayout) => {
         {rol === "trabajador" && <NotificationDropdown />}
         <MenuMobile isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <MenuDesktop />
-        <div className="w-full h-full md:overflow-scroll">{children}</div>
+        <div className="w-full h-full md:overflow-auto">{children}</div>
       </main>
     </>
   );
