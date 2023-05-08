@@ -30,9 +30,6 @@ export default function Home() {
         {rol === "empresa" && showElementsEmpresa.showCrear && (
           <CreateEventForm />
         )}
-        {rol === "empresa" && showElementsEmpresa.showPostulaciones && (
-          <PostulacionesTrabajador />
-        )}
         {rol === "empresa" && showElementsEmpresa.showPerfil && (
           <PerfilEmpresa />
         )}

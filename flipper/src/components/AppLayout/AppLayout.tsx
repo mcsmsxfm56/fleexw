@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NavBar from "../NavBar";
 import MenuMobile from "../Menu/MenuMobile";
-import LogIn from "../../pages/index";
 import NotificationDropdown from "../NotificationDropdown";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import MenuDesktop from "../Menu/MenuDesktop";
