@@ -5,10 +5,6 @@ interface Props2 {
   eventos: evento[] | undefined;
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
-  //console.log("lista de eventos", eventos);
-
-  //console.log("ListaDeEventos.tsx");
-  //console.log(eventos);
 
   if (eventos?.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
@@ -22,7 +18,10 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
     <div className="w-full">
       {eventos ? (
         eventos.map((event: evento) => {
-          if (event.isDeleted === false) {
+          const fechaEvento: Date = new Date(event.fecha_inicio)
+          const fechaActual: Date = new Date()
+
+          if (event.isDeleted === false && fechaActual > fechaEvento) {
             return (
               <div key={`${event.nombre}_key`}>
                 <EventCard
