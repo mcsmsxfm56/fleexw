@@ -18,10 +18,7 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
     <div className="w-full">
       {eventos ? (
         eventos.map((event: evento) => {
-          const fechaEvento: Date = new Date(event.fecha_inicio)
-          const fechaActual: Date = new Date()
-
-          if (event.isDeleted === false && fechaActual > fechaEvento) {
+          if (event.isDeleted === false) {
             return (
               <div key={`${event.nombre}_key`}>
                 <EventCard
