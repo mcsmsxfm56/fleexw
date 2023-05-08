@@ -114,20 +114,24 @@ export interface objEmpresa {
 export interface objEvento {
   id: string;
   isDeleted?: boolean;
+  nombreTrabajador?: string;
   admitePostulaciones?: boolean;
   nombre: string;
   id_empresa?: string;
   fecha_inicio: string;
   fecha_final: string;
   lugar: string;
-  cupos: number;
+  cupos?: number;
   perfil: string;
   pago: number;
-  numeroPostulantes: number;
+  numeroPostulantes?: number;
   observaciones: string;
   Canceled?: boolean;
   empresa?: objEmpresa;
   empresaNombre?: string;
+  trabajadores?: objTrabajador[];
+  telefonotrabajador?: string;
+  status?: string;
 }
 
 export interface objTrabajador {
@@ -153,6 +157,8 @@ export interface objTrabajador {
   isDeleted?: boolean;
   resetContrasenaCode?: string;
   isAdmin?: string | boolean;
+  trabajadores?: objTrabajador;
+  status?: string;
 }
 
 export interface objtrabajadoresEnEventos {

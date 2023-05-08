@@ -53,7 +53,10 @@ export default async function handler(
         where: { id: idEmpresa },
         include: {
           eventos: {
-            include: { trabajadores: { include: { trabajadores: true } } },
+            include: {
+              trabajadores: { include: { trabajadores: true } },
+              empresa: true,
+            },
           },
         },
       });
