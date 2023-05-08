@@ -5,10 +5,6 @@ interface Props2 {
   eventos: evento[] | undefined;
 }
 const ListaEventos: React.FC<Props2> = ({ eventos }) => {
-  //console.log("lista de eventos", eventos);
-
-  //console.log("ListaDeEventos.tsx");
-  //console.log(eventos);
 
   if (eventos?.filter((evento) => evento.isDeleted === false).length === 0) {
     return (

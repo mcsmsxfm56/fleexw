@@ -27,13 +27,13 @@ const EventosConfirmadosTrabajador = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-gray-200">
+    <div className="h-full w-full bg-gray-200">
       <div className="p-2">
-        <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
+        <h1 className="text-5xl mt-20 md:mt-10 text-indigo-700 text-center md:text-center">
           Eventos Confirmados
         </h1>
 
-        <div className="p-2 lg:flex lg:justify-center">
+        <div className="p-2 flex justify-center">
           {!dataEvento ? (
             <h2>Todavia no posee eventos confirmados</h2>
           ) : (
