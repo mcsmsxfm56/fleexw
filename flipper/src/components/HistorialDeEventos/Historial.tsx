@@ -14,6 +14,8 @@ const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
     body: JSON.stringify({
       realmethod: "GET",
       idEmpresa: localStorage.getItem("id"),
+      //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
+      function: 'historial'
     }),
   }).then((res) => res.json());
 };
@@ -45,7 +47,7 @@ const Historial: React.FC = () => {
     delete objEvento.numeroPostulantes;
     //delete objEvento.trabajadores;
   });
-  console.log(data);
+  //console.log(data);
 
   if (isLoading) return <div>Loading...</div>;
   return (

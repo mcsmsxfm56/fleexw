@@ -9,7 +9,9 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     let allEvents = await prisma.evento.findMany();
-    allEvents = allEvents.filter((objEvent) => objEvent.isDeleted === false);
+    allEvents = allEvents.filter(
+      (objEvent: any) => objEvent.isDeleted === false
+    );
     return res.status(200).send(allEvents);
   }
   if (req.method === "PUT" && req.body.realmethod === "GET") {
@@ -113,7 +115,7 @@ export default async function handler(
       },
       data: {
         status,
-        notificacionVista: false
+        notificacionVista: false,
       },
     });
     return res
@@ -166,10 +168,10 @@ export default async function handler(
         if (e.status === "APROBADO") {
           aprobados.push(e);
         }
-        e.status = 'CANCELADO';
+        e.status = "CANCELADO";
       });
 
-      console.log(trabajadoresEvento)
+      console.log(trabajadoresEvento);
 
       if (aprobados.length > 0) {
         const mails = aprobados.map((e: any) => {
@@ -189,9 +191,9 @@ export default async function handler(
           eventoId: evento?.id,
         },
         data: {
-          status: 'CANCELADO'
-        }
-      })
+          status: "CANCELADO",
+        },
+      });
 
       return res.status(200).send("Evento borrado con exito");
     }
