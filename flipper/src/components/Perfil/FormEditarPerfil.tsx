@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
+import * as yup from 'yup'
 
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Swal from "sweetalert2";
@@ -30,11 +30,17 @@ interface modifyProfile {
 }
 const validationSchema = yup.object({
   nombreEmpresa: yup.string().required("El nombre de la empresa es requerido"),
-  nombreceo: yup.string().required("El nombre del CEO es requerido"),
-  email: yup.string().email().required("La dirección de correo electrónico es requrida"),
-  ciudad: yup.string().required("La ciudad es requerida"),
-  direccion: yup.string().required("La dirección es requerida"),
-  telefono: yup.string().required("El teléfono es requerido"),
+  //,
+  nombreceo: yup.string(),
+  //.required("El nombre del CEO es requerido"),
+  email: yup.string().email(),
+  //.required("La dirección de correo electrónico es requrida"),
+  ciudad: yup.string(),
+  //.required("La ciudad es requerida"),
+  direccion: yup.string(),
+  //.required("La dirección es requerida"),
+  telefono: yup.string(),
+  //.required("El teléfono es requerido"),
 });
 
 const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
@@ -53,6 +59,7 @@ const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
       body: JSON.stringify({
         realmethod: "GET",
         idEmpresa: id,
+        function: 'misEventos'
       }),
     })
       .then((response) => response.json())
