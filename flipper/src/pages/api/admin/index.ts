@@ -7,10 +7,24 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const empresaTable = await prisma.empresa.findMany();
-    const eventoTable = await prisma.evento.findMany();
+    const eventoTable = await prisma.evento.findMany({
+      include: {
+        empresa: true,
+      },
+    });
     const trabajadorTable = await prisma.trabajador.findMany();
     const trabajadoresEnEventosTable =
-      await prisma.trabajadoresEnEventos.findMany();
+      await prisma.trabajadoresEnEventos.findMany({
+        include: {
+          evento: {
+            include: {
+              empresa: true,
+              trabajadores: true,
+            },
+          },
+          trabajadores: true,
+        },
+      });
     const dataDashboard = {
       empresaTable,
       eventoTable,
