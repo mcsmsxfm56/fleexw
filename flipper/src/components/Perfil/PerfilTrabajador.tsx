@@ -312,7 +312,7 @@ export const PerfilTrabajador: React.FC = () => {
   };
 
   const styles = {
-    input: "font-bold text-3xl text-indigo-600 capitalize",
+    input: "font-bold text-xl text-indigo-600 capitalize",
   };
 
   const titleStyle = "font-mono text-xl text-black";
@@ -322,16 +322,16 @@ export const PerfilTrabajador: React.FC = () => {
   const section = "bg-white p-4 items-start mx-5 w-full mx-auto rounded-md";
 
   return (
-    <div className="flex justify-center w-full h-screen 2xl:ml-36 lg:h-full lg:ml-36 2xl:h-full">
-      <div className=" md:w-2/4 md:flex bg-[#e5e7eb] ">
-        <div className="flex flex-col items-center mx-auto w-full">
+    <div className="flex justify-center w-full h-full">
+      <div className="bg-[#e5e7eb] w-11/12 md:w-9/12 lg:w-8/12">
+        <div className="flex flex-col items-center mt-20 md:mt-10 w-full">
           <div className="flex items-center gap-4 p-4 bg-white w-full rounded-md mt-6">
             <img
               className="w-32 rounded-full"
               src={data?.foto.split(" ").slice(1)}
               alt="Picture of the author"
             />
-            <div className="ml-10">
+            <div className="">
               <h3 className={styles.input}>{data?.name}</h3>
               <p className="text-indigo-600">Trabajador</p>
             </div>
@@ -676,7 +676,7 @@ export const PerfilTrabajador: React.FC = () => {
             <div className="flex justify-center my-1 p-4">
               <h4 className={categoriStyle}>Archivos Necesarios</h4>
             </div>
-            <div className={`${section} mb-4`}>
+            <div className={`${section} mb-4 shadow-lg`}>
               <div className="absolute right-3">
                 <ThemeProvider theme={theme}>
                   <Fab
