@@ -23,19 +23,20 @@ export const MenuProvider = ({ children }: propsProvider) => {
     const [showElementsTrabajador, setShowElementsTrabajador] = useState({
         showEventosTrabajador: true,
         showEventosConfirmadosTrabajador: false,
-        showHistorialTrabajador: false,
         showPerfilTrabajador: false,
+        showHistorialTrabajador: false,
     })
     const [showElementsEmpresa, setShowElementsEmpresa] = useState({
         showEventos: true,
         showHistorial: false,
         showCrear: false,
-        showPostulaciones: false,
         showPerfil: false,
     })
 
     return (
-        <MenuContext.Provider value={{ showElementsEmpresa, setShowElementsEmpresa, showElementsTrabajador, setShowElementsTrabajador }}>
+        <MenuContext.Provider
+            value={{ showElementsEmpresa, setShowElementsEmpresa, showElementsTrabajador, setShowElementsTrabajador }}
+        >
             {children}
         </MenuContext.Provider>
     )
