@@ -21,7 +21,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
   const columnsTrabajador: GridColDef[] = [
     {
       field: "name",
-      headerName: "Nombre Trabajador",
+      headerName: "NOMBRE TRABAJADOR",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -29,7 +29,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "idType",
-      headerName: "Tipo ID",
+      headerName: "TIPO DE DOCUMENTO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -37,7 +37,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "idNumber",
-      headerName: "Numero ID",
+      headerName: "Nº DOCUMENTO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -45,17 +45,8 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
       type: "number",
     },
     {
-      field: "nacimiento",
-      headerName: "Nacimiento",
-      flex: 0.2,
-      headerClassName: "super-app-theme--header",
-      cellClassName: "super-app-theme--cell",
-      editable: true,
-      type: "date",
-    },
-    {
       field: "genero",
-      headerName: "Genero",
+      headerName: "GENERO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -63,7 +54,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "phone",
-      headerName: "Telefono",
+      headerName: "TELEFONO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -71,7 +62,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "email",
-      headerName: "Email",
+      headerName: "CORREO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -86,7 +77,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "isDeleted",
-      headerName: "¿Borrado?",
+      headerName: "¿BANEADO?",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -96,7 +87,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "ciudad",
-      headerName: "Ciudad",
+      headerName: "CIUDAD",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -104,7 +95,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "direccion",
-      headerName: "Direccion",
+      headerName: "DIRECCION",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -112,7 +103,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "estatura",
-      headerName: "Estatura",
+      headerName: "ESTATURA",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -121,7 +112,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "talla_camiseta",
-      headerName: "Talla camiseta",
+      headerName: "TALLA CAMISETA",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -129,12 +120,13 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "grupo_sanguineo",
-      headerName: "Grupo sanguineo",
+      headerName: "GRUPO SANGUINEO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
       editable: true,
     },
+
     {
       field: "imagen_dni",
       headerName: "Imagen dni",
@@ -143,6 +135,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
       cellClassName: "super-app-theme--cell",
       editable: true,
     },
+
     {
       field: "foto",
       headerName: "Foto",
@@ -152,8 +145,17 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
       editable: true,
     },
     {
+      field: "nacimiento",
+      headerName: "Nacimiento",
+      flex: 0.2,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+      editable: true,
+      type: "date",
+    },
+    {
       field: "cv",
-      headerName: "CV",
+      headerName: "cv",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -161,7 +163,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
     },
     {
       field: "rut",
-      headerName: "RUT",
+      headerName: "rut",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -175,6 +177,7 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
       cellClassName: "super-app-theme--cell",
       editable: true,
     },
+
     {
       field: "actions",
       headerName: "Actions",
@@ -237,6 +240,17 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
       pageSizeOptions={[5, 10, 25]}
       initialState={{
         pagination: { paginationModel: { pageSize: 5 } },
+        columns: {
+          columnVisibilityModel: {
+            // Hide columns status and traderName, the other columns will remain visible
+            imagen_dni: false,
+            foto: false,
+            nacimiento: false,
+            cv: false,
+            rut: false,
+            certificado_bancario: false,
+          },
+        },
       }}
       checkboxSelection
     />

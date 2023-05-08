@@ -9,15 +9,17 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
   useEffect(() => {
     if (dataEventos) {
       dataEventos?.map((objEvento: objEvento) => {
+        objEvento.empresaNombre = objEvento.empresa?.nombre;
         setRowsEventos((prevState) => [...prevState, objEvento]);
       });
     }
   }, [dataEventos]);
 
+  //agregar EMPRESA DEL EVENTO
   const columnsEvento: GridColDef[] = [
     {
       field: "nombre",
-      headerName: "Nombre Evento",
+      headerName: "NOMBRE DEL EVENTO",
       flex: 0.2,
       editable: true,
       headerClassName: "super-app-theme--header",
@@ -33,6 +35,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       type: "singleSelect",
       valueOptions: ["true", "false"],
     },
+    /*
     {
       field: "id_empresa",
       headerName: "id empresa",
@@ -40,9 +43,17 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
+    */
+    {
+      field: "empresaNombre",
+      headerName: "EMPRESA DEL EVENTO",
+      flex: 0.2,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
     {
       field: "fecha_inicio",
-      headerName: "fecha inicio",
+      headerName: "FECHA INICIO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -50,7 +61,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "fecha_final",
-      headerName: "fecha final",
+      headerName: "FECHA FIN",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -58,7 +69,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "lugar",
-      headerName: "Lugar",
+      headerName: "LUGAR",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -66,7 +77,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "cupos",
-      headerName: "Cupos",
+      headerName: "CUPOS",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -82,7 +93,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "isDeleted",
-      headerName: "¿Borrado?",
+      headerName: "¿BANEADO?",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -92,7 +103,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "perfil",
-      headerName: "Perfil",
+      headerName: "PERFIL",
       editable: true,
       flex: 0.2,
       headerClassName: "super-app-theme--header",
@@ -100,7 +111,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "pago",
-      headerName: "Pago",
+      headerName: "PAGO",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -109,7 +120,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "numeroPostulantes",
-      headerName: "Numero de Postulantes",
+      headerName: "Nº POSTULADOS",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -118,7 +129,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
     },
     {
       field: "observaciones",
-      headerName: "Observaciones",
+      headerName: "OBSERVACIONES",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -172,6 +183,13 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       pageSizeOptions={[5, 10, 25]}
       initialState={{
         pagination: { paginationModel: { pageSize: 5 } },
+        columns: {
+          columnVisibilityModel: {
+            // Hide columns status and traderName, the other columns will remain visible
+            admitePostulaciones: false,
+            id_empresa: false,
+          },
+        },
       }}
       checkboxSelection
     />

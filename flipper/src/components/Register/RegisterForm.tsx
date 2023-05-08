@@ -48,7 +48,7 @@ const RegisterForm: React.FC = () => {
       <select
         value={currentRol}
         onChange={handleChangeState}
-        className="w-full mb-4 py-2 pl-4 rounded-lg font-bold cursor-pointer"
+        className="w-full mb-4 py-2 pl-4 rounded-lg font-bold cursor-pointer bg-indigo-600 text-white"
       >
         {RolTypes.map((rol, index) => (
           <option key={`Rol_${index}`} value={rol.value} className="font-bold">
@@ -57,7 +57,7 @@ const RegisterForm: React.FC = () => {
         ))}
       </select>
       {currentRol == "" && (
-        <span className="text-white">Debe seleccionar un rol</span>
+        <span className="text-[#95A1AC] text-3xl self-baseline text-center w-full">Debe seleccionar un rol</span>
       )}
       {currentRol == "empresa" && <CompanyRegisterForm />}
       {currentRol == "trabajador" && <WorkerRegisterForm />}

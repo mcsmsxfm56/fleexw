@@ -30,6 +30,7 @@ const ListaHistorial: React.FC<Props2> = ({ eventos }) => {
                 lugar={event.lugar}
                 isDeleted={event.isDeleted}
                 id={event.id}
+                key={`historial_evento_${event.id}`}
               />
             </div>
           );
