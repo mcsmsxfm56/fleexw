@@ -7,11 +7,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   if (req.method === "GET") {
     let allEvents = await prisma.evento.findMany();
     allEvents = allEvents.filter((objEvent) => objEvent.isDeleted === false);
     return res.status(200).send(allEvents);
   }
+
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const id: string = req.body.eventoId as string;
     const evento = await prisma.evento.findUnique({

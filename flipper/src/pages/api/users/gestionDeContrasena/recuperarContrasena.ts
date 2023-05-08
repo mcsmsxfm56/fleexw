@@ -1,6 +1,10 @@
 import prisma from "../../../../../lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { recuperarContrasenaNotification, transport } from "@/services/transportEmail";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+const secretKey = process.env.SECRET_KEY as string;
 
 export default async function handler(
     req: NextApiRequest,
@@ -23,12 +27,40 @@ export default async function handler(
             if (!usuarioEncontrado) {
                 return res.status(404).json("no se encontro el usuario");
             }
+            //creacione del token para cambiar la contraseña
+
+            const resetContrasenaCode = jwt.sign(
+                {
+                    email
+                },
+                secretKey
+            );
+
+            if (empresaEncontrada) {
+                const idEmpresa = empresaEncontrada.id
+                await prisma.empresa.update({
+                    where: { id: idEmpresa },
+                    data: {
+                        resetContrasenaCode
+                    }
+                })
+
+            } else {
+                const idTrabajador = trabajadorEncontrado.id
+                await prisma.trabajador.update({
+                    where: { id: idTrabajador },
+                    data: {
+                        resetContrasenaCode
+                    }
+                })
+            }
+
             transport.sendMail(
-                recuperarContrasenaNotification(email),
+                recuperarContrasenaNotification(email, resetContrasenaCode),
                 (err: any, info: any) =>
                     err ? console.log(err) : console.log(info.response)
             );
-            return res.status(200).send("Email de recuperacion enviado")
+            return res.status(200).send("Email de recuperación enviado")
         } catch (error: any) {
             return res.status(404).send(error.message);
         }
