@@ -8,17 +8,17 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "PUT" && req.body.realmethod === "PUT") {
-        const email: string = req.body.email;
+        const resetContrasenaCode: string = req.body.resetContrasenaCode;
         const password: string = req.body.password;
-        if (!email || !password) {
+        if (!resetContrasenaCode || !password) {
             return res.status(400).send("Datos Faltantes")
         }
         try {
             const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
-                where: { email },
+                where: { resetContrasenaCode },
             });
             const empresaEncontrada: any = await prisma.empresa.findFirst({
-                where: { email },
+                where: { resetContrasenaCode },
             });
 
             if (empresaEncontrada && trabajadorEncontrado) {
