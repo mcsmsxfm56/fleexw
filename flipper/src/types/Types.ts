@@ -159,6 +159,7 @@ export interface objTrabajador {
   isAdmin?: string | boolean;
   trabajadores?: objTrabajador;
   status?: string;
+  Edad: number;
 }
 
 export interface objtrabajadoresEnEventos {

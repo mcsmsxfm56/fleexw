@@ -35,7 +35,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       type: "singleSelect",
       valueOptions: ["true", "false"],
     },
-    /*
+
     {
       field: "id_empresa",
       headerName: "id empresa",
@@ -43,7 +43,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
-    */
+
     {
       field: "empresaNombre",
       headerName: "EMPRESA DEL EVENTO",
