@@ -26,6 +26,7 @@ model Empresa {
   direccion String @unique
   telefono String @unique
   password String
+  foto String? //adjunto
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
   //@id define una id, @default define un valor default para el campo, autoincrement hace que empieze por uno y continue 

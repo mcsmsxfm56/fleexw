@@ -30,6 +30,8 @@ export const useSesionUsuarioContext = () => {
       } else {
         isAdmin = "false";
       }
+      console.log(document.cookie);
+
       window.localStorage.setItem("rol", usuarioActual.rol);
       window.localStorage.setItem("isAdmin", isAdmin);
       window.localStorage.setItem("token", usuarioActual.token);
@@ -40,7 +42,7 @@ export const useSesionUsuarioContext = () => {
       setToken(usuarioActual.token);
       setNombre(usuarioActual.nombre);
       setId(usuarioActual.id);
-      console.log(usuarioActual.isAdmin);
+      /* console.log(usuarioActual.isAdmin); */
       setIsAdmin(usuarioActual.isAdmin);
       router.push("/home");
     } catch (error: any) {
