@@ -100,30 +100,25 @@ export const downloadExcelAdmin = (
 };
 
 export const downloadExcelEmpresa = (sheetEvents: objEvento[]) => {
-  let sheetEvents2 = sheetEvents.map((objEvento) => {
+  const sheetEvents2: any[] = [];
+  sheetEvents.forEach((objEvento) => {
     if (objEvento.trabajadores?.length !== 0) {
-      const arrayObjTrabajadorEnEvento = objEvento.trabajadores?.map(
-        (objtrabajadoresEnEventos) => {
-          const formatedObj = {
-            "NOMBRE EVENTO": objEvento.nombre,
-            "FECHA INICIO": objEvento.fecha_inicio,
-            "FECHA FIN": objEvento.fecha_final,
-            "NOMBRE DEL TRABAJADOR":
-              objtrabajadoresEnEventos.trabajadores?.name,
-            "TELEFONO DEL TRABAJADOR":
-              objtrabajadoresEnEventos.trabajadores?.phone,
-            STATUS: objtrabajadoresEnEventos.status,
-            LUGAR: objEvento.lugar,
-            PERFIL: objEvento.perfil,
-            PAGO: objEvento.pago,
-            OBSERVACIONES: objEvento.observaciones,
-          };
-          return formatedObj;
-        }
-      );
-      //const retorno = XLSX?.utils.json_to_sheet(arrayObjTrabajadorEnEvento);
-      //const sheetEvents3 = XLSX?.utils.json_to_sheet(arrayObjTrabajadorEnEvento);
-      return arrayObjTrabajadorEnEvento;
+      objEvento.trabajadores?.forEach((objtrabajadoresEnEventos) => {
+        const formatedObj = {
+          "NOMBRE EVENTO": objEvento.nombre,
+          "FECHA INICIO": objEvento.fecha_inicio,
+          "FECHA FIN": objEvento.fecha_final,
+          "NOMBRE DEL TRABAJADOR": objtrabajadoresEnEventos.trabajadores?.name,
+          "TELEFONO DEL TRABAJADOR":
+            objtrabajadoresEnEventos.trabajadores?.phone,
+          STATUS: objtrabajadoresEnEventos.status,
+          LUGAR: objEvento.lugar,
+          PERFIL: objEvento.perfil,
+          PAGO: objEvento.pago,
+          OBSERVACIONES: objEvento.observaciones,
+        };
+        sheetEvents2.push(formatedObj);
+      });
     } else {
       const formatedObj = {
         "NOMBRE EVENTO": objEvento.nombre,
@@ -137,24 +132,11 @@ export const downloadExcelEmpresa = (sheetEvents: objEvento[]) => {
         PAGO: objEvento.pago,
         OBSERVACIONES: objEvento.observaciones,
       };
-      return formatedObj;
-    }
-    //console.log(arrayObjTrabajadorEnEvento);
-  });
-
-  const sheetEvents3: any[] = [];
-  sheetEvents2.forEach((objOrArray) => {
-    if (Array.isArray(objOrArray)) {
-      objOrArray.forEach((obj) => {
-        sheetEvents3.push(obj);
-      });
-    } else {
-      sheetEvents3.push(objOrArray);
+      sheetEvents2.push(formatedObj);
     }
   });
-  console.log(sheetEvents3);
-  const sheetEvents4 = XLSX?.utils.json_to_sheet(sheetEvents3);
+  const sheetEvents3 = XLSX?.utils.json_to_sheet(sheetEvents2);
   const adminData = XLSX?.utils.book_new();
-  XLSX?.utils.book_append_sheet(adminData, sheetEvents4, "Tabla Eventos");
+  XLSX?.utils.book_append_sheet(adminData, sheetEvents3, "Tabla Eventos");
   XLSX?.writeFile(adminData, "datosEventos.xlsx");
 };
