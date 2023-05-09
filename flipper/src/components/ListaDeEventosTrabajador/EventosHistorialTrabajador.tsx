@@ -16,6 +16,8 @@ const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
     body: JSON.stringify({
       realmethod: "GET",
       trabajadorId: localStorage.getItem("id"),
+      status: 'ASISTIO',
+      ordenFecha: 'HISTORIAL'
     }),
   }).then((res) => res.json());
 };

@@ -7,9 +7,54 @@ export default async function handler(
 ) {
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const trabajadorId = req.body.trabajadorId;
+    const { status, ordenFecha } = req.body;
+
+    if (status && ordenFecha === "PROXIMOS") {
+      const trabajadorConfirmado = await prisma.trabajadoresEnEventos.findMany({
+        where: {
+          trabajadorId,
+          status: status,
+          evento: {
+            fecha_inicio: { gte: new Date() },
+          },
+        },
+        include: {
+          evento: {
+            include: {
+              empresa: true,
+            },
+          },
+        },
+      });
+      return res.status(200).send(trabajadorConfirmado);
+    }
+
+    if (status && ordenFecha === "HISTORIAL") {
+      const historialEventosTrabajador =
+        await prisma.trabajadoresEnEventos.findMany({
+          where: {
+            trabajadorId,
+            status: status,
+            evento: {
+              fecha_inicio: { lte: new Date() },
+            },
+          },
+          include: {
+            evento: {
+              include: {
+                empresa: true,
+              },
+            },
+          },
+        });
+      return res.status(200).send(historialEventosTrabajador);
+    }
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
       where: {
         trabajadorId,
+        evento: {
+          fecha_inicio: { gte: new Date() },
+        },
       },
       include: {
         evento: {
@@ -19,6 +64,7 @@ export default async function handler(
         },
       },
     });
+    // console.log("trabajadores en eventos", trabajadoresEnEventos);
     return res.status(200).send(trabajadoresEnEventos);
     /*
     

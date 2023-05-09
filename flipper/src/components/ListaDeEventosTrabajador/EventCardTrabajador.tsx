@@ -64,7 +64,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
         realmethod: "GET",
       },
     });
-    console.log(eventos.data)
+    // console.log(eventos.data)
     setTrabajadores(eventos.data);
   };
 
