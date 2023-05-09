@@ -64,6 +64,9 @@ export default async function handler(
           },
         },
       },
+      orderBy:{
+        createdAt: 'desc' 
+      }
     });
     // console.log("trabajadores en eventos", trabajadoresEnEventos);
     return res.status(200).send(trabajadoresEnEventos);
