@@ -85,7 +85,6 @@ export interface ShowElementsEmpresa {
   showEventos: boolean;
   showHistorial: boolean;
   showCrear: boolean;
-  showPostulaciones: boolean;
   showPerfil: boolean;
 }
 

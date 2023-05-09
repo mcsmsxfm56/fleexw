@@ -12,6 +12,7 @@ interface Props {
 }
 
 const ListaDePestanasDelMenu = ({ setShowElementsEmpresa, setShowElementsTrabajador, setIsExpanded }: Props) => {
+
   const { rol } = useSesionUsuarioContext()
 
   const router = useRouter();
@@ -24,7 +25,6 @@ const ListaDePestanasDelMenu = ({ setShowElementsEmpresa, setShowElementsTrabaja
       showEventos: idButton === "Mis Eventos" ? true : false,
       showHistorial: idButton === "Historial" ? true : false,
       showCrear: idButton === "Crear Evento" ? true : false,
-      showPostulaciones: idButton === "Ver Postulaciones" ? true : false,
       showPerfil: idButton === "Perfil" ? true : false,
     });
     setShowElementsTrabajador({

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NavBar from "../NavBar";
 import MenuMobile from "../Menu/MenuMobile";
-import LogIn from "../../pages/index";
 import NotificationDropdown from "../NotificationDropdown";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import MenuDesktop from "../Menu/MenuDesktop";
@@ -24,7 +23,7 @@ const AppLayout = ({ children }: propsAppLayout) => {
         {rol === "trabajador" && <NotificationDropdown />}
         <MenuMobile isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <MenuDesktop />
-        <div className="w-full h-full md:overflow-scroll">{children}</div>
+        <div className="w-full h-full md:overflow-auto">{children}</div>
       </main>
     </>
   );

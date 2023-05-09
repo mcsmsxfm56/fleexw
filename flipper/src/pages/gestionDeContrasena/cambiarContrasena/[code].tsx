@@ -10,20 +10,17 @@ import { useState } from "react";
 
 import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 import validationCambiarContrasenaSchema from "@/utils/validationCambiarContrasenaSchema";
-import { FormValues } from "@/types/Types";
 import { useRouter } from 'next/router';
 import { cambiarContrasena } from '@/services/cambiarContrasena';
-
 
 function RecuperarContrasena() {
 
     const router = useRouter()
-    const email = router.query?.email as string
+    const resetContrasenaCode = router.query?.code as string
 
     const [loading, setLoading] = useState(false);
 
-    const initialValues: FormValues = {
-        email: email || "",
+    const initialValues = {
         password: ""
     };
 
@@ -40,7 +37,7 @@ function RecuperarContrasena() {
                         console.log("values", values);
 
                         try {
-                            await cambiarContrasena(initialValues.email, values.password)
+                            await cambiarContrasena(resetContrasenaCode, values.password)
                             actions.setSubmitting(false)
                             alert("cambiaste la contraseña")
                         } catch (error: any) {
@@ -54,7 +51,6 @@ function RecuperarContrasena() {
                     validationSchema={validationCambiarContrasenaSchema}
                 >
                     <Form className="grid gap-5">
-                        <Field id="email" name="email" placeholder=" Correo" value={initialValues.email} className="h-10 pl-4 input input-bordered input-primary" />
                         <Field id="password" name="password" placeholder=" Nueva Contraseña" className="h-10 pl-4 input input-bordered input-primary" />
                         <ErrorMessage name="password" component="div" className="text-red-500" />
                         {

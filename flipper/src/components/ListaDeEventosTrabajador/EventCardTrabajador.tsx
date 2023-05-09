@@ -9,6 +9,7 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 interface EventCardProps {
   nombreEvento: string;
   fechaEvento: string;
@@ -18,67 +19,65 @@ interface EventCardProps {
   idEvento: string;
 }
 interface trabajador {
-  eventoId: string
-  notificacionVista: boolean
-  status: string
-  trabajadorId: string
-  trabajadores: []
-
+  eventoId: string;
+  notificacionVista: boolean;
+  status: string;
+  trabajadorId: string;
+  trabajadores: [];
 }
 
 interface trabajadores {
-  admitePostulaciones: boolean
-  cupos: Number
-  fecha_final: string
-  fecha_inicio: string
-  id: string
-  id_empresa: string
-  isDeleted: boolean
-  lugar: string
-  nombre: string
-  numeroPostulantes: Number
-  observaciones: string
-  pago: Number
-  perfil: string
-  trabajadores: trabajador[]
+  admitePostulaciones: boolean;
+  cupos: Number;
+  fecha_final: string;
+  fecha_inicio: string;
+  id: string;
+  id_empresa: string;
+  isDeleted: boolean;
+  lugar: string;
+  nombre: string;
+  numeroPostulantes: Number;
+  observaciones: string;
+  pago: Number;
+  perfil: string;
+  trabajadores: trabajador[];
 }
 
 export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   // console.log("card", evento);
   const { id } = useSesionUsuarioContext();
   const router = useRouter();
-  const [postulantes, setTrabajadores] = useState<trabajadores>()
+  const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
 
-  const trabajadorPostulado = postulantes?.trabajadores.find(trabajador => trabajador.trabajadorId === id)
+  const trabajadorPostulado = postulantes?.trabajadores.find(
+    (trabajador) => trabajador.trabajadorId === id
+  );
   // console.log(trabajadorPostulado)
 
   const getEventos = async () => {
-    const eventos = await axios(
-      {
-        method: 'PUT',
-        url: `/api/event`,
-        data: {
-          eventoId: evento.id,
-          realmethod: "GET"
-        }
-      })
-    setTrabajadores(eventos.data)
-  }
+    const eventos = await axios({
+      method: "PUT",
+      url: `/api/event`,
+      data: {
+        eventoId: evento.id,
+        realmethod: "GET",
+      },
+    });
+    // console.log(eventos.data)
+    setTrabajadores(eventos.data);
+  };
 
   useEffect(() => {
     if (id) {
-      getEventos()
+      getEventos();
     }
-  }, [])
-
+  }, []);
 
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
-        <Link href={`/evento/detalle/${evento.id}`}>
-          <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        </Link>
+        <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
       </div>
       <hr></hr>
       <div className="text-indigo-700 flex justify-around">
@@ -97,8 +96,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (
             <button
-              className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC]"
-
+              className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] text-white border-transparent hover:bg-[#605BDC] w-full px-0"
               onClick={async () => {
                 let response = await fetch("/api/trabajadoreseneventos", {
                   method: "POST",
@@ -112,21 +110,47 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                 })
                   .then((response) => response.text())
                   .then((msg) => {
-                    alert(msg);
                     if (msg === "postulacion realizada con exito") {
-                      router.push(`/evento/detalle/${evento.id}`);
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        background: "#B1FFBD",
+                        color: "green",
+                        iconColor: "green",
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                          toast.addEventListener("mouseenter", Swal.stopTimer);
+                          toast.addEventListener(
+                            "mouseleave",
+                            Swal.resumeTimer
+                          );
+                        },
+                      });
+
+                      Toast.fire({
+                        icon: "success",
+                        title: msg,
+                      });
                     } else if (
                       msg === "No se aceptan mas postulaciones en este evento"
                     ) {
+                      Swal.fire({
+                        icon: "error",
+                        text: msg,
+                      });
                       router.reload();
                     }
                   });
               }}
             >
-              {trabajadorPostulado ? 'Estas postulado' : 'Postularse'}
+              {trabajadorPostulado ? "Estas postulado" : "Postularse"}
             </button>
           ) : (
-            <p className="bg-red-300 text-center text-lg font-bold px-2 rounded-lg">No se admiten más postulaciones</p>
+            <p className="bg-red-300 text-center text-lg font-bold px-2 rounded-lg">
+              No se admiten más postulaciones
+            </p>
           )}
         </div>
       </div>

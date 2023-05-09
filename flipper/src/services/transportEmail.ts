@@ -35,6 +35,7 @@ export const cancelNotification = (
 
 export const recuperarContrasenaNotification = (
   email: string,
+  resetContrasenaCode: string,
 ) => {
   return {
     from: user,
@@ -43,7 +44,7 @@ export const recuperarContrasenaNotification = (
     text: `
     Estimado Usuario,
     
-    Para recuperar su contraseña haga click en el siguiente link: http://localhost:3000/gestionDeContrasena/cambiarContrasena/${email}
+    Para recuperar su contraseña haga click en el siguiente link: http://localhost:3000/gestionDeContrasena/cambiarContrasena/${resetContrasenaCode}
 
     Flipper Eventos.
     `,
