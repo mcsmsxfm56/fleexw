@@ -49,6 +49,7 @@ export default async function handler(
         });
       return res.status(200).send(historialEventosTrabajador);
     }
+
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
       where: {
         trabajadorId,
