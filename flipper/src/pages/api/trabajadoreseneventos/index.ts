@@ -18,8 +18,8 @@ export default async function handler(
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc'
+      orderBy:{
+        createdAt: 'desc' 
       }
     });
     return res.status(200).send(trabajadoresEnEventos);
