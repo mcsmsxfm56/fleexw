@@ -132,7 +132,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
 
                       Toast.fire({
                         icon: "success",
-                        title: "Te has postulado correctamente",
+                        title: msg,
                       });
                     } else if (
                       msg === "No se aceptan mas postulaciones en este evento"
