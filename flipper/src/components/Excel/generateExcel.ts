@@ -7,6 +7,12 @@ import {
 } from "@/types/Types";
 import * as XLSX from "xlsx";
 
+export const downloadExcelTrabajador = (eventosExcel: objEvento[]) => {
+  const eventosSheet = XLSX?.utils.json_to_sheet(eventosExcel);
+  const trabajadorData = XLSX?.utils.book_new();
+  XLSX?.utils.book_append_sheet(trabajadorData, eventosSheet, "Tabla Eventos");
+  XLSX?.writeFile(trabajadorData, "datosEventos.xlsx");
+};
 export const downloadExcelAdmin = (
   sheetTrabajador: objTrabajador[],
   sheetEmpresa: objEmpresa[],

@@ -2,7 +2,7 @@ import {
   objtrabajadoresEnEventosIncludeEvento,
   objEvento,
 } from "@/types/Types";
-import { downloadExcelNoAdmin } from "../Excel/generateExcel";
+import { downloadExcelTrabajador } from "../Excel/generateExcel";
 import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
 import useSWR, { Fetcher } from "swr";
 
@@ -50,7 +50,7 @@ const HistorialTrabajador = () => {
             <div>
               <button
                 onClick={() => {
-                  downloadExcelNoAdmin(eventosExcel);
+                  downloadExcelTrabajador(eventosExcel);
                 }}
               >
                 Descargar Excel
