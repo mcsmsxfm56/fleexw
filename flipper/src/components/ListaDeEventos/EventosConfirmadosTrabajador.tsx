@@ -2,7 +2,6 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ListaEventosTrabajador from "./ListaEventosTrabajador";
-import { data } from "autoprefixer";
 
 const EventosConfirmadosTrabajador = () => {
   const { id } = useSesionUsuarioContext();
