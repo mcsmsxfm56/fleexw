@@ -139,8 +139,13 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
       pageSizeOptions={[5, 10, 25]}
       initialState={{
         pagination: { paginationModel: { pageSize: 5 } },
+        columns: {
+          columnVisibilityModel: {
+            id: false,
+            //nombreceo: false
+          },
+        },
       }}
-      checkboxSelection
     />
   );
 };

@@ -161,7 +161,18 @@ export interface objTrabajador {
   status?: string;
   Edad: number;
 }
-
+export interface formatedExcelObjEmpresa {
+  "NOMBRE EVENTO": string;
+  "FECHA INICIO": string;
+  "FECHA FIN": string;
+  "NOMBRE DEL TRABAJADOR": string | undefined;
+  "TELEFONO DEL TRABAJADOR": string | undefined;
+  STATUS: string | undefined;
+  LUGAR: string;
+  PERFIL: string;
+  PAGO: number;
+  OBSERVACIONES: string;
+}
 export interface objtrabajadoresEnEventos {
   eventoId?: string;
   trabajadorId?: string;

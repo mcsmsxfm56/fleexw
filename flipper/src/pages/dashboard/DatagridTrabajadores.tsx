@@ -249,10 +249,10 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
             cv: false,
             rut: false,
             certificado_bancario: false,
+            id: false,
           },
         },
       }}
-      checkboxSelection
     />
   );
 };

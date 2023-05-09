@@ -89,7 +89,6 @@ const DatagridTrabajadoresEnEventos: React.FC<
       initialState={{
         pagination: { paginationModel: { pageSize: 5 } },
       }}
-      checkboxSelection
     />
   );
 };

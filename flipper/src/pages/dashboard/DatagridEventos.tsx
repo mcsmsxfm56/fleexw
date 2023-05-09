@@ -188,10 +188,10 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
             // Hide columns status and traderName, the other columns will remain visible
             admitePostulaciones: false,
             id_empresa: false,
+            id: false,
           },
         },
       }}
-      checkboxSelection
     />
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ListaHistorial from "./ListaHistorial";
-import { downloadExcelNoAdmin } from "../Excel/generateExcel";
+import { downloadExcelEmpresa } from "../Excel/generateExcel";
 import useSWR from "swr";
 import { Fetcher } from "swr";
 import { objEvento, objtrabajadoresEnEventos } from "@/types/Types";
@@ -45,7 +45,7 @@ const Historial: React.FC = () => {
     delete objEvento.numeroPostulantes;
     //delete objEvento.trabajadores;
   });
-  console.log(data);
+  console.log(data?.eventos);
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -56,7 +56,7 @@ const Historial: React.FC = () => {
         </h1>
         <button
           onClick={() => {
-            downloadExcelNoAdmin(data?.eventos); //espera array de objetos eventos
+            downloadExcelEmpresa(data?.eventos); //espera array de objetos eventos
           }}
           className={buttonStyle + " ml-2"}
         >
