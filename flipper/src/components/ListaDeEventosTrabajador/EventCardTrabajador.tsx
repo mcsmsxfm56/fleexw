@@ -76,9 +76,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
-        <Link href={`/evento/detalle/${evento.id}`}>
-          <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        </Link>
+      <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
       </div>
       <hr></hr>
       <div className="text-indigo-700 flex justify-around">
