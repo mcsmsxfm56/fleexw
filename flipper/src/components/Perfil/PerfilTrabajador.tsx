@@ -815,7 +815,7 @@ export const PerfilTrabajador: React.FC = () => {
                         </Validate>
                       </ValidationGroup>
                       <p className="-mb-4 mt-2 font-bold text-indigo-600">
-                        Cargar imagen frontal del dni | Formato .PDF
+                        Cargar imagen frontal del Documento de Identidad | Formato .PDF
                       </p>
                       <ValidationGroup validation="noisy">
                         <Validate
@@ -891,7 +891,7 @@ export const PerfilTrabajador: React.FC = () => {
                 </Link>
               </h5>
               <h5 className={dataStyle}>
-                Imagen DNI:{" "}
+                Imagen del Documento de Identidad:{" "}
                 <Link href={`${data?.imagen_dni?.split(" ").slice(1)}`}>
                   <span className="font-normal text-xl">
                     {data?.imagen_dni?.split(" ").slice(0, 1) ?? "-"}
