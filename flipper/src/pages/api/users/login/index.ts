@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 
 const secretKey = process.env.SECRET_KEY as string;
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
