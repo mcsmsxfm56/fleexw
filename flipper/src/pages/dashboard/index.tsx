@@ -20,15 +20,16 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 export default function Dashboard() {
-  let isAdmin: boolean;
-  const router = useRouter();
-  if (typeof window !== "undefined") {
-    if (localStorage.getItem("isAdmin") === "true") {
-      isAdmin = true;
-    } else {
-      router.push("/404");
-    }
-  }
+  const { isAdmin } = useSesionUsuarioContext()
+  /*   let isAdmin: boolean;
+    const router = useRouter();
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("isAdmin") === "true") {
+        isAdmin = true;
+      } else {
+        router.push("/404");
+      }
+    } */
 
   const { isLoading, error, data } = useSWR("/api/admin", fetcherDashboard);
   let eventosCancelados = 0;

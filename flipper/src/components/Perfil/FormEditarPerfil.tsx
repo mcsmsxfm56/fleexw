@@ -47,6 +47,8 @@ const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
   const router = useRouter();
   const [profile, setProfile] = useState<ProfileEmpresa>();
   const { id, token } = useSesionUsuarioContext();
+  console.log("token", token);
+
 
   const empresaProfile = async () => {
     await fetch("/api/empresa", {

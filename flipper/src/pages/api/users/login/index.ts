@@ -81,8 +81,8 @@ export default async function handler(
     );
 
     const serialized = serialize("myTokenName", token, {
-      //este atributo se usa para evitar que lean la cookie desde el navegador
-      httpOnly: true,
+      //este atributo se usa para evitar que lean la cookie desde el navegador en produccion
+      httpOnly: false,
       //evalua directamente true or false segun estoy en prod o en dev
       //si estoy en produccion solamente va a poder accesible mediante https. 
       secure: process.env.NODE_ENV === "production",
@@ -104,6 +104,7 @@ export default async function handler(
       rol: rol,
       isAdmin,
     });
+
   } catch (error: any) {
     res.status(400).send(error.message);
   }
