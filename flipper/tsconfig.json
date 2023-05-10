@@ -26,7 +26,8 @@
     "src/pages/api/empresa/[nombre].js",
     "src/pages/api/empresa/index.ts",
     "src/pages/api/empresa/[...id].js",
-    "src/components/Excel/excel.js"
+    "src/components/Excel/excel.js",
+    "src/pages/api/event/[id].js"
   ],
   "exclude": ["node_modules"]
 }
