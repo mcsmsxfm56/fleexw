@@ -10,7 +10,7 @@ module.exports = {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
         port: '',
-        pathname: '/**',
+        pathname: '/v0/b/flippereventos-59cd4.appspot.com/**',
       },
     ],
   },
