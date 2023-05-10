@@ -201,7 +201,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary flex flex-col justify-center text-white"
+                  className="w-full input input-bordered input-primary flex flex-col justify-center text-indigo-600"
                 />
               </label>
             </div>
