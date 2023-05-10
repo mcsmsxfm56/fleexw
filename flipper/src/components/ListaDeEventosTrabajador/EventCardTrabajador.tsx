@@ -187,7 +187,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize ml-2">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">{evento.horaInicio.slice(11, 16)}</p>
         <IoLocationSharp />
         {evento.lugar}
       </div>
