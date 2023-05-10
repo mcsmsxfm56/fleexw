@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
-import { DetalleEvento, TrabajadorStatus } from "../../../types/Types";
+//import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
+import {
+  DetalleEvento,
+  TrabajadorStatus,
+  objtrabajadoresEnEventos,
+} from "../../../types/Types";
 import AppLayout from "@/components/AppLayout/AppLayout";
 import { HiPencil } from "react-icons/hi";
 import { admitirOrestringirPostulaciones } from "@/services/admitirOrestringirPostulaciones";
-import { PostulanteCard } from "@/components/PostulanteCard";
+//import { PostulanteCard } from "@/components/PostulanteCard";
 import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
+import useSWR, { Fetcher } from "swr";
+import { traerEventoYPostulantes } from "@/services/traerEventoYPostulantes";
 
 interface postulante {
   rechazados: TrabajadorStatus[];
@@ -24,19 +30,33 @@ interface postulante {
 const EventDatail = () => {
   const { rol } = useSesionUsuarioContext();
   const router = useRouter();
-  const [rows, setRows] = useState<{}[]>([]);
-  const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
-  // const [postulantes, setPostulantes] = useState<postulante>({
-  //   rechazados: [],
-  //   aprobados: [],
-  //   pendientes: [],
-  //   asistieron: [],
-  //   faltaron: [],
-  // });
-  const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
-  /* console.log(postulantes); */
-  let id = 0;
+  const [rows, setRows] = useState<{}[]>([]);
+
+  const { data, isLoading, error } = traerEventoYPostulantes(idEvent);
+  //const rows: any[] = []
+  data?.trabajadores.map((objIntermedio: objtrabajadoresEnEventos) => {
+    const formatedObj = {
+      Nombre: objIntermedio.trabajadores?.name,
+      Perfil: data?.perfil,
+      trabajadorId: objIntermedio.trabajadorId,
+      status: objIntermedio.status,
+    };
+    setRows((prev) => [...prev, formatedObj]);
+  });
+  console.log(data);
+  const handleadmitirOrestringirPostulaciones = async () => {
+    const admitePostulaciones = !data?.admitePostulaciones;
+    try {
+      await admitirOrestringirPostulaciones(
+        idEvent as string,
+        admitePostulaciones
+      );
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   const columns: GridColDef[] = [
     {
       field: "Nombre",
@@ -52,15 +72,16 @@ const EventDatail = () => {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
+
     {
-      field: "UUID",
+      field: "trabajadorId",
       headerName: "UUID",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "Status",
+      field: "status",
       headerName: "Status",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
@@ -88,62 +109,15 @@ const EventDatail = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    if (idEvent) {
-      traerEventoYPostulantes(idEvent as string)
-        .then((data) => {
-          setEventDetail(data);
-        })
-        .catch((error) => console.log(error.message));
-    }
-  }, [idEvent, loading]);
-
-  useEffect(() => {
-    if (eventDetail) {
-      eventDetail?.trabajadores.map((trabajadorPorEvento) => {
-        let objPush = {
-          id: id++,
-          UUID: trabajadorPorEvento.trabajadorId,
-          Nombre: trabajadorPorEvento.trabajadores.name,
-          Perfil: eventDetail?.perfil,
-          Status: trabajadorPorEvento.status,
-        };
-        if (rows.length < eventDetail.trabajadores.length) {
-          setRows((prev) => [...prev, objPush]);
-        }
-      });
-    }
-  }, [eventDetail]);
-
-  const handleadmitirOrestringirPostulaciones = async () => {
-    console.log("Rows en el boton postulaciones", rows);
-    /* console.log(eventDetail?.admitePostulaciones); */
-    const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
-    /* console.log(admitePostulaciones); */
-    try {
-      setLoading(true);
-      await admitirOrestringirPostulaciones(
-        idEvent as string,
-        admitePostulaciones
-      );
-    } catch (error: any) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  if (isLoading) return <div>Cargando...</div>;
   return (
     <AppLayout>
       <div className="h-full">
-        <div
-          className="bg-gray-200"
-        >
+        <div className="bg-gray-200">
           <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center mt-16 md:mt-0">
               <p className="w-full bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
-                Evento: {eventDetail?.nombre}
+                Evento: {data?.nombre}
                 {rol === "empresa" && (
                   <HiPencil
                     className="text-[#f6ea06] absolute top-3 right-3 rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC] cursor-pointer"
@@ -158,7 +132,7 @@ const EventDatail = () => {
                   Fecha de Inicio:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.fecha_inicio}
+                  {data?.fecha_inicio}
                 </p>
               </div>
               <div className="flex flex-col">
@@ -166,7 +140,7 @@ const EventDatail = () => {
                   Fecha de Finalizacion:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.fecha_final}
+                  {data?.fecha_final}
                 </p>
               </div>
             </div>
@@ -175,38 +149,35 @@ const EventDatail = () => {
                 <p className="text-center font-bold text-xl text-black">
                   Perfiles Solicitados:
                 </p>
-                <p className="text-center font-bold text-lg">
-                  {" "}
-                  {eventDetail?.perfil}
-                </p>
+                <p className="text-center font-bold text-lg"> {data?.perfil}</p>
               </div>
               <div className="flex flex-col">
                 <p className="text-center font-bold text-xl text-black">
                   Ciudad Y Dirección:
                 </p>
-                <p className="text-center font-bold text-lg">
-                  {eventDetail?.lugar}
-                </p>
+                <p className="text-center font-bold text-lg">{data?.lugar}</p>
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl text-black">Observaciones:</p>
+              <p className="text-center font-bold text-xl text-black">
+                Observaciones:
+              </p>
               <p className="text-center font-bold text-lg">
-                {eventDetail?.observaciones}
+                {data?.observaciones}
               </p>
             </div>
           </div>
           <div className="flex justify-center">
             {rol === "empresa" ? (
               <div className="flex flex-col items-center my-8 w-11/12 lg:w-9/12">
-                {loading ? (
+                {isLoading ? (
                   <LoadingSubmitForm />
                 ) : (
                   <button
                     className="btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC] mb-4"
                     onClick={handleadmitirOrestringirPostulaciones}
                   >
-                    {eventDetail?.admitePostulaciones
+                    {data?.admitePostulaciones
                       ? "Cerrar Postulaciones"
                       : "Abrir Postulaciones"}
                   </button>
@@ -231,11 +202,11 @@ const EventDatail = () => {
                   <DataGrid
                     rows={rows}
                     columns={columns}
+                    getRowId={(row) => row.trabajadorId}
                     pageSizeOptions={[5, 10, 25]}
                     initialState={{
                       pagination: { paginationModel: { pageSize: 5 } },
                     }}
-                    checkboxSelection
                   />
                 </Box>
               </div>
@@ -361,4 +332,29 @@ export default EventDatail;
             </div>
           </div>
           */
+  //useEffect(() => {
+  //if (idEvent) {
+  //traerEventoYPostulantes(idEvent as string)
+  //.then((data) => {
+  //setEventDetail(data);
+  //})
+  //.catch((error) => console.log(error.message));
+  // }
+  //}, [idEvent, loading]);
+  //useEffect(() => {
+  //if (eventDetail) {
+  // eventDetail?.trabajadores.map((trabajadorPorEvento) => {
+  // let objPush = {
+  // id: id++,
+  // UUID: trabajadorPorEvento.trabajadorId,
+  //Nombre: trabajadorPorEvento.trabajadores.name,
+  //Perfil: eventDetail?.perfil,
+  //Status: trabajadorPorEvento.status,
+  //};
+  //if (rows.length < eventDetail.trabajadores.length) {
+  //setRows((prev) => [...prev, objPush]);
+  //}
+  //});
+  // }
+  //}, [eventDetail]);
 }
