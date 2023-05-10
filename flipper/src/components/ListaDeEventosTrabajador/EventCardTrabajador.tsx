@@ -46,7 +46,7 @@ interface trabajadores {
 }
 
 export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
-  // console.log("card", evento);
+  console.log("card", evento);
   const { id } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
@@ -95,6 +95,10 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}
             {evento.observaciones}
+          </p>
+          <p className="mb-1">
+            <span className="font-bold mt-2 mb-2">Establecimiento:</span>{" "}
+            {evento.establecimiento}
           </p>
         </div>
         <div className="w-[30%] flex justify-center items-center">
