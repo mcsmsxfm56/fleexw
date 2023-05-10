@@ -113,10 +113,10 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                   },
                 })
                   .then(async (response) => {
-                    console.log(response);
-                    const j = await response.text();
-                    if (!response.ok) throw new Error(j);
-                    return response.text();
+                    // console.log(response);
+                    const mensaje = await response.text();
+                    if (!response.ok) throw new Error(mensaje);
+                    return mensaje;
                   })
                   .then((msg) => {
                     if (msg === "postulacion realizada con exito") {
@@ -187,7 +187,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize ml-2">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">{evento.horaInicio.slice(11, 16)}</p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

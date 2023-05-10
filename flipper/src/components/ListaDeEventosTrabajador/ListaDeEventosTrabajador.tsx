@@ -6,21 +6,25 @@ export interface EventoTrabajador {
   perfil: string;
   nombre: string;
   fecha_inicio: string;
+  fecha_final: string
   observaciones: string;
-  hora: string;
+  horaInicio: string;
+  horaFinal: string;
   lugar: string;
   isDeleted: boolean;
   id: string;
   cupos: number;
   pago: number;
   admitePostulaciones: boolean;
+  establecimiento: String
+  numeroPostulantes: Number
 }
 interface Props2 {
   eventos: EventoTrabajador[];
 }
 const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
   //console.log("ListaDeEventos.tsx");
-  //console.log(eventos);
+  //console.log('eventos', eventos);
 
   if (eventos?.filter((evento) => evento.isDeleted === false).length === 0) {
     return (
@@ -42,14 +46,18 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
                   perfil={event.perfil}
                   nombre={event.nombre}
                   fecha_inicio={event.fecha_inicio}
+                  fecha_final={event.fecha_final}
                   observaciones={event.observaciones}
-                  hora={event.fecha_inicio}
+                  horaInicio={event.fecha_inicio}
+                  horaFinal={event.fecha_final}
                   lugar={event.lugar}
                   isDeleted={event.isDeleted}
                   id={event.id}
                   pago={event.cupos}
                   cupos={event.pago}
                   admitePostulaciones={event.admitePostulaciones}
+                  establecimiento={event.establecimiento}
+                  numeroPostulantes={event.numeroPostulantes}
                 />
               </div>
             );
