@@ -35,7 +35,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       type: "singleSelect",
       valueOptions: ["true", "false"],
     },
-    /*
+
     {
       field: "id_empresa",
       headerName: "id empresa",
@@ -43,7 +43,7 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
-    */
+
     {
       field: "empresaNombre",
       headerName: "EMPRESA DEL EVENTO",
@@ -188,10 +188,10 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
             // Hide columns status and traderName, the other columns will remain visible
             admitePostulaciones: false,
             id_empresa: false,
+            id: false,
           },
         },
       }}
-      checkboxSelection
     />
   );
 };

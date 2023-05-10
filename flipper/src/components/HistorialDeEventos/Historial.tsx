@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ListaHistorial from "./ListaHistorial";
-import { downloadExcelNoAdmin } from "../Excel/generateExcel";
+import { downloadExcelEmpresa } from "../Excel/generateExcel";
 import useSWR from "swr";
 import { Fetcher } from "swr";
 import { objEvento, objtrabajadoresEnEventos } from "@/types/Types";
@@ -15,7 +15,7 @@ const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
       realmethod: "GET",
       idEmpresa: localStorage.getItem("id"),
       //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
-      function: 'historial'
+      function: "historial",
     }),
   }).then((res) => res.json());
 };
@@ -58,7 +58,7 @@ const Historial: React.FC = () => {
         </h1>
         <button
           onClick={() => {
-            downloadExcelNoAdmin(data?.eventos); //espera array de objetos eventos
+            downloadExcelEmpresa(data?.eventos); //espera array de objetos eventos
           }}
           className={buttonStyle + " ml-2 bg-green-700"}
         >
