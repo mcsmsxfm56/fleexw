@@ -22,6 +22,8 @@ const HistorialTrabajador = () => {
       body: JSON.stringify({
         realmethod: "GET",
         trabajadorId: id,
+        status: "ASISTIO",
+        ordenFecha: "HISTORIAL"
       }),
     }).then((res) => res.json());
   };
