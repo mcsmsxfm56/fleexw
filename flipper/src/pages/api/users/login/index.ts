@@ -65,7 +65,6 @@ export default async function handler(
     const isAdmin = user.isAdmin;
     if ("idType" in user) {
       rol = "trabajador";
-
     }
 
     const token = jwt.sign(
@@ -75,7 +74,7 @@ export default async function handler(
         nombre: user.name || user.nombre,
         rol: rol,
         isAdmin,
-        foto: user.foto  //ya deberia traer por defecto la foto de assets al registrarse
+        foto: user.foto, //ya deberia traer por defecto la foto de assets al registrarse
       },
       secretKey
     );
@@ -84,7 +83,7 @@ export default async function handler(
       //este atributo se usa para evitar que lean la cookie desde el navegador en produccion
       httpOnly: false,
       //evalua directamente true or false segun estoy en prod o en dev
-      //si estoy en produccion solamente va a poder accesible mediante https. 
+      //si estoy en produccion solamente va a poder accesible mediante https.
       secure: process.env.NODE_ENV === "production",
       //como el front y el back tienen mismo dominio,
       //puedo pedirle estrictamente que reciba del mismo
@@ -92,10 +91,10 @@ export default async function handler(
       //expiracion 30 dias
       maxAge: 1000 * 60 * 60 * 24 * 30,
       //path es a donde va a ser entregado
-      path: "/"
-    })
+      path: "/",
+    });
 
-    res.setHeader("Set-Cookie", serialized)
+    res.setHeader("Set-Cookie", serialized);
 
     return res.status(200).json({
       token: token,
@@ -104,7 +103,6 @@ export default async function handler(
       rol: rol,
       isAdmin,
     });
-
   } catch (error: any) {
     res.status(400).send(error.message);
   }
