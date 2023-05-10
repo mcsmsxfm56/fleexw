@@ -18,6 +18,8 @@ interface Props {
   eventos: [] | undefined;
 }
 const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
+
+  console.log('Eventos card confirmados', eventos)
   return (
     <div className="w-full h-full md:w-9/12">
       {eventos ? (
@@ -38,14 +40,22 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
                 </h2>
                 <h2 className="flex justify-start font-bold">
                   Lugar:{" "}
-                  <p className="font-normal ml-2">{event.evento.lugar}</p>
+                  <p className="font-normal ml-2">{event.evento.establecimiento}</p>
                 </h2>
                 <h2 className="flex justify-start font-bold">
                   Fecha:{" "}
                   <p className="font-normal ml-2">
-                    {event.evento.fecha_final.slice(0, 10)}
+                    {event.evento.fecha_inicio.slice(0, 10)}
                   </p>
                 </h2>
+
+                <h2 className="flex justify-start font-bold">
+                  Hora Inicio:{" "}
+                  <p className="font-normal ml-2">
+                    {event.evento.fecha_inicio.slice(11, 16)}
+                  </p>
+                </h2>
+
                 <h2 className="flex justify-start font-bold">
                   Pago: <p className="font-normal ml-2">${event.evento.pago}</p>
                 </h2>
