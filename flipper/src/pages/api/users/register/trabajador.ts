@@ -10,7 +10,7 @@ export interface DataTRegister {
   password: string;
   nacimiento?: string | Date | null;
   genero?: string | null;
-  ciudad?: string | null;
+  ciudad: string;
   direccion?: string | null;
   estatura?: number | null;
   talla_camiseta?: string | null;
