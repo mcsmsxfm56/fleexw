@@ -92,7 +92,6 @@ model TrabajadoresEnEventos {
   status String
   createdAt DateTime @default(now())
   notificacionVista Boolean @default(true)
-  createdAt DateTime @default(now())
   @@id([eventoId, trabajadorId])
 }
 
