@@ -5,6 +5,8 @@ import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
+import { useContext } from "react";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 interface EventCardProps {
   nombreEvento: string;
   fechaEvento: string;
@@ -30,13 +32,14 @@ const borradoLogico = async (eventoId: string) => {
 };
 export const EventCard: React.FC<evento> = (evento) => {
   /* console.log("card", evento); */
+  const { rol } = useSesionUsuarioContext()
 
   const router = useRouter();
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        {localStorage.getItem("rol") === "empresa" ? (
+        {rol === "empresa" ? (
           <div className="flex gap-8">
             <Link href={`/evento/editar/${evento.id}`}>
               <HiPencil

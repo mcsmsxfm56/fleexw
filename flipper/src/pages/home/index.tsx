@@ -13,8 +13,7 @@ import { PerfilTrabajador } from "@/components/Perfil/PerfilTrabajador";
 import EventosHistorialTrabajador from "@/components/ListaDeEventosTrabajador/EventosHistorialTrabajador";
 
 export default function Home() {
-  const { showElementsEmpresa, showElementsTrabajador } =
-    useContext(MenuContext);
+  const { showElementsEmpresa, showElementsTrabajador } = useContext(MenuContext);
 
   const { rol } = useSesionUsuarioContext();
 

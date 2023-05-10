@@ -7,7 +7,9 @@ import {
   useState,
   useEffect,
 } from "react";
-
+import jwt_decode from "jwt-decode";
+import { Usuario } from '../types/Types';
+import { fotoProvisoria } from "@/utils/fotoProvisoria";
 ///////////////////////// context ////////////////////
 interface ContextProps {
   id: string;
@@ -15,11 +17,13 @@ interface ContextProps {
   token: string;
   nombre: string;
   isAdmin: boolean;
+  foto: string;
   setRol: Dispatch<SetStateAction<string>>;
   setToken: Dispatch<SetStateAction<string>>;
   setNombre: Dispatch<SetStateAction<string>>;
   setId: Dispatch<SetStateAction<string>>;
   setIsAdmin: Dispatch<SetStateAction<boolean>>;
+  setFoto: Dispatch<SetStateAction<string>>;
 }
 
 export const SesionUsuarioContext = createContext<ContextProps>(
@@ -36,17 +40,31 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
   const [nombre, setNombre] = useState("");
   const [id, setId] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [foto, setFoto] = useState("");
 
   //aca tengo que usar un useEffect para que reconozca que estoy del lado del cliente y asi poder acceder al objeto window
   useEffect(() => {
-    //console.log(window.localStorage.getItem('rol'));
-    //console.log(window.localStorage.getItem('token'));
-    //console.log(window.localStorage.getItem('nombre'));
 
-    setRol(() => window.localStorage.getItem("rol") || "");
-    setToken(() => window.localStorage.getItem("token") || "");
-    setNombre(() => window.localStorage.getItem("nombre") || "");
-    setId(() => window.localStorage.getItem("id") || "");
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("myTokenName="))
+      ?.split("=")[1];
+
+    const usuario = cookieValue ? jwt_decode(cookieValue) as Usuario : undefined;
+    const foto = usuario?.foto?.split(" ")[1]
+
+    /*  setRol(() => window.localStorage.getItem("rol") || "");
+     setToken(() => window.localStorage.getItem("token") || "");
+     setNombre(() => window.localStorage.getItem("nombre") || "");
+     setId(() => window.localStorage.getItem("id") || ""); */
+
+    setRol(() => usuario?.rol || "")
+    setNombre(() => usuario?.nombre || "")
+    setId(() => usuario?.id || "")
+    setIsAdmin(() => usuario?.isAdmin || false)
+    setToken(() => cookieValue || "")
+    setFoto(foto || fotoProvisoria)
+
   }, []);
 
   return (
@@ -57,11 +75,13 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
         nombre,
         id,
         isAdmin,
+        foto,
         setRol,
         setToken,
         setNombre,
         setId,
         setIsAdmin,
+        setFoto
       }}
     >
       {children}

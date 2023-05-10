@@ -1,8 +1,9 @@
 import useSWR, { Fetcher } from "swr";
 import React, { useState, useEffect } from "react";
 import ListaEventosTrabajador from "./ListaDeEventosTrabajador";
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+
 import Link from "next/link";
+import { useSesionUsuarioContext } from '../../hooks/useSesionUsuarioContext';
 
 export interface evento {
   perfil: string;
@@ -39,7 +40,7 @@ const EventosTrabajador: React.FC = () => {
       }),
     }).then((res) => res.json());
   };
-  // Perform localStorage action
+
   var { isLoading, error, data } = useSWR(
     "/api/trabajador/eventos",
     fetcherCiudadEventos

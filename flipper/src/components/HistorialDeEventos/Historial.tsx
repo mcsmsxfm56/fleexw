@@ -4,27 +4,34 @@ import { downloadExcelEmpresa } from "../Excel/generateExcel";
 import useSWR from "swr";
 import { Fetcher } from "swr";
 import { objEvento, objtrabajadoresEnEventos } from "@/types/Types";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      realmethod: "GET",
-      idEmpresa: localStorage.getItem("id"),
-      //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
-      function: "historial",
-    }),
-  }).then((res) => res.json());
-};
 const Historial: React.FC = () => {
+
+  const { id } = useSesionUsuarioContext()
+
+  const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
+    return fetch(apiRoute, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        idEmpresa: id,
+        //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
+        function: 'historial'
+      }),
+    }).then((res) => res.json());
+  };
+
   const { error, data, isLoading } = useSWR(
     "/api/empresa",
     fetcherGET_api_empresa_id
   );
-  data?.eventos.map((objEvento: objEvento) => {
+
+
+  data?.eventos?.map((objEvento: objEvento) => {
     //nombreTrabajador;
     objEvento.trabajadores?.map((objtrabajadoresEnEventos) => {
       objEvento.nombreTrabajador = objtrabajadoresEnEventos.trabajadores?.name;

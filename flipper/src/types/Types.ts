@@ -45,7 +45,14 @@ export interface WorkerData {
 export interface Trabajadores extends WorkerData {
   id: string;
 }
-
+export interface Usuario {
+  email: string,
+  id: string,
+  nombre: string,
+  rol: string,
+  isAdmin: boolean,
+  foto: string | null
+}
 export interface TrabajadorStatus {
   eventoId: string;
   trabajadorId: string;
