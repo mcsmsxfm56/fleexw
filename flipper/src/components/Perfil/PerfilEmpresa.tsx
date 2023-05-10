@@ -30,6 +30,7 @@ const PerfilEmpresa: React.FC = () => {
         realmethod: "GET",
         // nombreEmpresa: nombre,
         idEmpresa: id,
+        function: 'misEventos'
       }),
     })
       .then((response) => response.json())
@@ -41,7 +42,7 @@ const PerfilEmpresa: React.FC = () => {
 
   React.useEffect(() => {
     userEvent();
-  }, []);
+  }, [profile]);
 
   const stylesProfile = {
     datos: "text-lg md:text-3xl md:text-left p-2 font-bold text-black",

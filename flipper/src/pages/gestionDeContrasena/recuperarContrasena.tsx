@@ -51,19 +51,30 @@ function RecuperarContrasena() {
                     validationSchema={validationRecupContrasenaSchema}
                 >
                     <Form className="grid gap-5">
-                        <Field id="email" name="email" placeholder=" Dirección de correo electrónico" className="h-10 pl-4 input input-bordered input-primary" />
-                        <ErrorMessage name="email" component="div" className="text-red-500" />
+                        <Field
+                            id="email"
+                            name="email"
+                            placeholder=" Dirección de correo electrónico"
+                            className="h-10 pl-4 input input-bordered input-primary" />
+                        <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="text-red-500" />
                         {
                             loading ?
                                 <LoadingSubmitForm /> :
-                                <button type="submit" className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2 hover:bg-indigo-500 transition duration-100">
+                                <button
+                                    type="submit"
+                                    className="justify-self-end bg-indigo-600 text-slate-200 text-2xl font-semibold rounded-md px-6 py-2 hover:bg-indigo-500 transition duration-100">
                                     Recuperar
                                 </button>
                         }
                     </Form>
                 </Formik>
                 {hasEmailError && (
-                    <span className="text-red-500">Correo Inexistente</span>
+                    <span className="text-red-500">
+                        Correo Inexistente
+                    </span>
                 )}
                 <div className="flex flex-col">
                     <span className="font-semibold flex flex-wrap justify-center">

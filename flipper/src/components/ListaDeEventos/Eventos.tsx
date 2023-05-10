@@ -29,6 +29,7 @@ const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
     body: JSON.stringify({
       realmethod: "GET",
       idEmpresa: localStorage.getItem("id"),
+      function: 'misEventos'
     }),
   }).then((res) => res.json());
 };

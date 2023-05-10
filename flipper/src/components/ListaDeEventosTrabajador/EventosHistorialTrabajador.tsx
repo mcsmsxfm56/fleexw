@@ -6,6 +6,9 @@ import { downloadExcelNoAdmin } from "../Excel/generateExcel";
 import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
 import useSWR, { Fetcher } from "swr";
 
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
+
 const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute, {
     method: "PUT",
@@ -13,6 +16,8 @@ const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
     body: JSON.stringify({
       realmethod: "GET",
       trabajadorId: localStorage.getItem("id"),
+      status: 'ASISTIO',
+      ordenFecha: 'HISTORIAL'
     }),
   }).then((res) => res.json());
 };
@@ -35,23 +40,23 @@ const HistorialTrabajador = () => {
 
   return (
     <div
-      className="h-screen w-screen bg-gray-200 md:ml-[10%] lg:ml-[250px]
-        lg:w-[calc(100vw-268px)]"
+      className="h-full w-full bg-gray-200"
     >
       <div className="p-2">
-        <h1 className="text-5xl mt-4 pt-14 text-indigo-700 lg:text-center 2xl:text-center">
+        <h1 className="text-5xl mt-20 md:mt-10 text-indigo-700 text-center">
           Historial de eventos
         </h1>
 
-        <div className="p-2 lg:flex lg:justify-center">
+        <div className="flex flex-col items-center m-auto w-11/12">
           {!data ? (
             <h2>Todavia no posee eventos confirmados</h2>
           ) : (
-            <div>
+            <div className="flex flex-col items-center">
               <button
                 onClick={() => {
                   downloadExcelNoAdmin(eventosExcel);
                 }}
+                className={buttonStyle + " my-4 bg-green-700"}
               >
                 Descargar Excel
               </button>

@@ -31,12 +31,12 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
   }
 
   return (
-    <div className="w-full md:w-10/12 lg:w-3/5">
+    <div className="w-full md:w-10/12 lg:w-11/12">
       {eventos ? (
         eventos.map((event: EventoTrabajador) => {
           if (event.isDeleted === false) {
             return (
-              <div key={`${event.nombre}_key`}>
+              <div key={`${event.id}_key`}>
                 <EventCardTrabajador
                   key={event.id}
                   perfil={event.perfil}

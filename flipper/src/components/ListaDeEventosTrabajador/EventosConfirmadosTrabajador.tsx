@@ -1,7 +1,8 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ListaEventosTrabajador from "./ListaEventosTrabajador";
+import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
+import { data } from "autoprefixer";
 
 const EventosConfirmadosTrabajador = () => {
   const { id } = useSesionUsuarioContext();
@@ -9,11 +10,13 @@ const EventosConfirmadosTrabajador = () => {
 
   const getEventos = async () => {
     const eventos = await axios({
-      method: "put",
+      method: "PUT",
       url: `/api/trabajadoreseneventos`,
       data: {
         trabajadorId: id,
         realmethod: "GET",
+        status: 'APROBADO',
+        ordenFecha: 'PROXIMOS'
       },
     });
     setDataEvento(eventos.data);
