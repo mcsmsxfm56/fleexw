@@ -4,7 +4,6 @@ import { iniciarSesion } from "@/services/iniciarSesion";
 import { useRouter } from "next/router";
 import jwt_decode from "jwt-decode";
 import { Usuario } from '../types/Types';
-import { fotoProvisoria } from "@/utils/fotoProvisoria";
 
 
 export const useSesionUsuarioContext = () => {
@@ -55,7 +54,8 @@ export const useSesionUsuarioContext = () => {
       const usuario = cookieValue ? jwt_decode(cookieValue) as Usuario : undefined;
 
       const foto = usuario?.foto?.split(" ")[1]
-      /* console.log("foto", foto); */
+      /*  console.log(typeof foto);
+       console.log("foto", foto); */
 
       setError(false);
       setRol(() => usuario?.rol || "")
@@ -63,7 +63,7 @@ export const useSesionUsuarioContext = () => {
       setId(() => usuario?.id || "")
       setIsAdmin(() => usuario?.isAdmin || false)
       setToken(() => cookieValue || "")
-      setFoto(foto || fotoProvisoria)
+      foto && setFoto(foto)
       router.push("/home");
     } catch (error: any) {
       console.log(error);

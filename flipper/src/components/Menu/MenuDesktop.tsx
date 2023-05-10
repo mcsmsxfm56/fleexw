@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
-import { fotoProvisoria } from "@/utils/fotoProvisoria";
+import fotoProvisoria from "@/utils/fotoProvisoria";
 import ReactWhatsapp from "react-whatsapp";
 
 const MenuDesktop = () => {
@@ -19,10 +19,12 @@ const MenuDesktop = () => {
     >
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
-          <Image src={foto || fotoProvisoria}
+          <Image
+            src={foto}
             width={80}
             height={80}
-            alt="Picture of the author"
+            alt="Picture of the user"
+            priority
           />
         </div>
         <p
