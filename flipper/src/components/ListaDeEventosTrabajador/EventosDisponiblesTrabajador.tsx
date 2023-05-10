@@ -20,8 +20,7 @@ export interface Props {
 
 type Ordering = "asc" | "desc";
 
-const buttonStyle =
-  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
+const buttonStyle = "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 
 

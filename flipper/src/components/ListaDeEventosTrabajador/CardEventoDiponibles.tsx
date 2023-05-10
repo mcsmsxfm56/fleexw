@@ -45,8 +45,8 @@ interface trabajadores {
   trabajadores: trabajador[];
 }
 
-export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
-  console.log("card", evento);
+
+export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
@@ -57,7 +57,6 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const trabajadorPostulado = postulantes?.trabajadores.find(
     (trabajador) => trabajador.trabajadorId === id
   );
-  // console.log(trabajadorPostulado)
 
   const getEventos = async () => {
     const eventos = await axios({
@@ -100,6 +99,11 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
             <span className="font-bold mt-2 mb-2">Establecimiento:</span>{" "}
             {evento.establecimiento}
           </p>
+          <p className="mb-1">
+            <span className="font-bold mt-2 mb-2">postulantes:</span>{" "}
+            {` ${postulantes?.numeroPostulantes} / ${evento.cupos}   `}
+          </p>
+
         </div>
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (

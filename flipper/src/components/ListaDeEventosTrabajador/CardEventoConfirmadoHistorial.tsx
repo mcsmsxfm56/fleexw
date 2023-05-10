@@ -1,6 +1,6 @@
 import React from "react";
 // import { evento } from "@/components/ListaDeEventos/Eventos";
-import { EventCard } from "./EventCard";
+import { EventCard } from "../ListaDeEventos/EventCard";
 import { DetalleEvento } from "@/types/Types";
 
 interface eventoTrabajador {

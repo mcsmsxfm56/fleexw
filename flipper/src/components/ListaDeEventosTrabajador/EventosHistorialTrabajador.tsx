@@ -3,7 +3,7 @@ import {
   objEvento,
 } from "@/types/Types";
 import { downloadExcelTrabajador } from "../Excel/generateExcel";
-import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
+import CardEventoConfirmadoHistorial from "./CardEventoConfirmadoHistorial";
 import useSWR, { Fetcher } from "swr";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
@@ -64,7 +64,7 @@ const HistorialTrabajador = () => {
               >
                 Descargar Excel
               </button>
-              <ListaEventosTrabajador eventos={data} />
+              <CardEventoConfirmadoHistorial eventos={data} />
             </div>
           )}
         </div>
