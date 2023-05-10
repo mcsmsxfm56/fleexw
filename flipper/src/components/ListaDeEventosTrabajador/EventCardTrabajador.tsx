@@ -7,9 +7,11 @@ import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { MenuContext } from "@/context/MenuContext";
+
 interface EventCardProps {
   nombreEvento: string;
   fechaEvento: string;
@@ -49,6 +51,8 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
+
+  const { setShowElementsTrabajador } = useContext(MenuContext);
 
   const trabajadorPostulado = postulantes?.trabajadores.find(
     (trabajador) => trabajador.trabajadorId === id
@@ -108,7 +112,12 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                     "Content-type": "application/json; charset=UTF-8",
                   },
                 })
-                  .then((response) => response.text())
+                  .then(async (response) => {
+                    console.log(response);
+                    const j = await response.text();
+                    if (!response.ok) throw new Error(j);
+                    return response.text();
+                  })
                   .then((msg) => {
                     if (msg === "postulacion realizada con exito") {
                       const Toast = Swal.mixin({
@@ -142,6 +151,28 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                       });
                       router.reload();
                     }
+                  })
+                  .catch((error: any) => {
+                    console.log(error.message);
+                    Swal.fire({
+                      title: "Algo salió mal",
+                      text: error.message,
+                      icon: "warning",
+                      showCancelButton: true,
+                      cancelButtonText: "Volver",
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Ir a tu perfíl",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        setShowElementsTrabajador({
+                          showEventosTrabajador: false,
+                          showHistorialTrabajador: false,
+                          showEventosConfirmadosTrabajador: false,
+                          showPerfilTrabajador: true,
+                        });
+                      }
+                    });
                   });
               }}
             >
