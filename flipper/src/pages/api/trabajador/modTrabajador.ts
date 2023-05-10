@@ -7,7 +7,7 @@ import {
   eliminarTrabajador,
 } from "@/services/trabajadorController";
 
-interface token {
+export interface token {
   id: string;
   email: string;
   iat: number;
