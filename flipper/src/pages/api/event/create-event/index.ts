@@ -73,6 +73,7 @@ export default async function handler(
       cupos: number;
       perfil: string;
       pago: number;
+      establecimiento: string;
       observaciones: string;
     }
     try {
@@ -85,6 +86,7 @@ export default async function handler(
         cupos,
         perfil,
         pago,
+        establecimiento,
         observaciones,
       }: inputPostApiHomeCreateEventId = req.body;
       //console.log("req.body funciona");
@@ -112,6 +114,7 @@ export default async function handler(
           cupos,
           perfil,
           pago,
+          establecimiento,
           observaciones,
         },
       });
@@ -144,6 +147,7 @@ export default async function handler(
       cupos?: number;
       perfil?: string;
       pago?: number;
+      establecimiento?: string;
       observaciones?: string;
       trabajadores?: string;
     }
@@ -164,6 +168,7 @@ export default async function handler(
         cupos,
         perfil,
         pago,
+        establecimiento,
         observaciones,
       }: putEvento = req.body.values;
 
@@ -179,6 +184,7 @@ export default async function handler(
           cupos: cupos,
           perfil: perfil,
           pago: pago,
+          establecimiento: establecimiento,
           observaciones: observaciones,
         },
       });

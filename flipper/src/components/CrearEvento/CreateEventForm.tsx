@@ -287,8 +287,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
               <label className="relative text-indigo-600 text-lg">
                 Establecimiento
                 <input
-                  name="fecha_final"
-                  placeholder="Fecha final"
+                  name="establecimiento"
+                  placeholder="Defina el Establecimiento"
                   type="text"
                   value={formik.values.establecimiento}
                   onChange={formik.handleChange}
