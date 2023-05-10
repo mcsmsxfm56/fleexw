@@ -1,6 +1,7 @@
 import {
   objtrabajadoresEnEventosIncludeEvento,
   objEvento,
+  objtrabajadoresEnEventos,
 } from "@/types/Types";
 import { downloadExcelTrabajador } from "../Excel/generateExcel";
 import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
@@ -16,8 +17,7 @@ const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
     body: JSON.stringify({
       realmethod: "GET",
       trabajadorId: localStorage.getItem("id"),
-      status: 'ASISTIO',
-      ordenFecha: 'HISTORIAL'
+      ordenFecha: "HISTORIAL",
     }),
   }).then((res) => res.json());
 };
@@ -27,21 +27,19 @@ const HistorialTrabajador = () => {
     "/api/trabajadoreseneventos",
     fetcherTrabajador
   );
-  const eventosExcel: objEvento[] = [];
-  data?.map(
-    (
-      objtrabajadoresEnEventosIncludeEvento: objtrabajadoresEnEventosIncludeEvento
-    ) => {
-      eventosExcel.push(objtrabajadoresEnEventosIncludeEvento.evento);
-    }
-  );
+  //const eventosExcel: objtrabajadoresEnEventos[] = [];
+  //data?.map(
+  //(
+  //objtrabajadoresEnEventosIncludeEvento: objtrabajadoresEnEventosIncludeEvento
+  //) => {
+  //eventosExcel.push(objtrabajadoresEnEventosIncludeEvento.evento);
+  //}
+  //);
   if (isLoading) return <div>Loading...</div>;
   console.log(data); //array con objtrabajadoresEnEventos
 
   return (
-    <div
-      className="h-full w-full bg-gray-200"
-    >
+    <div className="h-full w-full bg-gray-200">
       <div className="p-2">
         <h1 className="text-5xl mt-20 md:mt-10 text-indigo-700 text-center">
           Historial de eventos
@@ -54,7 +52,7 @@ const HistorialTrabajador = () => {
             <div className="flex flex-col items-center">
               <button
                 onClick={() => {
-                  downloadExcelTrabajador(eventosExcel);
+                  downloadExcelTrabajador(data);
                 }}
                 className={buttonStyle + " my-4 bg-green-700"}
               >

@@ -241,6 +241,7 @@ export interface evento {
   perfil: string;
   nombre: string;
   fecha_inicio: string;
+  fecha_final: string;
   observaciones: string;
   hora: string;
   lugar: string;

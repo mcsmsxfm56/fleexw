@@ -7,8 +7,24 @@ import {
 } from "@/types/Types";
 import * as XLSX from "xlsx";
 
-export const downloadExcelTrabajador = (eventosExcel: objEvento[]) => {
-  const eventosSheet = XLSX?.utils.json_to_sheet(eventosExcel);
+export const downloadExcelTrabajador = (
+  eventosExcel: objtrabajadoresEnEventos[]
+) => {
+  const eventosExcel2 = eventosExcel.map((objtrabajadoresEnEventos) => {
+    const formatedObj = {
+      "NOMBRE DE LA EMPRESA": objtrabajadoresEnEventos.evento?.empresa?.nombre,
+      "NOMBRE DEL EVENTO": objtrabajadoresEnEventos.evento?.nombre,
+      "FECHA INICIO": objtrabajadoresEnEventos.evento?.fecha_inicio,
+      "FECHA FINAL": objtrabajadoresEnEventos.evento?.fecha_final,
+      LUGAR: objtrabajadoresEnEventos.evento?.lugar,
+      PERFIL: objtrabajadoresEnEventos.evento?.perfil,
+      PAGO: objtrabajadoresEnEventos.evento?.pago,
+      OBSERVACIONES: objtrabajadoresEnEventos.evento?.observaciones,
+    };
+    return formatedObj;
+  });
+
+  const eventosSheet = XLSX?.utils.json_to_sheet(eventosExcel2);
   const trabajadorData = XLSX?.utils.book_new();
   XLSX?.utils.book_append_sheet(trabajadorData, eventosSheet, "Tabla Eventos");
   XLSX?.writeFile(trabajadorData, "datosEventos.xlsx");

@@ -30,15 +30,14 @@ export default async function handler(
       return res.status(200).send(trabajadorConfirmado);
     }
 
-    if (status && ordenFecha === "HISTORIAL") {
-      const historialEventosTrabajador =
+    if (ordenFecha === "HISTORIAL") {
+      let historialEventosTrabajador =
         await prisma.trabajadoresEnEventos.findMany({
           where: {
             trabajadorId,
-            status: status,
-            evento: {
-              fecha_inicio: { lte: new Date() },
-            },
+            //evento: {
+            //fecha_inicio: { lte: new Date() },
+            //},
           },
           include: {
             evento: {
@@ -48,7 +47,11 @@ export default async function handler(
             },
           },
         });
-      return res.status(200).send(historialEventosTrabajador);
+      let filteredStatus = historialEventosTrabajador.filter(
+        (obj) => obj.status === "ASISTIO" || obj.status === "APROBADO"
+      );
+
+      return res.status(200).send(filteredStatus);
     }
 
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
@@ -66,8 +69,8 @@ export default async function handler(
         },
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: "desc",
+      },
     });
     // console.log("trabajadores en eventos", trabajadoresEnEventos);
     return res.status(200).send(trabajadoresEnEventos);
@@ -226,14 +229,17 @@ export default async function handler(
 
     const trabajador = await prisma.trabajador.findUnique({
       where: {
-        id: trabajadorId
-      }
-    })
+        id: trabajadorId,
+      },
+    });
 
-    if (!trabajador)
-      return res.status(400).send("Trabajador no encontrado");
+    if (!trabajador) return res.status(400).send("Trabajador no encontrado");
     if (!checkOptionalFields(trabajador))
-      return res.status(403).send("Debes completar todos los campos de tu perfil para poder postularte");
+      return res
+        .status(403)
+        .send(
+          "Debes completar todos los campos de tu perfil para poder postularte"
+        );
 
     let evento = await prisma.evento.findUnique({
       where: {
@@ -247,7 +253,7 @@ export default async function handler(
     //console.log(evento);//evento.trabajadores array de objetos donde cada objeto
     //tiene la propiedad trabajadorId evento.trabajadores.amp((objTrabajador) => objTrabajador.trabajadorId)
     let check = evento?.trabajadores.filter(
-      (objTrabajador) => objTrabajador.trabajadorId === trabajadorId
+      (objTrabajador: any) => objTrabajador.trabajadorId === trabajadorId
     );
     if (check?.length !== 0) {
       return res.status(400).send("ya te postulaste a este evento");
@@ -305,19 +311,20 @@ export default async function handler(
 const checkOptionalFields = (t: Trabajador): boolean => {
   let valid = true;
   if (
-    !t.nacimiento
-    || !t.genero
-    || !t.ciudad
-    || !t.direccion
-    || !t.estatura
-    || !t.talla_camiseta
-    || !t.grupo_sanguineo
-    || !t.cv
-    || !t.imagen_dni
-    || !t.foto
-    || !t.rut
-    || !t.certificado_bancario
-    || !t.Edad
-  ) valid = false;
+    !t.nacimiento ||
+    !t.genero ||
+    !t.ciudad ||
+    !t.direccion ||
+    !t.estatura ||
+    !t.talla_camiseta ||
+    !t.grupo_sanguineo ||
+    !t.cv ||
+    !t.imagen_dni ||
+    !t.foto ||
+    !t.rut ||
+    !t.certificado_bancario ||
+    !t.Edad
+  )
+    valid = false;
   return valid;
-}
+};
