@@ -1,19 +1,18 @@
-import axios from "axios"
-
 interface ResponseAdmitirOrestringirPostulaciones {
-    message: string
+  message: string;
 }
 
-export const admitirOrestringirPostulaciones = (idEvent: string, admitePostulaciones: boolean): Promise<ResponseAdmitirOrestringirPostulaciones> => {
-    return axios(
-        {
-            method: 'put',
-            url: `/api/event/admitirOrestringirPostulaciones`,
-            data: {
-                admitePostulaciones,
-                eventoId: idEvent,
-                realmethod: "PUT"
-            }
-        })
-        .then(response => response.data)
-}
+export const admitirOrestringirPostulaciones = (
+  idEvent: string,
+  admitePostulaciones: boolean
+): Promise<ResponseAdmitirOrestringirPostulaciones> => {
+  return fetch(`/api/event/admitirOrestringirPostulaciones`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      admitePostulaciones,
+      eventoId: idEvent,
+      realmethod: "PUT",
+    }),
+  }).then((response) => response.json());
+};

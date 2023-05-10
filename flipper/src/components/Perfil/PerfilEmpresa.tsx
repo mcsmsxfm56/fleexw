@@ -1,5 +1,4 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from "axios";
 import React, { useState } from "react";
 import Image from "next/image";
 import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
@@ -30,7 +29,7 @@ const PerfilEmpresa: React.FC = () => {
         realmethod: "GET",
         // nombreEmpresa: nombre,
         idEmpresa: id,
-        function: 'misEventos'
+        function: "misEventos",
       }),
     })
       .then((response) => response.json())

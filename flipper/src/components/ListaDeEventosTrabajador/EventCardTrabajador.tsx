@@ -8,7 +8,6 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
 
@@ -60,16 +59,17 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   // console.log(trabajadorPostulado)
 
   const getEventos = async () => {
-    const eventos = await axios({
+    const eventos = fetch(`/api/event`, {
       method: "PUT",
-      url: `/api/event`,
-      data: {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         eventoId: evento.id,
         realmethod: "GET",
-      },
-    });
+      }),
+    })
+      .then((res) => res.json())
+      .then((eventos) => setTrabajadores(eventos));
     // console.log(eventos.data)
-    setTrabajadores(eventos.data);
   };
 
   useEffect(() => {
