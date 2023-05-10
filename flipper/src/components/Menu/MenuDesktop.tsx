@@ -1,16 +1,17 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 
-import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
+import { fotoProvisoria } from "@/utils/fotoProvisoria";
 import ReactWhatsapp from "react-whatsapp";
 
 const MenuDesktop = () => {
-  const { logout, nombre } = useSesionUsuarioContext();
+  const { logout, nombre, foto } = useSesionUsuarioContext();
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
+  /* console.log(foto); */
 
   return (
     <div
@@ -18,7 +19,11 @@ const MenuDesktop = () => {
     >
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
-          <Image src={perfilProvisorio} alt="Picture of the author" />
+          <Image src={foto || fotoProvisoria}
+            width={80}
+            height={80}
+            alt="Picture of the author"
+          />
         </div>
         <p
           className={

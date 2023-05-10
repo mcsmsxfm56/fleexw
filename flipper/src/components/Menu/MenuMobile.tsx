@@ -1,48 +1,43 @@
-import React, { Dispatch, SetStateAction, useContext, useRef } from "react";
-import Link from "next/link";
+import React, { useContext } from "react";
 import Image from "next/image";
-import { IconContext } from "react-icons";
-import { FaArrowLeft } from "react-icons/fa";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
-import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
-import { ShowElementsEmpresa } from "@/types/Types";
 import ReactWhatsapp from "react-whatsapp";
-
+import { fotoProvisoria } from "@/utils/fotoProvisoria";
 interface Props {
   isExpanded: boolean;
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const phoneNumber = "";
-
 const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
-  const { logout, nombre } = useSesionUsuarioContext();
+  const { logout, nombre, foto } = useSesionUsuarioContext();
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
 
   return (
     <>
       <span
-        className={`fixed h-full w-full top-0 left-0 z-30 bg-black bg-opacity-50 transition duration-200 ease-out ${
-          !isExpanded
-            ? "transition-transform -translate-x-full duration-200 ease-out"
-            : "duration-200 ease-out"
-        }`}
+        className={`fixed h-full w-full top-0 left-0 z-30 bg-black bg-opacity-50 transition duration-200 ease-out ${!isExpanded
+          ? "transition-transform -translate-x-full duration-200 ease-out"
+          : "duration-200 ease-out"
+          }`}
         onClick={() => setIsExpanded(false)}
       ></span>
 
       <div
-        className={`md:hidden fixed flex flex-col gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center w-3/5 z-40 p-4 overflow-y-auto ${
-          !isExpanded
-            ? "transition-transform -translate-x-full duration-200 ease-out"
-            : "duration-200 ease-out"
-        }`}
+        className={`md:hidden fixed flex flex-col gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center w-3/5 z-40 p-4 overflow-y-auto ${!isExpanded
+          ? "transition-transform -translate-x-full duration-200 ease-out"
+          : "duration-200 ease-out"
+          }`}
       >
         <div className="avatar flex flex-col items-center justify-start gap-2">
           <div className="w-20 rounded-full ">
-            <Image src={perfilProvisorio} alt="Picture of the author" />
+            <Image
+              src={foto || fotoProvisoria}
+              width={80}
+              height={80}
+              alt="Picture of the author" />
           </div>
           <p
             className={

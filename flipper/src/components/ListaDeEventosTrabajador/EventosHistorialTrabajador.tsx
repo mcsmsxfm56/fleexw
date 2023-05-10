@@ -5,24 +5,26 @@ import {
 import { downloadExcelTrabajador } from "../Excel/generateExcel";
 import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
 import useSWR, { Fetcher } from "swr";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      realmethod: "GET",
-      trabajadorId: localStorage.getItem("id"),
-      status: 'ASISTIO',
-      ordenFecha: 'HISTORIAL'
-    }),
-  }).then((res) => res.json());
-};
 
 const HistorialTrabajador = () => {
+
+  const { id } = useSesionUsuarioContext()
+
+  const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+    return fetch(apiRoute, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        trabajadorId: id,
+      }),
+    }).then((res) => res.json());
+  };
   const { isLoading, data, error } = useSWR(
     "/api/trabajadoreseneventos",
     fetcherTrabajador
@@ -36,7 +38,7 @@ const HistorialTrabajador = () => {
     }
   );
   if (isLoading) return <div>Loading...</div>;
-  console.log(data); //array con objtrabajadoresEnEventos
+  /* console.log(data); */ //array con objtrabajadoresEnEventos
 
   return (
     <div
