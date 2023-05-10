@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ListaHistorial from "./ListaHistorial";
-import { downloadExcelNoAdmin } from "../Excel/generateExcel";
+import { downloadExcelEmpresa } from "../Excel/generateExcel";
 import useSWR from "swr";
 import { Fetcher } from "swr";
 import { objEvento, objtrabajadoresEnEventos } from "@/types/Types";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import { log } from "console";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
-
 
 const Historial: React.FC = () => {
 
@@ -67,7 +65,7 @@ const Historial: React.FC = () => {
         </h1>
         <button
           onClick={() => {
-            downloadExcelNoAdmin(data?.eventos); //espera array de objetos eventos
+            downloadExcelEmpresa(data?.eventos); //espera array de objetos eventos
           }}
           className={buttonStyle + " ml-2 bg-green-700"}
         >

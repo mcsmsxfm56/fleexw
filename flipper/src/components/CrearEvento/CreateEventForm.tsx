@@ -21,6 +21,9 @@ const validationSchema = yup.object({
     .required("El cupo debe ser mayor a 0")
     .positive("El cupo debe ser mayor a 0")
     .integer(),
+  establecimiento: yup
+    .string()
+    .required("Debes ingresar el establecimiento en donde se hara el evento"),
   perfil: yup.string().required(""),
   pago: yup
     .number()
@@ -46,6 +49,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
       fecha_inicio: "",
       fecha_final: "",
       lugar: "",
+      establecimiento: "",
       cupos: 0,
       perfil: "",
       pago: 0,
@@ -276,9 +280,28 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
             </div>
           </div>
           {formik.errors.cupos ? (
-            <div className="text-red-600 mb-2">{formik.errors.cupos}</div>
+            <div className="text-red-600 mb-2 -mt-2">{formik.errors.cupos}</div>
           ) : null}
-
+          <div className="w-full">
+            <div className="w-full mb-4">
+              <label className="relative text-indigo-600 text-lg">
+                Establecimiento
+                <input
+                  name="establecimiento"
+                  placeholder="Defina el Establecimiento"
+                  type="text"
+                  value={formik.values.establecimiento}
+                  onChange={formik.handleChange}
+                  className="w-full input input-bordered input-primary  flex justify-center text-indigo-600"
+                />
+              </label>
+            </div>
+          </div>
+          {formik.errors.establecimiento ? (
+            <div className="text-red-600 -mt-2 mb-2">
+              {formik.errors.establecimiento}
+            </div>
+          ) : null}
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
@@ -314,7 +337,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
             </div>
           </div>
           {formik.errors.pago ? (
-            <div className="text-red-600 mb-2">{formik.errors.pago}</div>
+            <div className="text-red-600 mb-2 -mt-2">{formik.errors.pago}</div>
           ) : null}
 
           <div className="w-full">

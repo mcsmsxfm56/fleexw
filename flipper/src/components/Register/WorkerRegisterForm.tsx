@@ -23,6 +23,7 @@ const WorkerRegisterForm = () => {
     name: "",
     idType: "",
     idNumber: "",
+    ciudad: "",
   };
 
   const submitHandler = async (values: WorkerRegisterData) => {
@@ -61,7 +62,12 @@ const WorkerRegisterForm = () => {
             name="name"
             placeholder="Tu Nombre"
           />
-
+          <InputField
+            type="text"
+            id="ciudad"
+            name="ciudad"
+            placeholder="Tu Ciudad"
+          />
           <InputField
             type="email"
             id="email"

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
+import { Trabajador } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,9 +8,55 @@ export default async function handler(
 ) {
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const trabajadorId = req.body.trabajadorId;
+    const { status, ordenFecha } = req.body;
+
+    if (status && ordenFecha === "PROXIMOS") {
+      const trabajadorConfirmado = await prisma.trabajadoresEnEventos.findMany({
+        where: {
+          trabajadorId,
+          status: status,
+          evento: {
+            fecha_inicio: { gte: new Date() },
+          },
+        },
+        include: {
+          evento: {
+            include: {
+              empresa: true,
+            },
+          },
+        },
+      });
+      return res.status(200).send(trabajadorConfirmado);
+    }
+
+    if (status && ordenFecha === "HISTORIAL") {
+      const historialEventosTrabajador =
+        await prisma.trabajadoresEnEventos.findMany({
+          where: {
+            trabajadorId,
+            status: status,
+            evento: {
+              fecha_inicio: { lte: new Date() },
+            },
+          },
+          include: {
+            evento: {
+              include: {
+                empresa: true,
+              },
+            },
+          },
+        });
+      return res.status(200).send(historialEventosTrabajador);
+    }
+
     const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany({
       where: {
         trabajadorId,
+        evento: {
+          fecha_inicio: { gte: new Date() },
+        },
       },
       include: {
         evento: {
@@ -18,7 +65,11 @@ export default async function handler(
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc'
+      }
     });
+    // console.log("trabajadores en eventos", trabajadoresEnEventos);
     return res.status(200).send(trabajadoresEnEventos);
     /*
     
@@ -172,6 +223,18 @@ export default async function handler(
     */
     const eventoId = req.body.eventoId as string;
     const trabajadorId = req.body.trabajadorId as string;
+
+    const trabajador = await prisma.trabajador.findUnique({
+      where: {
+        id: trabajadorId
+      }
+    })
+
+    if (!trabajador)
+      return res.status(400).send("Trabajador no encontrado");
+    if (!checkOptionalFields(trabajador))
+      return res.status(403).send("Debes completar todos los campos de tu perfil para poder postularte");
+
     let evento = await prisma.evento.findUnique({
       where: {
         id: eventoId,
@@ -235,4 +298,26 @@ export default async function handler(
       return res.status(400).send(error);
     }
   }
+}
+
+// No recorro directamente las keys del objeto, porque ay algunas que es válido que sean false
+// Por ejemplo: isDeleted, resetContraseñaCode
+const checkOptionalFields = (t: Trabajador): boolean => {
+  let valid = true;
+  if (
+    !t.nacimiento
+    || !t.genero
+    || !t.ciudad
+    || !t.direccion
+    || !t.estatura
+    || !t.talla_camiseta
+    || !t.grupo_sanguineo
+    || !t.cv
+    || !t.imagen_dni
+    || !t.foto
+    || !t.rut
+    || !t.certificado_bancario
+    || !t.Edad
+  ) valid = false;
+  return valid;
 }

@@ -19,7 +19,25 @@ export const crearEmpresa = async (body: DataRegister) => {
       email: body.email,
     },
   });
-  if (newEmpresa) throw new Error("Empresa ya creada con ese email");
+  const newEmpresaTelefono = await prisma.empresa.findFirst({
+    where: {
+      telefono: body.telefono,
+    },
+  });
+  const newTrabajador = await prisma.trabajador.findFirst({
+    where: {
+      email: body.email,
+    },
+  });
+  const newTrabajadorTelefono = await prisma.trabajador.findFirst({
+    where: {
+      phone: body.telefono,
+    },
+  });
+  if (newEmpresa || newTrabajador)
+    throw new Error("Cuenta ya creada con ese email");
+  if (newEmpresaTelefono || newTrabajadorTelefono)
+    throw new Error("Cuenta ya creada con ese telefono");
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(body.password, salt);
   body.password = hashedPassword;

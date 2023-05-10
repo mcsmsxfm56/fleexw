@@ -7,9 +7,11 @@ import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { MenuContext } from "@/context/MenuContext";
+
 interface EventCardProps {
   nombreEvento: string;
   fechaEvento: string;
@@ -50,6 +52,8 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
 
+  const { setShowElementsTrabajador } = useContext(MenuContext);
+
   const trabajadorPostulado = postulantes?.trabajadores.find(
     (trabajador) => trabajador.trabajadorId === id
   );
@@ -64,6 +68,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
         realmethod: "GET",
       },
     });
+    // console.log(eventos.data)
     setTrabajadores(eventos.data);
   };
 
@@ -76,7 +81,7 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
-      <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
+        <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
       </div>
       <hr></hr>
       <div className="text-indigo-700 flex justify-around">
@@ -107,7 +112,12 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                     "Content-type": "application/json; charset=UTF-8",
                   },
                 })
-                  .then((response) => response.text())
+                  .then(async (response) => {
+                    console.log(response);
+                    const j = await response.text();
+                    if (!response.ok) throw new Error(j);
+                    return response.text();
+                  })
                   .then((msg) => {
                     if (msg === "postulacion realizada con exito") {
                       const Toast = Swal.mixin({
@@ -141,6 +151,28 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                       });
                       router.reload();
                     }
+                  })
+                  .catch((error: any) => {
+                    console.log(error.message);
+                    Swal.fire({
+                      title: "Algo salió mal",
+                      text: error.message,
+                      icon: "warning",
+                      showCancelButton: true,
+                      cancelButtonText: "Volver",
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Ir a tu perfíl",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        setShowElementsTrabajador({
+                          showEventosTrabajador: false,
+                          showHistorialTrabajador: false,
+                          showEventosConfirmadosTrabajador: false,
+                          showPerfilTrabajador: true,
+                        });
+                      }
+                    });
                   });
               }}
             >

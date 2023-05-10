@@ -26,6 +26,7 @@ export default async function handler(
     if (trabajador) {
       let eventosPorCiudad = await prisma.evento.findMany({
         where: {
+          fecha_inicio: { gte: new Date() },
           lugar: {
             contains: trabajador.ciudad as string,
             mode: "insensitive",
