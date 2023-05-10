@@ -233,7 +233,7 @@ export default async function handler(
     if (!trabajador)
       return res.status(400).send("Trabajador no encontrado");
     if (!checkOptionalFields(trabajador))
-      return res.status(400).send("Debes completar todos los campos de tu perfil para poder postularte");
+      return res.status(403).send("Debes completar todos los campos de tu perfil para poder postularte");
 
     let evento = await prisma.evento.findUnique({
       where: {
