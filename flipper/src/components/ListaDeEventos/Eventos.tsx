@@ -2,6 +2,7 @@ import ListaEventos from "./ListaDeEventos";
 import useSWR, { Fetcher } from "swr";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export interface evento {
   perfil: string;
@@ -22,41 +23,35 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      realmethod: "GET",
-      idEmpresa: localStorage.getItem("id"),
-      function: 'misEventos'
-    }),
-  }).then((res) => res.json());
-};
-
-const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute).then((res) => res.json());
-};
 
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
-  let isAdmin: boolean | string | null = false;
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    const rol = localStorage.getItem("rol");
-    isAdmin = localStorage.getItem("isAdmin");
-    if (rol === "trabajador") {
-      var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
-    }
-    if (rol === "empresa") {
-      var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
-    }
-    if (isAdmin === "true") {
-      isAdmin = true;
-    } else if (isAdmin === "false") {
-      isAdmin = false;
-    }
+
+  const { id, rol, isAdmin } = useSesionUsuarioContext()
+
+  const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
+    return fetch(apiRoute, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        realmethod: "GET",
+        idEmpresa: id,
+        function: 'misEventos'
+      }),
+    }).then((res) => res.json());
+  };
+
+  const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
+    return fetch(apiRoute).then((res) => res.json());
+  };
+
+  if (rol === "trabajador") {
+    var { isLoading, error, data } = useSWR("/api/event", fetcherTrabajador);
   }
+  if (rol === "empresa") {
+    var { isLoading, error, data } = useSWR("/api/empresa", fetcherEmpresa);
+  }
+
   const [order, setOrder] = useState<Ordering>("desc");
   React.useEffect(() => {
     ordering(order);
