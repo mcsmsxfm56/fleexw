@@ -113,10 +113,10 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                   },
                 })
                   .then(async (response) => {
-                    console.log(response);
-                    const j = await response.text();
-                    if (!response.ok) throw new Error(j);
-                    return response.text();
+                    // console.log(response);
+                    const mensaje = await response.text();
+                    if (!response.ok) throw new Error(mensaje);
+                    return mensaje;
                   })
                   .then((msg) => {
                     if (msg === "postulacion realizada con exito") {
