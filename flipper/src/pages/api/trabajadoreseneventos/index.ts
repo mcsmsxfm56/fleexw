@@ -6,6 +6,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method === "GET") {
+    const eventoId = req.body.eventoId as string;
+    try {
+      const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
+        {
+          where: {
+            eventoId,
+          },
+        }
+      );
+      //console.log(eventoId);
+      //console.log(trabajadoresEnEventos);
+      res.status(200).send(trabajadoresEnEventos);
+    } catch (error: unknown) {
+      res.status(400).send(error);
+    }
+  }
   const { authorization } = req.headers;
   let token = null;
   if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
@@ -41,15 +58,14 @@ export default async function handler(
         return res.status(200).send(trabajadorConfirmado);
       }
 
-      if (status && ordenFecha === "HISTORIAL") {
-        const historialEventosTrabajador =
-          await prisma.trabajadoresEnEventos.findMany({
+      if (ordenFecha === "HISTORIAL") {
+        let trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
+          {
             where: {
               trabajadorId,
-              status: status,
-              evento: {
-                fecha_inicio: { lte: new Date() },
-              },
+              //evento: {
+              //fecha_inicio: { lte: new Date() },
+              //},
             },
             include: {
               evento: {
@@ -58,32 +74,14 @@ export default async function handler(
                 },
               },
             },
-          });
-        return res.status(200).send(historialEventosTrabajador);
+            orderBy: {
+              createdAt: "desc",
+            },
+          }
+        );
+        // console.log("trabajadores en eventos", trabajadoresEnEventos);
+        return res.status(200).send(trabajadoresEnEventos);
       }
-
-      const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
-        {
-          where: {
-            trabajadorId,
-            evento: {
-              fecha_inicio: { gte: new Date() },
-            },
-          },
-          include: {
-            evento: {
-              include: {
-                empresa: true,
-              },
-            },
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        }
-      );
-      // console.log("trabajadores en eventos", trabajadoresEnEventos);
-      return res.status(200).send(trabajadoresEnEventos);
       /*
     
 
@@ -148,22 +146,7 @@ export default async function handler(
     }
     */
     }
-    if (req.method === "GET") {
-      const eventoId = req.body.eventoId as string;
-      try {
-        const trabajadoresEnEventos =
-          await prisma.trabajadoresEnEventos.findMany({
-            where: {
-              eventoId,
-            },
-          });
-        //console.log(eventoId);
-        //console.log(trabajadoresEnEventos);
-        res.status(200).send(trabajadoresEnEventos);
-      } catch (error: unknown) {
-        res.status(400).send(error);
-      }
-    }
+
     if (req.method === "PUT") {
       /*
     {

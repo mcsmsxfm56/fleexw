@@ -1,4 +1,4 @@
-import axios from "axios";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 interface aceptarORechazarPostulante {
   idPostulante: string;
@@ -6,21 +6,26 @@ interface aceptarORechazarPostulante {
   idEvent: string | string[] | undefined;
 }
 
-export const aceptarORechazarPostulante = ({
+export const aceptarORechazarPostulante = async ({
   idPostulante,
   statusNuevo,
   idEvent,
 }: aceptarORechazarPostulante) => {
-  axios({
-    method: "put",
-    url: `/api/event`,
-    data: {
+  const { token } = useSesionUsuarioContext();
+  const response = await fetch(`/api/event`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
       eventoId: idEvent,
       trabajadorId: idPostulante,
       status: statusNuevo,
       realmethod: "PUT",
-    },
+    }),
   })
-    .then((response) => alert(response.data))
+    .then((response) => response.text())
     .catch((error) => error.message);
+  return alert(response);
 };
