@@ -30,11 +30,12 @@ const WorkerRegisterForm = () => {
     setSubmitError("");
     setSubmitting(true);
     await Post_Worker_Register(values)
-      .then(() => {
+      .then((res) => {
         Swal.fire("¡Éxito!", "Tu cuenta se ha creado", "success");
         router.push("/");
       })
       .catch((e: any) => {
+        console.log(e);
         setSubmitError(e.response.data);
       })
       .finally(() => {
