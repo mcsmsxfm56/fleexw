@@ -5,10 +5,10 @@ import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
+import axios from 'axios'
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
 
