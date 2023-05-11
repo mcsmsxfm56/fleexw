@@ -5,13 +5,17 @@ import CardEventoConfirmadoHistorial from "./CardEventoConfirmadoHistorial";
 import { data } from "autoprefixer";
 
 const EventosConfirmadosTrabajador = () => {
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const [dataEvento, setDataEvento] = useState<[]>();
 
   const getEventos = async () => {
     const eventos = await axios({
       method: "PUT",
       url: `/api/trabajadoreseneventos`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
+      },
       data: {
         trabajadorId: id,
         realmethod: "GET",

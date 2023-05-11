@@ -13,12 +13,15 @@ const buttonStyle =
 
 const HistorialTrabajador = () => {
 
-  const { id } = useSesionUsuarioContext()
+  const { id, token } = useSesionUsuarioContext()
 
   const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         realmethod: "GET",
         trabajadorId: id,
