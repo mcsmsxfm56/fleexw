@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import axios from 'axios'
-import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
 
 import Swal from "sweetalert2";
