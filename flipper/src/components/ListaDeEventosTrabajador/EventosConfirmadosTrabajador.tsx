@@ -1,6 +1,7 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useEffect, useState } from "react";
-import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
+
+import CardEventoConfirmadoHistorial from "./CardEventoConfirmadoHistorial";
 import { data } from "autoprefixer";
 
 const EventosConfirmadosTrabajador = () => {
@@ -42,7 +43,7 @@ const EventosConfirmadosTrabajador = () => {
           {!dataEvento ? (
             <h2>Todavia no posee eventos confirmados</h2>
           ) : (
-            <ListaEventosTrabajador eventos={dataEvento} />
+            <CardEventoConfirmadoHistorial eventos={dataEvento} />
           )}
         </div>
       </div>

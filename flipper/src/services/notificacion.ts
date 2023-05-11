@@ -1,11 +1,9 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
 export async function set_Ver_Notificación(
   trabajadorId: string,
   eventoId: string,
-  notificacionVista: boolean
+  notificacionVista: boolean,
+  token: string
 ) {
-  const { token } = useSesionUsuarioContext();
   return fetch("/api/notificaciones", {
     method: "PUT",
     headers: {

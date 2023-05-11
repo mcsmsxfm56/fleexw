@@ -11,12 +11,10 @@ export const aceptarORechazarPostulante = async ({
   statusNuevo,
   idEvent,
 }: aceptarORechazarPostulante) => {
-  const { token } = useSesionUsuarioContext();
   const response = await fetch(`/api/event`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       eventoId: idEvent,

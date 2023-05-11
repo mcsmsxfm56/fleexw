@@ -1,10 +1,10 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { NotificationList } from "@/types/Types";
 
 export async function Get_Postulaciones_Trabajador(
-  trabajadorId: string
+  trabajadorId: string,
+  token: string
 ): Promise<NotificationList> {
-  const { token } = useSesionUsuarioContext();
+  //console.log("Token", token);
   return fetch(`/api/trabajadoreseneventos`, {
     method: "PUT",
     headers: {

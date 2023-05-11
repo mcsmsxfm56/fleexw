@@ -1,6 +1,4 @@
 import { Fetcher } from "swr";
-import { GridColDef } from "@mui/x-data-grid";
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export const fetcherDashboard: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute).then((res) => res.json());
@@ -15,7 +13,8 @@ export const aceptarORechazarEmpresa = async (
   ciudad: string,
   direccion: string,
   email: string,
-  isDeleted: string | boolean
+  isDeleted: string | boolean,
+  token: string
 ) => {
   if (authorizedByAdmin === "true") {
     authorizedByAdmin = true;
@@ -29,7 +28,7 @@ export const aceptarORechazarEmpresa = async (
   if (isDeleted === "false") {
     isDeleted = false;
   }
-  const { token } = useSesionUsuarioContext();
+
   return fetch("/api/admin/empresa", {
     method: "PUT",
     headers: {

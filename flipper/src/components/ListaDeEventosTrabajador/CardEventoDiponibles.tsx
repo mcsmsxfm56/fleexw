@@ -1,12 +1,8 @@
 import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
-import { HiPencil } from "react-icons/hi";
 import { IoLocationSharp } from "react-icons/io5";
-import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
-import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
@@ -44,8 +40,8 @@ interface trabajadores {
   trabajadores: trabajador[];
 }
 
-export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
-  console.log("card", evento);
+
+export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
@@ -56,10 +52,9 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const trabajadorPostulado = postulantes?.trabajadores.find(
     (trabajador) => trabajador.trabajadorId === id
   );
-  // console.log(trabajadorPostulado)
 
   const getEventos = async () => {
-    const eventos = fetch(`/api/event`, {
+    await fetch('/api/event', {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -103,6 +98,11 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
             <span className="font-bold mt-2 mb-2">Establecimiento:</span>{" "}
             {evento.establecimiento}
           </p>
+          <p className="mb-1">
+            <span className="font-bold mt-2 mb-2">postulantes:</span>{" "}
+            {` ${postulantes?.numeroPostulantes} / ${evento.cupos}   `}
+          </p>
+
         </div>
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (

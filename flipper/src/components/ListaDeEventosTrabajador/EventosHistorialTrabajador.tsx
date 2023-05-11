@@ -4,7 +4,7 @@ import {
   objtrabajadoresEnEventos,
 } from "@/types/Types";
 import { downloadExcelTrabajador } from "../Excel/generateExcel";
-import ListaEventosTrabajador from "../ListaDeEventos/ListaEventosTrabajador";
+import CardEventoConfirmadoHistorial from "./CardEventoConfirmadoHistorial";
 import useSWR, { Fetcher } from "swr";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
@@ -12,12 +12,15 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const HistorialTrabajador = () => {
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
 
   const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         realmethod: "GET",
         trabajadorId: id,
@@ -61,7 +64,7 @@ const HistorialTrabajador = () => {
               >
                 Descargar Excel
               </button>
-              <ListaEventosTrabajador eventos={data} />
+              <CardEventoConfirmadoHistorial eventos={data} />
             </div>
           )}
         </div>

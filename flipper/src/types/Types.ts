@@ -46,12 +46,12 @@ export interface Trabajadores extends WorkerData {
   id: string;
 }
 export interface Usuario {
-  email: string,
-  id: string,
-  nombre: string,
-  rol: string,
-  isAdmin: boolean,
-  foto: string | null
+  email: string;
+  id: string;
+  nombre: string;
+  rol: string;
+  isAdmin: boolean;
+  foto: string | null;
 }
 export interface TrabajadorStatus {
   eventoId: string;
@@ -74,6 +74,7 @@ export interface DetalleEvento {
   observaciones: string;
   trabajadores: TrabajadorStatus[];
   admitePostulaciones: boolean;
+  establecimiento: String;
 }
 
 //Interfaz para crear eventos

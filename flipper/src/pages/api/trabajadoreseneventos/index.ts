@@ -6,25 +6,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const eventoId = req.body.eventoId as string;
-    try {
-      const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
-        {
-          where: {
-            eventoId,
-          },
-        }
-      );
-      //console.log(eventoId);
-      //console.log(trabajadoresEnEventos);
-      res.status(200).send(trabajadoresEnEventos);
-    } catch (error: unknown) {
-      res.status(400).send(error);
-    }
-  }
   const { authorization } = req.headers;
   let token = null;
+
   if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
@@ -33,6 +17,23 @@ export default async function handler(
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
+    if (req.method === "GET") {
+      const eventoId = req.body.eventoId as string;
+      try {
+        const trabajadoresEnEventos =
+          await prisma.trabajadoresEnEventos.findMany({
+            where: {
+              eventoId,
+            },
+          });
+        //console.log(eventoId);
+        //console.log(trabajadoresEnEventos);
+        res.status(200).send(trabajadoresEnEventos);
+      } catch (error: unknown) {
+        res.status(400).send(error);
+      }
+    }
+
     if (req.method === "PUT" && req.body.realmethod === "GET") {
       const trabajadorId = req.body.trabajadorId;
       const { status, ordenFecha } = req.body;
@@ -57,15 +58,15 @@ export default async function handler(
           });
         return res.status(200).send(trabajadorConfirmado);
       }
-
-      if (ordenFecha === "HISTORIAL") {
+      if (status && ordenFecha === "HISTORIAL") {
         let trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
           {
             where: {
               trabajadorId,
-              //evento: {
-              //fecha_inicio: { lte: new Date() },
-              //},
+              status: status,
+              evento: {
+                fecha_inicio: { lte: new Date() },
+              },
             },
             include: {
               evento: {
@@ -82,13 +83,42 @@ export default async function handler(
         // console.log("trabajadores en eventos", trabajadoresEnEventos);
         return res.status(200).send(trabajadoresEnEventos);
       }
+
+      const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
+        {
+          //Donde la fecha de inicio no haya pasado
+          where: {
+            AND: [
+              {
+                trabajadorId,
+              },
+              {
+                evento: {
+                  fecha_inicio: {
+                    gte: new Date(),
+                  },
+                },
+              },
+            ],
+          },
+          include: {
+            evento: {
+              include: {
+                empresa: true,
+              },
+            },
+          },
+        }
+      );
+      return res.status(200).send(trabajadoresEnEventos);
+
       /*
     
 
     if (!req.body.historial) {
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
         {
-          // Donde la fecha de inicio no haya pasado
+          Donde la fecha de inicio no haya pasado
           where: {
             AND: [
               {

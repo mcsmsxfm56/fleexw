@@ -1,14 +1,12 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
 interface ResponseAdmitirOrestringirPostulaciones {
   message: string;
 }
 
 export const admitirOrestringirPostulaciones = (
   idEvent: string,
-  admitePostulaciones: boolean
+  admitePostulaciones: boolean,
+  token: String
 ): Promise<ResponseAdmitirOrestringirPostulaciones> => {
-  const { token } = useSesionUsuarioContext();
   return fetch(`/api/event/admitirOrestringirPostulaciones`, {
     method: "PUT",
     headers: {

@@ -22,7 +22,7 @@ interface postulante {
 }
 
 const EventDatail = () => {
-  const { rol } = useSesionUsuarioContext();
+  const { rol, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [rows, setRows] = useState<{}[]>([]);
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
@@ -91,7 +91,7 @@ const EventDatail = () => {
 
   useEffect(() => {
     if (idEvent) {
-      traerEventoYPostulantes(idEvent as string)
+      traerEventoYPostulantes(idEvent as string, token)
         .then((data) => {
           setEventDetail(data);
         })
@@ -125,7 +125,8 @@ const EventDatail = () => {
       setLoading(true);
       await admitirOrestringirPostulaciones(
         idEvent as string,
-        admitePostulaciones
+        admitePostulaciones,
+        token
       );
     } catch (error: any) {
       console.log(error.message);

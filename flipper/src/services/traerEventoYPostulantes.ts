@@ -1,10 +1,9 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { DetalleEvento } from "../types/Types";
 
 export function traerEventoYPostulantes(
-  idEvent: string
+  idEvent: string,
+  token: string
 ): Promise<DetalleEvento> {
-  const { token } = useSesionUsuarioContext();
   //request con axios para obtener el usuario
   return fetch("/api/event", {
     method: "PUT",

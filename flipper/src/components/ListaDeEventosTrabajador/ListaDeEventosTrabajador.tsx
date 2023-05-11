@@ -1,6 +1,6 @@
 import React from "react";
 import { evento } from "@/components/ListaDeEventos/Eventos";
-import { EventCardTrabajador } from "./EventCardTrabajador";
+import { CardEventoDiponibles } from "./CardEventoDiponibles";
 
 export interface EventoTrabajador {
   perfil: string;
@@ -41,7 +41,7 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
           if (event.isDeleted === false) {
             return (
               <div key={`${event.id}_key`}>
-                <EventCardTrabajador
+                <CardEventoDiponibles
                   key={event.id}
                   perfil={event.perfil}
                   nombre={event.nombre}
