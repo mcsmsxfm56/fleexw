@@ -15,39 +15,44 @@ const EventosConfirmadosTrabajador = () => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        trabajadorId: id,
-        realmethod: "GET",
-        status: "APROBADO",
-        ordenFecha: "PROXIMOS",
-      }),
-    })
-      .then((res) => res.json())
-      .then((eventos) => setDataEvento(eventos));
-  };
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          trabajadorId: id,
+          realmethod: "GET",
+          status: "APROBADO",
+          ordenFecha: "PROXIMOS",
+        }),
+      })
+        .then((res) => res.json())
+        .then((eventos) => setDataEvento(eventos));
+    };
 
-  useEffect(() => {
-    if (id) {
-      getEventos();
-    }
-  }, []);
+    useEffect(() => {
+      if (id) {
+        getEventos();
+      }
+    }, []);
 
-  return (
-    <div className="h-full w-full bg-gray-200">
-      <div className="p-2">
-        <h1 className="text-5xl mt-20 md:mt-10 text-indigo-700 text-center md:text-center">
-          Eventos Confirmados
-        </h1>
+    return (
+      <div className="h-full w-full bg-gray-200">
+        <div className="p-2">
+          <h1 className="text-5xl mt-20 md:mt-10 text-indigo-700 text-center md:text-center">
+            Eventos Confirmados
+          </h1>
 
-        <div className="p-2 flex justify-center">
-          {!dataEvento ? (
-            <h2>Todavia no posee eventos confirmados</h2>
-          ) : (
-            <CardEventoConfirmadoHistorial eventos={dataEvento} />
-          )}
+          <div className="p-2 flex justify-center">
+            {!dataEvento ? (
+              <h2>Todavia no posee eventos confirmados</h2>
+            ) : (
+              <CardEventoConfirmadoHistorial eventos={dataEvento} />
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default EventosConfirmadosTrabajador;
+  export default EventosConfirmadosTrabajador;

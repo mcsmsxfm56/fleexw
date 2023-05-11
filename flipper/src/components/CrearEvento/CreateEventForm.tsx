@@ -201,7 +201,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary flex flex-col justify-center text-white"
+                  className="w-full input input-bordered input-primary flex flex-col justify-center text-indigo-600"
                 />
               </label>
             </div>
@@ -285,10 +285,10 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
-                Establecimiento
+                Lugar del Evento
                 <input
                   name="establecimiento"
-                  placeholder="Defina el Establecimiento"
+                  placeholder="Defina el Lugar del evento"
                   type="text"
                   value={formik.values.establecimiento}
                   onChange={formik.handleChange}
