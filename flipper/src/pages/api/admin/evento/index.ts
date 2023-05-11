@@ -1,35 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../lib/prisma";
+import jwt from "jsonwebtoken";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const eventoTable = await prisma.evento.findMany();
-    return res.status(200).send(eventoTable);
+  const { authorization } = req.headers;
+  let token = null;
+  if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
+    token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
-  if (req.method === "PUT") {
-    const {
-      idEvento,
-      admitePostulaciones,
-      nombre,
-      fecha_inicio,
-      fecha_final,
-      lugar,
-      cupos,
-      perfil,
-      pago,
-      numeroPostulantes,
-      observaciones,
-      isDeleted,
-    } = req.body;
-    const updateEvento = await prisma.evento.update({
-      where: { id: idEvento },
-      data: {
-        nombre,
-        isDeleted,
+  if (!token) {
+    return res.status(401).send("Token inexistente o invalido");
+  }
+  const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+  if (decodedToken) {
+    if (req.method === "GET") {
+      const eventoTable = await prisma.evento.findMany();
+      return res.status(200).send(eventoTable);
+    }
+    if (req.method === "PUT") {
+      const {
+        idEvento,
         admitePostulaciones,
+        nombre,
         fecha_inicio,
         fecha_final,
         lugar,
@@ -38,8 +33,25 @@ export default async function handler(
         pago,
         numeroPostulantes,
         observaciones,
-      },
-    });
-    return res.status(200).send("actualizacion con exito");
+        isDeleted,
+      } = req.body;
+      const updateEvento = await prisma.evento.update({
+        where: { id: idEvento },
+        data: {
+          nombre,
+          isDeleted,
+          admitePostulaciones,
+          fecha_inicio,
+          fecha_final,
+          lugar,
+          cupos,
+          perfil,
+          pago,
+          numeroPostulantes,
+          observaciones,
+        },
+      });
+      return res.status(200).send("actualizacion con exito");
+    }
   }
 }

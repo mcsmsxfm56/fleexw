@@ -9,7 +9,7 @@ import {
 } from "react";
 import jwt_decode from "jwt-decode";
 import { Usuario } from '../types/Types';
-import { fotoProvisoria } from "@/utils/fotoProvisoria";
+import fotoProvisoria from "@/utils/fotoProvisoria";
 ///////////////////////// context ////////////////////
 interface ContextProps {
   id: string;
@@ -40,7 +40,7 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
   const [nombre, setNombre] = useState("");
   const [id, setId] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [foto, setFoto] = useState("");
+  const [foto, setFoto] = useState(fotoProvisoria);
 
   //aca tengo que usar un useEffect para que reconozca que estoy del lado del cliente y asi poder acceder al objeto window
   useEffect(() => {
@@ -63,7 +63,7 @@ export const SesionUsuarioProvider = ({ children }: propsProvider) => {
     setId(() => usuario?.id || "")
     setIsAdmin(() => usuario?.isAdmin || false)
     setToken(() => cookieValue || "")
-    setFoto(foto || fotoProvisoria)
+    foto && setFoto(foto)
 
   }, []);
 

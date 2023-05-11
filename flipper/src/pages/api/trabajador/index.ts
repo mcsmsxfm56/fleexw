@@ -25,7 +25,7 @@ export default async function handler(
 ) {
   //console.log(req.headers);
   const { id } = req.body;
-  console.log(id);
+  // console.log(id);
 
   try {
     if (req.method === "PUT" && req.body.realmethod === "GET") {

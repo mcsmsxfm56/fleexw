@@ -4,7 +4,7 @@ import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
 import ReactWhatsapp from "react-whatsapp";
-import { fotoProvisoria } from "@/utils/fotoProvisoria";
+
 interface Props {
   isExpanded: boolean;
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,6 +14,8 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
   const { logout, nombre, foto } = useSesionUsuarioContext();
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
+  /*  console.log(foto); */
+
 
   return (
     <>
@@ -34,9 +36,10 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
         <div className="avatar flex flex-col items-center justify-start gap-2">
           <div className="w-20 rounded-full ">
             <Image
-              src={foto || fotoProvisoria}
+              src={foto}
               width={80}
               height={80}
+              priority
               alt="Picture of the author" />
           </div>
           <p
