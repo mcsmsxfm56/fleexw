@@ -1,22 +1,25 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ListaEventosTrabajador from "./ListaEventosTrabajador";
 
 const EventosConfirmadosTrabajador = () => {
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const [dataEvento, setDataEvento] = useState<[]>();
 
   const getEventos = async () => {
-    const eventos = await axios({
-      method: "put",
-      url: `/api/trabajadoreseneventos`,
-      data: {
+    const eventos = fetch("/api/trabajadoreseneventos", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
         trabajadorId: id,
         realmethod: "GET",
-      },
-    });
-    setDataEvento(eventos.data);
+      }),
+    })
+      .then((res) => res.json())
+      .then((eventos) => setDataEvento(eventos));
   };
 
   useEffect(() => {
