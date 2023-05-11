@@ -1,5 +1,4 @@
 import { Fetcher } from "swr";
-import { GridColDef } from "@mui/x-data-grid";
 
 export const fetcherDashboard: Fetcher<any, string> = (apiRoute) => {
   return fetch(apiRoute).then((res) => res.json());
@@ -14,7 +13,8 @@ export const aceptarORechazarEmpresa = async (
   ciudad: string,
   direccion: string,
   email: string,
-  isDeleted: string | boolean
+  isDeleted: string | boolean,
+  token: string
 ) => {
   if (authorizedByAdmin === "true") {
     authorizedByAdmin = true;
@@ -28,9 +28,13 @@ export const aceptarORechazarEmpresa = async (
   if (isDeleted === "false") {
     isDeleted = false;
   }
+
   return fetch("/api/admin/empresa", {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       idEmpresa,
       authorizedByAdmin,

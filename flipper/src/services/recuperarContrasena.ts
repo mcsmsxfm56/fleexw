@@ -1,16 +1,16 @@
-import axios from "axios"
-
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export const recuperarContrasena = (email: string) => {
-    console.log("email", email);
+  console.log("email", email);
 
-    return axios({
-        method: "put",
-        url: `/api/users/gestionDeContrasena/recuperarContrasena`,
-        data: {
-            email,
-            realmethod: "GET",
-        },
-    })
-        .then(response => response.data)
-}
+  return fetch(`/api/users/gestionDeContrasena/recuperarContrasena`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      realmethod: "GET",
+    }),
+  }).then((res) => res.json());
+};

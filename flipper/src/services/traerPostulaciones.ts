@@ -1,15 +1,19 @@
 import { NotificationList } from "@/types/Types";
-import axios, { AxiosError } from "axios";
 
-export async function Get_Postulaciones_Trabajador(trabajadorId: string): Promise<NotificationList> {
-  return axios(
-    {
-      method: 'put',
-      url: `/api/trabajadoreseneventos`,
-      data: {
-        trabajadorId,
-        realmethod: "GET"
-      }
-    })
-    .then(response => response.data)
+export async function Get_Postulaciones_Trabajador(
+  trabajadorId: string,
+  token: string
+): Promise<NotificationList> {
+  //console.log("Token", token);
+  return fetch(`/api/trabajadoreseneventos`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      trabajadorId,
+      realmethod: "GET",
+    }),
+  }).then((res) => res.json());
 }

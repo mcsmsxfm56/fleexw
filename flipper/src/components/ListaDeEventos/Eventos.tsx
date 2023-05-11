@@ -27,12 +27,15 @@ const buttonStyle =
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
 
-  const { id, rol, isAdmin } = useSesionUsuarioContext()
+  const { id, rol, isAdmin, token } = useSesionUsuarioContext()
 
   const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         realmethod: "GET",
         idEmpresa: id,
@@ -80,7 +83,7 @@ const Eventos: React.FC = () => {
     } else if (
       order == "desc" &&
       isLoading === false &&
-      data.constructor.name === "Object"
+      data?.constructor.name === "Object"
     ) {
       sorted = data.eventos?.sort(orderDesc);
     }
