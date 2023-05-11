@@ -1,3 +1,5 @@
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+
 //aca se hace la request para iniciar sesion y el resultado favorable va al localStorage para ser consumido por el context
 interface UsuarioParaLoguear {
   email: string;
@@ -17,9 +19,13 @@ export function iniciarSesion(
   usuario: UsuarioParaLoguear
 ): Promise<UsuarioLogueado> {
   //request con axios para obtener el usuario
+  const { token } = useSesionUsuarioContext();
   return fetch(`api/users/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(usuario),
   }).then((response) => response.json());
 }

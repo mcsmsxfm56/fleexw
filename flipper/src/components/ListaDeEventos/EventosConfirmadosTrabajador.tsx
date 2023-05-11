@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import ListaEventosTrabajador from "./ListaEventosTrabajador";
 
 const EventosConfirmadosTrabajador = () => {
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const [dataEvento, setDataEvento] = useState<[]>();
 
   const getEventos = async () => {
     const eventos = fetch("/api/trabajadoreseneventos", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         trabajadorId: id,
         realmethod: "GET",

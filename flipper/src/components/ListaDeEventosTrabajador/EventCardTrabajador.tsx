@@ -46,7 +46,7 @@ interface trabajadores {
 
 export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   console.log("card", evento);
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
@@ -61,7 +61,10 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const getEventos = async () => {
     const eventos = fetch(`/api/event`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         eventoId: evento.id,
         realmethod: "GET",

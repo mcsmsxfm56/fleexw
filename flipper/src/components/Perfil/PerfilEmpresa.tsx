@@ -17,14 +17,17 @@ interface ProfileEmpresa {
 
 const PerfilEmpresa: React.FC = () => {
   const [profile, setProfile] = useState<ProfileEmpresa>();
-  const { nombre, id } = useSesionUsuarioContext();
+  const { token, id } = useSesionUsuarioContext();
   // console.log(nombre);
   const router = useRouter();
 
   const userEvent = async () => {
     await fetch("/api/empresa", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         realmethod: "GET",
         // nombreEmpresa: nombre,

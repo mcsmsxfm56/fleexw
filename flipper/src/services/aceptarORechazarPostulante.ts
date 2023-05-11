@@ -1,3 +1,5 @@
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+
 interface aceptarORechazarPostulante {
   idPostulante: string;
   statusNuevo: string;
@@ -9,9 +11,13 @@ export const aceptarORechazarPostulante = async ({
   statusNuevo,
   idEvent,
 }: aceptarORechazarPostulante) => {
+  const { token } = useSesionUsuarioContext();
   const response = await fetch(`/api/event`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       eventoId: idEvent,
       trabajadorId: idPostulante,

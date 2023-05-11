@@ -1,3 +1,4 @@
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { CompanyData, WorkerRegisterData } from "@/types/Types";
 
 //const URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
@@ -12,6 +13,7 @@ export async function Post_Company_Register(data: CompanyData) {
 
 export async function Post_Worker_Register(data: WorkerRegisterData) {
   // TODO el numero de id llega como string, lo paso a number
+  const { token } = useSesionUsuarioContext();
   const sendData = {
     ...data,
     rol: "trabajador",
@@ -19,7 +21,10 @@ export async function Post_Worker_Register(data: WorkerRegisterData) {
   };
   return fetch(`api/users/register/trabajador`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(sendData),
   }).then((res) => res.json());
 }
