@@ -1,13 +1,9 @@
 import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
-import { HiPencil } from "react-icons/hi";
 import { IoLocationSharp } from "react-icons/io5";
-import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from 'axios'
 import { useEffect, useState, useContext } from "react";
-
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
 
