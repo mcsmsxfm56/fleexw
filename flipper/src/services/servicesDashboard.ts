@@ -1,7 +1,12 @@
 import { Fetcher } from "swr";
 
-export const fetcherDashboard: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute).then((res) => res.json());
+export const fetcherDashboard = (apiRoute: string, token: string) => {
+  return fetch(apiRoute, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
 };
 
 export const aceptarORechazarEmpresa = async (

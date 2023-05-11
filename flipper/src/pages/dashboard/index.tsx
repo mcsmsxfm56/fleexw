@@ -10,7 +10,7 @@ import {
   objTrabajador,
   objtrabajadoresEnEventos,
 } from "@/types/Types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatagridTrabajadoresEnEventos from "./DatagridTrabajadoresEnEventos";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import { useRouter } from "next/router";
@@ -20,7 +20,9 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 export default function Dashboard() {
-  const { isAdmin } = useSesionUsuarioContext()
+  const [data, setData]: any = useState();
+  const { isAdmin, token } = useSesionUsuarioContext();
+  //console.log(token);
   /*   let isAdmin: boolean;
     const router = useRouter();
     if (typeof window !== "undefined") {
@@ -30,10 +32,24 @@ export default function Dashboard() {
         router.push("/404");
       }
     } */
-
-  const { isLoading, error, data } = useSWR("/api/admin", fetcherDashboard);
+  const fetcher = async () => {
+    await fetch(`/api/admin`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  };
+  useEffect(() => {
+    if (token) {
+      fetcher();
+    }
+  }, [token]);
   let eventosCancelados = 0;
-
+  console.log(data);
   const sheetTrabajador: objTrabajador[] = [];
   const sheetEmpresa: objEmpresa[] = [];
   const sheetEventos: objEvento[] = [];
@@ -55,7 +71,7 @@ export default function Dashboard() {
     sheetTrabajador.push(objTrabajador);
   });
 
-  if (isLoading) return <div>Cargando...</div>;
+  //if (isLoading) return <div>Cargando...</div>;
   console.log(sheetTrabajadoresEnEventos);
   return (
     <div>

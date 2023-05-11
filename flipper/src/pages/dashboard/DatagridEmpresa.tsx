@@ -6,7 +6,7 @@ import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
   const [rowsEmpresa, setRowsEmpresa] = useState<{}[]>([]);
-  const { token } = useSesionUsuarioContext()
+  const { token } = useSesionUsuarioContext();
 
   useEffect(() => {
     if (dataEmpresas) {
@@ -14,7 +14,7 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
         setRowsEmpresa((prevState) => [...prevState, objEmpresa]);
       });
     }
-  }, []);
+  }, [dataEmpresas]);
   const columnsEmpresa: GridColDef[] = [
     {
       field: "isAdmin",
