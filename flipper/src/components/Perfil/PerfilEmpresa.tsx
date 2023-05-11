@@ -1,5 +1,4 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-import axios from "axios";
 import React, { useState } from "react";
 import Image from "next/image";
 import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";

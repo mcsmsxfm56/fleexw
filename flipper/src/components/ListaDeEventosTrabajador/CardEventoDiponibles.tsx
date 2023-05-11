@@ -1,25 +1,13 @@
-import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
-import { HiPencil } from "react-icons/hi";
+import { AiFillClockCircle } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
-import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
-import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
 
-interface EventCardProps {
-  nombreEvento: string;
-  fechaEvento: string;
-  observaciones: string;
-  hora: string;
-  direccion: string;
-  idEvento: string;
-}
+
 interface trabajador {
   eventoId: string;
   notificacionVista: boolean;
@@ -47,7 +35,7 @@ interface trabajadores {
 
 
 export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
@@ -58,17 +46,22 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
     (trabajador) => trabajador.trabajadorId === id
   );
 
+
   const getEventos = async () => {
-    const eventos = await axios({
+    fetch('/api/event', {
       method: "PUT",
-      url: `/api/event`,
-      data: {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
         eventoId: evento.id,
         realmethod: "GET",
-      },
-    });
+      }),
+    })
+      .then((res) => res.json())
+      .then((eventos) => setTrabajadores(eventos));
     // console.log(eventos.data)
-    setTrabajadores(eventos.data);
   };
 
   useEffect(() => {
