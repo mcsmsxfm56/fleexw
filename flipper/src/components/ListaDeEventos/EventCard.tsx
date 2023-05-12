@@ -14,10 +14,13 @@ interface EventCardProps {
   hora: string;
   direccion: string;
 }
-const borradoLogico = async (eventoId: string) => {
+const borradoLogico = async (eventoId: string, token: string) => {
   await fetch(`/api/event`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       realmethod: "DELETE",
       eventoId,
@@ -32,7 +35,7 @@ const borradoLogico = async (eventoId: string) => {
 };
 export const EventCard: React.FC<evento> = (evento) => {
   /* console.log("card", evento); */
-  const { rol } = useSesionUsuarioContext()
+  const { rol, token } = useSesionUsuarioContext();
 
   const router = useRouter();
   return (
@@ -51,7 +54,7 @@ export const EventCard: React.FC<evento> = (evento) => {
               className="text-red-600 cursor-pointer rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
               size={30}
               onClick={async () => {
-                await borradoLogico(evento.id);
+                await borradoLogico(evento.id, token);
                 router.reload();
               }}
             />

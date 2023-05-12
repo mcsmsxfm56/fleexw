@@ -108,7 +108,7 @@ export const PerfilTrabajador: React.FC = () => {
       method: "PUT",
       headers: {
         Accept: "Aplication/json",
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

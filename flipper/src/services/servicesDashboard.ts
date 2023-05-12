@@ -65,7 +65,8 @@ export const dashboardUpdateEvento = async (
   pago: number,
   numeroPostulantes: number,
   observaciones: string,
-  isDeleted: string | boolean
+  isDeleted: string | boolean,
+  token: string
 ) => {
   if (admitePostulaciones === "true") {
     admitePostulaciones = true;
@@ -81,7 +82,10 @@ export const dashboardUpdateEvento = async (
   }
   return fetch("/api/admin/evento", {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
     body: JSON.stringify({
       idEvento,
       admitePostulaciones,
@@ -122,7 +126,8 @@ export const dashboardUpdateTrabajador = async (
   foto: string,
   cv: string,
   rut: string,
-  certificado_bancario: string
+  certificado_bancario: string,
+  token: string
 ) => {
   if (isDeleted === "true") {
     isDeleted = true;
@@ -132,7 +137,10 @@ export const dashboardUpdateTrabajador = async (
   }
   return fetch("/api/admin/trabajador", {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       name,
       idType,
@@ -165,7 +173,8 @@ export const dashboardUpdateTrabajadorEnEventos = async (
   status: string,
   notificacionVista: string | boolean,
   eventoId: string,
-  trabajadorId: string
+  trabajadorId: string,
+  token: string
 ) => {
   if (notificacionVista === "true") {
     notificacionVista = true;
@@ -175,7 +184,10 @@ export const dashboardUpdateTrabajadorEnEventos = async (
   }
   return fetch("/api/trabajadoreseneventos", {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       status,
       notificacionVista,

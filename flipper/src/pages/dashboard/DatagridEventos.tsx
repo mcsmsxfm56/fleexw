@@ -2,9 +2,12 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { dashboardUpdateEvento } from "../../services/servicesDashboard";
 import { objEvento, PropsEventoGrid } from "@/types/Types";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
   const [rowsEventos, setRowsEventos] = useState<{}[]>([]);
+
+  const { token } = useSesionUsuarioContext();
 
   useEffect(() => {
     if (dataEventos) {
@@ -167,7 +170,8 @@ const DatagridEventos: React.FC<PropsEventoGrid> = ({ dataEventos }) => {
               pago,
               numeroPostulantes,
               observaciones,
-              isDeleted
+              isDeleted,
+              token
             );
           }}
         >

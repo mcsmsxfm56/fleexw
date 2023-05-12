@@ -10,7 +10,7 @@ const buttonStyle =
 
 const Historial: React.FC = () => {
 
-  const { id } = useSesionUsuarioContext()
+  const { id, token } = useSesionUsuarioContext()
 
   const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
@@ -20,7 +20,8 @@ const Historial: React.FC = () => {
         realmethod: "GET",
         idEmpresa: id,
         //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
-        function: 'historial'
+        function: 'historial',
+        Authorization: `Bearer ${token}`,
       }),
     }).then((res) => res.json());
   };

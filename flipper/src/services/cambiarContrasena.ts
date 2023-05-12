@@ -1,6 +1,6 @@
 export const cambiarContrasena = async (
   resetContrasenaCode: string,
-  password: string
+  password: string,
 ) => {
   const response = fetch(`/api/users/gestionDeContrasena/cambiarContrasena/`, {
     method: "PUT",

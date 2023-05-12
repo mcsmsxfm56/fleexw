@@ -3,12 +3,16 @@ import { useState, useEffect } from "react";
 import { objtrabajadoresEnEventos } from "@/types/Types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { dashboardUpdateTrabajadorEnEventos } from "@/services/servicesDashboard";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 const DatagridTrabajadoresEnEventos: React.FC<
   PropsTrabajadoresEnEventosGrid
 > = ({ dataTrabajadoresEnEventos }) => {
   const [rowsTrabajadoresEnEventos, setRowsTrabajadoresEnEventos] = useState<
     {}[]
   >([]);
+
+  const { token } = useSesionUsuarioContext();
+
   let id = 0;
   useEffect(() => {
     if (dataTrabajadoresEnEventos) {
@@ -72,7 +76,8 @@ const DatagridTrabajadoresEnEventos: React.FC<
               status,
               notificacionVista,
               eventoId,
-              trabajadorId
+              trabajadorId,
+              token
             );
           }}
         >

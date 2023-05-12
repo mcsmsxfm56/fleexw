@@ -41,7 +41,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const formik = useFormik({
     initialValues: {
       id_empresa: id,
@@ -72,8 +72,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
       ? await fetch(`/api/event/create-event`, {
           method: "PUT",
           headers: {
-            Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ values, realmethod: "PUT", idEvent }),
         })
@@ -126,8 +126,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
       : await fetch("/api/event/create-event", {
           method: "POST",
           headers: {
-            Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(values),
         })
