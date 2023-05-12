@@ -40,7 +40,6 @@ interface trabajadores {
   trabajadores: trabajador[];
 }
 
-
 export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
@@ -54,7 +53,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   );
 
   const getEventos = async () => {
-    await fetch('/api/event', {
+    await fetch("/api/event", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +101,6 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
             <span className="font-bold mt-2 mb-2">postulantes:</span>{" "}
             {` ${postulantes?.numeroPostulantes} / ${evento.cupos}   `}
           </p>
-
         </div>
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (
@@ -117,6 +115,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                   }),
                   headers: {
                     "Content-type": "application/json; charset=UTF-8",
+                    Authorization: `Bearer ${token}`,
                   },
                 })
                   .then(async (response) => {
