@@ -54,9 +54,9 @@ export default async function handler(
           certificado_bancario: trabajador.certificado_bancario,
         };
 
-        return res.status(200).send(newTrabajador);
+        return res.status(200).json(newTrabajador);
       } catch (error: any) {
-        return res.status(400).send(error.message);
+        return res.status(400).json(error.message);
       }
     }
 
@@ -64,13 +64,13 @@ export default async function handler(
       try {
         const elimiar = await eliminarTrabajador(id as string);
         if (elimiar) {
-          return res.status(200).send("Trabajador eliminado correctamente");
+          return res.status(200).json("Trabajador eliminado correctamente");
         }
       } catch (error: any) {
-        return res.status(400).send(error.message);
+        return res.status(400).json(error.message);
       }
     }
   } catch (error: any) {
-    return res.status(400).send(error.message);
+    return res.status(400).json(error.message);
   }
 }

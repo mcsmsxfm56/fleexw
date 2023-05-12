@@ -13,10 +13,10 @@ export default async function handler(
   const body = req.body;
 
   if (!body.email || !body.password) {
-    return res.send("mandatory data are missing");
+    return res.json("mandatory data are missing");
   }
   if (req.method !== "POST") {
-    return res.send("this method is invalid");
+    return res.json("this method is invalid");
   }
 
   try {
@@ -103,6 +103,6 @@ export default async function handler(
       isAdmin,
     });
   } catch (error: any) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 }

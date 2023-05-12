@@ -52,10 +52,10 @@ const HistorialTrabajador = () => {
         </h1>
 
         <div className="flex flex-col items-center m-auto w-11/12">
-          {!data ? (
+          {data.length == 0 ? (
             <h2>Todavia no posee eventos confirmados</h2>
           ) : (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full">
               <button
                 onClick={() => {
                   downloadExcelTrabajador(data);

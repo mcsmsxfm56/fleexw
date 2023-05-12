@@ -40,7 +40,6 @@ interface trabajadores {
   trabajadores: trabajador[];
 }
 
-
 export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
@@ -54,7 +53,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   );
 
   const getEventos = async () => {
-    await fetch('/api/event', {
+    await fetch("/api/event", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -84,8 +83,11 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
       <hr></hr>
       <div className="text-indigo-700 flex justify-around">
         <div className="w-[60%]">
-          <p className="text-2xl font-bold">
+          <p className="text-base md:text-2xl font-bold">
             {evento.fecha_inicio.slice(0, 10)}
+            {evento.fecha_inicio.slice(0, 10) !==
+              evento.fecha_final.slice(0, 10) &&
+              ` - ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
@@ -102,7 +104,6 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
             <span className="font-bold mt-2 mb-2">postulantes:</span>{" "}
             {` ${postulantes?.numeroPostulantes} / ${evento.cupos}   `}
           </p>
-
         </div>
         <div className="w-[30%] flex justify-center items-center">
           {evento.admitePostulaciones ? (
@@ -117,6 +118,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                   }),
                   headers: {
                     "Content-type": "application/json; charset=UTF-8",
+                    Authorization: `Bearer ${token}`,
                   },
                 })
                   .then(async (response) => {
@@ -194,7 +196,11 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize ml-2">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.horaInicio.slice(11, 16)}</p>
+        <p className="mr-5">
+          {evento.horaInicio.slice(11, 16)}
+          {" - "}
+          {evento.horaFinal.slice(11, 16)}
+        </p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

@@ -18,14 +18,16 @@ interface Props {
   eventos: [] | undefined;
 }
 const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
-
-  console.log('Eventos card confirmados', eventos)
+  console.log("Eventos card confirmados", eventos);
   return (
     <div className="w-full h-full md:w-9/12">
       {eventos ? (
         eventos.map((event: eventoTrabajador) => {
           return (
-            <div key={`${event.eventoId}_key`} className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full text-indigo-700 shadow-2xl">
+            <div
+              key={`${event.eventoId}_key`}
+              className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full text-indigo-700 shadow-2xl"
+            >
               <div className="flex flex-col">
                 <h2
                   className={`flex justify-start font-bold self-center border-2 border-solid px-8 py-1 rounded-xl
@@ -40,19 +42,29 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
                 </h2>
                 <h2 className="flex justify-start font-bold">
                   Lugar:{" "}
-                  <p className="font-normal ml-2">{event.evento.establecimiento}</p>
-                </h2>
-                <h2 className="flex justify-start font-bold">
-                  Fecha:{" "}
                   <p className="font-normal ml-2">
+                    {event.evento.establecimiento}
+                  </p>
+                </h2>
+                <h2 className="flex justify-start flex-wrap font-bold">
+                  Fecha Inicio:{" "}
+                  <p className="font-normal mx-2">
                     {event.evento.fecha_inicio.slice(0, 10)}
+                  </p>
+                  {" : "}
+                  <p className="font-normal mx-2">
+                    {event.evento.fecha_inicio.slice(11, 16)}
                   </p>
                 </h2>
 
-                <h2 className="flex justify-start font-bold">
-                  Hora Inicio:{" "}
-                  <p className="font-normal ml-2">
-                    {event.evento.fecha_inicio.slice(11, 16)}
+                <h2 className="flex justify-start flex-wrap font-bold">
+                  Fecha Final:{" "}
+                  <p className="font-normal mx-2">
+                    {event.evento.fecha_final.slice(0, 10)}
+                  </p>
+                  {" : "}
+                  <p className="font-normal mx-2">
+                    {event.evento.fecha_final.slice(11, 16)}
                   </p>
                 </h2>
 

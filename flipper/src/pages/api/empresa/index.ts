@@ -40,18 +40,18 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
     if (req.method === "GET") {
       const user = await prisma.empresa.findMany();
       if (user) {
-        res.status(200).send(user);
+        res.status(200).json(user);
       } else {
         res
           .status(400)
-          .send("No hay empresas, hay que esperar a que se registren");
+          .json("No hay empresas, hay que esperar a que se registren");
       }
     }
 
@@ -59,7 +59,7 @@ export default async function handler(
       try {
         const idEmpresa: string = req.body.idEmpresa as string;
         if (req.body.function === "misEventos") {
-          //console.log(idEmpresa);
+          console.log('Hola ',idEmpresa);
           let user = await prisma.empresa.findUnique({
             where: { id: idEmpresa },
             include: {
@@ -74,10 +74,12 @@ export default async function handler(
               },
             },
           });
+          console.log(user)
           if (user) {
-            return res.status(200).send(user);
+            return res.status(200).json(user);
           } else {
-            return res.status(400).send("Empresa no encontrada");
+            console.log('salio 1')
+            return res.status(400).json("Empresa no encontrada");
           }
         }
         if (req.body.function === "historial") {
@@ -96,13 +98,15 @@ export default async function handler(
             },
           });
           if (user) {
-            return res.status(200).send(user);
+            return res.status(200).json(user);
           } else {
-            return res.status(400).send("Empresa no encontrada");
+            return res.status(400).json("Empresa no encontrada");
           }
         }
       } catch (error: unknown) {
-        return res.status(400).send(error);
+        console.log('salio 2')
+        console.log(error)
+        return res.status(400).json(error);
       }
     }
     if (req.method === "PUT" && req.body.realmethod === "ADMINPUT") {
@@ -113,7 +117,7 @@ export default async function handler(
           authorizedByAdmin,
         },
       });
-      return res.status(200).send({ message: "Empresa autorizada con exito" });
+      return res.status(200).json({ message: "Empresa autorizada con exito" });
     }
     if (req.method === "PUT" && req.body.realmethod === "PUT") {
       let {
@@ -126,7 +130,7 @@ export default async function handler(
         telefono,
         idEmpresa,
       }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-      putEmpresa = req.body;
+        putEmpresa = req.body;
       if (authorization === undefined) {
         return res.status(400).json({ message: "Autorizacion rechazada" });
       }
@@ -156,7 +160,7 @@ export default async function handler(
           empresaUpdate,
         });
       }
-      return res.status(400).send("No se pudo actualizar la informacion");
+      return res.status(400).json("No se pudo actualizar la informacion");
     }
   }
 }
@@ -195,7 +199,7 @@ export default async function handler(
         },
       });
     }
-    res.status(200).send("DELETE");
+    res.status(200).json("DELETE");
   } else if (req.method === "PUT") {
     const { authorization } = req.headers;
     const idEmpresa: string = req.query.nombre as string;
@@ -230,7 +234,7 @@ export default async function handler(
       token = authorization.split(" ")[1]; // obtenemos el token del authorization '[bearer] [token]'
     }
     if (!token) {
-      return res.status(401).send("Token inexistente o invalido");
+      return res.status(401).json("Token inexistente o invalido");
     }
 
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
@@ -252,7 +256,7 @@ export default async function handler(
     }
 
     // if (Object.keys(req.body).length === 0) {
-    //   res.status(400).send("Objeto vacio");
+    //   res.status(400).json("Objeto vacio");
     // }
 
     // if (typeof isDeleted == "boolean") {
@@ -265,7 +269,7 @@ export default async function handler(
     //       isDeleted: isDeleted,
     //     },
     //   });
-    //   res.status(200).send("PUT");
+    //   res.status(200).json("PUT");
     // }
     // if (typeof name === "string") {
     //   const updateEvent = await prisma.empresa.update({

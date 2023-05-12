@@ -4,6 +4,7 @@ import { IconContext } from "react-icons";
 import Link from "next/link";
 import { log } from "console";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 interface PropsCard {
   idEvent: string;
@@ -18,8 +19,9 @@ export const PostulanteCard: React.FC<PropsCard> = ({
   nombre,
   status,
 }) => {
+  const { token } = useSesionUsuarioContext();
   const handleStatus = (statusNuevo: string) => {
-    aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent });
+    aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent, token });
   };
   return (
     <li>

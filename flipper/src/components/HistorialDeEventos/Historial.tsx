@@ -9,18 +9,20 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const Historial: React.FC = () => {
-
-  const { id } = useSesionUsuarioContext()
+  const { id, token } = useSesionUsuarioContext();
 
   const fetcherGET_api_empresa_id: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         realmethod: "GET",
         idEmpresa: id,
         //function sirve para detectar la informacion que se tiene que devolver, puede ser historial o misEventos
-        function: 'historial'
+        function: "historial",
       }),
     }).then((res) => res.json());
   };
@@ -29,7 +31,6 @@ const Historial: React.FC = () => {
     "/api/empresa",
     fetcherGET_api_empresa_id
   );
-
 
   data?.eventos?.map((objEvento: objEvento) => {
     //nombreTrabajador;
@@ -61,7 +62,7 @@ const Historial: React.FC = () => {
     <div className="h-full bg-gray-200 w-full">
       <div className="p-2 text-center">
         <h1 className="text-5xl capitalize mb-2 text-indigo-700 mt-20 md:mt-10">
-          Historial de Eventos<br></br>
+          Historial de Eventos
         </h1>
         <button
           onClick={() => {

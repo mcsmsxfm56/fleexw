@@ -14,7 +14,7 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
@@ -23,28 +23,29 @@ export default async function handler(
       allEvents = allEvents.filter(
         (objEvent: any) => objEvent.isDeleted === false
       );
-      return res.status(200).send(allEvents);
+      return res.status(200).json(allEvents);
     }
-
+    
     if (req.method === "PUT" && req.body.realmethod === "GET") {
-      const id: string = req.body.eventoId as string;
-      const evento = await prisma.evento.findUnique({
-        where: {
-          id,
-        },
+      try {
+        const id: string = req.body.eventoId as string;
+        const evento = await prisma.evento.findUnique({
+          where: {
+            id,
+          },
 
-        include: {
-          trabajadores: {
-            include: {
-              trabajadores: true,
+          include: {
+            trabajadores: {
+              include: {
+                trabajadores: true,
+              },
             },
           },
-        },
-      });
-      try {
-        if (evento) return res.status(200).send(evento);
+        });
+        if (evento) return res.status(200).json(evento);
+        return res.status(404).json('No se encontro el evento')
       } catch (error: any) {
-        return res.status(400).send(evento);
+        return res.status(400).json(error);
       }
     }
     /*
@@ -54,9 +55,9 @@ export default async function handler(
     // if (req.method === "GET") {
     //   /*
     //   if (evento?.isDeleted) {
-    //     res.status(404).send("evento no encontrado");
+    //     res.status(404).json("evento no encontrado");
     //   } else {
-    //     res.status(200).send(evento);
+    //     res.status(200).json(evento);
     //   }
     //   */
     //   //const id: string = req.query.id as string; //id del usuario
@@ -83,11 +84,11 @@ export default async function handler(
     //       },
     //     });
     //     console.log(userEmpresa); //cuando no encuentra nada user === null
-    //     res.status(200).send(userEmpresa);
+    //     res.status(200).json(userEmpresa);
     //   }
     //   const allEvents = await prisma.evento.findMany();
     //   console.log(allEvents); //cuando no encuentra nada user === null
-    //   res.status(200).send(allEvents);
+    //   res.status(200).json(allEvents);
     //}
     /*
   2. RUTA PUT /api/home/:idEvento
@@ -114,7 +115,7 @@ export default async function handler(
         },
       });
       if (evento?.isDeleted) {
-        return res.status(404).send("evento no encontrado");
+        return res.status(404).json("evento no encontrado");
       }
       const trabajadorId: string = req.body.trabajadorId as string;
       const status: string = req.body.status as string;
@@ -132,7 +133,7 @@ export default async function handler(
       });
       return res
         .status(200)
-        .send(`Status del candidato actualizado a ${eventoUpdate.status}`);
+        .json(`Status del candidato actualizado a ${eventoUpdate.status}`);
     }
     /*
   3. RUTA DELETE /api/home/:idEvento
@@ -156,7 +157,7 @@ export default async function handler(
       });
       console.log("detecta que es deleted");
       if (evento?.isDeleted) {
-        return res.status(404).send("evento no encontrado o ya eliminado");
+        return res.status(404).json("evento no encontrado o ya eliminado");
       } else {
         console.log(id);
         const deletedEvent = await prisma.evento.update({
@@ -207,7 +208,7 @@ export default async function handler(
           },
         });
 
-        return res.status(200).send("Evento borrado con exito");
+        return res.status(200).json("Evento borrado con exito");
       }
     }
   }

@@ -38,18 +38,18 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
     if (req.method === "GET") {
       const events = await prisma.evento.findMany();
       if (events) {
-        res.status(200).send(events);
+        res.status(200).json(events);
       } else {
         res
           .status(400)
-          .send("No hay empresas, hay que esperar a que se registren");
+          .json("No hay empresas, hay que esperar a que se registren");
       }
     }
     /*
@@ -129,9 +129,9 @@ export default async function handler(
             observaciones,
           },
         });
-        res.status(200).send("Evento creado con exito");
+        res.status(200).json("Evento creado con exito");
       } catch (err: unknown) {
-        res.status(400).send(err);
+        res.status(400).json(err);
         /*
     1. ERROR DE TIPADO RETORNO
     {
@@ -165,7 +165,7 @@ export default async function handler(
       const id: string = req.body.idEvent as string;
       //console.log(id);
       if (Object.keys(req.body.values).length === 0) {
-        res.status(400).send("Objeto vacio");
+        res.status(400).json("Objeto vacio");
       }
       try {
         if (!id) throw new Error("No existe ese evento");
@@ -200,10 +200,10 @@ export default async function handler(
           },
         });
         if (evento) {
-          return res.status(200).send("Evento actualizado con exito");
+          return res.status(200).json("Evento actualizado con exito");
         }
       } catch (error: any) {
-        return res.status(400).send(error.message);
+        return res.status(400).json(error.message);
       }
     }
   }
@@ -233,7 +233,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).send(empresaEventos);
+    res.status(200).json(empresaEventos);
   } else if (req.method === "DELETE") {
     //recibe la id del evento por query y hace borrado logico
     const id: string = req.query.id as string;
@@ -246,7 +246,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).send("deleted");
+    res.status(200).json("deleted");
     
   } else 
 }

@@ -35,9 +35,9 @@ export default async function handler(
       });
       if (!eventosPorCiudad) {
         const eventosNotFound = "No hay eventos disponibles";
-        res.status(404).send(eventosNotFound);
+        res.status(404).json(eventosNotFound);
       }
-      return res.status(200).send(eventosPorCiudad);
+      return res.status(200).json(eventosPorCiudad);
     }
   }
 }
