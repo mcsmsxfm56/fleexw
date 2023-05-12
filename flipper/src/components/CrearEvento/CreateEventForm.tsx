@@ -37,24 +37,38 @@ interface PropsCreateEventForm {
   idEvent?: string;
 }
 
+interface formProps {
+  id_empresa: string;
+  nombre: string;
+  fecha_inicio: string;
+  fecha_final: string;
+  lugar: string;
+  establecimiento: string;
+  cupos: number;
+  perfil: string;
+  pago: number;
+  observaciones: string;
+}
+
 const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { id, token } = useSesionUsuarioContext();
+  const [eventLoaded, setEventLoaded] = useState<formProps>({
+    id_empresa: id,
+    nombre: "",
+    fecha_inicio: "",
+    fecha_final: "",
+    lugar: "",
+    establecimiento: "",
+    cupos: 0,
+    perfil: "",
+    pago: 0,
+    observaciones: "",
+  });
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const { id, token } = useSesionUsuarioContext();
   const formik = useFormik({
-    initialValues: {
-      id_empresa: id,
-      nombre: "",
-      fecha_inicio: "",
-      fecha_final: "",
-      lugar: "",
-      establecimiento: "",
-      cupos: 0,
-      perfil: "",
-      pago: 0,
-      observaciones: "",
-    },
+    initialValues: { ...eventLoaded },
     validationSchema,
     onSubmit: (values) => {
       submitHandler(values);
@@ -64,6 +78,32 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   useEffect(() => {
     (() => formik.validateForm())();
   }, []);
+
+  useEffect(() => {
+    console.log("id: ", idEvent);
+    if (idEvent) {
+      getEvent();
+    }
+  }, []);
+
+  const getEvent = async () => {
+    const event = await fetch(`/api/event`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        realmethod: "GET",
+        eventoId: idEvent,
+      }),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    console.log(event);
+    setEventLoaded(event);
+  };
 
   const submitHandler = async (values: createEvent) => {
     setSubmitError("");
@@ -190,7 +230,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-start">
+          className="w-full flex flex-col items-start"
+        >
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
@@ -379,7 +420,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                       ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                       : "bg-slate-400"
                   } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
-                  disabled={!formik.isValid}>
+                  disabled={!formik.isValid}
+                >
                   {router.asPath !== "/home"
                     ? "Actualizar Evento"
                     : "Crear Evento"}

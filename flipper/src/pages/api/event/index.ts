@@ -25,26 +25,27 @@ export default async function handler(
       );
       return res.status(200).json(allEvents);
     }
-
+    
     if (req.method === "PUT" && req.body.realmethod === "GET") {
-      const id: string = req.body.eventoId as string;
-      const evento = await prisma.evento.findUnique({
-        where: {
-          id,
-        },
+      try {
+        const id: string = req.body.eventoId as string;
+        const evento = await prisma.evento.findUnique({
+          where: {
+            id,
+          },
 
-        include: {
-          trabajadores: {
-            include: {
-              trabajadores: true,
+          include: {
+            trabajadores: {
+              include: {
+                trabajadores: true,
+              },
             },
           },
-        },
-      });
-      try {
+        });
         if (evento) return res.status(200).json(evento);
+        return res.status(404).json('No se encontro el evento')
       } catch (error: any) {
-        return res.status(400).json(evento);
+        return res.status(400).json(error);
       }
     }
     /*

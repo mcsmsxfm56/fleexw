@@ -25,6 +25,8 @@ const MenuDesktop = () => {
             height={80}
             alt="Picture of the user"
             priority
+            placeholder="blur"
+            blurDataURL={fotoProvisoria}
           />
         </div>
         <p

@@ -41,6 +41,8 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
               width={80}
               height={80}
               priority
+              placeholder="blur"
+              blurDataURL={fotoProvisoria}
               alt="Picture of the author" />
           </div>
           <p

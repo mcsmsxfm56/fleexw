@@ -7,13 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useContext } from "react";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-interface EventCardProps {
-  nombreEvento: string;
-  fechaEvento: string;
-  observaciones: string;
-  hora: string;
-  direccion: string;
-}
+
 const borradoLogico = async (eventoId: string, token: string) => {
   await fetch(`/api/event`, {
     method: "PUT",
@@ -64,8 +58,11 @@ export const EventCard: React.FC<evento> = (evento) => {
       <hr></hr>
       <div className="text-indigo-700 flex">
         <div className="flex-1">
-          <p className="text-2xl font-bold">
+          <p className="text-lg md:text-xl lg:text-2xl font-bold">
             {evento.fecha_inicio.slice(0, 10)}
+            {evento.fecha_inicio.slice(0, 10) !==
+              evento.fecha_final.slice(0, 10) &&
+              ` - ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
@@ -86,7 +83,10 @@ export const EventCard: React.FC<evento> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">
+          {evento.fecha_inicio.slice(11, 16)} {" - "}{" "}
+          {evento.fecha_final.slice(11, 16)}
+        </p>
         <IoLocationSharp />
         {evento.lugar}
       </div>
