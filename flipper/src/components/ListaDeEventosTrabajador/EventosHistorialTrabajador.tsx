@@ -7,32 +7,36 @@ import { downloadExcelTrabajador } from "../Excel/generateExcel";
 import CardEventoConfirmadoHistorial from "./CardEventoConfirmadoHistorial";
 import useSWR, { Fetcher } from "swr";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import { useEffect, useState } from "react";
 
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const HistorialTrabajador = () => {
   const { id, token } = useSesionUsuarioContext();
-
-  const fetcherTrabajador: Fetcher<any, string> = (apiRoute) => {
-    return fetch(apiRoute, {
+  const [data, setData]: any = useState();
+  const fetcherTrabajador = async () => {
+    return fetch("/api/trabajadoreseneventos", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         realmethod: "GET",
         trabajadorId: id,
         status: "ASISTIO",
-        ordenFecha: "HISTORIAL"
+        ordenFecha: "HISTORIAL",
       }),
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then((res) => setData(res));
   };
-  const { isLoading, data, error } = useSWR(
-    "/api/trabajadoreseneventos",
-    fetcherTrabajador
-  );
+  useEffect(() => {
+    if (token) {
+      fetcherTrabajador();
+    }
+  }, [token]);
   //const eventosExcel: objtrabajadoresEnEventos[] = [];
   //data?.map(
   //(
@@ -41,9 +45,9 @@ const HistorialTrabajador = () => {
   //eventosExcel.push(objtrabajadoresEnEventosIncludeEvento.evento);
   //}
   //);
-  if (isLoading) return <div>Loading...</div>;
+  //if (isLoading) return <div>Loading...</div>;
   /* console.log(data); */ //array con objtrabajadoresEnEventos
-
+  console.log(data);
   return (
     <div className="h-full w-full bg-gray-200">
       <div className="p-2">
