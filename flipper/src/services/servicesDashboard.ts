@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { Fetcher } from "swr";
 
 export const fetcherDashboard: Fetcher<any, string> = (apiRoute) => {
@@ -49,7 +50,7 @@ export const aceptarORechazarEmpresa = async (
   })
     .then((response) => response.text())
     .then((data) => {
-      alert(data);
+      Swal.fire(data);
     });
 };
 
@@ -84,7 +85,7 @@ export const dashboardUpdateEvento = async (
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       idEvento,
@@ -103,7 +104,7 @@ export const dashboardUpdateEvento = async (
   })
     .then((response) => response.text())
     .then((data) => {
-      alert(data);
+      Swal.fire(data);
     });
 };
 
@@ -165,7 +166,7 @@ export const dashboardUpdateTrabajador = async (
   })
     .then((response) => response.text())
     .then((data) => {
-      alert(data);
+      Swal.fire(data);
     });
 };
 
@@ -197,6 +198,6 @@ export const dashboardUpdateTrabajadorEnEventos = async (
   })
     .then((response) => response.text())
     .then((data) => {
-      alert(data);
+      Swal.fire(data);
     });
 };

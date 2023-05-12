@@ -5,7 +5,6 @@ import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
 import fotoProvisoria from "@/utils/fotoProvisoria";
-import fotoProvisoria from "@/utils/fotoProvisoria";
 import ReactWhatsapp from "react-whatsapp";
 
 const MenuDesktop = () => {

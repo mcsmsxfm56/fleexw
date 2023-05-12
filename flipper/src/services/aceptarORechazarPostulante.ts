@@ -1,4 +1,5 @@
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import Swal from "sweetalert2";
 
 interface aceptarORechazarPostulante {
   idPostulante: string;
@@ -11,7 +12,7 @@ export const aceptarORechazarPostulante = async ({
   idPostulante,
   statusNuevo,
   idEvent,
-  token
+  token,
 }: aceptarORechazarPostulante) => {
   const response = await fetch(`/api/event`, {
     method: "PUT",
@@ -28,5 +29,5 @@ export const aceptarORechazarPostulante = async ({
   })
     .then((response) => response.text())
     .catch((error) => error.message);
-  return alert(response);
+  return Swal.fire(response);
 };

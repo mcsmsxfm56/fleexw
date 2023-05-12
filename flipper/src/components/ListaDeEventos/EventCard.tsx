@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useContext } from "react";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+import Swal from "sweetalert2";
 
 const borradoLogico = async (eventoId: string, token: string) => {
   await fetch(`/api/event`, {
@@ -21,7 +22,9 @@ const borradoLogico = async (eventoId: string, token: string) => {
     }),
   })
     .then((response) => {
-      alert("borrado con exito");
+      Swal.fire(
+        'Borrado con exito'
+      )
     })
     .catch((error) => {
       return error
