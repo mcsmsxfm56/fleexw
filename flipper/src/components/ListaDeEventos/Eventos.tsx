@@ -13,6 +13,7 @@ export interface evento {
   hora: string;
   lugar: string;
   isDeleted: boolean;
+  pago: number;
   id: string;
 }
 export interface Props {

@@ -87,17 +87,20 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
             {evento.fecha_inicio.slice(0, 10)}
             {evento.fecha_inicio.slice(0, 10) !==
               evento.fecha_final.slice(0, 10) &&
-              ` - ${evento.fecha_final.slice(0, 10)}`}
+              ` / ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
+          </p>
+          <p>
+            <span className="font-bold mt-2 mb-2">Pago: $</span> {evento.pago}
           </p>
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}
             {evento.observaciones}
           </p>
           <p className="mb-1">
-            <span className="font-bold mt-2 mb-2">Establecimiento:</span>{" "}
+            <span className="font-bold mt-2 mb-2">Lugar:</span>{" "}
             {evento.establecimiento}
           </p>
           <p className="mb-1">
