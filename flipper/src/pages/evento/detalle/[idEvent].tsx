@@ -80,7 +80,7 @@ const EventDatail = () => {
           onClick={() => {
             let idPostulante = params.row.UUID;
             let statusNuevo = params.row.Status;
-            aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent });
+            aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent, token });
           }}
         >
           Actualizar
