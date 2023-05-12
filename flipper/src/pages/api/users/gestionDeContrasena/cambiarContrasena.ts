@@ -11,7 +11,7 @@ export default async function handler(
         const resetContrasenaCode: string = req.body.resetContrasenaCode;
         const password: string = req.body.password;
         if (!resetContrasenaCode || !password) {
-            return res.status(400).send("Datos Faltantes")
+            return res.status(400).json("Datos Faltantes")
         }
         try {
             const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
@@ -46,9 +46,9 @@ export default async function handler(
                     }
                 })
             }
-            return res.status(200).send("Contraseña cambiada exitosamente");
+            return res.status(200).json("Contraseña cambiada exitosamente");
         } catch (error: any) {
-            return res.status(404).send(error.message);
+            return res.status(404).json(error.message);
         }
     }
 }

@@ -59,7 +59,7 @@ export default async function handler(
       try {
         const idEmpresa: string = req.body.idEmpresa as string;
         if (req.body.function === "misEventos") {
-          //console.log(idEmpresa);
+          console.log('Hola ',idEmpresa);
           let user = await prisma.empresa.findUnique({
             where: { id: idEmpresa },
             include: {
@@ -74,9 +74,11 @@ export default async function handler(
               },
             },
           });
+          console.log(user)
           if (user) {
             return res.status(200).json(user);
           } else {
+            console.log('salio 1')
             return res.status(400).json("Empresa no encontrada");
           }
         }
@@ -102,6 +104,8 @@ export default async function handler(
           }
         }
       } catch (error: unknown) {
+        console.log('salio 2')
+        console.log(error)
         return res.status(400).json(error);
       }
     }
@@ -126,7 +130,7 @@ export default async function handler(
         telefono,
         idEmpresa,
       }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-      putEmpresa = req.body;
+        putEmpresa = req.body;
       if (authorization === undefined) {
         return res.status(400).json({ message: "Autorizacion rechazada" });
       }

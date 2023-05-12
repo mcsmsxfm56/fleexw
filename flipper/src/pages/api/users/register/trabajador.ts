@@ -32,8 +32,8 @@ export default async function handler(
     if (req.method !== "POST") throw new Error("Method invalid");
     const nuevoTrabajador = await crearTrabajador(body);
     if (nuevoTrabajador)
-      return res.status(200).send("Usuario Trabajador creado correctamente");
+      return res.status(200).json("Usuario Trabajador creado correctamente");
   } catch (error: any) {
-    return res.status(400).send(error.message);
+    return res.status(400).json(error.message);
   }
 }

@@ -21,9 +21,9 @@ export default async function handler(
           notificacionVista
         }
       })
-      return res.status(200).send('Cambio notificacionVista exitoso');
+      return res.status(200).json('Cambio notificacionVista exitoso');
     } catch (error: unknown) {
-      return res.status(400).send(error);
+      return res.status(400).json(error);
     }
   }
 }

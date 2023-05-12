@@ -13,7 +13,7 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
@@ -28,9 +28,9 @@ export default async function handler(
           });
         //console.log(eventoId);
         //console.log(trabajadoresEnEventos);
-        res.status(200).send(trabajadoresEnEventos);
+        res.status(200).json(trabajadoresEnEventos);
       } catch (error: unknown) {
-        res.status(400).send(error);
+        res.status(400).json(error);
       }
     }
 
@@ -56,7 +56,7 @@ export default async function handler(
               },
             },
           });
-        return res.status(200).send(trabajadorConfirmado);
+        return res.status(200).json(trabajadorConfirmado);
       }
       if (status && ordenFecha === "HISTORIAL") {
         let trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
@@ -81,7 +81,7 @@ export default async function handler(
           }
         );
         // console.log("trabajadores en eventos", trabajadoresEnEventos);
-        return res.status(200).send(trabajadoresEnEventos);
+        return res.status(200).json(trabajadoresEnEventos);
       }
 
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
@@ -110,7 +110,7 @@ export default async function handler(
           },
         }
       );
-      return res.status(200).send(trabajadoresEnEventos);
+      return res.status(200).json(trabajadoresEnEventos);
 
       /*
     
@@ -142,7 +142,7 @@ export default async function handler(
           },
         }
       );
-      return res.status(200).send(trabajadoresEnEventos);
+      return res.status(200).json(trabajadoresEnEventos);
     }
     if (req.body.historial) {
       const trabajadorId = req.body.trabajadorId;
@@ -172,7 +172,7 @@ export default async function handler(
           },
         }
       );
-      return res.status(200).send(trabajadoresEnEventos);
+      return res.status(200).json(trabajadoresEnEventos);
     }
     */
     }
@@ -203,9 +203,9 @@ export default async function handler(
           });
         //console.log(eventoId);
         //console.log(trabajadorUpdateStatus);
-        res.status(200).send(trabajadorUpdateStatus);
+        res.status(200).json(trabajadorUpdateStatus);
       } catch (error: unknown) {
-        res.status(400).send(error);
+        res.status(400).json(error);
       }
     }
     // if (req.method === "POST" && req.body.realmethod === "HISTORIAL") {
@@ -237,7 +237,7 @@ export default async function handler(
     //   //console.log(eventoId);
     //   //console.log(trabajadoresEnEventos);
     //   //console.log(trabajadoresEnEventos);
-    //   return res.status(200).send(trabajadoresEnEventos);
+    //   return res.status(200).json(trabajadoresEnEventos);
     // }
     if (req.method === "POST") {
       /*
@@ -256,11 +256,11 @@ export default async function handler(
         },
       });
 
-      if (!trabajador) return res.status(400).send("Trabajador no encontrado");
+      if (!trabajador) return res.status(400).json("Trabajador no encontrado");
       if (!checkOptionalFields(trabajador))
         return res
           .status(403)
-          .send(
+          .json(
             "Debes completar todos los campos de tu perfil para poder postularte"
           );
 
@@ -279,7 +279,7 @@ export default async function handler(
         (objTrabajador) => objTrabajador.trabajadorId === trabajadorId
       );
       if (check?.length !== 0) {
-        return res.status(400).send("ya te postulaste a este evento");
+        return res.status(400).json("ya te postulaste a este evento");
       }
 
       if (
@@ -299,7 +299,7 @@ export default async function handler(
         });
         return res
           .status(404)
-          .send("No se aceptan mas postulaciones en este evento");
+          .json("No se aceptan mas postulaciones en este evento");
       }
 
       try {
@@ -323,9 +323,9 @@ export default async function handler(
         });
         //console.log(eventoId);//
         //console.log(trabajadorUpdateStatus);
-        return res.status(200).send("postulacion realizada con exito");
+        return res.status(200).json("postulacion realizada con exito");
       } catch (error: unknown) {
-        return res.status(400).send(error);
+        return res.status(400).json(error);
       }
     }
   }
