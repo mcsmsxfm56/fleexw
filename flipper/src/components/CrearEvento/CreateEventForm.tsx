@@ -41,7 +41,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
   const formik = useFormik({
     initialValues: {
       id_empresa: id,
@@ -57,6 +57,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     },
     validationSchema,
     onSubmit: (values) => {
+      console.log("objevento", values);
       submitHandler(values);
     },
   });
@@ -74,6 +75,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ values, realmethod: "PUT", idEvent }),
         })
@@ -123,60 +125,62 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
               title: "No se pudo actualizar el evento",
             });
           })
-      : await fetch("/api/event/create-event", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+      : console.log(token);
+    await fetch("/api/event/create-event", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("No se pudo realizar la peticion");
+        }
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "#B1FFBD",
+          color: "green",
+          iconColor: "green",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
           },
-          body: JSON.stringify(values),
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("No se pudo realizar la peticion");
-            }
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "#B1FFBD",
-              color: "green",
-              iconColor: "green",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+        });
 
-            Toast.fire({
-              icon: "success",
-              title: "Evento creado exitosamente",
-            });
-            formik.resetForm();
-          })
-          .catch((e) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "red",
-              color: "white",
-              iconColor: "white",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+        Toast.fire({
+          icon: "success",
+          title: "Evento creado exitosamente",
+        });
+        formik.resetForm();
+      })
+      .catch((e) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          background: "red",
+          color: "white",
+          iconColor: "white",
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
 
-            Toast.fire({
-              icon: "error",
-              title: "No se pudo crear el evento",
-            });
-          });
+        Toast.fire({
+          icon: "error",
+          title: "No se pudo crear el evento",
+        });
+      });
     setIsLoading(false);
   };
   /* console.log(formik.values);
@@ -190,7 +194,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-start">
+          className="w-full flex flex-col items-start"
+        >
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
@@ -201,7 +206,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary flex flex-col justify-center text-indigo-600"
+                  className="w-full input input-bordered input-primary flex flex-col justify-center placeholder-indigo-600"
                 />
               </label>
             </div>
@@ -256,7 +261,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.lugar}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary text-indigo-600"
+                  className="w-full input input-bordered input-primary placeholder-indigo-600"
                 />
               </label>
             </div>
@@ -292,7 +297,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.establecimiento}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary  flex justify-center text-indigo-600"
+                  className="w-full input input-bordered input-primary  flex justify-center placeholder-indigo-600"
                 />
               </label>
             </div>
@@ -312,7 +317,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.perfil}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary text-indigo-600"
+                  className="w-full input input-bordered input-primary placeholder-indigo-600"
                 />
               </label>
             </div>
@@ -350,7 +355,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                   type="text"
                   value={formik.values.observaciones}
                   onChange={formik.handleChange}
-                  className="w-full input input-bordered input-primary text-indigo-600"
+                  className="w-full input input-bordered input-primary placeholder-indigo-600"
                 />
               </label>
             </div>
@@ -379,7 +384,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                       ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                       : "bg-slate-400"
                   } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
-                  disabled={!formik.isValid}>
+                  disabled={!formik.isValid}
+                >
                   {router.asPath !== "/home"
                     ? "Actualizar Evento"
                     : "Crear Evento"}
