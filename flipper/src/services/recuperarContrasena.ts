@@ -1,7 +1,5 @@
-import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 export const recuperarContrasena = (email: string) => {
-  console.log("email", email);
 
   return fetch(`/api/users/gestionDeContrasena/recuperarContrasena`, {
     method: "PUT",

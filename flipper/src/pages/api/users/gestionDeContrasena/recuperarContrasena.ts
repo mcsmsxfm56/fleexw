@@ -12,6 +12,8 @@ export default async function handler(
 ) {
     if (req.method === "PUT" && req.body.realmethod === "GET") {
         const email: string = req.body.email;
+
+
         if (!email) {
             return res.status(400).json("Email requerido")
         }
@@ -46,6 +48,8 @@ export default async function handler(
                 })
 
             } else {
+                console.log("entre aca");
+
                 const idTrabajador = trabajadorEncontrado.id
                 await prisma.trabajador.update({
                     where: { id: idTrabajador },

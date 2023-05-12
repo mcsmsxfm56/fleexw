@@ -33,15 +33,17 @@ export default async function handler(
                 await prisma.empresa.update({
                     where: { id: idEmpresa },
                     data: {
+                        resetContrasenaCode: null,
                         password: hashedPassword
                     }
                 })
-
-            } else {
+            }
+            else {
                 const idTrabajador = trabajadorEncontrado.id
                 await prisma.trabajador.update({
                     where: { id: idTrabajador },
                     data: {
+                        resetContrasenaCode: null,
                         password: hashedPassword
                     }
                 })
