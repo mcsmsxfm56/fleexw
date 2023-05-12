@@ -53,22 +53,21 @@ interface formProps {
 const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
   const { id, token } = useSesionUsuarioContext();
-  const [eventLoaded, setEventLoaded] = useState<formProps>({
-    id_empresa: id,
-    nombre: "",
-    fecha_inicio: "",
-    fecha_final: "",
-    lugar: "",
-    establecimiento: "",
-    cupos: 0,
-    perfil: "",
-    pago: 0,
-    observaciones: "",
-  });
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
   const formik = useFormik({
-    initialValues: { ...eventLoaded },
+    initialValues: {
+      id_empresa: id,
+      nombre: "",
+      fecha_inicio: "",
+      fecha_final: "",
+      lugar: "",
+      establecimiento: "",
+      cupos: 0,
+      perfil: "",
+      pago: 0,
+      observaciones: "",
+    },
     validationSchema,
     onSubmit: (values) => {
       submitHandler(values);
@@ -80,7 +79,6 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   }, []);
 
   useEffect(() => {
-    console.log("id: ", idEvent);
     if (idEvent) {
       getEvent();
     }
@@ -100,9 +98,29 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
       }),
     })
       .then((res) => res.json())
+      .then(async (data) => {
+        console.log(data);
+        // setea los campos
+        await formik.setFieldValue("nombre", data.nombre);
+        await formik.setFieldValue(
+          "fecha_inicio",
+          data.fecha_inicio.slice(0, 16)
+        );
+        await formik.setFieldValue(
+          "fecha_final",
+          data.fecha_final.slice(0, 16)
+        );
+        await formik.setFieldValue("lugar", data.lugar);
+        await formik.setFieldValue("establecimiento", data.establecimiento);
+        await formik.setFieldValue("cupos", data.cupos);
+        await formik.setFieldValue("perfil", data.perfil);
+        await formik.setFieldValue("pago", data.pago);
+        await formik.setFieldValue("observaciones", data.observaciones);
+      })
+      .then(() => {
+        formik.validateForm();
+      })
       .catch((err) => console.log(err));
-    console.log(event);
-    setEventLoaded(event);
   };
 
   const submitHandler = async (values: createEvent) => {
@@ -219,8 +237,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
           });
     setIsLoading(false);
   };
-  /* console.log(formik.values);
-  console.log(id); */
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-16 md:mt-0 w-10/12">
