@@ -111,7 +111,6 @@ const Eventos: React.FC = () => {
   };
 
   if (error) {
-    console.log(error);
     return <div>ERROR</div>;
   }
 

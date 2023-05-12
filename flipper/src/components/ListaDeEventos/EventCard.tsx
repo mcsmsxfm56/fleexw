@@ -24,11 +24,10 @@ const borradoLogico = async (eventoId: string, token: string) => {
       alert("borrado con exito");
     })
     .catch((error) => {
-      console.log(error);
+      return error
     });
 };
 export const EventCard: React.FC<evento> = (evento) => {
-  /* console.log("card", evento); */
   const { rol, token } = useSesionUsuarioContext();
 
   const router = useRouter();

@@ -99,8 +99,6 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     })
       .then((res) => res.json())
       .then(async (data) => {
-        console.log(data);
-        // setea los campos
         await formik.setFieldValue("nombre", data.nombre);
         await formik.setFieldValue(
           "fecha_inicio",
@@ -120,7 +118,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
       .then(() => {
         formik.validateForm();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   };
 
   const submitHandler = async (values: createEvent) => {

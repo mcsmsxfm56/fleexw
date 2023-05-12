@@ -11,7 +11,6 @@ const MenuDesktop = () => {
   const { logout, nombre, foto } = useSesionUsuarioContext();
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
-  /* console.log(foto); */
 
   return (
     <div

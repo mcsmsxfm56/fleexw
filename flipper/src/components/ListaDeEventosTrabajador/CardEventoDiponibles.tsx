@@ -66,7 +66,6 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
     })
       .then((res) => res.json())
       .then((eventos) => setTrabajadores(eventos));
-    // console.log(eventos.data)
   };
 
   useEffect(() => {
@@ -125,7 +124,6 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                   },
                 })
                   .then(async (response) => {
-                    // console.log(response);
                     const mensaje = await response.text();
                     if (!response.ok) throw new Error(mensaje);
                     return mensaje;
@@ -165,7 +163,6 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                     }
                   })
                   .catch((error: any) => {
-                    console.log(error.message);
                     Swal.fire({
                       title: "Algo salió mal",
                       text: error.message,

@@ -18,7 +18,6 @@ interface Props {
   eventos: [] | undefined;
 }
 const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
-  console.log("Eventos card confirmados", eventos);
   return (
     <div className="w-full h-full md:w-9/12">
       {eventos ? (

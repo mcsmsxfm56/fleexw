@@ -43,7 +43,7 @@ export const useSesionUsuarioContext = () => {
        window.localStorage.setItem("nombre", usuarioActual.nombre);
        window.localStorage.setItem("id", usuarioActual.id); */
 
-      /* console.log("cookies", document.cookie.split("=")[1]); */
+      /* ("cookies", document.cookie.split("=")[1]); */
       /* const token = document.cookie.split("=")[1] */
 
       const cookieValue = document.cookie
@@ -54,8 +54,6 @@ export const useSesionUsuarioContext = () => {
       const usuario = cookieValue ? jwt_decode(cookieValue) as Usuario : undefined;
 
       const foto = usuario?.foto?.split(" ")[1]
-      /*  console.log(typeof foto);
-       console.log("foto", foto); */
 
       setError(false);
       setRol(() => usuario?.rol || "")
@@ -66,7 +64,6 @@ export const useSesionUsuarioContext = () => {
       foto && setFoto(foto)
       router.push("/home");
     } catch (error: any) {
-      console.log(error);
       setError({ status: true, message: error.response.data });
     }
   };

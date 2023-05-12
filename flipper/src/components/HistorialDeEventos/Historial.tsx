@@ -55,7 +55,6 @@ const Historial: React.FC = () => {
     delete objEvento.numeroPostulantes;
     //delete objEvento.trabajadores;
   });
-  //console.log(data);
 
   if (isLoading) return <div>Loading...</div>;
   return (

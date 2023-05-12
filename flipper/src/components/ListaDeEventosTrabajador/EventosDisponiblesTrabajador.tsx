@@ -101,7 +101,6 @@ const EventosTrabajador: React.FC = () => {
   };
 
   if (error) {
-    console.log(error.message);
     return (
       <div>
         <p>ERROR</p>

@@ -26,8 +26,6 @@ export default async function handler(
               eventoId,
             },
           });
-        //console.log(eventoId);
-        //console.log(trabajadoresEnEventos);
         res.status(200).json(trabajadoresEnEventos);
       } catch (error: unknown) {
         res.status(400).json(error);
@@ -80,7 +78,6 @@ export default async function handler(
             },
           }
         );
-        // console.log("trabajadores en eventos", trabajadoresEnEventos);
         return res.status(200).json(trabajadoresEnEventos);
       }
 
@@ -201,8 +198,6 @@ export default async function handler(
               status,
             },
           });
-        //console.log(eventoId);
-        //console.log(trabajadorUpdateStatus);
         res.status(200).json(trabajadorUpdateStatus);
       } catch (error: unknown) {
         res.status(400).json(error);
@@ -234,9 +229,6 @@ export default async function handler(
     //       },
     //     },
     //   });
-    //   //console.log(eventoId);
-    //   //console.log(trabajadoresEnEventos);
-    //   //console.log(trabajadoresEnEventos);
     //   return res.status(200).json(trabajadoresEnEventos);
     // }
     if (req.method === "POST") {
@@ -273,7 +265,6 @@ export default async function handler(
         },
       });
 
-      //console.log(evento);//evento.trabajadores array de objetos donde cada objeto
       //tiene la propiedad trabajadorId evento.trabajadores.amp((objTrabajador) => objTrabajador.trabajadorId)
       let check = evento?.trabajadores.filter(
         (objTrabajador) => objTrabajador.trabajadorId === trabajadorId
@@ -321,8 +312,6 @@ export default async function handler(
             },
           },
         });
-        //console.log(eventoId);//
-        //console.log(trabajadorUpdateStatus);
         return res.status(200).json("postulacion realizada con exito");
       } catch (error: unknown) {
         return res.status(400).json(error);

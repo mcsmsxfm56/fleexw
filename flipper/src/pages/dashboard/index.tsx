@@ -56,7 +56,6 @@ export default function Dashboard() {
   });
 
   if (isLoading) return <div>Cargando...</div>;
-  console.log(sheetTrabajadoresEnEventos);
   return (
     <div>
       Tabla empresa

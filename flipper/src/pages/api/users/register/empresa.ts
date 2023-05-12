@@ -18,7 +18,6 @@ export default async function handler(
   res: NextApiResponse<DataRegister | string>
 ) {
   const body = req.body;
-  console.log(body);
 
   try {
     if (req.method !== "POST") throw new Error("Metodo invalido");
@@ -26,8 +25,6 @@ export default async function handler(
     if (crearEmp)
       return res.status(200).json("Usuario Empresa creado correctamente");
   } catch (error: any) {
-    console.log(error);
-
     return res.status(400).json(error.message);
   }
 }

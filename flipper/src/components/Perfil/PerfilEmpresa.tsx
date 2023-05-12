@@ -18,7 +18,7 @@ interface ProfileEmpresa {
 const PerfilEmpresa: React.FC = () => {
   const [profile, setProfile] = useState<ProfileEmpresa>();
   const { token, id, foto } = useSesionUsuarioContext();
-  // console.log(nombre);
+  // (nombre);
   const router = useRouter();
 
   const userEvent = async () => {

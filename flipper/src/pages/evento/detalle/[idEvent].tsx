@@ -35,7 +35,6 @@ const EventDatail = () => {
   // });
   const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
-  /* console.log(postulantes); */
   let id = 0;
   const columns: GridColDef[] = [
     {
@@ -95,7 +94,7 @@ const EventDatail = () => {
         .then((data) => {
           setEventDetail(data);
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => error.message);
     }
   }, [idEvent, loading]);
 
@@ -117,10 +116,7 @@ const EventDatail = () => {
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
-    console.log("Rows en el boton postulaciones", rows);
-    /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
-    /* console.log(admitePostulaciones); */
     try {
       setLoading(true);
       await admitirOrestringirPostulaciones(
@@ -129,7 +125,6 @@ const EventDatail = () => {
         token
       );
     } catch (error: any) {
-      console.log(error.message);
     } finally {
       setLoading(false);
     }

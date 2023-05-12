@@ -11,7 +11,6 @@ const NotificationDropdown = () => {
   const [newNotif, setNewNotif] = useState(false);
   const { id, token } = useSesionUsuarioContext();
 
-  // console.log('notifications', notifications)
   useEffect(() => {
     /**
      * cada 10 segundos, revisa las notificaciones

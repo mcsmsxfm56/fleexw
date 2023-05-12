@@ -4,7 +4,6 @@ export async function Get_Postulaciones_Trabajador(
   trabajadorId: string,
   token: string
 ): Promise<NotificationList> {
-  //console.log("Token", token);
   return fetch(`/api/trabajadoreseneventos`, {
     method: "PUT",
     headers: {

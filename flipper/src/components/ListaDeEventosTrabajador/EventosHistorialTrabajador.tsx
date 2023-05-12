@@ -42,7 +42,6 @@ const HistorialTrabajador = () => {
   //}
   //);
   if (isLoading) return <div>Loading...</div>;
-  /* console.log(data); */ //array con objtrabajadoresEnEventos
 
   return (
     <div className="h-full w-full bg-gray-200">

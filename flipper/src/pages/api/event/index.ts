@@ -61,7 +61,6 @@ export default async function handler(
     //   }
     //   */
     //   //const id: string = req.query.id as string; //id del usuario
-    //   //console.log(id);
     //   const userTrabajador = await prisma.trabajador.findUnique({
     //     where: {
     //       id,
@@ -83,11 +82,9 @@ export default async function handler(
     //         eventos: true,
     //       },
     //     });
-    //     console.log(userEmpresa); //cuando no encuentra nada user === null
     //     res.status(200).json(userEmpresa);
     //   }
     //   const allEvents = await prisma.evento.findMany();
-    //   console.log(allEvents); //cuando no encuentra nada user === null
     //   res.status(200).json(allEvents);
     //}
     /*
@@ -155,11 +152,9 @@ export default async function handler(
           },
         },
       });
-      console.log("detecta que es deleted");
       if (evento?.isDeleted) {
         return res.status(404).json("evento no encontrado o ya eliminado");
       } else {
-        console.log(id);
         const deletedEvent = await prisma.evento.update({
           where: {
             id,
@@ -184,7 +179,6 @@ export default async function handler(
           e.status = "CANCELADO";
         });
 
-        console.log(trabajadoresEvento);
 
         if (aprobados.length > 0) {
           const mails = aprobados.map((e: any) => {
@@ -194,7 +188,7 @@ export default async function handler(
           transport.sendMail(
             cancelNotification(mails, evento?.nombre),
             (err: any, info: any) =>
-              err ? console.log(err) : console.log(info.response)
+              err ? err : info.response
           );
         }
 
