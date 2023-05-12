@@ -134,7 +134,7 @@ const EventosTrabajador: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="p-2 flex justify-center">
+      <div className="p-2 flex justify-center w-full">
         <ListaEventosTrabajador
           eventos={Array.isArray(data) ? data : data?.eventos}
         />

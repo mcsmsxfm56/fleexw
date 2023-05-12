@@ -126,41 +126,25 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                   .then(async (response) => {
                     const mensaje = await response.text();
                     if (!response.ok) throw new Error(mensaje);
-                    return mensaje;
-                  })
-                  .then((msg) => {
-                    if (msg === "postulacion realizada con exito") {
-                      const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        background: "#B1FFBD",
-                        color: "green",
-                        iconColor: "green",
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                          toast.addEventListener("mouseenter", Swal.stopTimer);
-                          toast.addEventListener(
-                            "mouseleave",
-                            Swal.resumeTimer
-                          );
-                        },
-                      });
-
-                      Toast.fire({
-                        icon: "success",
-                        title: msg,
-                      });
-                    } else if (
-                      msg === "No se aceptan mas postulaciones en este evento"
-                    ) {
-                      Swal.fire({
-                        icon: "error",
-                        text: msg,
-                      });
-                      router.reload();
-                    }
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: "top",
+                      showConfirmButton: false,
+                      timer: 3000,
+                      background: "#B1FFBD",
+                      color: "green",
+                      iconColor: "green",
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                      },
+                    });
+                    Toast.fire({
+                      icon: "success",
+                      title: mensaje,
+                    });
+                    router.reload();
                   })
                   .catch((error: any) => {
                     Swal.fire({
