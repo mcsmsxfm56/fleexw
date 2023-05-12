@@ -38,7 +38,7 @@ export default async function handler(
     });
     const user = empresaEncontrada || trabajadorEncontrado;
 
-    if (!user) return res.status(400).json("no se encontro el usuario");
+    if (!user) return res.status(400).json("Usuario o contraseña incorrecta");
     if (empresaEncontrada) {
       if (empresaEncontrada.authorizedByAdmin === false) {
         return res.status(400).json("Autorizacion pendiente");

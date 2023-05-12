@@ -19,13 +19,13 @@ const HistorialTrabajador = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         realmethod: "GET",
         trabajadorId: id,
         status: "ASISTIO",
-        ordenFecha: "HISTORIAL"
+        ordenFecha: "HISTORIAL",
       }),
     }).then((res) => res.json());
   };
@@ -52,7 +52,9 @@ const HistorialTrabajador = () => {
 
         <div className="flex flex-col items-center m-auto w-11/12">
           {data.length == 0 ? (
-            <h2>Todavia no posee eventos confirmados</h2>
+            <h2 className="mt-20 font-bold">
+              Todavia no asististe a ningún evento
+            </h2>
           ) : (
             <div className="flex flex-col items-center w-full">
               <button

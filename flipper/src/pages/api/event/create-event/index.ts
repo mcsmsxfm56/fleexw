@@ -147,8 +147,8 @@ export default async function handler(
       interface putEvento {
         isDeleted?: boolean;
         nombre?: string;
-        fecha?: string | Date;
-        hora_final?: string | Date;
+        fecha_inicio: string | Date;
+        fecha_final: string | Date;
         lugar?: string;
         cupos?: number;
         perfil?: string;
@@ -167,8 +167,8 @@ export default async function handler(
           isDeleted,
           trabajadores,
           nombre,
-          fecha,
-          hora_final,
+          fecha_inicio,
+          fecha_final,
           lugar,
           cupos,
           perfil,
@@ -176,6 +176,14 @@ export default async function handler(
           establecimiento,
           observaciones,
         }: putEvento = req.body.values;
+        
+        fecha_inicio = new Date(fecha_inicio);
+        let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
+        fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+        //fecha_inicio = new Date(fecha_inicio);
+        fecha_final = new Date(fecha_final);
+        let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
+        fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
 
         const evento = await prisma.evento.update({
           where: {
@@ -183,8 +191,8 @@ export default async function handler(
           },
           data: {
             nombre: nombre,
-            fecha_inicio: fecha,
-            fecha_final: hora_final,
+            fecha_inicio: fecha_inicio,
+            fecha_final: fecha_final,
             lugar: lugar,
             cupos: cupos,
             perfil: perfil,
@@ -193,10 +201,14 @@ export default async function handler(
             observaciones: observaciones,
           },
         });
+        console.log('evento 1 ')
+        console.log(evento)
         if (evento) {
           return res.status(200).json("Evento actualizado con exito");
         }
       } catch (error: any) {
+        console.log('error 1')
+        console.log(error)
         return res.status(400).json(error.message);
       }
     }

@@ -124,6 +124,7 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const submitHandler = async (values: createEvent) => {
     setSubmitError("");
     setIsLoading(true);
+    console.log(values)
     router.asPath !== "/home"
       ? await fetch(`/api/event/create-event`, {
           method: "PUT",

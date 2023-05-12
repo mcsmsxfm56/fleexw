@@ -74,16 +74,29 @@ const EventDatail = () => {
       headerName: "Actions",
       type: "actions",
       renderCell: (params) => (
-        <button
-          className="rounded-md bg-black text-white"
-          onClick={() => {
-            let idPostulante = params.row.UUID;
-            let statusNuevo = params.row.Status;
-            aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent, token });
-          }}
-        >
-          Actualizar
-        </button>
+        <div>
+          <button
+            className="rounded-md bg-black text-white mb-0.5"
+            onClick={() => {
+              let idPostulante = params.row.UUID;
+              let statusNuevo = params.row.Status;
+              aceptarORechazarPostulante({
+                idPostulante,
+                statusNuevo,
+                idEvent,
+                token,
+              });
+            }}
+          >
+            Actualizar
+          </button>
+          <br></br>
+          <Link href={`/postulaciones/${params.row.UUID}`}>
+            <button className="rounded-md bg-black text-white mb">
+              Ver perfil
+            </button>
+          </Link>
+        </div>
       ),
     },
   ];
@@ -133,9 +146,7 @@ const EventDatail = () => {
   return (
     <AppLayout>
       <div className="h-full">
-        <div
-          className="bg-gray-200"
-        >
+        <div className="bg-gray-200">
           <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center mt-16 md:mt-0">
               <p className="w-full bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
@@ -186,7 +197,9 @@ const EventDatail = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl text-black">Observaciones:</p>
+              <p className="text-center font-bold text-xl text-black">
+                Observaciones:
+              </p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
