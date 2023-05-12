@@ -9,6 +9,8 @@ interface bodyCrear {
   phone: string;
   email: string;
   password: string;
+  ciudad: string;
+  direccion: string;
 }
 export const buscarTrabajador = async (id: string) => {
   if (!id) throw new Error("No existe trabajador con ese id");
@@ -26,7 +28,9 @@ export const crearTrabajador = async (body: bodyCrear) => {
     !body.idNumber ||
     !body.phone ||
     !body.email ||
-    !body.password
+    !body.password ||
+    !body.ciudad
+
   )
     throw new Error("Faltan campos por completar");
   const newTrabajador = await prisma.trabajador.findFirst({
@@ -56,6 +60,7 @@ export const crearTrabajador = async (body: bodyCrear) => {
     email: body.email,
     phone: body.phone,
     password: body.password,
+    ciudad: body.ciudad
   };
   const nuevoT = await prisma.trabajador.create({
     data: newObj,
