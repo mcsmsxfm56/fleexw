@@ -44,6 +44,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
+  const [postulacion, setPostulacion] = useState(false);
   //guarda los trabajadores del evento
 
   const { setShowElementsTrabajador } = useContext(MenuContext);
@@ -72,7 +73,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
     if (id) {
       getEventos();
     }
-  }, []);
+  }, [postulacion]);
 
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
@@ -144,7 +145,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                       icon: "success",
                       title: mensaje,
                     });
-                    router.reload();
+                    setPostulacion(!postulacion);
                   })
                   .catch((error: any) => {
                     Swal.fire({
