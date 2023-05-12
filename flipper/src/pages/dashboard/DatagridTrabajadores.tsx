@@ -6,11 +6,15 @@ import {
 } from "../../services/servicesDashboard";
 import useSWR from "swr";
 import { objTrabajador, PropsTrabajadorGrid } from "@/types/Types";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
   dataTrabajadores,
 }) => {
   const [rowsTrabajadores, setRowsTrabajadores] = useState<{}[]>([]);
+
+  const { token } = useSesionUsuarioContext();
+
   useEffect(() => {
     if (dataTrabajadores) {
       dataTrabajadores?.map((objTrabajador: objTrabajador) => {
@@ -224,7 +228,8 @@ const DatagridTrabajadores: React.FC<PropsTrabajadorGrid> = ({
               foto,
               cv,
               rut,
-              certificado_bancario
+              certificado_bancario,
+              token
             );
           }}
         >

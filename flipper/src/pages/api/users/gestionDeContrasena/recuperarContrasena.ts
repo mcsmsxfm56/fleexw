@@ -66,7 +66,6 @@ export default async function handler(
             );
             return res.status(200).json("Email de recuperación enviado")
         } catch (error: any) {
-            console.log(error.message);
             return res.status(404).json(error.message);
         }
     }

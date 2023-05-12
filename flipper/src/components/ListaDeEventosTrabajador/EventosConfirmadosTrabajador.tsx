@@ -40,7 +40,7 @@ const EventosConfirmadosTrabajador = () => {
         </h1>
 
         <div className="p-2 flex justify-center">
-          {!dataEvento ? (
+          {dataEvento?.length == 0 ? (
             <h2>Todavia no posee eventos confirmados</h2>
           ) : (
             <CardEventoConfirmadoHistorial eventos={dataEvento} />

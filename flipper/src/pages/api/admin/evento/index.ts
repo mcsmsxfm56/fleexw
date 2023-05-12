@@ -12,13 +12,13 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
     if (req.method === "GET") {
       const eventoTable = await prisma.evento.findMany();
-      return res.status(200).send(eventoTable);
+      return res.status(200).json(eventoTable);
     }
     if (req.method === "PUT") {
       const {
@@ -51,7 +51,7 @@ export default async function handler(
           observaciones,
         },
       });
-      return res.status(200).send("actualizacion con exito");
+      return res.status(200).json("actualizacion con exito");
     }
   }
 }

@@ -31,7 +31,7 @@ export default async function handler(
         token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
       }
       if (!token) {
-        return res.status(401).send("Token inexistente o invalido");
+        return res.status(401).json("Token inexistente o invalido");
       }
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
       const { id } = decodedToken as token;
@@ -60,12 +60,12 @@ export default async function handler(
             certificado_bancario: null ?? body.values.certificado_bancario,
           },
         });
-        return res.status(200).send(trabajadorModificar);
+        return res.status(200).json(trabajadorModificar);
       }
     }
   } catch (error: any) {
     console.log(error.message);
 
-    return res.status(400).send(error.message);
+    return res.status(400).json(error.message);
   }
 }

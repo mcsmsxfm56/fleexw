@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
+import fotoProvisoria from "@/utils/fotoProvisoria";
 import ReactWhatsapp from "react-whatsapp";
 
 interface Props {
@@ -36,10 +37,12 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
         <div className="avatar flex flex-col items-center justify-start gap-2">
           <div className="w-20 rounded-full ">
             <Image
-              src={foto}
+              src={foto || fotoProvisoria}
               width={80}
               height={80}
               priority
+              placeholder="blur"
+              blurDataURL={fotoProvisoria}
               alt="Picture of the author" />
           </div>
           <p

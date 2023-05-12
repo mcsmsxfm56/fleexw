@@ -11,7 +11,12 @@ export const HistorialCard: React.FC<evento> = (evento) => {
       </div>
       <hr></hr>
       <div className="text-indigo-700">
-        <p className="text-2xl font-bold">{evento.fecha_inicio.slice(0, 10)}</p>
+        <p className="text-2xl font-bold">
+          {evento.fecha_inicio.slice(0, 10)}
+          {evento.fecha_inicio.slice(0, 10) !==
+            evento.fecha_final.slice(0, 10) &&
+            ` - ${evento.fecha_final.slice(0, 10)}`}
+        </p>
         <p>
           <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
         </p>
@@ -22,7 +27,10 @@ export const HistorialCard: React.FC<evento> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">
+          {evento.fecha_inicio.slice(11, 16)} {" - "}{" "}
+          {evento.fecha_final.slice(11, 16)}
+        </p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

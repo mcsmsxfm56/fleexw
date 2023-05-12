@@ -1,6 +1,6 @@
 export const cambiarContrasena = async (
   resetContrasenaCode: string,
-  password: string
+  password: string,
 ) => {
   /*   console.log(resetContrasenaCode, password); */
 

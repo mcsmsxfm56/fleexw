@@ -14,7 +14,7 @@ export default async function handler(
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
   if (!token) {
-    return res.status(401).send("Token inexistente o invalido");
+    return res.status(401).json("Token inexistente o invalido");
   }
   const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
   if (decodedToken) {
@@ -34,16 +34,16 @@ export default async function handler(
           if (evento.admitePostulaciones) {
             return res
               .status(200)
-              .send({ message: "el evento admite postulaciones nuevamente" });
+              .json({ message: "el evento admite postulaciones nuevamente" });
           }
           return res
             .status(200)
-            .send({ message: "el evento ya no admite postulaciones" });
+            .json({ message: "el evento ya no admite postulaciones" });
         }
       } catch (error) {
         return res
           .status(404)
-          .send({ message: "la operacion no pudo realizarse" });
+          .json({ message: "la operacion no pudo realizarse" });
       }
     }
   }
