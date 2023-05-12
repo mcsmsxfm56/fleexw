@@ -51,8 +51,8 @@ const ListaEventosTrabajador: React.FC<Props2> = ({ eventos }) => {
                   lugar={event.lugar}
                   isDeleted={event.isDeleted}
                   id={event.id}
-                  pago={event.cupos}
-                  cupos={event.pago}
+                  pago={event.pago}
+                  cupos={event.cupos}
                   admitePostulaciones={event.admitePostulaciones}
                   establecimiento={event.establecimiento}
                   numeroPostulantes={event.numeroPostulantes}
