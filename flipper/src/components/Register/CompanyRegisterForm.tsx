@@ -7,6 +7,7 @@ import { Post_Company_Register } from "@/services/PostRegister";
 import LoadingSubmitForm from "../LoadingSubmitForm";
 import Swal from "sweetalert2";
 import InputField from "../InputField";
+import { log } from 'console';
 
 const CompanyRegisterForm = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -26,13 +27,21 @@ const CompanyRegisterForm = () => {
   const submitHandler = async (values: CompanyData) => {
     setSubmitError("");
     setSubmitting(true);
-    await Post_Company_Register(values)
-      .then(() => {
+    /* await Post_Company_Register(values) */
+    await fetch(`api/users/register/empresa`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    })
+      .then(async (response) => {
+        const mensaje = await response.text();
+        if (!response.ok) throw new Error(mensaje);
         Swal.fire("¡Éxito!", "Tu cuenta se ha creado", "success");
         router.push("/");
       })
       .catch((e: any) => {
-        setSubmitError(e.response.data);
+        console.log(e.message);
+        setSubmitError(e.message);
       })
       .finally(() => {
         setSubmitting(false);
