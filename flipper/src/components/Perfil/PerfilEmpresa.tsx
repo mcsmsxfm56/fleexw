@@ -17,7 +17,7 @@ interface ProfileEmpresa {
 
 const PerfilEmpresa: React.FC = () => {
   const [profile, setProfile] = useState<ProfileEmpresa>();
-  const { token, id } = useSesionUsuarioContext();
+  const { token, id, foto } = useSesionUsuarioContext();
   // console.log(nombre);
   const router = useRouter();
 
@@ -57,7 +57,9 @@ const PerfilEmpresa: React.FC = () => {
         <div className="flex flex-col md:flex-row md:justify-between items-center md:mx-3">
           <Image
             className="w-20 md:w-28 inline-flex rounded-full"
-            src={perfilProvisorio}
+            src={foto || perfilProvisorio}
+            width={80}
+            height={80}
             alt="Picture of the author"
           />
           <h2 className="inline-flex text-3xl font-bold text-indigo-600 capitalize text-center">

@@ -61,7 +61,7 @@ const Historial: React.FC = () => {
     <div className="h-full bg-gray-200 w-full">
       <div className="p-2 text-center">
         <h1 className="text-5xl capitalize mb-2 text-indigo-700 mt-20 md:mt-10">
-          Historial de Eventos<br></br>
+          Historial de Eventos
         </h1>
         <button
           onClick={() => {

@@ -20,7 +20,7 @@ const MenuDesktop = () => {
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
           <Image
-            src={foto}
+            src={foto || fotoProvisoria}
             width={80}
             height={80}
             alt="Picture of the user"
