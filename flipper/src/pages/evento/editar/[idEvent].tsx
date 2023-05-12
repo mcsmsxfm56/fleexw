@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 const editarEvento = () => {
     const router = useRouter()
     const idEvent = router.query.idEvent as string
-    console.log(idEvent);
 
     return (
         <div className='w-full h-screen'>

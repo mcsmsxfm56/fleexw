@@ -1,14 +1,9 @@
 import { AiFillDelete, AiFillClockCircle } from "react-icons/ai";
-import { HiPencil } from "react-icons/hi";
 import { IoLocationSharp } from "react-icons/io5";
-import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 import { EventoTrabajador } from "./ListaDeEventosTrabajador";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
-
-import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { MenuContext } from "@/context/MenuContext";
 
@@ -45,9 +40,8 @@ interface trabajadores {
   trabajadores: trabajador[];
 }
 
-export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
-  // console.log("card", evento);
-  const { id } = useSesionUsuarioContext();
+export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
+  const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
   //guarda los trabajadores del evento
@@ -57,19 +51,21 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
   const trabajadorPostulado = postulantes?.trabajadores.find(
     (trabajador) => trabajador.trabajadorId === id
   );
-  // console.log(trabajadorPostulado)
 
   const getEventos = async () => {
-    const eventos = await axios({
+    await fetch("/api/event", {
       method: "PUT",
-      url: `/api/event`,
-      data: {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
         eventoId: evento.id,
         realmethod: "GET",
-      },
-    });
-    // console.log(eventos.data)
-    setTrabajadores(eventos.data);
+      }),
+    })
+      .then((res) => res.json())
+      .then((eventos) => setTrabajadores(eventos));
   };
 
   useEffect(() => {
@@ -86,15 +82,29 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
       <hr></hr>
       <div className="text-indigo-700 flex justify-around">
         <div className="w-[60%]">
-          <p className="text-2xl font-bold">
+          <p className="text-base md:text-2xl font-bold">
             {evento.fecha_inicio.slice(0, 10)}
+            {evento.fecha_inicio.slice(0, 10) !==
+              evento.fecha_final.slice(0, 10) &&
+              ` / ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
           </p>
+          <p>
+            <span className="font-bold mt-2 mb-2">Pago: $</span> {evento.pago}
+          </p>
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}
             {evento.observaciones}
+          </p>
+          <p className="mb-1">
+            <span className="font-bold mt-2 mb-2">Lugar:</span>{" "}
+            {evento.establecimiento}
+          </p>
+          <p className="mb-1">
+            <span className="font-bold mt-2 mb-2">postulantes:</span>{" "}
+            {` ${postulantes?.numeroPostulantes} / ${evento.cupos}   `}
           </p>
         </div>
         <div className="w-[30%] flex justify-center items-center">
@@ -110,13 +120,13 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                   }),
                   headers: {
                     "Content-type": "application/json; charset=UTF-8",
+                    Authorization: `Bearer ${token}`,
                   },
                 })
                   .then(async (response) => {
-                    console.log(response);
-                    const j = await response.text();
-                    if (!response.ok) throw new Error(j);
-                    return response.text();
+                    const mensaje = await response.text();
+                    if (!response.ok) throw new Error(mensaje);
+                    return mensaje;
                   })
                   .then((msg) => {
                     if (msg === "postulacion realizada con exito") {
@@ -153,7 +163,6 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
                     }
                   })
                   .catch((error: any) => {
-                    console.log(error.message);
                     Swal.fire({
                       title: "Algo salió mal",
                       text: error.message,
@@ -187,7 +196,11 @@ export const EventCardTrabajador: React.FC<EventoTrabajador> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1 capitalize ml-2">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">
+          {evento.horaInicio.slice(11, 16)}
+          {" - "}
+          {evento.horaFinal.slice(11, 16)}
+        </p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

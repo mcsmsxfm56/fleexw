@@ -9,14 +9,14 @@ import { BsFillBellFill } from "react-icons/bs";
 const NotificationDropdown = () => {
   const [notifications, setNotifications] = useState<NotificationList>([]);
   const [newNotif, setNewNotif] = useState(false);
-  const { id } = useSesionUsuarioContext();
+  const { id, token } = useSesionUsuarioContext();
 
   useEffect(() => {
     /**
      * cada 10 segundos, revisa las notificaciones
      * La primera llamada es para la ejecute en el momento de crearse
      * Luego, cada 10 segundos
-     */ 
+     */
     getNotif();
     const interval = setInterval(() => {
       getNotif();
@@ -26,7 +26,7 @@ const NotificationDropdown = () => {
   }, []);
 
   const getNotif = async () => {
-    Get_Postulaciones_Trabajador(id).then((data) => {
+    Get_Postulaciones_Trabajador(id, token).then((data) => {
       setNotifications(data);
       checkNewNotif(data);
     });

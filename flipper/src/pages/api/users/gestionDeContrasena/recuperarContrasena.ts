@@ -12,8 +12,10 @@ export default async function handler(
 ) {
     if (req.method === "PUT" && req.body.realmethod === "GET") {
         const email: string = req.body.email;
+
+
         if (!email) {
-            return res.status(400).send("Email requerido")
+            return res.status(400).json("Email requerido")
         }
         try {
             const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
@@ -58,11 +60,11 @@ export default async function handler(
             transport.sendMail(
                 recuperarContrasenaNotification(email, resetContrasenaCode),
                 (err: any, info: any) =>
-                    err ? console.log(err) : console.log(info.response)
+                    err ? err : info.response
             );
-            return res.status(200).send("Email de recuperación enviado")
+            return res.status(200).json("Email de recuperación enviado")
         } catch (error: any) {
-            return res.status(404).send(error.message);
+            return res.status(404).json(error.message);
         }
     }
 }

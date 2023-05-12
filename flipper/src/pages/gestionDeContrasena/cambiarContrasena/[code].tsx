@@ -12,6 +12,7 @@ import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 import validationCambiarContrasenaSchema from "@/utils/validationCambiarContrasenaSchema";
 import { useRouter } from 'next/router';
 import { cambiarContrasena } from '@/services/cambiarContrasena';
+import Swal from 'sweetalert2';
 
 function RecuperarContrasena() {
 
@@ -34,15 +35,32 @@ function RecuperarContrasena() {
                     initialValues={initialValues}
                     onSubmit={async (values, actions) => {
                         setLoading(true)
-                        console.log("values", values);
-
                         try {
                             await cambiarContrasena(resetContrasenaCode, values.password)
                             actions.setSubmitting(false)
-                            alert("cambiaste la contraseña")
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                background: "#B1FFBD",
+                                color: "green",
+                                iconColor: "green",
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                                },
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "Cambiaste tu contraseña, ya puedes volver a ingresar!",
+                            });
                         } catch (error: any) {
-                            console.log(error.message)
-                            alert("no se pudo cambiar la contraseña")
+                            Swal.fire({
+                                icon: "error",
+                                title: "Lo sentimos, no pudimos cambiar tu contraseña.",
+                            });
                         } finally {
                             setLoading(false)
                             router.push("/")

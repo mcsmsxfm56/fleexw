@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../lib/prisma";
 import { Evento } from "@prisma/client";
+import jwt from "jsonwebtoken";
 
 //tipado del objeto json esperado en POST /api/event
 
@@ -31,17 +32,27 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Evento | string | unknown>
 ) {
-  if (req.method === "GET") {
-    const events = await prisma.evento.findMany();
-    if (events) {
-      res.status(200).send(events);
-    } else {
-      res
-        .status(400)
-        .send("No hay empresas, hay que esperar a que se registren");
-    }
+  const { authorization } = req.headers;
+  let token = null;
+  if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
+    token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
-  /*
+  if (!token) {
+    return res.status(401).json("Token inexistente o invalido");
+  }
+  const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+  if (decodedToken) {
+    if (req.method === "GET") {
+      const events = await prisma.evento.findMany();
+      if (events) {
+        res.status(200).json(events);
+      } else {
+        res
+          .status(400)
+          .json("No hay empresas, hay que esperar a que se registren");
+      }
+    }
+    /*
   1. RUTA POST /api/home/create-event
   2. SE ESPERA QUE RECIBA 
   #de fecha tambien se extrae la hora inicial
@@ -62,50 +73,22 @@ export default async function handler(
 }
 
   */
-  if (req.method === "POST") {
-    //SE VERIFICA EL TIPADO
-    interface inputPostApiHomeCreateEventId {
-      id_empresa: string;
-      nombre: string;
-      fecha_inicio: string | Date;
-      fecha_final: string | Date;
-      lugar: string;
-      cupos: number;
-      perfil: string;
-      pago: number;
-      establecimiento: string;
-      observaciones: string;
-    }
-    try {
-      let {
-        id_empresa,
-        nombre,
-        fecha_inicio,
-        fecha_final,
-        lugar,
-        cupos,
-        perfil,
-        pago,
-        establecimiento,
-        observaciones,
-      }: inputPostApiHomeCreateEventId = req.body;
-      //console.log("req.body funciona");
-      //console.log(nombre);
-      //fecha_inicio_input.slice(0, -1);
-      //fecha_final_input.slice(0, -1);
-      fecha_inicio = new Date(fecha_inicio);
-      let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
-      fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
-      //console.log(fecha_inicio.toISOString());
-      //fecha_inicio = new Date(fecha_inicio);
-      //console.log(fecha_inicio);
-      fecha_final = new Date(fecha_final);
-      let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
-      fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
-      //fecha_final = new Date(fecha_final.toISOString());
-      //console.log(fecha_final);
-      const eventoCreado = await prisma.evento.create({
-        data: {
+    if (req.method === "POST") {
+      //SE VERIFICA EL TIPADO
+      interface inputPostApiHomeCreateEventId {
+        id_empresa: string;
+        nombre: string;
+        fecha_inicio: string | Date;
+        fecha_final: string | Date;
+        lugar: string;
+        cupos: number;
+        perfil: string;
+        pago: number;
+        establecimiento: string;
+        observaciones: string;
+      }
+      try {
+        let {
           id_empresa,
           nombre,
           fecha_inicio,
@@ -116,12 +99,35 @@ export default async function handler(
           pago,
           establecimiento,
           observaciones,
-        },
-      });
-      res.status(200).send("Evento creado con exito");
-    } catch (err: unknown) {
-      res.status(400).send(err);
-      /*
+        }: inputPostApiHomeCreateEventId = req.body;
+        //fecha_inicio_input.slice(0, -1);
+        //fecha_final_input.slice(0, -1);
+        fecha_inicio = new Date(fecha_inicio);
+        let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
+        fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+        //fecha_inicio = new Date(fecha_inicio);
+        fecha_final = new Date(fecha_final);
+        let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
+        fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+        //fecha_final = new Date(fecha_final.toISOString());
+        const eventoCreado = await prisma.evento.create({
+          data: {
+            id_empresa,
+            nombre,
+            fecha_inicio,
+            fecha_final,
+            lugar,
+            cupos,
+            perfil,
+            pago,
+            establecimiento,
+            observaciones,
+          },
+        });
+        res.status(200).json("Evento creado con exito");
+      } catch (err: unknown) {
+        res.status(400).json(err);
+        /*
     1. ERROR DE TIPADO RETORNO
     {
         "clientVersion": "4.13.0"
@@ -135,64 +141,76 @@ export default async function handler(
         }
     }
     */
-    }
-  }
-  if (req.method === "PUT" && req.body.realmethod === "PUT") {
-    interface putEvento {
-      isDeleted?: boolean;
-      nombre?: string;
-      fecha?: string | Date;
-      hora_final?: string | Date;
-      lugar?: string;
-      cupos?: number;
-      perfil?: string;
-      pago?: number;
-      establecimiento?: string;
-      observaciones?: string;
-      trabajadores?: string;
-    }
-    const id: string = req.body.idEvent as string;
-    //console.log(id);
-    if (Object.keys(req.body.values).length === 0) {
-      res.status(400).send("Objeto vacio");
-    }
-    try {
-      if (!id) throw new Error("No existe ese evento");
-      let {
-        isDeleted,
-        trabajadores,
-        nombre,
-        fecha,
-        hora_final,
-        lugar,
-        cupos,
-        perfil,
-        pago,
-        establecimiento,
-        observaciones,
-      }: putEvento = req.body.values;
-
-      const evento = await prisma.evento.update({
-        where: {
-          id: id,
-        },
-        data: {
-          nombre: nombre,
-          fecha_inicio: fecha,
-          fecha_final: hora_final,
-          lugar: lugar,
-          cupos: cupos,
-          perfil: perfil,
-          pago: pago,
-          establecimiento: establecimiento,
-          observaciones: observaciones,
-        },
-      });
-      if (evento) {
-        return res.status(200).send("Evento actualizado con exito");
       }
-    } catch (error: any) {
-      return res.status(400).send(error.message);
+    }
+    if (req.method === "PUT" && req.body.realmethod === "PUT") {
+      interface putEvento {
+        isDeleted?: boolean;
+        nombre?: string;
+        fecha_inicio: string | Date;
+        fecha_final: string | Date;
+        lugar?: string;
+        cupos?: number;
+        perfil?: string;
+        pago?: number;
+        establecimiento?: string;
+        observaciones?: string;
+        trabajadores?: string;
+      }
+      const id: string = req.body.idEvent as string;
+      if (Object.keys(req.body.values).length === 0) {
+        res.status(400).json("Objeto vacio");
+      }
+      try {
+        if (!id) throw new Error("No existe ese evento");
+        let {
+          isDeleted,
+          trabajadores,
+          nombre,
+          fecha_inicio,
+          fecha_final,
+          lugar,
+          cupos,
+          perfil,
+          pago,
+          establecimiento,
+          observaciones,
+        }: putEvento = req.body.values;
+        
+        fecha_inicio = new Date(fecha_inicio);
+        let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
+        fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+        //fecha_inicio = new Date(fecha_inicio);
+        fecha_final = new Date(fecha_final);
+        let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
+        fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+
+        const evento = await prisma.evento.update({
+          where: {
+            id: id,
+          },
+          data: {
+            nombre: nombre,
+            fecha_inicio: fecha_inicio,
+            fecha_final: fecha_final,
+            lugar: lugar,
+            cupos: cupos,
+            perfil: perfil,
+            pago: pago,
+            establecimiento: establecimiento,
+            observaciones: observaciones,
+          },
+        });
+        console.log('evento 1 ')
+        console.log(evento)
+        if (evento) {
+          return res.status(200).json("Evento actualizado con exito");
+        }
+      } catch (error: any) {
+        console.log('error 1')
+        console.log(error)
+        return res.status(400).json(error.message);
+      }
     }
   }
 }
@@ -221,7 +239,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).send(empresaEventos);
+    res.status(200).json(empresaEventos);
   } else if (req.method === "DELETE") {
     //recibe la id del evento por query y hace borrado logico
     const id: string = req.query.id as string;
@@ -234,7 +252,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).send("deleted");
+    res.status(200).json("deleted");
     
   } else 
 }

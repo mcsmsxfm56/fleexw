@@ -12,6 +12,7 @@ import LoadingSubmitForm from "@/components/LoadingSubmitForm";
 import { recuperarContrasena } from "@/services/recuperarContrasena";
 import validationRecupContrasenaSchema from "@/utils/validationRecupContrasenaSchema";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 interface FormRecupContrasena {
     email: "",
@@ -38,12 +39,33 @@ function RecuperarContrasena() {
                     onSubmit={async (values, actions) => {
                         setLoading(true)
                         try {
-                            await recuperarContrasena(values.email) //aca va a estar la funcion de recuperar
+                            await recuperarContrasena(values.email)
                             actions.setSubmitting(false)
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                background: "#B1FFBD",
+                                color: "green",
+                                iconColor: "green",
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                                },
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "Te enviamos un correo para recuperar la contraseña",
+                            });
                             router.push("/")
                         } catch (error: any) {
-                            console.log(error.message)
                             setHasEmailError(true)
+                            Swal.fire({
+                                icon: "error",
+                                title: "Algo salió mal.",
+                            });
                         } finally {
                             setLoading(false)
                         }

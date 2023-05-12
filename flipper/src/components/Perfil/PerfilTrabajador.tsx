@@ -108,7 +108,7 @@ export const PerfilTrabajador: React.FC = () => {
       method: "PUT",
       headers: {
         Accept: "Aplication/json",
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -204,7 +204,6 @@ export const PerfilTrabajador: React.FC = () => {
             icon: "error",
             title: "No se pudo actualizar la informacion",
           });
-          console.log(e);
           setSubmitError(e.message);
         })
         .finally(async () => {
@@ -232,7 +231,6 @@ export const PerfilTrabajador: React.FC = () => {
         icon: "error",
         title: "No se pudo actualizar la informacion",
       });
-      console.log(error);
       setSubmitError(error.message);
     }
   };

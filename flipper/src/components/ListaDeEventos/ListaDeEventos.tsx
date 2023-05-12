@@ -26,9 +26,11 @@ const ListaEventos: React.FC<Props2> = ({ eventos }) => {
                   perfil={event.perfil}
                   nombre={event.nombre}
                   fecha_inicio={event.fecha_inicio}
+                  fecha_final={event.fecha_final}
                   observaciones={event.observaciones}
                   hora={event.fecha_inicio}
                   lugar={event.lugar}
+                  pago={event.pago}
                   isDeleted={event.isDeleted}
                   id={event.id}
                 />

@@ -14,23 +14,23 @@ const ListaHistorial: React.FC<Props2> = ({ eventos }) => {
       </div>
     );
   }
-  /* console.log(eventos); */
   return (
     <div className="w-full md:w-9/12">
       {eventos &&
-        eventos.map((event: evento) => {
+        eventos.map((event: evento, index) => {
           return (
-            <div>
+            <div key={`historial_evento_${index}`}>
               <HistorialCard
                 perfil={event.perfil}
                 nombre={event.nombre}
                 fecha_inicio={event.fecha_inicio}
+                fecha_final={event.fecha_final}
                 observaciones={event.observaciones}
                 hora={event.fecha_inicio}
                 lugar={event.lugar}
                 isDeleted={event.isDeleted}
+                pago={event.pago}
                 id={event.id}
-                key={`historial_evento_${event.id}`}
               />
             </div>
           );

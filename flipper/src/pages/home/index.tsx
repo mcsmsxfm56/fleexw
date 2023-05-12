@@ -1,7 +1,6 @@
 import Historial from "@/components/HistorialDeEventos/Historial";
 import Eventos from "@/components/ListaDeEventos/Eventos";
 import PerfilEmpresa from "@/components/Perfil/PerfilEmpresa";
-import PostulacionesTrabajador from "@/components/Postulaciones/PostulacionesTrabajador";
 import { useContext } from "react";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";

@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 
 const secretKey = process.env.SECRET_KEY as string;
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -14,10 +13,10 @@ export default async function handler(
   const body = req.body;
 
   if (!body.email || !body.password) {
-    return res.send("mandatory data are missing");
+    return res.json("mandatory data are missing");
   }
   if (req.method !== "POST") {
-    return res.send("this method is invalid");
+    return res.json("this method is invalid");
   }
 
   try {
@@ -39,7 +38,7 @@ export default async function handler(
     });
     const user = empresaEncontrada || trabajadorEncontrado;
 
-    if (!user) return res.status(400).json("no se encontro el usuario");
+    if (!user) return res.status(400).json("Usuario o contraseña incorrecta");
     if (empresaEncontrada) {
       if (empresaEncontrada.authorizedByAdmin === false) {
         return res.status(400).json("Autorizacion pendiente");
@@ -104,6 +103,6 @@ export default async function handler(
       isAdmin,
     });
   } catch (error: any) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 }
