@@ -11,7 +11,7 @@ export default async function handler(
         const resetContrasenaCode: string = req.body.resetContrasenaCode;
         const password: string = req.body.password;
         if (!resetContrasenaCode || !password) {
-            return res.status(400).send("Datos Faltantes")
+            return res.status(400).json("Datos Faltantes")
         }
         try {
             const trabajadorEncontrado: any = await prisma.trabajador.findFirst({
@@ -33,22 +33,24 @@ export default async function handler(
                 await prisma.empresa.update({
                     where: { id: idEmpresa },
                     data: {
-                        password: hashedPassword
-                    }
-                })
-
-            } else {
-                const idTrabajador = trabajadorEncontrado.id
-                await prisma.trabajador.update({
-                    where: { id: idTrabajador },
-                    data: {
+                        resetContrasenaCode: null,
                         password: hashedPassword
                     }
                 })
             }
-            return res.status(200).send("Contraseña cambiada exitosamente");
+            else {
+                const idTrabajador = trabajadorEncontrado.id
+                await prisma.trabajador.update({
+                    where: { id: idTrabajador },
+                    data: {
+                        resetContrasenaCode: null,
+                        password: hashedPassword
+                    }
+                })
+            }
+            return res.status(200).json("Contraseña cambiada exitosamente");
         } catch (error: any) {
-            return res.status(404).send(error.message);
+            return res.status(404).json(error.message);
         }
     }
 }
