@@ -192,6 +192,21 @@ export default async function handler(
           observaciones,
         }: putEvento = req.body.values;
 
+        // obtengo la fecha actual en formato que se pueda comparar con lo que enviamos
+        let q = new Date();
+        let m = q.getMonth() + 1;
+        let d = q.getDay();
+        let y = q.getFullYear();
+
+        let date = new Date(y, m, d);
+
+        if (new Date(fecha_inicio) < date) {
+          return res.status(400).json('La fecha de inicio es menor que Hoy');
+        }
+        if (new Date(fecha_inicio) > new Date(fecha_final)) {
+          return res.status(400).json('La fecha de inicio es mayor que la de finalización');
+        }
+
         fecha_inicio = new Date(fecha_inicio);
         let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
         fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
