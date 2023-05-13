@@ -124,13 +124,13 @@ const EventosTrabajador: React.FC = () => {
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
         <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
-            Ascendente
+            Más Cercanos
           </button>
           <button
             className={buttonStyle + " ml-2"}
             onClick={() => setOrder("desc")}
           >
-            Descendente
+            Más Lejanos
           </button>
         </div>
       </div>
