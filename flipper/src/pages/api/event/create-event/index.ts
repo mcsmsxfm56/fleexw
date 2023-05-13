@@ -100,6 +100,21 @@ export default async function handler(
           establecimiento,
           observaciones,
         }: inputPostApiHomeCreateEventId = req.body;
+
+        // obtengo la fecha actual en formato que se pueda comparar con lo que enviamos
+        let q = new Date();
+        let m = q.getMonth() + 1;
+        let d = q.getDay();
+        let y = q.getFullYear();
+
+        let date = new Date(y, m, d);
+
+        if (new Date(fecha_inicio) < date) {
+          return res.status(400).json('La fecha de inicio es menor que Hoy');
+        }
+        if (new Date(fecha_inicio) > new Date(fecha_final)) {
+          return res.status(400).json('La fecha de inicio es mayor que la de finalización');
+        }
         //fecha_inicio_input.slice(0, -1);
         //fecha_final_input.slice(0, -1);
         fecha_inicio = new Date(fecha_inicio);
@@ -124,9 +139,9 @@ export default async function handler(
             observaciones,
           },
         });
-        res.status(200).json("Evento creado con exito");
+        return res.status(200).json("Evento creado con exito");
       } catch (err: unknown) {
-        res.status(400).json(err);
+        return res.status(400).json(err);
         /*
     1. ERROR DE TIPADO RETORNO
     {
@@ -176,7 +191,7 @@ export default async function handler(
           establecimiento,
           observaciones,
         }: putEvento = req.body.values;
-        
+
         fecha_inicio = new Date(fecha_inicio);
         let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
         fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);

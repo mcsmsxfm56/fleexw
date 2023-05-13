@@ -142,7 +142,6 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     const validateDate = checkFechas(formik.values.fecha_inicio, formik.values.fecha_final)
     if (validateDate.result) {
       setIsLoading(true);
-      console.log(values);
       router.asPath !== "/home"
         ? await fetch(`/api/event/create-event`, {
             method: "PUT",
