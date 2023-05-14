@@ -25,23 +25,21 @@ type Ordering = "asc" | "desc";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
-
 //string define el tipado de la url recibida, any el tipado de la respuesta
 const Eventos: React.FC = () => {
-
-  const { id, rol, isAdmin, token } = useSesionUsuarioContext()
+  const { id, rol, isAdmin, token } = useSesionUsuarioContext();
 
   const fetcherEmpresa: Fetcher<any, string> = (apiRoute) => {
     return fetch(apiRoute, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         realmethod: "GET",
         idEmpresa: id,
-        function: 'misEventos'
+        function: "misEventos",
       }),
     }).then((res) => res.json());
   };

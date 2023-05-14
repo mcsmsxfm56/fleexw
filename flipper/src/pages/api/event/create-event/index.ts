@@ -103,20 +103,8 @@ export default async function handler(
 
         // obtengo la fecha actual en formato que se pueda comparar con lo que enviamos
         let q = new Date();
-        let m = q.getMonth() + 1;
-        let d = q.getDay();
-        let y = q.getFullYear();
-
-        let date = new Date(y, m, d);
-
-        if (new Date(fecha_inicio) < date) {
-          return res.status(400).json('La fecha de inicio es menor que Hoy');
-        }
-        if (new Date(fecha_inicio) > new Date(fecha_final)) {
-          return res.status(400).json('La fecha de inicio es mayor que la de finalización');
-        }
-        //fecha_inicio_input.slice(0, -1);
-        //fecha_final_input.slice(0, -1);
+        let q2 = q.getTimezoneOffset() * 60000;
+        q = new Date(q.getTime() - q2);
         fecha_inicio = new Date(fecha_inicio);
         let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
         fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
@@ -124,6 +112,21 @@ export default async function handler(
         fecha_final = new Date(fecha_final);
         let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
         fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+        console.log(q);
+        if (fecha_inicio < q) {
+          console.log(new Date(fecha_inicio));
+          console.log("La fecha de inicio es menor que Hoy");
+          return res.status(400).json("La fecha de inicio es menor que Hoy");
+        }
+        if (fecha_inicio > fecha_final) {
+          return res
+            .status(400)
+            .json("La fecha de inicio es mayor que la de finalización");
+        }
+        console.log("pasa los errores de fecha");
+        //fecha_inicio_input.slice(0, -1);
+        //fecha_final_input.slice(0, -1);
+
         //fecha_final = new Date(fecha_final.toISOString());
         const eventoCreado = await prisma.evento.create({
           data: {
@@ -201,10 +204,12 @@ export default async function handler(
         let date = new Date(y, m, d);
 
         if (new Date(fecha_inicio) < date) {
-          return res.status(400).json('La fecha de inicio es menor que Hoy');
+          return res.status(400).json("La fecha de inicio es menor que Hoy");
         }
         if (new Date(fecha_inicio) > new Date(fecha_final)) {
-          return res.status(400).json('La fecha de inicio es mayor que la de finalización');
+          return res
+            .status(400)
+            .json("La fecha de inicio es mayor que la de finalización");
         }
 
         fecha_inicio = new Date(fecha_inicio);
@@ -231,14 +236,14 @@ export default async function handler(
             observaciones: observaciones,
           },
         });
-        console.log('evento 1 ')
-        console.log(evento)
+        console.log("evento 1 ");
+        console.log(evento);
         if (evento) {
           return res.status(200).json("Evento actualizado con exito");
         }
       } catch (error: any) {
-        console.log('error 1')
-        console.log(error)
+        console.log("error 1");
+        console.log(error);
         return res.status(400).json(error.message);
       }
     }
