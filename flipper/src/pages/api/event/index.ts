@@ -9,9 +9,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { authorization } = req.headers;
+  console.log(authorization);
   let token = null;
   if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
+    console.log(token);
   }
   if (!token) {
     return res.status(401).json("Token inexistente o invalido");
@@ -25,7 +27,7 @@ export default async function handler(
       );
       return res.status(200).json(allEvents);
     }
-    
+
     if (req.method === "PUT" && req.body.realmethod === "GET") {
       try {
         const id: string = req.body.eventoId as string;
@@ -43,7 +45,7 @@ export default async function handler(
           },
         });
         if (evento) return res.status(200).json(evento);
-        return res.status(404).json('No se encontro el evento')
+        return res.status(404).json("No se encontro el evento");
       } catch (error: any) {
         return res.status(400).json(error);
       }
@@ -179,7 +181,6 @@ export default async function handler(
           e.status = "CANCELADO";
         });
 
-
         if (aprobados.length > 0) {
           const mails = aprobados.map((e: any) => {
             return e.trabajadores.email;
@@ -187,8 +188,7 @@ export default async function handler(
 
           transport.sendMail(
             cancelNotification(mails, evento?.nombre),
-            (err: any, info: any) =>
-              err ? err : info.response
+            (err: any, info: any) => (err ? err : info.response)
           );
         }
 

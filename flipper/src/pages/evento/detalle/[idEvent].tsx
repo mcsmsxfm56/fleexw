@@ -112,7 +112,7 @@ const EventDatail = () => {
   }, [idEvent, loading]);
 
   useEffect(() => {
-    if (eventDetail) {
+    if (eventDetail && idEvent) {
       eventDetail?.trabajadores.map((trabajadorPorEvento) => {
         let objPush = {
           id: id++,
