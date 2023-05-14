@@ -2,7 +2,10 @@ import * as yup from "yup";
 
 export default yup.object({
   name: yup.string().required("El nombre es requerido"),
-  email: yup.string().email("Debes colocar un mail válido").required("La dirección de correo electrónico es requerida"),
+  email: yup
+    .string()
+    .email("Debes colocar un mail válido")
+    .required("La dirección de correo electrónico es requerida"),
   phone: yup
     .string()
     .matches(/^\d+$/, "El teléfono debe contener solo números")
@@ -16,4 +19,5 @@ export default yup.object({
     .required("El número de documento es requerido")
     .integer("La identificación debe ser un número entero"),
   idType: yup.string().required("El tipo de documento es requerido"),
+  ciudad: yup.string().required("La ciudad es requerida"),
 });

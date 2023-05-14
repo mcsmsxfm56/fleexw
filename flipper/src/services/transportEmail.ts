@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 const user = process.env.USER;
 const pass = process.env.USER_PASSWORD;
 
-const URL_RECUPERAR_CONTRASENA = `http://localhost:3000/gestionDeContrasena/cambiarContrasena/`
+const URL_RECUPERAR_CONTRASENA = process.env.URL_RECUPERAR_CONTRASENA || `http://localhost:3000/gestionDeContrasena/cambiarContrasena/`
 
 export const transport = nodemailer.createTransport({
   service: "Gmail",
@@ -44,7 +44,7 @@ export const recuperarContrasenaNotification = (
     text: `
     Estimado Usuario,
     
-    Para recuperar su contraseña haga click en el siguiente link: http://localhost:3000/gestionDeContrasena/cambiarContrasena/${resetContrasenaCode}
+    Para recuperar su contraseña haga click en el siguiente link: ${URL_RECUPERAR_CONTRASENA}${resetContrasenaCode}
 
     Flipper Eventos.
     `,

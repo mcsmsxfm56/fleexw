@@ -108,7 +108,7 @@ export const PerfilTrabajador: React.FC = () => {
       method: "PUT",
       headers: {
         Accept: "Aplication/json",
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -204,7 +204,6 @@ export const PerfilTrabajador: React.FC = () => {
             icon: "error",
             title: "No se pudo actualizar la informacion",
           });
-          console.log(e);
           setSubmitError(e.message);
         })
         .finally(async () => {
@@ -232,7 +231,6 @@ export const PerfilTrabajador: React.FC = () => {
         icon: "error",
         title: "No se pudo actualizar la informacion",
       });
-      console.log(error);
       setSubmitError(error.message);
     }
   };
@@ -605,7 +603,7 @@ export const PerfilTrabajador: React.FC = () => {
                             id="talla_camiseta"
                             onChange={(Event) => handleChange(Event)}
                             name="talla_camiseta"
-                            label="Talla de Camiseta"
+                            label="Talla de Camiseta | Formato alfabetico Ej: S, M, L..."
                             type="text"
                             defaultValue={
                               data?.talle_camiseta === "-"
@@ -815,7 +813,8 @@ export const PerfilTrabajador: React.FC = () => {
                         </Validate>
                       </ValidationGroup>
                       <p className="-mb-4 mt-2 font-bold text-indigo-600">
-                        Cargar imagen frontal del Documento de Identidad | Formato .PDF
+                        Cargar imagen frontal del Documento de Identidad |
+                        Formato .PDF
                       </p>
                       <ValidationGroup validation="noisy">
                         <Validate

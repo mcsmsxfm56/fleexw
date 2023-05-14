@@ -2,7 +2,7 @@ import { set_Ver_Notificación } from "@/services/notificacion";
 import { NotificationSingle } from "@/types/Types";
 import Link from "next/link";
 import React, { useState } from "react";
-
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 interface NotificationCardProps {
   notif: NotificationSingle;
 }
@@ -14,32 +14,31 @@ const pendienteStatus = "text-yellow-600 border-yellow-600 bg-yellow-300";
 const NotificationCard = ({ notif }: NotificationCardProps) => {
   const { evento, status, eventoId, trabajadorId, notificacionVista } = notif;
   const [visto, setVisto] = useState(notificacionVista);
+  const { token } = useSesionUsuarioContext()
 
   const handleVisto = async () => {
     // Manda a la BD que la notificación ya se vió
     setVisto(true);
-    set_Ver_Notificación(trabajadorId, eventoId, true);
+    set_Ver_Notificación(trabajadorId, eventoId, true, token);
   };
 
   return (
     <Link
       href={`evento/detalle/${eventoId}`}
-      className={`flex flex-col my-2 hover:bg-gray-300 text-black gap-1 ${
-        !visto ? "bg-orange-500" : "bg-gray-200"
-      }`}
+      className={`flex flex-col my-2 hover:bg-gray-300 text-black gap-1 ${!visto ? "bg-orange-500" : "bg-gray-200"
+        }`}
       onMouseEnter={handleVisto}
       onTouchStart={handleVisto}
-      // onClick={() => router.push()}
+    // onClick={() => router.push()}
     >
       <h3 className="font-bold text-center text-xl">{evento.nombre}</h3>
       <p
-        className={`w-full text-center rounded py-2 border-2 border-solid font-bold text-xl ${
-          status == "APROBADO"
+        className={`w-full text-center rounded py-2 border-2 border-solid font-bold text-xl ${status == "APROBADO"
             ? aprobarStatus
             : status == "RECHAZADO"
-            ? rechazadoStatus
-            : pendienteStatus
-        }`}
+              ? rechazadoStatus
+              : pendienteStatus
+          }`}
       >
         {status}
       </p>

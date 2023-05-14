@@ -34,137 +34,131 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const user = await prisma.empresa.findMany();
-    if (user) {
-      res.status(200).send(user);
-    } else {
-      res
-        .status(400)
-        .send("No hay empresas, hay que esperar a que se registren");
-    }
+  const { authorization } = req.headers;
+  let token = null;
+  if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
+    token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
   }
+  if (!token) {
+    return res.status(401).json("Token inexistente o invalido");
+  }
+  const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+  if (decodedToken) {
+    if (req.method === "GET") {
+      const user = await prisma.empresa.findMany();
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res
+          .status(400)
+          .json("No hay empresas, hay que esperar a que se registren");
+      }
+    }
 
-  if (req.method === "PUT" && req.body.realmethod === "GET") {
-    try {
-      const idEmpresa: string = req.body.idEmpresa as string;
-      if (req.body.function === "misEventos") {
-        //console.log(idEmpresa);
-        let user = await prisma.empresa.findUnique({
-          where: { id: idEmpresa },
-          include: {
-            eventos: {
-              where: {
-                fecha_inicio: { gte: new Date() },
-              },
-              include: {
-                trabajadores: { include: { trabajadores: true } },
-                empresa: true,
+    if (req.method === "PUT" && req.body.realmethod === "GET") {
+      try {
+        const idEmpresa: string = req.body.idEmpresa as string;
+        if (req.body.function === "misEventos") {
+          let user = await prisma.empresa.findUnique({
+            where: { id: idEmpresa },
+            include: {
+              eventos: {
+                where: {
+                  fecha_inicio: { gte: new Date() },
+                },
+                include: {
+                  trabajadores: { include: { trabajadores: true } },
+                  empresa: true,
+                },
               },
             },
-          },
-        });
-        if (user) {
-          return res.status(200).send(user);
-        } else {
-          return res.status(400).send("Empresa no encontrada");
+          });
+          if (user) {
+            return res.status(200).json(user);
+          } else {
+            return res.status(400).json("Empresa no encontrada");
+          }
         }
-      }
-      if (req.body.function === "historial") {
-        let user = await prisma.empresa.findUnique({
-          where: { id: idEmpresa },
-          include: {
-            eventos: {
-              where: {
-                fecha_inicio: { lte: new Date() },
-              },
-              include: {
-                trabajadores: { include: { trabajadores: true } },
-                empresa: true,
+        if (req.body.function === "historial") {
+          let user = await prisma.empresa.findUnique({
+            where: { id: idEmpresa },
+            include: {
+              eventos: {
+                where: {
+                  fecha_inicio: { lte: new Date() },
+                },
+                include: {
+                  trabajadores: { include: { trabajadores: true } },
+                  empresa: true,
+                },
               },
             },
-          },
-        });
-        if (user) {
-          return res.status(200).send(user);
-        } else {
-          return res.status(400).send("Empresa no encontrada");
+          });
+          if (user) {
+            return res.status(200).json(user);
+          } else {
+            return res.status(400).json("Empresa no encontrada");
+          }
         }
+      } catch (error: unknown) {
+        return res.status(400).json(error);
       }
-    } catch (error: unknown) {
-      return res.status(400).send(error);
     }
-  }
-  if (req.method === "PUT" && req.body.realmethod === "ADMINPUT") {
-    let { idEmpresa, authorizedByAdmin } = req.body;
-    const empresaUpdate = await prisma.empresa.update({
-      where: { id: idEmpresa },
-      data: {
-        authorizedByAdmin,
-      },
-    });
-    return res.status(200).send({ message: "Empresa autorizada con exito" });
-  }
-  if (req.method === "PUT" && req.body.realmethod === "PUT") {
-    const { authorization } = req.headers;
-
-    let {
-      realmethod,
-      name,
-      nombreceo,
-      email,
-      ciudad,
-      direccion,
-      telefono,
-      idEmpresa,
-    }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-    putEmpresa = req.body;
-    if (authorization === undefined) {
-      return res.status(400).json({ message: "Autorizacion rechazada" });
-    }
-
-    let token = null;
-    if (
-      authorization &&
-      authorization.toLocaleLowerCase().startsWith("bearer")
-    ) {
-      token = authorization.split(" ")[1]; // obtenemos el token del authorization '[bearer] [token]'
-    }
-    if (!token) {
-      return res.status(401).send("Token inexistente o invalido");
-    }
-
-    const empresaFound = await prisma.empresa.findUnique({
-      where: { id: idEmpresa },
-    });
-
-    if (!empresaFound) {
-      return res.status(404).json({ message: "empresa inexistente" });
-    }
-
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
-    const { id } = decodedToken as token;
-
-    if (decodedToken) {
+    if (req.method === "PUT" && req.body.realmethod === "ADMINPUT") {
+      let { idEmpresa, authorizedByAdmin } = req.body;
       const empresaUpdate = await prisma.empresa.update({
-        where: { id: id },
+        where: { id: idEmpresa },
         data: {
-          nombre: null ?? name,
-          nombreceo: null ?? nombreceo,
-          email: null ?? email,
-          ciudad: null ?? ciudad,
-          direccion: null ?? direccion,
-          telefono: null ?? telefono,
-        } as putEmpresa,
+          authorizedByAdmin,
+        },
       });
-      return res.status(200).json({
-        message: "Datos modificados con exito",
-        empresaUpdate,
-      });
+      return res.status(200).json({ message: "Empresa autorizada con exito" });
+    }
+    if (req.method === "PUT" && req.body.realmethod === "PUT") {
+      let {
+        realmethod,
+        name,
+        nombreceo,
+        email,
+        ciudad,
+        direccion,
+        telefono,
+        idEmpresa,
+      }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
+        putEmpresa = req.body;
+      if (authorization === undefined) {
+        return res.status(400).json({ message: "Autorizacion rechazada" });
+      }
+      // const empresaFound = await prisma.empresa.findUnique({
+      //   where: { id: idEmpresa },
+      // });
+
+      // if (!empresaFound) {
+      //   return res.status(404).json({ message: "empresa inexistente" });
+      // }
+
+      if (decodedToken) {
+        const { id } = decodedToken as token;
+        const empresaUpdate = await prisma.empresa.update({
+          where: { id: id },
+          data: {
+            nombre: null ?? name,
+            nombreceo: null ?? nombreceo,
+            email: null ?? email,
+            ciudad: null ?? ciudad,
+            direccion: null ?? direccion,
+            telefono: null ?? telefono,
+          } as putEmpresa,
+        });
+        return res.status(200).json({
+          message: "Datos modificados con exito",
+          empresaUpdate,
+        });
+      }
+      return res.status(400).json("No se pudo actualizar la informacion");
     }
   }
 }
-
 /*CODIGO DE ANTIGUO [nombre].ts, lo dejo por que podemos reutilizarlo a futuro
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
@@ -200,7 +194,7 @@ export default async function handler(
         },
       });
     }
-    res.status(200).send("DELETE");
+    res.status(200).json("DELETE");
   } else if (req.method === "PUT") {
     const { authorization } = req.headers;
     const idEmpresa: string = req.query.nombre as string;
@@ -235,7 +229,7 @@ export default async function handler(
       token = authorization.split(" ")[1]; // obtenemos el token del authorization '[bearer] [token]'
     }
     if (!token) {
-      return res.status(401).send("Token inexistente o invalido");
+      return res.status(401).json("Token inexistente o invalido");
     }
 
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
@@ -257,11 +251,10 @@ export default async function handler(
     }
 
     // if (Object.keys(req.body).length === 0) {
-    //   res.status(400).send("Objeto vacio");
+    //   res.status(400).json("Objeto vacio");
     // }
 
     // if (typeof isDeleted == "boolean") {
-    //   //console.log(req.query);
     //   const updateEvent = await prisma.empresa.update({
     //     where: {
     //       nombre: nombre,
@@ -270,7 +263,7 @@ export default async function handler(
     //       isDeleted: isDeleted,
     //     },
     //   });
-    //   res.status(200).send("PUT");
+    //   res.status(200).json("PUT");
     // }
     // if (typeof name === "string") {
     //   const updateEvent = await prisma.empresa.update({
@@ -333,6 +326,7 @@ export default async function handler(
     //   });
     // }
     //res.status(200).json("check status");
-  }
+    }
+  
 }
 */

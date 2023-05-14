@@ -23,18 +23,33 @@ const WorkerRegisterForm = () => {
     name: "",
     idType: "",
     idNumber: "",
+    ciudad: "",
   };
 
   const submitHandler = async (values: WorkerRegisterData) => {
     setSubmitError("");
     setSubmitting(true);
-    await Post_Worker_Register(values)
-      .then(() => {
-        Swal.fire("¡Éxito!", "Tu cuenta se ha creado", "success");
-        router.push("/");
-      })
+    /* await Post_Worker_Register(values) */
+    const sendData = {
+      ...values,
+      rol: "trabajador",
+      idNumber: parseInt(values.idNumber),
+    };
+
+    fetch(`api/users/register/trabajador`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sendData),
+    }).then(async (response) => {
+      const mensaje = await response.text();
+      if (!response.ok) throw new Error(mensaje);
+      Swal.fire("¡Éxito!", "Tu cuenta se ha creado", "success");
+      router.push("/");
+    })
       .catch((e: any) => {
-        setSubmitError(e.response.data);
+        setSubmitError(e.message);
       })
       .finally(() => {
         setSubmitting(false);
@@ -61,7 +76,12 @@ const WorkerRegisterForm = () => {
             name="name"
             placeholder="Tu Nombre"
           />
-
+          <InputField
+            type="text"
+            id="ciudad"
+            name="ciudad"
+            placeholder="Tu Ciudad"
+          />
           <InputField
             type="email"
             id="email"

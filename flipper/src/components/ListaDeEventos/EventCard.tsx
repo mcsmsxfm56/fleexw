@@ -5,17 +5,16 @@ import { Props, evento } from "@/components/ListaDeEventos/Eventos";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
-interface EventCardProps {
-  nombreEvento: string;
-  fechaEvento: string;
-  observaciones: string;
-  hora: string;
-  direccion: string;
-}
-const borradoLogico = async (eventoId: string) => {
+import { useContext } from "react";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
+
+const borradoLogico = async (eventoId: string, token: string) => {
   await fetch(`/api/event`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       realmethod: "DELETE",
       eventoId,
@@ -25,18 +24,18 @@ const borradoLogico = async (eventoId: string) => {
       alert("borrado con exito");
     })
     .catch((error) => {
-      console.log(error);
+      return error
     });
 };
 export const EventCard: React.FC<evento> = (evento) => {
-  /* console.log("card", evento); */
+  const { rol, token } = useSesionUsuarioContext();
 
   const router = useRouter();
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
       <div className="flex justify-between">
         <p className="text-indigo-700 text-2xl font-bold">{evento.nombre}</p>
-        {localStorage.getItem("rol") === "empresa" ? (
+        {rol === "empresa" ? (
           <div className="flex gap-8">
             <Link href={`/evento/editar/${evento.id}`}>
               <HiPencil
@@ -48,7 +47,7 @@ export const EventCard: React.FC<evento> = (evento) => {
               className="text-red-600 cursor-pointer rounded-xl border-indigo-700 border-2 border-solid bg-indigo-700 transition duration-200 hover:bg-[#605BDC]"
               size={30}
               onClick={async () => {
-                await borradoLogico(evento.id);
+                await borradoLogico(evento.id, token);
                 router.reload();
               }}
             />
@@ -58,11 +57,17 @@ export const EventCard: React.FC<evento> = (evento) => {
       <hr></hr>
       <div className="text-indigo-700 flex">
         <div className="flex-1">
-          <p className="text-2xl font-bold">
+          <p className="text-lg md:text-xl lg:text-2xl font-bold">
             {evento.fecha_inicio.slice(0, 10)}
+            {evento.fecha_inicio.slice(0, 10) !==
+              evento.fecha_final.slice(0, 10) &&
+              ` / ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
+          </p>
+          <p>
+            <span className="font-bold mt-2 mb-2">Pago: $</span> {evento.pago}
           </p>
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}
@@ -80,7 +85,10 @@ export const EventCard: React.FC<evento> = (evento) => {
       </div>
       <div className="text-[#4031c6] flex items-center gap-1">
         <AiFillClockCircle />
-        <p className="mr-5">{evento.hora.slice(11, 16)}</p>
+        <p className="mr-5">
+          {evento.fecha_inicio.slice(11, 16)} {" - "}{" "}
+          {evento.fecha_final.slice(11, 16)}
+        </p>
         <IoLocationSharp />
         {evento.lugar}
       </div>

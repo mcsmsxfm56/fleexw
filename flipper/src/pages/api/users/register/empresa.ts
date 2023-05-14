@@ -23,8 +23,8 @@ export default async function handler(
     if (req.method !== "POST") throw new Error("Metodo invalido");
     const crearEmp = await crearEmpresa(body);
     if (crearEmp)
-      return res.status(200).send("Usuario Empresa creado correctamente");
+      return res.status(200).json("Usuario Empresa creado correctamente");
   } catch (error: any) {
-    return res.status(400).send(error.message);
+    return res.status(400).json(error.message);
   }
 }

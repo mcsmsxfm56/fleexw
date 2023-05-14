@@ -2,9 +2,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { aceptarORechazarEmpresa } from "../../services/servicesDashboard";
 import { objEmpresa, PropsEmpresaGrid } from "@/types/Types";
+import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 
 const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
   const [rowsEmpresa, setRowsEmpresa] = useState<{}[]>([]);
+  const { token } = useSesionUsuarioContext()
 
   useEffect(() => {
     if (dataEmpresas) {
@@ -123,7 +125,8 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
               ciudad,
               direccion,
               email,
-              isDeleted
+              isDeleted,
+              token
             );
           }}
         >
@@ -139,8 +142,13 @@ const DatagridEmpresa: React.FC<PropsEmpresaGrid> = ({ dataEmpresas }) => {
       pageSizeOptions={[5, 10, 25]}
       initialState={{
         pagination: { paginationModel: { pageSize: 5 } },
+        columns: {
+          columnVisibilityModel: {
+            id: false,
+            //nombreceo: false
+          },
+        },
       }}
-      checkboxSelection
     />
   );
 };

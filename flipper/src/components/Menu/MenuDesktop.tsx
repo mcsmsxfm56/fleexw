@@ -1,14 +1,14 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 
-import perfilProvisorio from "../../assets/images/imagenPerfilProvisoria.png";
 import { MenuContext } from "@/context/MenuContext";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import ListaDePestanasDelMenu from "./ListaDePestanasDelMenu";
+import fotoProvisoria from "@/utils/fotoProvisoria";
 import ReactWhatsapp from "react-whatsapp";
 
 const MenuDesktop = () => {
-  const { logout, nombre } = useSesionUsuarioContext();
+  const { logout, nombre, foto } = useSesionUsuarioContext();
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
 
@@ -18,7 +18,15 @@ const MenuDesktop = () => {
     >
       <div className="avatar flex flex-col items-center justify-start gap-2">
         <div className="w-20 rounded-full ">
-          <Image src={perfilProvisorio} alt="Picture of the author" />
+          <Image
+            src={foto || fotoProvisoria}
+            width={80}
+            height={80}
+            alt="Picture of the user"
+            priority
+            placeholder="blur"
+            blurDataURL={fotoProvisoria}
+          />
         </div>
         <p
           className={
@@ -36,7 +44,7 @@ const MenuDesktop = () => {
         <div className="flex justify-between">
           <ReactWhatsapp
             // number={`phoneNumber`}
-            number="1-212-736-5000"
+            number="+57 314 5110459"
             message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
             element="a"
             className="pl-4 cursor-pointer text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"

@@ -37,11 +37,24 @@ interface PropsCreateEventForm {
   idEvent?: string;
 }
 
+interface formProps {
+  id_empresa: string;
+  nombre: string;
+  fecha_inicio: string;
+  fecha_final: string;
+  lugar: string;
+  establecimiento: string;
+  cupos: number;
+  perfil: string;
+  pago: number;
+  observaciones: string;
+}
+
 const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { id, token } = useSesionUsuarioContext();
   const [submitError, setSubmitError] = useState("");
   const router = useRouter();
-  const { id } = useSesionUsuarioContext();
   const formik = useFormik({
     initialValues: {
       id_empresa: id,
@@ -65,122 +78,189 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     (() => formik.validateForm())();
   }, []);
 
+  useEffect(() => {
+    if (idEvent) {
+      getEvent();
+    }
+  }, []);
+
+  const checkFechas = (
+    dateInicio: string,
+    dateFinal: string
+  ): { result: boolean; msg: string } => {
+    const fechaI = new Date(dateInicio);
+    const fechaF = new Date(dateFinal);
+    if (fechaI <= new Date())
+      return {
+        result: false,
+        msg: "La fecha de inicio no puede ser una fecha pasada",
+      };
+    if (fechaI >= fechaF)
+      return { result: false, msg: "Las fechas deben estar ordenadas" };
+    return { result: true, msg: "" };
+  };
+
+  const getEvent = async () => {
+    const event = await fetch(`/api/event`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        realmethod: "GET",
+        eventoId: idEvent,
+      }),
+    })
+      .then((res) => res.json())
+      .then(async (data) => {
+        await formik.setFieldValue("nombre", data.nombre);
+        await formik.setFieldValue(
+          "fecha_inicio",
+          data.fecha_inicio.slice(0, 16)
+        );
+        await formik.setFieldValue(
+          "fecha_final",
+          data.fecha_final.slice(0, 16)
+        );
+        await formik.setFieldValue("lugar", data.lugar);
+        await formik.setFieldValue("establecimiento", data.establecimiento);
+        await formik.setFieldValue("cupos", data.cupos);
+        await formik.setFieldValue("perfil", data.perfil);
+        await formik.setFieldValue("pago", data.pago);
+        await formik.setFieldValue("observaciones", data.observaciones);
+      })
+      .then(() => {
+        formik.validateForm();
+      })
+      .catch((err) => err);
+  };
+
   const submitHandler = async (values: createEvent) => {
     setSubmitError("");
-    setIsLoading(true);
-    router.asPath !== "/home"
-      ? await fetch(`/api/event/create-event`, {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ values, realmethod: "PUT", idEvent }),
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("No se pudo realizar la petición");
-            }
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "#B1FFBD",
-              color: "green",
-              iconColor: "green",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-
-            Toast.fire({
-              icon: "success",
-              title: "Evento actualizado exitosamente",
-            });
-            router.push("/home");
+    const validateDate = checkFechas(formik.values.fecha_inicio, formik.values.fecha_final)
+    if (validateDate.result) {
+      setIsLoading(true);
+      router.asPath !== "/home"
+        ? await fetch(`/api/event/create-event`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ values, realmethod: "PUT", idEvent }),
           })
-          .catch((e) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "red",
-              color: "white",
-              iconColor: "white",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error("No se pudo realizar la petición");
+              }
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                background: "#B1FFBD",
+                color: "green",
+                iconColor: "green",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
 
-            Toast.fire({
-              icon: "error",
-              title: "No se pudo actualizar el evento",
-            });
+              Toast.fire({
+                icon: "success",
+                title: "Evento actualizado exitosamente",
+              });
+              router.push("/home");
+            })
+            .catch((e) => {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                background: "red",
+                color: "white",
+                iconColor: "white",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
+
+              Toast.fire({
+                icon: "error",
+                title: "No se pudo actualizar el evento",
+              });
+            })
+        : await fetch("/api/event/create-event", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(values),
           })
-      : await fetch("/api/event/create-event", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("No se pudo realizar la peticion");
-            }
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "#B1FFBD",
-              color: "green",
-              iconColor: "green",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error("No se pudo realizar la peticion");
+              }
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                background: "#B1FFBD",
+                color: "green",
+                iconColor: "green",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
 
-            Toast.fire({
-              icon: "success",
-              title: "Evento creado exitosamente",
-            });
-            formik.resetForm();
-          })
-          .catch((e) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 3000,
-              background: "red",
-              color: "white",
-              iconColor: "white",
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+              Toast.fire({
+                icon: "success",
+                title: "Evento creado exitosamente",
+              });
+              formik.resetForm();
+            })
+            .catch((e) => {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                background: "red",
+                color: "white",
+                iconColor: "white",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
 
-            Toast.fire({
-              icon: "error",
-              title: "No se pudo crear el evento",
+              Toast.fire({
+                icon: "error",
+                title: "No se pudo crear el evento",
+              });
             });
-          });
-    setIsLoading(false);
+      setIsLoading(false);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: validateDate.msg,
+      });
+    }
   };
-  /* console.log(formik.values);
-  console.log(id); */
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-16 md:mt-0 w-10/12">
@@ -190,7 +270,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-start">
+          className="w-full flex flex-col items-start"
+        >
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
@@ -285,10 +366,10 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
           <div className="w-full">
             <div className="w-full mb-4">
               <label className="relative text-indigo-600 text-lg">
-                Establecimiento
+                Lugar del Evento
                 <input
-                  name="fecha_final"
-                  placeholder="Fecha final"
+                  name="establecimiento"
+                  placeholder="Defina el Lugar del evento"
                   type="text"
                   value={formik.values.establecimiento}
                   onChange={formik.handleChange}
@@ -379,7 +460,8 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
                       ? "bg-[#4B39EF] hover:bg-[#6050f3] cursor-pointer"
                       : "bg-slate-400"
                   } rounded-lg px-16 py-2 mb-6 mt-2 text-lg text-white font-bold transition duration-300`}
-                  disabled={!formik.isValid}>
+                  disabled={!formik.isValid}
+                >
                   {router.asPath !== "/home"
                     ? "Actualizar Evento"
                     : "Crear Evento"}

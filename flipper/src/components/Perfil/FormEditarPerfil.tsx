@@ -48,6 +48,7 @@ const FormEditarPerfil = ({ idProfile }: propsModifyProfile) => {
   const [profile, setProfile] = useState<ProfileEmpresa>();
   const { id, token } = useSesionUsuarioContext();
 
+
   const empresaProfile = async () => {
     await fetch("/api/empresa", {
       method: "PUT",

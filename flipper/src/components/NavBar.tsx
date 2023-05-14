@@ -16,7 +16,6 @@ const NavBar = ({ isExpanded, setIsExpanded }: Props) => {
   let tituloNavBar = ""
   if (rol === "trabajador") {
     Object.entries(showElementsTrabajador).forEach((showElement) => {
-      /* console.log(showElement[0], showElement[1]); */
       if (showElement[1] === true) {
         switch (showElement[0]) {
           case "showHistorialTrabajador": tituloNavBar = "Mi Historial"
@@ -33,7 +32,6 @@ const NavBar = ({ isExpanded, setIsExpanded }: Props) => {
   }
   if (rol === "empresa") {
     Object.entries(showElementsEmpresa).forEach((showElement) => {
-      /* console.log(showElement[0], showElement[1]); */
       if (showElement[1] === true) {
         switch (showElement[0]) {
           case "showEventos": tituloNavBar = "Mis Eventos"

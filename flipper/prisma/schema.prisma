@@ -26,6 +26,7 @@ model Empresa {
   direccion String @unique
   telefono String @unique
   password String
+  foto String? //adjunto
   eventos Evento[] // Una empresa puede tener muchos eventos
   id String @id @default(uuid()) // id primary key de empresa
   //@id define una id, @default define un valor default para el campo, autoincrement hace que empieze por uno y continue 
@@ -48,6 +49,7 @@ model Evento {
   fecha_final DateTime @db.Timestamp()
   lugar String
   cupos Int
+  establecimiento String @default("Sin lugar definido")
   perfil String
   pago Int
   numeroPostulantes Int @default(0)
@@ -88,8 +90,8 @@ model TrabajadoresEnEventos {
   trabajadores Trabajador @relation(fields: [trabajadorId], references: [id])
   trabajadorId String
   status String
-  notificacionVista Boolean @default(true)
   createdAt DateTime @default(now())
+  notificacionVista Boolean @default(true)
   @@id([eventoId, trabajadorId])
 }
 

@@ -4,6 +4,16 @@ const nextConfig = {
 }
 
 module.exports = {
+   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '/v0/b/flippereventos-59cd4.appspot.com/**',
+      },
+    ],
+  },
   async headers() {
     return [
       {

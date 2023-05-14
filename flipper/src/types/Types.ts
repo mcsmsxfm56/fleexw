@@ -17,6 +17,7 @@ export interface WorkerRegisterData {
   name: string;
   idType: string;
   idNumber: string;
+  ciudad: string;
 }
 
 // Interfaz para los datos completos de Trabajador
@@ -44,7 +45,14 @@ export interface WorkerData {
 export interface Trabajadores extends WorkerData {
   id: string;
 }
-
+export interface Usuario {
+  email: string;
+  id: string;
+  nombre: string;
+  rol: string;
+  isAdmin: boolean;
+  foto: string | null;
+}
 export interface TrabajadorStatus {
   eventoId: string;
   trabajadorId: string;
@@ -66,6 +74,7 @@ export interface DetalleEvento {
   observaciones: string;
   trabajadores: TrabajadorStatus[];
   admitePostulaciones: boolean;
+  establecimiento: String;
 }
 
 //Interfaz para crear eventos
@@ -158,8 +167,20 @@ export interface objTrabajador {
   isAdmin?: string | boolean;
   trabajadores?: objTrabajador;
   status?: string;
+  Edad: number;
 }
-
+export interface formatedExcelObjEmpresa {
+  "NOMBRE EVENTO": string;
+  "FECHA INICIO": string;
+  "FECHA FIN": string;
+  "NOMBRE DEL TRABAJADOR": string | undefined;
+  "TELEFONO DEL TRABAJADOR": string | undefined;
+  STATUS: string | undefined;
+  LUGAR: string;
+  PERFIL: string;
+  PAGO: number;
+  OBSERVACIONES: string;
+}
 export interface objtrabajadoresEnEventos {
   eventoId?: string;
   trabajadorId?: string;
@@ -228,6 +249,7 @@ export interface evento {
   perfil: string;
   nombre: string;
   fecha_inicio: string;
+  fecha_final: string;
   observaciones: string;
   hora: string;
   lugar: string;

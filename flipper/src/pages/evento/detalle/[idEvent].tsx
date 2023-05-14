@@ -22,7 +22,7 @@ interface postulante {
 }
 
 const EventDatail = () => {
-  const { rol } = useSesionUsuarioContext();
+  const { rol, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [rows, setRows] = useState<{}[]>([]);
   const [eventDetail, setEventDetail] = useState<DetalleEvento | null>(null);
@@ -35,7 +35,6 @@ const EventDatail = () => {
   // });
   const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
-  /* console.log(postulantes); */
   let id = 0;
   const columns: GridColDef[] = [
     {
@@ -75,27 +74,40 @@ const EventDatail = () => {
       headerName: "Actions",
       type: "actions",
       renderCell: (params) => (
-        <button
-          className="rounded-md bg-black text-white"
-          onClick={() => {
-            let idPostulante = params.row.UUID;
-            let statusNuevo = params.row.Status;
-            aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent });
-          }}
-        >
-          Actualizar
-        </button>
+        <div>
+          <button
+            className="rounded-md bg-black text-white mb-0.5"
+            onClick={() => {
+              let idPostulante = params.row.UUID;
+              let statusNuevo = params.row.Status;
+              aceptarORechazarPostulante({
+                idPostulante,
+                statusNuevo,
+                idEvent,
+                token,
+              });
+            }}
+          >
+            Actualizar
+          </button>
+          <br></br>
+          <Link href={`/postulaciones/${params.row.UUID}`}>
+            <button className="rounded-md bg-black text-white mb">
+              Ver perfil
+            </button>
+          </Link>
+        </div>
       ),
     },
   ];
 
   useEffect(() => {
     if (idEvent) {
-      traerEventoYPostulantes(idEvent as string)
+      traerEventoYPostulantes(idEvent as string, token)
         .then((data) => {
           setEventDetail(data);
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => error.message);
     }
   }, [idEvent, loading]);
 
@@ -117,18 +129,15 @@ const EventDatail = () => {
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
-    console.log("Rows en el boton postulaciones", rows);
-    /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
-    /* console.log(admitePostulaciones); */
     try {
       setLoading(true);
       await admitirOrestringirPostulaciones(
         idEvent as string,
-        admitePostulaciones
+        admitePostulaciones,
+        token
       );
     } catch (error: any) {
-      console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -137,9 +146,7 @@ const EventDatail = () => {
   return (
     <AppLayout>
       <div className="h-full">
-        <div
-          className="bg-gray-200"
-        >
+        <div className="bg-gray-200">
           <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center mt-16 md:mt-0">
               <p className="w-full bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
@@ -190,7 +197,9 @@ const EventDatail = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl text-black">Observaciones:</p>
+              <p className="text-center font-bold text-xl text-black">
+                Observaciones:
+              </p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
