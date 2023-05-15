@@ -162,3 +162,61 @@ export const downloadExcelEmpresa = (sheetEvents: objEvento[]) => {
   XLSX?.utils.book_append_sheet(adminData, sheetEvents3, "Tabla Eventos");
   XLSX?.writeFile(adminData, "datosEventos.xlsx");
 };
+
+export const downloadExcelDetalleEvento = (rows: any) => {
+  //console.log(rows);
+  const sheet = rows.map((obj: any) => {
+    const newObj = {
+      Status: obj.Status,
+      Nombre: obj.Nombre,
+      Perfil: obj.Perfil,
+    };
+    return newObj;
+  });
+  const sheet2 = XLSX?.utils.json_to_sheet(sheet);
+  const eventData = XLSX?.utils.book_new();
+  XLSX?.utils.book_append_sheet(eventData, sheet2, "Tabla Eventos");
+  XLSX?.writeFile(eventData, "datoEvento.xlsx");
+
+  /*
+  const sheetEvents2: any[] = [];
+  sheetEvents.forEach((objEvento) => {
+    if (objEvento.trabajadores?.length !== 0) {
+      objEvento.trabajadores?.forEach((objtrabajadoresEnEventos) => {
+        const formatedObj = {
+          "NOMBRE EVENTO": objEvento.nombre,
+          "FECHA INICIO": objEvento.fecha_inicio,
+          "FECHA FIN": objEvento.fecha_final,
+          "NOMBRE DEL TRABAJADOR": objtrabajadoresEnEventos.trabajadores?.name,
+          "TELEFONO DEL TRABAJADOR":
+            objtrabajadoresEnEventos.trabajadores?.phone,
+          STATUS: objtrabajadoresEnEventos.status,
+          LUGAR: objEvento.lugar,
+          PERFIL: objEvento.perfil,
+          PAGO: objEvento.pago,
+          OBSERVACIONES: objEvento.observaciones,
+        };
+        sheetEvents2.push(formatedObj);
+      });
+    } else {
+      const formatedObj = {
+        "NOMBRE EVENTO": objEvento.nombre,
+        "FECHA INICIO": objEvento.fecha_inicio,
+        "FECHA FIN": objEvento.fecha_final,
+        "TELEFONO DEL TRABAJADOR": "",
+        "NOMBRE DEL TRABAJADOR": "",
+        STATUS: "",
+        LUGAR: objEvento.lugar,
+        PERFIL: objEvento.perfil,
+        PAGO: objEvento.pago,
+        OBSERVACIONES: objEvento.observaciones,
+      };
+      sheetEvents2.push(formatedObj);
+    }
+  });
+  const sheetEvents3 = XLSX?.utils.json_to_sheet(sheetEvents2);
+  const adminData = XLSX?.utils.book_new();
+  XLSX?.utils.book_append_sheet(adminData, sheetEvents3, "Tabla Eventos");
+  XLSX?.writeFile(adminData, "datosEventos.xlsx");
+  */
+};

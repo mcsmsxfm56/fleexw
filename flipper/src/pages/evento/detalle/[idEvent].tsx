@@ -12,7 +12,9 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
-
+import { downloadExcelDetalleEvento } from "@/components/Excel/generateExcel";
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 interface postulante {
   rechazados: TrabajadorStatus[];
   aprobados: TrabajadorStatus[];
@@ -247,6 +249,14 @@ const EventDatail = () => {
                     checkboxSelection
                   />
                 </Box>
+                <button
+                  onClick={() => {
+                    downloadExcelDetalleEvento(rows);
+                  }}
+                  className={buttonStyle + " ml-2"}
+                >
+                  Descargar Excel
+                </button>
               </div>
             ) : null}
           </div>
