@@ -70,6 +70,19 @@ export default async function handler(
         console.log(q);
         let fecha_inicio_gmt = fecha_inicio.getHours();
         console.log("fecha inicio hora", fecha_inicio_gmt);
+        let yearFechaInicio = fecha_inicio.getFullYear();
+        let monthFechaInicio = fecha_inicio.getMonth();
+        let dayFechaInicio = fecha_inicio.getDate();
+        let minutesFechaInicio = fecha_inicio.getMinutes();
+        let fechaInicio = new Date(
+          yearFechaInicio,
+          monthFechaInicio,
+          dayFechaInicio
+        );
+        let fechaActual = new Date(q.getFullYear(), q.getMonth(), q.getDate());
+        let horaActual = q.getHours();
+        console.log("fecha inicio sin hora", fechaInicio);
+        console.log("fecha actual sin hora", fechaActual);
         //las fechas en el server de vercel llegan acorde al formulario
         //un new date en q genera hora GMT
         if (fecha_inicio < q) {
