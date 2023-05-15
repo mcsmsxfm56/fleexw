@@ -54,20 +54,21 @@ export default async function handler(
           observaciones,
         }: inputPostApiHomeCreateEventId = req.body;
         let q = new Date();
-        console.log("q new Date", q);
-        let q2 = q.getTimezoneOffset() * 60000;
-        q = new Date(q.getTime() - q2);
+        q.setHours(q.getHours() - 5);
+        console.log("q new Date Colombia", q);
+        //let q2 = q.getTimezoneOffset() * 60000;
+        //q = new Date(q.getTime() - q2);
         fecha_inicio = new Date(fecha_inicio);
         console.log("fecha_inicio new Date", fecha_inicio);
-        let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
-        fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
-        console.log("fecha_inicio alterada", fecha_inicio);
+        //let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
+        //fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+        //console.log("fecha_inicio alterada", fecha_inicio);
         fecha_final = new Date(fecha_final);
         console.log("fecha_final new Date", fecha_final);
-        let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
-        fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
-        console.log("fecha_final alterada", fecha_final);
-        console.log(q);
+        //let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
+        //fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+        //console.log("fecha_final alterada", fecha_final);
+        //console.log(q);
         let fecha_inicio_gmt = fecha_inicio.getHours();
         console.log("fecha inicio hora", fecha_inicio_gmt);
         let yearFechaInicio = fecha_inicio.getFullYear();
@@ -82,7 +83,7 @@ export default async function handler(
         let fechaActual = new Date(q.getFullYear(), q.getMonth(), q.getDate());
         let horaActual = q.getHours();
         console.log("fecha inicio sin hora", fechaInicio);
-        console.log("fecha actual sin hora", fechaActual);
+        console.log("fecha actual sin hora", fechaActual); //2023-05-15T00:00:00.000Z
         //las fechas en el server de vercel llegan acorde al formulario
         //un new date en q genera hora GMT
         if (fecha_inicio < q) {
