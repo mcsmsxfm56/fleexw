@@ -68,6 +68,10 @@ export default async function handler(
         fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
         console.log("fecha_final alterada", fecha_final);
         console.log(q);
+        let fecha_inicio_gmt = fecha_inicio.getHours();
+        console.log("fecha inicio hora", fecha_inicio_gmt);
+        //las fechas en el server de vercel llegan acorde al formulario
+        //un new date en q genera hora GMT
         if (fecha_inicio < q) {
           //console.log(new Date(fecha_inicio));
           //console.log("La fecha de inicio es menor que Hoy");
