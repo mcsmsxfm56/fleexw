@@ -61,9 +61,9 @@ export default async function handler(
           {
             where: {
               trabajadorId,
-              status: status,
+              status,
               evento: {
-                fecha_inicio: { lte: new Date() },
+                fecha_final: { lt: new Date() },
               },
             },
             include: {
