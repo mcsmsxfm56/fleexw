@@ -23,9 +23,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DataTRegister | {}>
 ) {
-  //console.log(req.headers);
   const { id } = req.body;
-  // console.log(id);
 
   try {
     if (req.method === "PUT" && req.body.realmethod === "GET") {

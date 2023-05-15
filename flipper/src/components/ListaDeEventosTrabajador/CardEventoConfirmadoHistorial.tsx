@@ -12,13 +12,11 @@ interface eventoTrabajador {
 }
 
 const aprobadoStyle = "text-green-700 border-green-700 bg-green-300";
-const faltoStyle = "text-red-700 border-red-700 bg-red-300";
 
 interface Props {
   eventos: [] | undefined;
 }
 const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
-  console.log("Eventos card confirmados", eventos);
   return (
     <div className="w-full h-full md:w-9/12">
       {eventos ? (
@@ -34,7 +32,7 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
                   ${aprobadoStyle}
                   `}
                 >
-                  {event.status}
+                  CONFIRMADO
                 </h2>
                 <h2 className="flex justify-start font-bold">
                   Evento:{" "}

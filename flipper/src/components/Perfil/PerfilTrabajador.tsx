@@ -204,7 +204,6 @@ export const PerfilTrabajador: React.FC = () => {
             icon: "error",
             title: "No se pudo actualizar la informacion",
           });
-          console.log(e);
           setSubmitError(e.message);
         })
         .finally(async () => {
@@ -232,7 +231,6 @@ export const PerfilTrabajador: React.FC = () => {
         icon: "error",
         title: "No se pudo actualizar la informacion",
       });
-      console.log(error);
       setSubmitError(error.message);
     }
   };

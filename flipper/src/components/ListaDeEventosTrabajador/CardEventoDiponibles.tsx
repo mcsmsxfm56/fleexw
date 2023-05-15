@@ -44,6 +44,7 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
   const { id, token } = useSesionUsuarioContext();
   const router = useRouter();
   const [postulantes, setTrabajadores] = useState<trabajadores>();
+  const [postulacion, setPostulacion] = useState(false);
   //guarda los trabajadores del evento
 
   const { setShowElementsTrabajador } = useContext(MenuContext);
@@ -66,14 +67,13 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
     })
       .then((res) => res.json())
       .then((eventos) => setTrabajadores(eventos));
-    // console.log(eventos.data)
   };
 
   useEffect(() => {
     if (id) {
       getEventos();
     }
-  }, []);
+  }, [postulacion]);
 
   return (
     <div className="bg-white rounded-md border-2 border-[#787d81] h-full flex flex-col justify-between p-2 mb-2 w-full">
@@ -87,17 +87,20 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
             {evento.fecha_inicio.slice(0, 10)}
             {evento.fecha_inicio.slice(0, 10) !==
               evento.fecha_final.slice(0, 10) &&
-              ` - ${evento.fecha_final.slice(0, 10)}`}
+              ` / ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
+          </p>
+          <p>
+            <span className="font-bold mt-2 mb-2">Pago: $</span> {evento.pago}
           </p>
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}
             {evento.observaciones}
           </p>
           <p className="mb-1">
-            <span className="font-bold mt-2 mb-2">Establecimiento:</span>{" "}
+            <span className="font-bold mt-2 mb-2">Lugar:</span>{" "}
             {evento.establecimiento}
           </p>
           <p className="mb-1">
@@ -122,47 +125,29 @@ export const CardEventoDiponibles: React.FC<EventoTrabajador> = (evento) => {
                   },
                 })
                   .then(async (response) => {
-                    // console.log(response);
                     const mensaje = await response.text();
                     if (!response.ok) throw new Error(mensaje);
-                    return mensaje;
-                  })
-                  .then((msg) => {
-                    if (msg === "postulacion realizada con exito") {
-                      const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        background: "#B1FFBD",
-                        color: "green",
-                        iconColor: "green",
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                          toast.addEventListener("mouseenter", Swal.stopTimer);
-                          toast.addEventListener(
-                            "mouseleave",
-                            Swal.resumeTimer
-                          );
-                        },
-                      });
-
-                      Toast.fire({
-                        icon: "success",
-                        title: msg,
-                      });
-                    } else if (
-                      msg === "No se aceptan mas postulaciones en este evento"
-                    ) {
-                      Swal.fire({
-                        icon: "error",
-                        text: msg,
-                      });
-                      router.reload();
-                    }
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: "top",
+                      showConfirmButton: false,
+                      timer: 3000,
+                      background: "#B1FFBD",
+                      color: "green",
+                      iconColor: "green",
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                      },
+                    });
+                    Toast.fire({
+                      icon: "success",
+                      title: mensaje,
+                    });
+                    setPostulacion(!postulacion);
                   })
                   .catch((error: any) => {
-                    console.log(error.message);
                     Swal.fire({
                       title: "Algo salió mal",
                       text: error.message,

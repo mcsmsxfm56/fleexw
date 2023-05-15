@@ -12,7 +12,9 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulante";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
-
+import { downloadExcelDetalleEvento } from "@/components/Excel/generateExcel";
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 interface postulante {
   rechazados: TrabajadorStatus[];
   aprobados: TrabajadorStatus[];
@@ -35,7 +37,6 @@ const EventDatail = () => {
   // });
   const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
-  /* console.log(postulantes); */
   let id = 0;
   const columns: GridColDef[] = [
     {
@@ -75,16 +76,29 @@ const EventDatail = () => {
       headerName: "Actions",
       type: "actions",
       renderCell: (params) => (
-        <button
-          className="rounded-md bg-black text-white"
-          onClick={() => {
-            let idPostulante = params.row.UUID;
-            let statusNuevo = params.row.Status;
-            aceptarORechazarPostulante({ idPostulante, statusNuevo, idEvent, token });
-          }}
-        >
-          Actualizar
-        </button>
+        <div>
+          <button
+            className="rounded-md bg-black text-white mb-0.5"
+            onClick={() => {
+              let idPostulante = params.row.UUID;
+              let statusNuevo = params.row.Status;
+              aceptarORechazarPostulante({
+                idPostulante,
+                statusNuevo,
+                idEvent,
+                token,
+              });
+            }}
+          >
+            Actualizar
+          </button>
+          <br></br>
+          <Link href={`/postulaciones/${params.row.UUID}`}>
+            <button className="rounded-md bg-black text-white mb">
+              Ver perfil
+            </button>
+          </Link>
+        </div>
       ),
     },
   ];
@@ -95,12 +109,12 @@ const EventDatail = () => {
         .then((data) => {
           setEventDetail(data);
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => error.message);
     }
   }, [idEvent, loading]);
 
   useEffect(() => {
-    if (eventDetail) {
+    if (eventDetail && idEvent) {
       eventDetail?.trabajadores.map((trabajadorPorEvento) => {
         let objPush = {
           id: id++,
@@ -117,10 +131,7 @@ const EventDatail = () => {
   }, [eventDetail]);
 
   const handleadmitirOrestringirPostulaciones = async () => {
-    console.log("Rows en el boton postulaciones", rows);
-    /* console.log(eventDetail?.admitePostulaciones); */
     const admitePostulaciones = !eventDetail?.admitePostulaciones; //le voy a enviar la contraria para hacer el cambio
-    /* console.log(admitePostulaciones); */
     try {
       setLoading(true);
       await admitirOrestringirPostulaciones(
@@ -129,7 +140,6 @@ const EventDatail = () => {
         token
       );
     } catch (error: any) {
-      console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -138,9 +148,7 @@ const EventDatail = () => {
   return (
     <AppLayout>
       <div className="h-full">
-        <div
-          className="bg-gray-200"
-        >
+        <div className="bg-gray-200">
           <div className="flex flex-col justify-center items-center gap-10 relative">
             <div className="w-full flex flex-row justify-between items-center mt-16 md:mt-0">
               <p className="w-full bg-white text-center text-[#4B39EF] font-bold text-xl py-4 relative">
@@ -191,7 +199,9 @@ const EventDatail = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <p className="text-center font-bold text-xl text-black">Observaciones:</p>
+              <p className="text-center font-bold text-xl text-black">
+                Observaciones:
+              </p>
               <p className="text-center font-bold text-lg">
                 {eventDetail?.observaciones}
               </p>
@@ -239,6 +249,14 @@ const EventDatail = () => {
                     checkboxSelection
                   />
                 </Box>
+                <button
+                  onClick={() => {
+                    downloadExcelDetalleEvento(rows);
+                  }}
+                  className={buttonStyle + " ml-2"}
+                >
+                  Descargar Excel
+                </button>
               </div>
             ) : null}
           </div>

@@ -48,8 +48,6 @@ export default async function handler(
                 })
 
             } else {
-                console.log("entre aca");
-
                 const idTrabajador = trabajadorEncontrado.id
                 await prisma.trabajador.update({
                     where: { id: idTrabajador },
@@ -62,7 +60,7 @@ export default async function handler(
             transport.sendMail(
                 recuperarContrasenaNotification(email, resetContrasenaCode),
                 (err: any, info: any) =>
-                    err ? console.log(err) : console.log(info.response)
+                    err ? err : info.response
             );
             return res.status(200).json("Email de recuperación enviado")
         } catch (error: any) {

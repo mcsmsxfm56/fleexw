@@ -22,7 +22,7 @@ interface Postulante {
   cv: string;
   certificado_bancario: string;
   rut: string;
-  imagen_dni: string
+  imagen_dni: string;
 }
 
 function DetallePostulado() {
@@ -31,10 +31,9 @@ function DetallePostulado() {
   const { idPostulante } = route.query;
   const { token } = useSesionUsuarioContext();
 
-
   useEffect(() => {
     if (idPostulante) {
-      fetch('/api/trabajador', {
+      fetch("/api/trabajador", {
         method: "PUT",
         headers: {
           Accept: "Aplication/json",
@@ -47,11 +46,10 @@ function DetallePostulado() {
         }),
       })
         .then((res) => res.json())
-        .then(data => setTrabajador(data))
+        .then((data) => setTrabajador(data))
         .catch((error) => error);
     }
-  }, [idPostulante])
-
+  }, [idPostulante]);
 
   // let { isLoading, error, data } = useSWR("/api/trabajador", fetcherProfile);
 
@@ -65,7 +63,7 @@ function DetallePostulado() {
   const section = "bg-white rounded-md p-4 w-full";
 
   return (
-    <div className="flex justify-center w-full h-full bg-gray-200">
+    <div className="flex flex-col justify-center items-center w-full h-full bg-gray-200">
       <div className=" md:w-2/4 md:flex">
         <div className="flex flex-col items-center mx-auto w-full">
           <div className="flex items-center gap-4 p-4 bg-white w-full rounded-md mt-6 border-x-2 border-indigo-600">
@@ -121,7 +119,9 @@ function DetallePostulado() {
               </h5>
               <h5 className={dataStyle}>
                 Edad:{" "}
-                <span className="font-normal text-xl">{trabajador?.edad ?? "-"}</span>{" "}
+                <span className="font-normal text-xl">
+                  {trabajador?.edad ?? "-"}
+                </span>{" "}
               </h5>
               <h5 className={dataStyle}>
                 Estatura:{" "}
@@ -160,7 +160,10 @@ function DetallePostulado() {
             <div className={`${section} mb-4`}>
               <h5 className={dataStyle}>
                 Curriculum Vitae:{" "}
-                <Link target="_blank" href={`${trabajador?.cv?.split(" ").slice(1)}`}>
+                <Link
+                  target="_blank"
+                  href={`${trabajador?.cv?.split(" ").slice(1)}`}
+                >
                   <span className="font-normal text-xl capitalize hover:underline">
                     {trabajador?.cv?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
@@ -171,7 +174,8 @@ function DetallePostulado() {
                 <Link
                   download
                   target="_blank"
-                  href={`${trabajador?.rut?.split(" ").slice(1)}`}>
+                  href={`${trabajador?.rut?.split(" ").slice(1)}`}
+                >
                   <span className="font-normal text-xl hover:underline">
                     {trabajador?.rut?.split(" ").slice(0, 1) ?? "-"}
                   </span>{" "}
@@ -182,9 +186,13 @@ function DetallePostulado() {
                 <Link
                   download
                   target="_blank"
-                  href={`${trabajador?.certificado_bancario?.split(" ").slice(1)}`}>
+                  href={`${trabajador?.certificado_bancario
+                    ?.split(" ")
+                    .slice(1)}`}
+                >
                   <span className="font-normal text-xl hover:underline">
-                    {trabajador?.certificado_bancario?.split(" ").slice(0, 1) ?? "-"}{" "}
+                    {trabajador?.certificado_bancario?.split(" ").slice(0, 1) ??
+                      "-"}{" "}
                   </span>
                 </Link>
               </h5>
@@ -193,7 +201,8 @@ function DetallePostulado() {
                 <Link
                   download="imagen"
                   target="_blank"
-                  href={`${trabajador?.imagen_dni?.split(" ")[1]}`}>
+                  href={`${trabajador?.imagen_dni?.split(" ")[1]}`}
+                >
                   <span className="font-normal text-xl hover:underline">
                     {trabajador?.imagen_dni?.split(" ")[0] ?? "-"}
                   </span>{" "}
@@ -202,6 +211,14 @@ function DetallePostulado() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <button
+          onClick={() => {route.push('/home')}}
+          className="rounded-md btn bg-[#4B39EF] normal-case text-[20px] mb-8 text-white border-transparent hover:bg-[#605BDC] w-full"
+        >
+          Volver
+        </button>
       </div>
     </div>
   );

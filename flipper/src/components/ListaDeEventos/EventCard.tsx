@@ -24,11 +24,10 @@ const borradoLogico = async (eventoId: string, token: string) => {
       alert("borrado con exito");
     })
     .catch((error) => {
-      console.log(error);
+      return error
     });
 };
 export const EventCard: React.FC<evento> = (evento) => {
-  /* console.log("card", evento); */
   const { rol, token } = useSesionUsuarioContext();
 
   const router = useRouter();
@@ -62,10 +61,13 @@ export const EventCard: React.FC<evento> = (evento) => {
             {evento.fecha_inicio.slice(0, 10)}
             {evento.fecha_inicio.slice(0, 10) !==
               evento.fecha_final.slice(0, 10) &&
-              ` - ${evento.fecha_final.slice(0, 10)}`}
+              ` / ${evento.fecha_final.slice(0, 10)}`}
           </p>
           <p>
             <span className="font-bold mt-2 mb-2">Perfil:</span> {evento.perfil}
+          </p>
+          <p>
+            <span className="font-bold mt-2 mb-2">Pago: $</span> {evento.pago}
           </p>
           <p className="mb-1">
             <span className="font-bold mt-2 mb-2">Observaciones:</span>{" "}

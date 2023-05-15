@@ -61,7 +61,6 @@ function RecuperarContrasena() {
                             });
                             router.push("/")
                         } catch (error: any) {
-                            console.log(error.message)
                             setHasEmailError(true)
                             Swal.fire({
                                 icon: "error",

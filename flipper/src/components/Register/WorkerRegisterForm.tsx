@@ -49,7 +49,6 @@ const WorkerRegisterForm = () => {
       router.push("/");
     })
       .catch((e: any) => {
-        console.log(e.message);
         setSubmitError(e.message);
       })
       .finally(() => {

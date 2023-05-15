@@ -20,12 +20,10 @@ export interface Props {
 
 type Ordering = "asc" | "desc";
 
-const buttonStyle = "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
-
-
+const buttonStyle =
+  "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 const EventosTrabajador: React.FC = () => {
-
   const { id, isAdmin, token } = useSesionUsuarioContext();
   //string define el tipado de la url recibida, any el tipado de la respuesta
   const fetcherCiudadEventos: Fetcher<any, string> = (apiRoute) => {
@@ -33,7 +31,7 @@ const EventosTrabajador: React.FC = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         realmethod: "GET",
@@ -54,14 +52,14 @@ const EventosTrabajador: React.FC = () => {
 
   const ordering = (order: Ordering) => {
     function orderAsc(a: evento, b: evento) {
-      if (a.fecha_inicio < b.fecha_inicio) return -1;
-      if (a.fecha_inicio > b.fecha_inicio) return 1;
+      if (a.fecha_inicio < b.fecha_inicio) return 1;
+      if (a.fecha_inicio > b.fecha_inicio) return -1;
       return 0;
     }
 
     function orderDesc(a: evento, b: evento) {
-      if (a.fecha_inicio < b.fecha_inicio) return 1;
-      if (a.fecha_inicio > b.fecha_inicio) return -1;
+      if (a.fecha_inicio < b.fecha_inicio) return -1;
+      if (a.fecha_inicio > b.fecha_inicio) return 1;
       return 0;
     }
 
@@ -101,7 +99,6 @@ const EventosTrabajador: React.FC = () => {
   };
 
   if (error) {
-    console.log(error.message);
     return (
       <div>
         <p>ERROR</p>
@@ -125,17 +122,17 @@ const EventosTrabajador: React.FC = () => {
         <h2 className="text-2xl text-black my-4">Ordenar eventos por Fecha</h2>
         <div className="flex justify-center">
           <button className={buttonStyle} onClick={() => setOrder("asc")}>
-            Ascendente
+            Más Cercanos
           </button>
           <button
             className={buttonStyle + " ml-2"}
             onClick={() => setOrder("desc")}
           >
-            Descendente
+            Más Lejanos
           </button>
         </div>
       </div>
-      <div className="p-2 flex justify-center">
+      <div className="p-2 flex justify-center w-full">
         <ListaEventosTrabajador
           eventos={Array.isArray(data) ? data : data?.eventos}
         />

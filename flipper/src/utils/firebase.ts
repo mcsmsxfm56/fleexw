@@ -25,8 +25,6 @@ export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
 export const uploadFileAvatar = async (file: any, name: string) => {
-  console.log(file);
-
   const storageRef = ref(storage, `Avatars/${name}`);
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);

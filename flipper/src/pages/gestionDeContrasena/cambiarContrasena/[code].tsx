@@ -57,7 +57,6 @@ function RecuperarContrasena() {
                                 title: "Cambiaste tu contraseña, ya puedes volver a ingresar!",
                             });
                         } catch (error: any) {
-                            console.log(error.message)
                             Swal.fire({
                                 icon: "error",
                                 title: "Lo sentimos, no pudimos cambiar tu contraseña.",
