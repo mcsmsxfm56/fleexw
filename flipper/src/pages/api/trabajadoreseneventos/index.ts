@@ -37,13 +37,15 @@ export default async function handler(
       const { status, ordenFecha } = req.body;
 
       if (status && ordenFecha === "PROXIMOS") {
+        const id = req.body.id as string;
+        let presentDate = new Date();
         const trabajadorConfirmado =
           await prisma.trabajadoresEnEventos.findMany({
             where: {
               trabajadorId,
               status: status,
               evento: {
-                fecha_inicio: { gte: new Date() },
+                fecha_inicio: { gte: presentDate },
               },
             },
             include: {
@@ -57,13 +59,15 @@ export default async function handler(
         return res.status(200).json(trabajadorConfirmado);
       }
       if (status && ordenFecha === "HISTORIAL") {
+        const id = req.body.id as string;
+        let presentDate = new Date();
         let trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
           {
             where: {
               trabajadorId,
               status: status,
               evento: {
-                fecha_inicio: { lte: new Date() },
+                fecha_inicio: { lte: presentDate },
               },
             },
             include: {
@@ -80,7 +84,8 @@ export default async function handler(
         );
         return res.status(200).json(trabajadoresEnEventos);
       }
-
+      const id = req.body.id as string;
+      let presentDate = new Date();
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
         {
           //Donde la fecha de inicio no haya pasado
@@ -92,7 +97,7 @@ export default async function handler(
               {
                 evento: {
                   fecha_inicio: {
-                    gte: new Date(),
+                    gte: presentDate,
                   },
                 },
               },

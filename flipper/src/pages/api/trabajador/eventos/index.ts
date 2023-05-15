@@ -19,14 +19,15 @@ export default async function handler(
 ) {
   if (req.method === "PUT" && req.body.realmethod === "GET") {
     const id = req.body.id as string;
-
+    let presentDate = new Date();
+    presentDate.setHours(presentDate.getHours() - 5);
     const trabajador = await prisma.trabajador.findUnique({
       where: { id },
     });
     if (trabajador) {
       let eventosPorCiudad = await prisma.evento.findMany({
         where: {
-          fecha_inicio: { gte: new Date() },
+          fecha_inicio: { gte: presentDate },
           lugar: {
             contains: trabajador.ciudad as string,
             mode: "insensitive",

@@ -59,12 +59,14 @@ export default async function handler(
       try {
         const idEmpresa: string = req.body.idEmpresa as string;
         if (req.body.function === "misEventos") {
+          let presentDate = new Date();
+          presentDate.setHours(presentDate.getHours() - 5);
           let user = await prisma.empresa.findUnique({
             where: { id: idEmpresa },
             include: {
               eventos: {
                 where: {
-                  fecha_inicio: { gte: new Date() },
+                  fecha_inicio: { gte: presentDate },
                 },
                 include: {
                   trabajadores: { include: { trabajadores: true } },
@@ -80,12 +82,14 @@ export default async function handler(
           }
         }
         if (req.body.function === "historial") {
+          let presentDate = new Date();
+          presentDate.setHours(presentDate.getHours() - 5);
           let user = await prisma.empresa.findUnique({
             where: { id: idEmpresa },
             include: {
               eventos: {
                 where: {
-                  fecha_inicio: { lte: new Date() },
+                  fecha_inicio: { lte: presentDate },
                 },
                 include: {
                   trabajadores: { include: { trabajadores: true } },
@@ -125,7 +129,7 @@ export default async function handler(
         telefono,
         idEmpresa,
       }: //password?: string; no implementado por que se puede lograr lo mismo con recuperar password
-        putEmpresa = req.body;
+      putEmpresa = req.body;
       if (authorization === undefined) {
         return res.status(400).json({ message: "Autorizacion rechazada" });
       }
