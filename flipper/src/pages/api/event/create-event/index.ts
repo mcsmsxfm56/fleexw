@@ -54,6 +54,7 @@ export default async function handler(
           observaciones,
         }: inputPostApiHomeCreateEventId = req.body;
         let q = new Date();
+        console.log("q new Date", q);
         let q2 = q.getTimezoneOffset() * 60000;
         q = new Date(q.getTime() - q2);
         fecha_inicio = new Date(fecha_inicio);
