@@ -58,15 +58,19 @@ export default async function handler(
         let q2 = q.getTimezoneOffset() * 60000;
         q = new Date(q.getTime() - q2);
         fecha_inicio = new Date(fecha_inicio);
+        console.log("fecha_inicio new Date", fecha_inicio);
         let fecha_inicio_2 = fecha_inicio.getTimezoneOffset() * 60000;
         fecha_inicio = new Date(fecha_inicio.getTime() - fecha_inicio_2);
+        console.log("fecha_inicio alterada", fecha_inicio);
         fecha_final = new Date(fecha_final);
+        console.log("fecha_final new Date", fecha_final);
         let fecha_final_2 = fecha_final.getTimezoneOffset() * 60000;
         fecha_final = new Date(fecha_final.getTime() - fecha_final_2);
+        console.log("fecha_final alterada", fecha_final);
         console.log(q);
         if (fecha_inicio < q) {
-          console.log(new Date(fecha_inicio));
-          console.log("La fecha de inicio es menor que Hoy");
+          //console.log(new Date(fecha_inicio));
+          //console.log("La fecha de inicio es menor que Hoy");
           return res.status(400).json("La fecha de inicio es menor que Hoy");
         }
         if (fecha_inicio > fecha_final) {
