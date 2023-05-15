@@ -9,11 +9,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { authorization } = req.headers;
-  console.log(authorization);
+  /* console.log(authorization); */
   let token = null;
   if (authorization && authorization.toLocaleLowerCase().startsWith("bearer")) {
     token = authorization.split(" ")[1]; // obtenemos el token del authorization 'bearer token'
-    console.log(token);
+    /* console.log(token); */
   }
   if (!token) {
     return res.status(401).json("Token inexistente o invalido");
