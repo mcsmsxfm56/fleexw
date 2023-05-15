@@ -88,13 +88,16 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     dateInicio: string,
     dateFinal: string
   ): { result: boolean; msg: string } => {
+    let actualDate = new Date();
+    let actualDate_2 = actualDate.getTimezoneOffset() * 60000;
+    actualDate = new Date(actualDate.getTime() - actualDate_2);
     let fechaI = new Date(dateInicio);
     let fechaI_2 = fechaI.getTimezoneOffset() * 60000;
     fechaI = new Date(fechaI.getTime() - fechaI_2);
     let fechaF = new Date(dateFinal);
     let fechaF_2 = fechaF.getTimezoneOffset() * 60000;
     fechaF = new Date(fechaF.getTime() - fechaF_2);
-    if (fechaI <= new Date())
+    if (fechaI <= actualDate)
       return {
         result: false,
         msg: "La fecha de inicio no puede ser una fecha pasada",
