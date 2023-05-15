@@ -39,6 +39,7 @@ export default async function handler(
       if (status && ordenFecha === "PROXIMOS") {
         const id = req.body.id as string;
         let presentDate = new Date();
+        presentDate.setHours(presentDate.getHours() - 5);
         const trabajadorConfirmado =
           await prisma.trabajadoresEnEventos.findMany({
             where: {
@@ -61,6 +62,7 @@ export default async function handler(
       if (status && ordenFecha === "HISTORIAL") {
         const id = req.body.id as string;
         let presentDate = new Date();
+        presentDate.setHours(presentDate.getHours() - 5);
         let trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
           {
             where: {
@@ -86,6 +88,7 @@ export default async function handler(
       }
       const id = req.body.id as string;
       let presentDate = new Date();
+      presentDate.setHours(presentDate.getHours() - 5);
       const trabajadoresEnEventos = await prisma.trabajadoresEnEventos.findMany(
         {
           //Donde la fecha de inicio no haya pasado
