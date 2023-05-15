@@ -88,8 +88,12 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
     dateInicio: string,
     dateFinal: string
   ): { result: boolean; msg: string } => {
-    const fechaI = new Date(dateInicio);
-    const fechaF = new Date(dateFinal);
+    let fechaI = new Date(dateInicio);
+    let fechaI_2 = fechaI.getTimezoneOffset() * 60000;
+    fechaI = new Date(fechaI.getTime() - fechaI_2);
+    let fechaF = new Date(dateFinal);
+    let fechaF_2 = fechaF.getTimezoneOffset() * 60000;
+    fechaF = new Date(fechaF.getTime() - fechaF_2);
     if (fechaI <= new Date())
       return {
         result: false,
@@ -138,8 +142,13 @@ const CreateEventForm = ({ idEvent }: PropsCreateEventForm) => {
   };
 
   const submitHandler = async (values: createEvent) => {
+    console.log(values);
+    console.log(token);
     setSubmitError("");
-    const validateDate = checkFechas(formik.values.fecha_inicio, formik.values.fecha_final)
+    const validateDate = checkFechas(
+      formik.values.fecha_inicio,
+      formik.values.fecha_final
+    );
     if (validateDate.result) {
       setIsLoading(true);
       router.asPath !== "/home"
