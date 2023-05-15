@@ -195,7 +195,7 @@ const EventDatail = () => {
                   Ciudad Y Dirección:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.lugar}
+                  {eventDetail?.lugar}, {eventDetail?.establecimiento}
                 </p>
               </div>
             </div>
@@ -254,7 +254,7 @@ const EventDatail = () => {
                   onClick={() => {
                     downloadExcelDetalleEvento(rows);
                   }}
-                  className={buttonStyle + " ml-2"}
+                  className={buttonStyle + " mt-4"}
                 >
                   Descargar Excel
                 </button>
