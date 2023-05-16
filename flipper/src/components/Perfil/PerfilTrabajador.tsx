@@ -696,6 +696,14 @@ export const PerfilTrabajador: React.FC = () => {
                           postularte a un evento. De lo contrario no podras
                           participar de los mismos.
                           <br /> Disculpe las molestias!
+                          <br />
+                          <p className="font-bold text-red-700">
+                            Atencion! <br />
+                            En caso de estar actualizando sus datos, recuerde
+                            siempre colocar todos los archivos obligatoriamente,
+                            aun asi, si solo esta actualizando uno. Muchas
+                            gracias!
+                          </p>
                         </p>
                         <br />
                         <p className="font-bold">Flipper Eventos.</p>
