@@ -32,7 +32,7 @@ const ListaEventosTrabajador: React.FC<Props> = ({ eventos }) => {
                   ${aprobadoStyle}
                   `}
                 >
-                  CONFIRMADO
+                  {event.status == "APROBADO" ? "CONFIRMADO" : event.status}
                 </h2>
                 <h2 className="flex justify-start font-bold">
                   Evento:{" "}

@@ -13,6 +13,7 @@ import { aceptarORechazarPostulante } from "@/services/aceptarORechazarPostulant
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import Link from "next/link";
 import { downloadExcelDetalleEvento } from "@/components/Excel/generateExcel";
+import estandarizarFecha from "@/utils/EstandarizarFecha";
 const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 interface postulante {
@@ -167,7 +168,7 @@ const EventDatail = () => {
                   Fecha de Inicio:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.fecha_inicio}
+                  {estandarizarFecha(eventDetail?.fecha_inicio)}
                 </p>
               </div>
               <div className="flex flex-col">
@@ -175,7 +176,7 @@ const EventDatail = () => {
                   Fecha de Finalizacion:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.fecha_final}
+                  {estandarizarFecha(eventDetail?.fecha_final)}
                 </p>
               </div>
             </div>
@@ -194,7 +195,7 @@ const EventDatail = () => {
                   Ciudad Y Dirección:
                 </p>
                 <p className="text-center font-bold text-lg">
-                  {eventDetail?.lugar}
+                  {eventDetail?.lugar}, {eventDetail?.establecimiento}
                 </p>
               </div>
             </div>
@@ -253,7 +254,7 @@ const EventDatail = () => {
                   onClick={() => {
                     downloadExcelDetalleEvento(rows);
                   }}
-                  className={buttonStyle + " ml-2"}
+                  className={buttonStyle + " mt-4"}
                 >
                   Descargar Excel
                 </button>
