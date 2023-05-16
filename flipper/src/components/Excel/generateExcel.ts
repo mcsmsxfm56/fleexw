@@ -170,6 +170,7 @@ export const downloadExcelDetalleEvento = (rows: any) => {
       Status: obj.Status,
       Nombre: obj.Nombre,
       Perfil: obj.Perfil,
+      Telefono: obj.Telefono,
     };
     return newObj;
   });

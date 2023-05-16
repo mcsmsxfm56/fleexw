@@ -39,10 +39,18 @@ const EventDatail = () => {
   const [loading, setLoading] = useState(false);
   const { idEvent } = router.query;
   let id = 0;
+  //console.log(rows);
   const columns: GridColDef[] = [
     {
       field: "Nombre",
       headerName: "Nombre",
+      flex: 0.2,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "Telefono",
+      headerName: "Telefono",
       flex: 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -121,6 +129,7 @@ const EventDatail = () => {
           id: id++,
           UUID: trabajadorPorEvento.trabajadorId,
           Nombre: trabajadorPorEvento.trabajadores.name,
+          Telefono: trabajadorPorEvento.trabajadores.phone,
           Perfil: eventDetail?.perfil,
           Status: trabajadorPorEvento.status,
         };
