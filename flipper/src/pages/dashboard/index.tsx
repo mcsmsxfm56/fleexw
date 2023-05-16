@@ -20,7 +20,7 @@ const buttonStyle =
   "btn bg-[#4B39EF] normal-case text-[24px] text-white border-transparent hover:bg-[#605BDC]";
 
 export default function Dashboard() {
-  const { isAdmin } = useSesionUsuarioContext()
+  const { isAdmin, token } = useSesionUsuarioContext();
   /*   let isAdmin: boolean;
     const router = useRouter();
     if (typeof window !== "undefined") {
@@ -30,8 +30,10 @@ export default function Dashboard() {
         router.push("/404");
       }
     } */
-
-  const { isLoading, error, data } = useSWR("/api/admin", fetcherDashboard);
+  //url => fetchWithToken(url, token)
+  const { isLoading, error, data } = useSWR("/api/admin", (url) =>
+    fetcherDashboard(url, token)
+  );
   let eventosCancelados = 0;
 
   const sheetTrabajador: objTrabajador[] = [];

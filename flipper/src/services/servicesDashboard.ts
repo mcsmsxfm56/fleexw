@@ -1,7 +1,14 @@
 import { Fetcher } from "swr";
 
-export const fetcherDashboard: Fetcher<any, string> = (apiRoute) => {
-  return fetch(apiRoute).then((res) => res.json());
+export const fetcherDashboard = async (apiRoute: any, token: any) => {
+  const res = await fetch(apiRoute, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+  return res;
 };
 
 export const aceptarORechazarEmpresa = async (
@@ -84,7 +91,7 @@ export const dashboardUpdateEvento = async (
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       idEvento,
