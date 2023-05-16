@@ -333,18 +333,18 @@ export default async function handler(
 const checkOptionalFields = (t: Trabajador): boolean => {
   let valid = true;
   if (
-    !t.nacimiento &&
-    !t.genero &&
-    !t.ciudad &&
-    !t.direccion &&
-    !t.estatura &&
-    !t.talla_camiseta &&
-    !t.grupo_sanguineo &&
-    !t.cv &&
-    !t.imagen_dni &&
-    !t.foto &&
-    !t.rut &&
-    !t.certificado_bancario &&
+    !t.nacimiento ||
+    !t.genero ||
+    !t.ciudad ||
+    !t.direccion ||
+    !t.estatura ||
+    !t.talla_camiseta ||
+    !t.grupo_sanguineo ||
+    !t.cv ||
+    !t.imagen_dni ||
+    !t.foto ||
+    !t.rut ||
+    !t.certificado_bancario ||
     !t.Edad
   )
     valid = false;
