@@ -16,22 +16,23 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
   const { setShowElementsEmpresa, setShowElementsTrabajador } =
     useContext(MenuContext);
 
-
   return (
     <>
       <span
-        className={`fixed h-full w-full top-0 left-0 z-30 bg-black bg-opacity-50 transition duration-200 ease-out ${!isExpanded
-          ? "transition-transform -translate-x-full duration-200 ease-out"
-          : "duration-200 ease-out"
-          }`}
+        className={`fixed h-full w-full top-0 left-0 z-30 bg-black bg-opacity-50 transition duration-200 ease-out ${
+          !isExpanded
+            ? "transition-transform -translate-x-full duration-200 ease-out"
+            : "duration-200 ease-out"
+        }`}
         onClick={() => setIsExpanded(false)}
       ></span>
 
       <div
-        className={`md:hidden fixed flex flex-col gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center w-3/5 z-40 p-4 overflow-y-auto ${!isExpanded
-          ? "transition-transform -translate-x-full duration-200 ease-out"
-          : "duration-200 ease-out"
-          }`}
+        className={`md:hidden fixed flex flex-col gap-4 top-0 left-0 h-screen bg-indigo-600 items-center justify-center w-3/5 z-40 p-4 overflow-y-auto ${
+          !isExpanded
+            ? "transition-transform -translate-x-full duration-200 ease-out"
+            : "duration-200 ease-out"
+        }`}
       >
         <div className="avatar flex flex-col items-center justify-start gap-2">
           <div className="w-20 rounded-full ">
@@ -42,7 +43,8 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
               priority
               placeholder="blur"
               blurDataURL={fotoProvisoria}
-              alt="Picture of the author" />
+              alt="Picture of the author"
+            />
           </div>
           <p
             className={
@@ -61,7 +63,7 @@ const MenuMobile = ({ isExpanded, setIsExpanded }: Props) => {
           <div className="flex justify-between">
             <ReactWhatsapp
               // number={`phoneNumber`}
-              number="+57 314 5110459"
+              number="+57 324 5764333"
               message="Este contacto te ayudará a navegar por la página Flipper. ¡Hazle cualquier pregunta!"
               element="a"
               className="pl-4 cursor-pointer text-indigo-600 font-bold p-2 bg-[#e5e7eb] w-full h-full border-2 border-[#e5e7eb] focus:bg-indigo-600 focus:text-white focus:border-2 focus:border-white hover:bg-indigo-600 hover:text-white transition duration-500 relative"
