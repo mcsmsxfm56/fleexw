@@ -4,7 +4,7 @@ import MenuMobile from "../Menu/MenuMobile";
 import NotificationDropdown from "../NotificationDropdown";
 import { useSesionUsuarioContext } from "@/hooks/useSesionUsuarioContext";
 import MenuDesktop from "../Menu/MenuDesktop";
-
+//comentario al pedo, borrarlo
 interface propsAppLayout {
   children: JSX.Element | JSX.Element[];
 }
