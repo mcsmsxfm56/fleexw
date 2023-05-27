@@ -19,7 +19,7 @@ const RolTypes = [
   },
   {
     value: "trabajador",
-    text: "Soy un Trabajador",
+    text: "Soy un Logistico",
   },
 ];
 
@@ -57,7 +57,9 @@ const RegisterForm: React.FC = () => {
         ))}
       </select>
       {currentRol == "" && (
-        <span className="text-[#95A1AC] text-3xl self-baseline text-center w-full">Debe seleccionar un rol</span>
+        <span className="text-[#95A1AC] text-3xl self-baseline text-center w-full">
+          Debe seleccionar un rol
+        </span>
       )}
       {currentRol == "empresa" && <CompanyRegisterForm />}
       {currentRol == "trabajador" && <WorkerRegisterForm />}
